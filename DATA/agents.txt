@@ -12,5 +12,16 @@
                            				-> retry(5)!:rollb
                      			-> retry(5)      
             	-> retry(5)
-         -> show(varn(varn5)):retry   
+         -> show(varn(varn5)):retry
 
+
+ *->  fun type=root name="dsl-plan" id="dsl-plan" scp=root -> act == crt [plan] lng=VibeDSL
+      -> crt spc lng=VibeDSL blpt(plan):
+         -> exam(spc:stx==VibeDSL:dict:stx)<>:
+            -> exam(spc:logc!=?)<>:
+               -> show spc lang=VibeDSL src=orig with(VibeDSL:prnt:strk:->add(ref lang=usr:lang)):
+                  -> usr apr:
+                     -> wrt plan:goal
+                     -> varn(varn5):retry
+            -> ask:retry
+         -> ask:retry

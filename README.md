@@ -163,7 +163,7 @@ DATA/syntax.txt       base syntax symbols
 DATA/protos.txt       abstract prototypes (proto / blpt)
 DATA/blueprints.txt   ready architectural models (blpr)
 DATA/agents.txt       agent rules
-agent/coder.md        the coder agent (spc -> exam -> usr apr -> crt -> exam -> goal|retry/rollback)
+agents/coder.md       the coder agent (spc -> exam -> usr apr -> crt -> exam -> goal|retry/rollback)
 RULES.MD              working rules / protocol
 AGENTS.md             repo guide for agents
 VibeDSL.md            language overview

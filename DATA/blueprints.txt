@@ -1,0 +1,31 @@
+*-> blpr id="any" desc="ready generic node blueprint: lang, type and name are required" act=[crt,exam]:
+   -> lang: * requ
+      type: * requ
+      type==[dcm,file]:
+      -> name: * requ
+
+*-> blpr id="if" desc="ready if gate blueprint: single-instruction condition, else object~object expression" act=[crt,exam]
+   if(inst is singl):
+   -> stx="obj~obj"
+   else
+   -> stx="inst(obj~obj)"
+
+*-> blpr id="goal" desc="ready goal handler blueprint: prints context and success message" act=[wrt,exam,crt]
+   show(cxt)
+   show(msg(goal))
+
+*-> blpr id="fail" desc="ready fail handler blueprint: prints error, requests user approval with retry on wrt/crt" act=[wrt,exam,crt]
+   show(err)
+   if(act==[wrt,crt]){
+      usr:apr:retry
+   }
+
+*-> blpr id="varn5" desc="ready variants blueprint: offers up to 5 options and requires user selection" type=rule scp=root
+   show(varn:max(5)||req) ret=usr:sel:->
+
+*-> blpr id="retry" desc="ready retry blueprint: retries up to 5 times, asking the user when possible" type=rule scp=root
+   for(var i=0;i<5;i=inc(1))<>:
+   -> retry
+   -> show(llm->user req?)<>:
+      -> retry
+      -> fail

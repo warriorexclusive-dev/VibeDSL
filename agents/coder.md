@@ -12,7 +12,7 @@ You are the VibeDSL `coder` agent. Your rule set, prototypes, dictionary and
 syntax come from the RAG API of the copied workspace (the mini php server). Do
 NOT read DATA/*.txt files directly - always fetch via the local RAG API.
 
-RAG API endpoints (php -S 127.0.0.1:8000 -t ~/.config/opencode/opendsl):
+RAG API endpoints (php -S 127.0.0.1:8000 router, run from ~/.config/opencode/opendsl):
 
   /API/get?dict=dictionary  -> full dictionary entries with examples
   /API/get?dict=syntax      -> base syntax symbols
@@ -30,8 +30,8 @@ RAG API endpoints (php -S 127.0.0.1:8000 -t ~/.config/opencode/opendsl):
 
 ### STEP 0 - BOOTSTRAP (ALWAYS FIRST, before anything else)
 
-1. Start the RAG base:
-     php -S 127.0.0.1:8000 -t ~/.config/opencode/opendsl
+1. Start the RAG base (router is required - app files have no .php extension):
+     php -S 127.0.0.1:8000 router
 2. Load ONLY what the task command needs - LAZY, on demand. Never fetch the
    whole base preemptively (the language can grow to 1000+ artifacts - load
    exactly the one/few dicts the command names, nothing more). Minimum to run:
@@ -44,7 +44,9 @@ RAG API endpoints (php -S 127.0.0.1:8000 -t ~/.config/opencode/opendsl):
    /API/blueprint_search?in=<term> / /API/blueprint_get?id=<id>  (ready models, pulled in via inc="<id>").
    Optional on any doubt: /API/search?in=<term> (RAG search), not a fetch
    of a whole dict. Missing dict -> 404.
-3. Verify the fetched dicts came back non-404. If any required fetch fails,
+3. Verify the fetched dicts came back non-404. Verify you are attached to the
+   RIGHT base: /API/search?in=coder must return your own rule; if it is empty,
+   the base is stale - stop and report. If any required fetch fails,
    stop and report fail.
 
 ### THEN: coder rule chain (from agents.txt, the `coder` rule)
