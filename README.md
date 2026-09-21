@@ -25,6 +25,11 @@ parent:                       parent is the object with a colon at the end of th
                               is done; can take the <> multi-way prefix
 ->  <-  <->                   right strict link / inverse / two-way public interface
 ==  =                         equality (if-then gate) / assignment
+<=  >=  !=                    comparison: less-or-equal / greater-or-equal / not equal
++=  -=                       add/subtract to the object (numbers or logic, OOP-like)
+c++                           postfix increment by one (C-style)
+-(id)>                         link to an internal object of the spec (by id)
+<(src)-                        link to an external source beyond the spec: one-way departure, may not return
 |  ||  !                      logical or / and / reverse
 {}  ""                        free-form custom logic / custom value mapping
 part N:  stage N:             isolated partition / staged partition with reference
@@ -44,7 +49,7 @@ Core markers stay stable across the language:
 | `ask` | resolution cascade (see below) |
 
 Command style uses phonetic abbreviations (`crt`, `exam`, `wrt`, `apr`, `strk`, `vld`,
-`exs`, `rollb`, `prnt`, `varn`) - readable without a dictionary.
+`exst`, `rollb`, `prnt`, `varn`) - readable without a dictionary.
 
 ## Vectors
 
@@ -61,7 +66,7 @@ root:
       -> tab:rows
          -> inx:[0,1,2]
    -> sel[val1,val2]->fun data=sel:ret
-      -> for(i<10,inc(1))
+      -> for(i<10,incr(1))
          -> data:inx[i]
 
 root:node == a<>:             : two-way logic, Y/N scope
@@ -104,33 +109,33 @@ val rate = 10 \ 2                \ = division
 
 ## Prototypes, blueprints and scope
 
-`scp` sets the scope of a rule or prototype - `scp=root` means global and always active.
+`scop` sets the scope of a rule or prototype - `scop=root` means global and always active.
 
 ```
-fun type=agent scp=root -> act == crt [code, data, file]
-   -> crt spc lng=VibeDSL proto:
-   -> exam(spc:stx==VibeDSL:dict:stx)<>:
-      -> exam(spc:logc!=?)<>:
-         -> show spc lang=VibeDSL src=orig with(VibeDSL:prnt:strk:->add(ref lang=usr:lang)):
+fun type=agent scop=root -> act == crt [code, data, file]
+   -> crt spec lng=VibeDSL proto:
+   -> exam(spec:syn==VibeDSL:dict:syn)<>:
+      -> exam(spec:logic!=?)<>:
+         -> show spec lang=VibeDSL src=orig with(VibeDSL:prnt:strk:->add(ref lang=usr:lang)):
             -> usr apr:
-               -> crt [code, data, file] lng = spc:lng:name:
-                  -> exam(file:stx==spc:lng:stx):
-                     -> exam(file:logc==spc:logc)<>:
+               -> crt [code, data, file] lng = spec:lng:name:
+                  -> exam(file:syn==spec:lng:syn):
+                     -> exam(file:logic==spec:logic)<>:
                         -> wrt:goal
                         -> retry(5)!:rollb
 ```
 
-- **Prototypes** (`proto` / `blpt`) are the **abstract** formal plans and execution
-  templates, kept in `DATA/protos.txt`. `blpt` is the more formal plan variant.
+- **Prototypes** (`proto` / `blplan`) are the **abstract** formal plans and execution
+  templates, kept in `DATA/protos.txt`. `blplan` is the more formal plan variant.
 - **Blueprints** are the **ready** models - physically complete vector rules of a
   project/module, kept in `DATA/blueprints.txt`. They are pulled in by id through the
-  `inc="<blueprint-id>"` attribute, which resolves via `blueprint_get` and injects the
+  `incld="<blueprint-id>"` attribute, which resolves via `blueprint_get` and injects the
   blueprint's behavior into the prototype.
 
 ```
-blpt(plan) id="p_goal" desc="formal plan blueprint" inc="goal,retry" act=[crt,exam] scp=root:
+blplan(plan) id="p_goal" desc="formal plan blueprint" incld="goal,retry" act=[crt,exam] scop=root:
    -> crt plan lng=VibeDSL
-      -> exam(plan:stx==VibeDSL:dict:stx)<>:
+      -> exam(plan:syn==VibeDSL:dict:syn)<>:
          -> goal
          -> retry(5)!:rollb
 ```
@@ -160,10 +165,10 @@ API/blueprint_get     exact ready blueprint by id
 API/lib          shared helpers (vibedslPage, vibedslToHtml, vibedslSources)
 DATA/dictionary.txt   full dictionary entries (incl. keyword list)
 DATA/syntax.txt       base syntax symbols
-DATA/protos.txt       abstract prototypes (proto / blpt)
-DATA/blueprints.txt   ready architectural models (blpr)
+DATA/protos.txt       abstract prototypes (proto / blplan)
+DATA/blueprints.txt   ready architectural models (blueprint)
 DATA/agents.txt       agent rules
-agents/coder.md       the coder agent (spc -> exam -> usr apr -> crt -> exam -> goal|retry/rollback)
+agents/coder.md       the coder agent (spec -> exam -> usr apr -> crt -> exam -> goal|retry/rollback)
 RULES.MD              working rules / protocol
 AGENTS.md             repo guide for agents
 VibeDSL.md            language overview
@@ -210,3 +215,8 @@ Apache License, Version 2.0 - see [LICENSE](LICENSE). Usage, modification and
 distribution permitted under the terms of the license.
 
 Copyright Enaleven 2026.
+
+---
+
+Powered by **Big Pickle** - crafted with [opencode](https://opencode.ai) - respect and
+gratitude to its developers.

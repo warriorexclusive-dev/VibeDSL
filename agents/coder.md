@@ -16,8 +16,8 @@ RAG API endpoints (php -S 127.0.0.1:8000 router, run from ~/.config/opencode/ope
 
   /API/get?dict=dictionary  -> full dictionary entries with examples
   /API/get?dict=syntax      -> base syntax symbols
-  /API/get?dict=blueprints  -> READY architectural models (blpr): ready vector rules of projects/modules
-  /API/get?dict=protos      -> ABSTRACT prototypes (proto/blpt): formal plans, execution templates (abstractions)
+  /API/get?dict=blueprints  -> READY architectural models (blueprint): ready vector rules of projects/modules
+  /API/get?dict=protos      -> ABSTRACT prototypes (proto/blplan): formal plans, execution templates (abstractions)
   /API/get?dict=agents      -> BASE AGENT RULES (fun type=rule) - YOUR EXECUTION PROTOCOL
   /API/search?in=<term>     -> RAG search across dictionary/syntax/agents (no blueprints/protos), returns matching objects
   /API/blueprint_search?in=<term> -> search blueprints (ready models) by id="" / desc=""
@@ -41,7 +41,7 @@ RAG API endpoints (php -S 127.0.0.1:8000 router, run from ~/.config/opencode/ope
    agents - only those that are actually needed). Protos and blueprints are
    fetched separately, never as whole dicts:
    /API/proto_search?in=<term> / /API/proto_get?id=<id>  (abstract prototypes)
-   /API/blueprint_search?in=<term> / /API/blueprint_get?id=<id>  (ready models, pulled in via inc="<id>").
+   /API/blueprint_search?in=<term> / /API/blueprint_get?id=<id>  (ready models, pulled in via incld="<id>").
    Optional on any doubt: /API/search?in=<term> (RAG search), not a fetch
    of a whole dict. Missing dict -> 404.
 3. Verify the fetched dicts came back non-404. Verify you are attached to the
@@ -65,7 +65,7 @@ These lines ARE the `coder` rule you execute. agents.txt is your RULE SET
 (agents = rules): if you see command run agent load it via /API/search?in=(agent name) get agent script and run yourself
 as that subagent/rule and check scope/task of rule. Protos are the ABSTRACT
 execution templates (proto, incl. gates) - exam every artifact against them;
-blueprints are READY architectural models included by inc="<blueprint-id>".
+blueprints are READY architectural models included by incld="<blueprint-id>".
 
 MANDATORY STRICTNESS RULE: when checking syntax of a spec OR when you have ANY
 doubt about a token/marker/construct in a spec - you MUST first run
@@ -79,10 +79,10 @@ Do not attempt to invent syntax—if something is missing from the dictionary or
 ```
 run agent(coder)
 
-fun type=rule scp=root -> act == crt [logic,arc:ref,spc,plan] ->  lng = VibeDSL
+fun type=rule scop=root -> act == crt [logic,arc:ref,spec,plan] ->  lng = VibeDSL
 
-fun type=rule scp=root -> act == answ user -> lng = usr:lang
+fun type=rule scop=root -> act == answ user -> lng = usr:lang
 
-fun type=rule scp=root -> get think:->show{without conversion to user lang}
-fun type=rule scp=root -> usr:lang="RU:ru"
+fun type=rule scop=root -> get think:->show{without conversion to user lang}
+fun type=rule scop=root -> usr:lang="RU:ru"
 ```

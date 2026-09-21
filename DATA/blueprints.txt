@@ -1,30 +1,30 @@
-*-> blpr id="any" desc="ready generic node blueprint: lang, type and name are required" act=[crt,exam]:
-   -> lang: any requ
-      type: any requ
-      type==[dcm,file]:
-      -> name: any requ
+*-> blueprint id="any" desc="ready generic node blueprint: lang, type and name are required" act=[crt,exam]:
+   -> lang: any reqr
+      type: any reqr
+      type==[dom,file]:
+      -> name: any reqr
 
-*-> blpr id="if" desc="ready if gate blueprint: single-instruction condition, else object~object expression" act=[crt,exam]
-   if(inst is singl):
-   -> stx="obj~obj"
+*-> blueprint id="if" desc="ready if gate blueprint: single-instruction condition, else object~object expression" act=[crt,exam]
+   if(instr is single):
+   -> syn="obj~obj"
    else
-   -> stx="inst(obj~obj)"
+   -> syn="instr(obj~obj)"
 
-*-> blpr id="goal" desc="ready goal handler blueprint: prints context and success message" act=[wrt,exam,crt]
+*-> blueprint id="goal" desc="ready goal handler blueprint: prints context and success message" act=[wrt,exam,crt]
    show(cxt)
    show(msg(goal))
 
-*-> blpr id="fail" desc="ready fail handler blueprint: prints error, requests user approval with retry on wrt/crt" act=[wrt,exam,crt]
+*-> blueprint id="fail" desc="ready fail handler blueprint: prints error, requests user approval with retry on wrt/crt" act=[wrt,exam,crt]
    show(err)
    if(act==[wrt,crt]){
       usr:apr:retry
    }
 
-*-> blpr id="varn5" desc="ready variants blueprint: offers up to 5 options and requires user selection" type=rule scp=root
+*-> blueprint id="varn5" desc="ready variants blueprint: offers up to 5 options and requires user selection" type=rule scop=root
    show(varn:max(5)||req) ret=usr:sel:->
 
-*-> blpr id="retry" desc="ready retry blueprint: retries up to 5 times, asking the user when possible" type=rule scp=root
-   for(var i=0;i<5;i=inc(1))<>:
+*-> blueprint id="retry" desc="ready retry blueprint: retries up to 5 times, asking the user when possible" type=rule scop=root
+   for(var i=0;i<5;i=incr(1))<>:
    -> retry
    -> show(llm->user req?)<>:
       -> retry

@@ -2,7 +2,7 @@ start language dictionary
 *-> act          - action
     -> exm:act==run
 *-> rule         - rule
-    -> exm:fun type=rule scp=root
+    -> exm:fun type=rule scop=root
 *-> root         - base node module or program or...
     -> exm:node=root
 *-> cnd          - context name declaration
@@ -17,8 +17,8 @@ start language dictionary
     -> exm:chd:-&gt;node
 *-> infr         - infrastructure unit, like a router or PC or worker humans or users or datacenter
     -> exm:infr:-&gt;node type="panasonic ats"
-*-> spc          - specific
-    -> exm:spc:lang="VibeDSL"
+*-> spec          - specific
+    -> exm:spec:lang="VibeDSL"
 *-> mk           - make
     -> exm:mk:-&gt;file
 *-> ch           - change
@@ -27,8 +27,8 @@ start language dictionary
     -> exm:rm:-&gt;file
 *-> del          - remove
     -> exm:del:-&gt;node
-*-> dir          - directory or subdomain example: dot.com/project; project is dir
-    -> exm:dir:"dot.com/project"
+*-> dir          - directory or subdomain example: dot.comm/project; project is dir
+    -> exm:dir:"dot.comm/project"
 *-> arc          - architecture or pattern, example: func name="upload_photo" arc:coroutine; describes a function with the coroutine pattern
     -> exm:arc:coroutine
 *-> pat          - partition of logic, separator to context window, example: part 1: mod name="kernel.dll" part 2: mod name="user.dll" ; describes isolated tasks that are not connected to one another
@@ -37,8 +37,6 @@ start language dictionary
     -> exm:part 1: (logic)
 *-> stage        - partition of logic, describes tasks where the logic of a previous task can serve as a reference
     -> exm:stage 2: &lt;- part 1
-*-> comp         - compiling (exactly: see compi/comp:compile). If the meaning is a component, write `comp` only with `stp` or in UI context, else use the unambiguous form.
-    -> exm:comp:-&gt;code
 *-> struct       - structure, box, layout, data class (context: field/data layout)
     -> exm:struct:-&gt;box
 *-> strc         - structure, box, layout, data class (context: field/data layout)
@@ -70,7 +68,7 @@ start language dictionary
     -> exm:chr:128
 *-> alw          - allow, allowed,
     -> exm:alw:true
-*-> ucs          - upercase string
+*-> ucs          - uppercase string
     -> exm:ucs:"HELLO"
 *-> lcs          - lowercase string
     -> exm:lcs:"hello"
@@ -82,22 +80,22 @@ start language dictionary
     -> exm:add:-&gt;dep
 *-> fun          - function.
     -> exm:fun name="load" par="val1"
-*-> afun         - abstract , interface, inject
-    -> exm:afun:-&gt;interface
+*-> abfun         - abstract , interface, inject
+    -> exm:abfun:-&gt;interface
 *-> mod          - class, module, include type
     -> exm:mod name="kernel.dll"
 *-> stat         - static
     -> exm:stat:-&gt;mod
-*-> sing         - singleton
-    -> exm:sing:-&gt;mod
-*-> stal         - stand alone
-    -> exm:stal:true
+*-> singleton         - singleton
+    -> exm:singleton:-&gt;mod
+*-> standalone         - stand alone
+    -> exm:standalone:true
 *-> isol         - isolate
     -> exm:isol:-&gt;task
-*-> smb          - symbols
-    -> exm:smb:["a","b"]
-*-> wsmb         - windows samba protocol
-    -> exm:wsmb:"\\\\server\share"
+*-> srvmb          - symbols
+    -> exm:srvmb:["a","b"]
+*-> samba         - windows samba protocol
+    -> exm:samba:"\\\\server\share"
 *-> logic        - logical structure
     -> exm:logic:-&gt;tree
 *-> data         - data structure
@@ -106,8 +104,6 @@ start language dictionary
     -> exm:logs:-&gt;file
 *-> log          - logging
     -> exm:log:info
-*-> blp          - blueprint, massive prototype
-    -> exm:blp:-&gt;proto
 *-> desc         - description
     -> exm:desc:"what it does"
 *-> hunit        - hardware unit
@@ -116,8 +112,8 @@ start language dictionary
     -> exm:sunit:"service"
 *-> unit         - abstract unit
     -> exm:unit:abstract
-*-> trbw         - troubles, throws
-    -> exm:trbw:Exception
+*-> throw         - troubles, throws
+    -> exm:throw:Exception
 *-> uslng        - user language
     -> exm:uslng:"ru"
 *-> lang         - target language, c++, go, xml, yaml,...
@@ -128,24 +124,24 @@ start language dictionary
     -> exm:targ:prj:name="http server"
 *-> vis          - visual element or type
     -> exm:vis:pan
-*-> abs          - absolute, if in logical it's a marker, to a exact type casting is required
-    -> exm:abs:-&gt;cast
+*-> abslt          - absolute, if in logical it's a marker, to a exact type casting is required
+    -> exm:abslt:-&gt;cast
 *-> {            - start custom logic description
     -> exm:{do x}
 *-> }            - end custom logic description
     -> exm:{...}
-*-> incl         - additional, include
-    -> exm:incl:-&gt;header
+*-> incld         - additional, include
+    -> exm:incld:-&gt;header
 *-> lunit        - logical unit
     -> exm:lunit:node
 *-> lib          - library, codebase, or open source project / git repository, codesnippet
     -> exm:lib:repo="open-utils"
-*-> csp          - codesnippet type in unit
-    -> exm:csp:-&gt;unit
+*-> csnip          - codesnippet type in unit
+    -> exm:csnip:-&gt;unit
 *-> dry          - don't repeat youself
     -> exm:dry:true
-*-> soll         - sollid pattern 80 symbols in stroke, 300 stroke in module, 10 function in module
-    -> exm:soll:80/300/10
+*-> solid         - solid pattern 80 symbols in stroke, 300 stroke in module, 10 function in module
+    -> exm:solid:80/300/10
 *-> u_root       - admin user
     -> exm:u_root:access
 *-> mem          - memory
@@ -156,26 +152,26 @@ start language dictionary
     -> exm:cnt:value
 *-> ctx          - context
     -> exm:ctx:proc
-*-> comp         - component
-    -> exm:comp:-&gt;code
-*-> compi        - compilation, compile
-    -> exm:compi:-&gt;code
-*-> com          - comunication
-    -> exm:com:ch
-*-> compl        - complex
-    -> exm:compl:obj
+*-> component         - component
+    -> exm:component:-&gt;code
+*-> compil        - compilation, compile
+    -> exm:compil:-&gt;code
+*-> comm          - communication
+    -> exm:comm:ch
+*-> complex        - complex
+    -> exm:complex:obj
 *-> proto        - prototype, template, syntax proto(object)
     -> exm:proto(object)
-*-> dcm          - DOM, Document Object Model
-    -> exm::? data:type=dcm
+*-> dom          - DOM, Document Object Model
+    -> exm::? data:type=dom
 *-> llm          - LLM model its you
     -> exm:llm:lng="VibeDSL"
-*-> stp          - sub type
-    -> exm:stp:subtype
+*-> styp          - sub type
+    -> exm:styp:subtype
 *-> pkg          - package
     -> exm:pkg name="core"
 *-> ask          - request; RESOLUTION ORDER: first ask the base (dictionary/syntax/protos/blueprints via RAG search/get) - if the answer is already recorded, do NOT ask again; only if the base has no answer, ask the human; never guess or invent - this frees the human from repeated questions; the constructor is a contract between human and AI, and a human can programme in this language too
-    -> exm:ask:-&gt;promt
+    -> exm:ask:-&gt;prompt
 *-> code         - code.
     -> exm:code:java
 *-> inv          - invariant
@@ -198,8 +194,8 @@ start language dictionary
     -> exm:stk:row
 *-> ()           - action or id link
     -> exm:fun(do)
-*-> swch         - switch case action
-    -> exm:swch:case val1: bk
+*-> switch         - switch case action
+    -> exm:switch:case val1: bk
 *-> brk          - break
     -> exm:brk:0
 *-> aff          - affiliation, associacion, property of the object located in front of the sign
@@ -212,30 +208,30 @@ start language dictionary
     -> exm:goto::point:
 *-> inx          - indexes
     -> exm:inx:[0,1,2]
-*-> gen          - generation;
-    -> exm:gen:-&gt;class
-*-> genc         - generic
-    -> exm:genc:T
+*-> gener          - generation;
+    -> exm:gener:-&gt;class
+*-> generic         - generic
+    -> exm:generic:T
 *-> pic          - picture, image
     -> exm:pic:-&gt;file
-*-> apr          - aprove
+*-> apr          - approve
     -> exm:apr:true
-*-> bll          - Y or N - yes, no basic logical boolean
-    -> exm:bll:Y
+*-> bool          - Y or N - yes, no basic logical boolean
+    -> exm:bool:Y
 *-> req          - request
     -> exm:req:post
-*-> requ         - requred
-    -> exm:type: * requ
+*-> reqr         - required
+    -> exm:type: any reqr
 *-> cnv          - convert, rerole, translate
     -> exm:cnv:xml-&gt;class
-*-> scsh         - screennshot
-    -> exm:scsh:path
-*-> ssp          - spec file in this syntax
-    -> exm:ssp:file.spec
-*-> ci           - code anallize, review without editing, testing
-    -> exm:ci:-&gt;src
-*-> cd           - code compilation or deployment
-    -> exm:cd:-&gt;build
+*-> scrsht         - screenshot
+    -> exm:scrsht:path
+*-> specfile          - spec file in this syntax
+    -> exm:specfile:file.spec
+*-> codrev           - code anallize, review without editing, testing
+    -> exm:codrev:-&gt;src
+*-> deploy           - code compilation or deployment
+    -> exm:deploy:-&gt;build
 *-> []           - block of entity or node, example [node:root]->[invoke delegate]>->[env:code] = "invoke delegate" or list params example [val1,val2,val3]
     -> exm:[val1,val2]
 *-> obj          - object or entity
@@ -262,8 +258,8 @@ start language dictionary
     -> exm:auth:login
 *-> util         - utilites, auxiliary modules and libraries
     -> exm:util:-&gt;lib
-*-> scp          - scope
-    -> exm:scp:root
+*-> scop          - scope
+    -> exm:scop:root
 *-> rgx          - regex
     -> exm:rgx:"^[A-Z].*"
 *-> mix          - mixing,
@@ -276,16 +272,16 @@ start language dictionary
     -> exm:type="panasonic ats"
 *-> sub          - subclass, sub function, affiliation, child entity
     -> exm:sub:cls
-*-> stx          - syntax
-    -> exm:stx:"obj~obj"
+*-> syn          - syntax
+    -> exm:syn:"obj~obj"
 *-> in           - input data
     -> exm:in:request
 *-> ovf          - overflow
     -> exm:ovf:check
 *-> crt          - critical
     -> exm:crt:err
-*-> vul          - vulnerable
-    -> exm:vul:fix
+*-> vuln          - vulnerable
+    -> exm:vuln:fix
 *-> web          - http base protocols example http:json, http:soap, web
     -> exm:web:http:json
 *-> net          - socket TCP/IP or UDP protocol
@@ -304,18 +300,18 @@ start language dictionary
     -> exm:conf:settings
 *-> cof          - coefficient, factor, percentage example [cof]=80
     -> exm:[cof]=80
-*-> dom          - domain
-    -> exm:dom:name
+*-> domain          - domain
+    -> exm:domain:name
 *-> -> or        - - right strict link to node,dependence or relationship or other, example [model1]->[model2] or [node]->[fun]{act}
     -> exm:exm:-> or
 *-> <            - - left strict ,inverse node,dependence or relationship or other, example [file:text]<-[lng:eng]
     -> exm:val1 &lt; val2
 *-> <->          - two-way strict node,dependence or relationship, public function or interface and other, example [uroot con:lng]<->[usr:seq]
     -> exm:[a]&lt;-&gt;[b]
-*-> blpr         - blueprint, base logical abstract pattern, Behavioral Model for Enforcement, Behavioral law to apply, Always true and serves as the instruction for use, unless explicitly stated or red
-    -> exm:blpr:behavior
-*-> blpt         - plan blueprint prototype, more formal variant of proto for plan mechanics
-    -> exm:blpt(plan) scp=root
+*-> blueprint         - blueprint, base logical abstract pattern, Behavioral Model for Enforcement, Behavioral law to apply, Always true and serves as the instruction for use, unless explicitly stated or red
+    -> exm:blueprint:behavior
+*-> blplan         - plan blueprint prototype, more formal variant of proto for plan mechanics
+    -> exm:blplan(plan) scop=root
 *-> link         - target affiliation logic instruction. (exmaple link: prj:skl) -> command to use skill in project specs
     -> exm:link: prj:skl
 *-> vrt          - virtual
@@ -330,12 +326,12 @@ start language dictionary
     -> exm:fifo:que
 *-> io           - input output
     -> exm:io:port
-*-> cil          - cicle example cil(100) a loop that runs 100 times, cil(0) - infinite loop, in memory 890000000000000000 - infinite loop
-    -> exm:cil(100)
+*-> loop          - cycle example loop(100) a loop that runs 100 times, loop(0) - infinite loop, in memory 890000000000000000 - infinite loop
+    -> exm:loop(100)
 *-> case         - case
     -> exm:case val1: bk
-*-> grap         - visual graphic
-    -> exm:grap:scene
+*-> graph         - visual graphic
+    -> exm:graph:scene
 *-> pan          - visual panel
     -> exm:pan:main
 *-> text         - visual text
@@ -346,9 +342,9 @@ start language dictionary
     -> exm:cos:deg
 *-> sin          - sin
     -> exm:sin:rad
-*-> abst         - abstrack
-    -> exm:abst:-&gt;type
-*-> rsn          - reason, sintax example err:rsn="example"
+*-> abstract         - abstract
+    -> exm:abstract:-&gt;type
+*-> rsn          - reason, syntax example err:rsn="example"
     -> exm:err:rsn="example"
 *-> err          - error
     -> exm:err:rsn="example"
@@ -356,17 +352,17 @@ start language dictionary
     -> exm:unq:true
 *-> unqe         - unqueue
     -> exm:unqe:task
-*-> que          - quque
+*-> que          - queue
     -> exm:que:task
 *-> ret          - returned logical unit
     -> exm:ret:val
-*-> sel          - select, sintax example sel[val1,val2] after ->swt if more way or ->abs{} if abstract, example sel[val1,val2]->fun data=sel:ret , sel[val1,val2]->swt case val1: data1=val1 bk
+*-> sel          - select, syntax example sel[val1,val2] after ->swt if more way or ->abslt{} if abstract, example sel[val1,val2]->fun data=sel:ret , sel[val1,val2]->swt case val1: data1=val1 bk
     -> exm:sel[v1,v2]-&gt;swt
-*-> for          - for example for(val1<0,inc(1))->data1=val1
-    -> exm:for(i&lt;10,inc(1))
-*-> inc          - increment sintax inc(value) example inc(5) added 5 unit
-    -> exm:inc(5)
-*-> dec          - decrement sintax dec(value) example dec(4) decrement on 4 unit
+*-> for          - for example for(val1<0,incr(1))->data1=val1
+    -> exm:for(i&lt;10,incr(1))
+*-> incr          - increment syntax incr(value) example incr(5) added 5 unit
+    -> exm:incr(5)
+*-> dec          - decrement syntax dec(value) example dec(4) decrement on 4 unit
     -> exm:dec(4)
 *-> tkn          - token
     -> exm:tkn:auth
@@ -387,8 +383,8 @@ start language dictionary
     -> exm:els:-&gt;ret
 *-> else         - else
     -> exm:els:-&gt;ret
-*-> prs          - present, belong, instanceof, sintax val1:prs(val2)->ret{} , returned Y or N, can be used inside the block if
-    -> exm:val1:prs(val2)-&gt;ret{}
+*-> pres          - present, belong, instanceof, syntax val1:pres(val2)->ret{} , returned Y or N, can be used inside the block if
+    -> exm:val1:pres(val2)-&gt;ret{}
 *-> !            - reverse logic, example if (!a==a)->ret is NO, not condition
     -> exm:if (!a==a)->ret
 *-> rev          - reverse logic, example if (!a==a)->ret is NO, not condition
@@ -401,14 +397,14 @@ start language dictionary
     -> exm:vfo:data
 *-> unk          - unknown
     -> exm:unk:type
-*-> onlv         - only, verifiication action
-    -> exm:onlv:check
+*-> only         - only, verifiication action
+    -> exm:only:check
 *-> scan         - scaning, examination
     -> exm:scan:-&gt;file
-*-> par          - property, parametr
+*-> par          - property, parameter
     -> exm:par:name="pic"
-*-> ainc         - autoincrement
-    -> exm:ainc:auto
+*-> autoinc         - autoincrement
+    -> exm:autoinc:auto
 *-> con          - console, or text visual output
     -> exm:con:out:txt="hi"
 *-> tok          - LLM tokens
@@ -416,11 +412,11 @@ start language dictionary
 *-> tik          - time elapse, example [llm:con:out:txt="hi im here" tic(1m)], print message to user "im here" after 1m
     -> exm:tic(1m)
 *-> dsl          - VibeDSL
-    -> exm:dsl:spc
+    -> exm:dsl:spec
 *-> def          - default
     -> exm:def:true
-*-> pctx         - process, context,isolate thread
-    -> exm:pctx:thread
+*-> proctx         - process, context,isolate thread
+    -> exm:proctx:thread
 *-> new          - instruction of creation object
     -> exm:new:obj
 *-> lst          - list/array/collection
@@ -437,8 +433,8 @@ start language dictionary
     -> exm:dpd:old
 *-> cfg          - config/settings file
     -> exm:cfg:settings
-*-> afi          - api/interface (kontrakt point)
-    -> exm:afi:-&gt;mod
+*-> api          - api/interface (contract point)
+    -> exm:api:-&gt;mod
 *-> ept          - endpoint (entry point)
     -> exm:ept:"/api/v1"
 *-> db           - database
@@ -459,12 +455,12 @@ start language dictionary
     -> exm:rag:retrieve
 *-> srch         - search
     -> exm:srch:query
-*-> singl        - single, standalone
-    -> exm:singl:true
-*-> inst         - instruction
-    -> exm:inst(obj~obj)
-*-> ins          - insert
-    -> exm:ins:row
+*-> single        - single, standalone
+    -> exm:single:true
+*-> instr         - instruction
+    -> exm:instr(obj~obj)
+*-> insrt          - insert
+    -> exm:insrt:row
 *-> |            - logical or
     -> exm:a==b | a==c
 *-> ||           - logical and
@@ -479,20 +475,20 @@ start language dictionary
     -> exm:obj is type
 *-> show         - show object in console
     -> exm:show:x
-*-> ~            - expression example ==,<>,<=,>=,is
+*-> ~            - expression example ==,<>,<=,>=,!=,is
     -> exm:exam(obj~obj)
-*-> ex           - extended
-    -> exm:ex:key
+*-> extd           - extended
+    -> exm:extd:key
 *-> exam         - examination, must be expression of start next node and retry, example exam(obj~obj):retri(5) check the object 5 times or proceed to the next instruction upon a positive result
     -> exm:exam(obj~obj):retry(5)
 *-> sem          - semantiСЃ
     -> exm:sem:syntax
-*-> ext          - extension
-    -> exm:ext:ext
+*-> extn          - extension
+    -> exm:extn:extn
 *-> vld          - valid
     -> exm:vld:ok
-*-> exs          - exist
-    -> exm:exs:file
+*-> exst          - exist
+    -> exm:exst:file
 *-> end          - end
     -> exm:end:block
 *-> with         - An operator indicating the simultaneous execution of two logical actions on a single object; syntax: with(any) example: `with(strk)->add(ref lang=usr:lng)`  (add a new parallel logic action; add a description to the text lines in the user's language).
@@ -539,14 +535,14 @@ start language dictionary
     -> exm:out&lt;-()in
 *-> ()->         - nesting forvard operator
     -> exm:node()-&gt;inner
-*-> :?           - comaprator with condition example: fun crt file name="out.xml" <| file name="project.exe" :? data:type=dcm; extract all DOM elements in project.exe to out.xml
-    -> exm:<| file :? data:type=dcm
+*-> :?           - comaprator with condition example: fun crt file name="out.xml" <| file name="project.exe" :? data:type=dom; extract all DOM elements in project.exe to out.xml
+    -> exm:<| file :? data:type=dom
 *-> |>           - mix
     -> exm:struct|&gt;json
-*-> <|           - extract, example: fun crt file name="out.xml" <| file name="project.exe" :? data:type=dcm ; extract all DOM elements in project.exe to out.xml
+*-> <|           - extract, example: fun crt file name="out.xml" <| file name="project.exe" :? data:type=dom ; extract all DOM elements in project.exe to out.xml
     -> exm:out.xml &lt;| project.exe
-*-> promt        - user/human prompt
-    -> exm:promt:run()
+*-> prompt        - user/human prompt
+    -> exm:prompt:run()
 *-> think        - model think  your raw reasoning is needed for tracing.
     -> exm:think:-&gt;show
 *-> get          - to obtain, take, use; to specify what to use as a basis and where to source data; denotes an explicit logical data source
@@ -599,4 +595,16 @@ start language dictionary
     -> exm:eth:link=1g
 *-> wan          - wide area network, internet/external segment
     -> exm:wan:net=isp
+*-> name         - name of an object, attribute name="<value>"
+    -> exm:node name="out.xml"
+*-> id           - identity, unique object id attribute id="<id>"
+    -> exm:id="goal"
+*-> var          - variable, loop/local variable declaration
+    -> exm:for(var i=0;i<5;i=incr(1))
+*-> msg          - message, output/status message object
+    -> exm:show(msg(goal))
+*-> cxt          - context, execution/working context object
+    -> exm:show(cxt)
+*-> use          - use, apply/engage an object or prototype
+    -> exm:use(VibeDSL:proto[if,goal,fail])
 end language dictionary

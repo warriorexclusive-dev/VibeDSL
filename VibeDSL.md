@@ -26,12 +26,12 @@ Sources under `DATA/`: `dictionary.txt`, `syntax.txt`, `blueprints.txt`, `agents
 
 Templates are declared with the `proto` keyword: a prototype describes the
 structure and constraints of a node; every artifact is examined (`exam`) against
-it before it is accepted. `blp` / `blpr` are blueprints — base abstract patterns
+it before it is accepted. `blueprint` are blueprints — base abstract patterns
 and behavior laws that always hold.
 
 ```vibedsl
 *-> proto(if) id="if" act=[crt,exam] type=rule:
-   -> stx="obj~obj"
+   -> syn="obj~obj"
 
 *-> proto(goal) id="goal" act=[wrt,exam,crt]
    show(cxt)
@@ -41,9 +41,9 @@ and behavior laws that always hold.
 Instantiation / referencing a template by name and checking an artifact:
 
 ```vibedsl
-fun type=rule scp=root
-   -> crt spc lng=VibeDSL proto:if
-   -> exam(spc:stx==VibeDSL:dict:stx)<>:goal
+fun type=rule scop=root
+   -> crt spec lng=VibeDSL proto:if
+   -> exam(spec:syn==VibeDSL:dict:syn)<>:goal
 ```
 
 ## Vectors — векторы
@@ -57,33 +57,33 @@ queues.
 -> lst:[v1,v2,v3]
 -> tab:rows -> inx:[0,1,2]
 sel[val1,val2]->fun data=sel:ret
-for(i<10,inc(1))->data:inx[i]
+for(i<10,incr(1))->data:inx[i]
 ```
 
 ## Inheritance — наследование
 
 Hierarchy is expressed with `sub` (subclass / child entity), `mod` (class,
-module), `afun` (abstract / interface / inject), `genc` (generic), `gen`
-(generation). Presence and typing: `is` / `prs` (instanceof), `tp:type`, `stp`
+module), `abfun` (abstract / interface / inject), `generic` (generic), `gener`
+(generation). Presence and typing: `is` / `pres` (instanceof), `tp:type`, `styp`
 (subtype), `<->` two-way public interface.
 
 ```vibedsl
 -> mod name="base_controller"
    -> sub:cls
-   -> afun:interface
-   -> genc:T
+   -> abfun:interface
+   -> generic:T
 ```
 
 ## Behavioral — поведение
 
-The language is rule-oriented: `fun type=rule scp=root` with an `act` chain.
-Gates: `if` / `elif` / `els`, `swch` / `case` / `brk`, loops `cil`, examination
+The language is rule-oriented: `fun type=rule scop=root` with an `act` chain.
+Gates: `if` / `elif` / `els`, `switch` / `case` / `brk`, loops `loop`, examination
 `exam(obj~obj)`, `retry(N)`, rollback `rollb`, and explicit ends `goal` / `fail`,
 variants `varn`.
 
 ```vibedsl
 if(a==b)->ret
-swch: case val1: data1=val1 bk
+switch: case val1: data1=val1 bk
 exam(obj~obj):retry(5)!:rollb
 ```
 
@@ -92,12 +92,12 @@ exam(obj~obj):retry(5)!:rollb
 `fun` is the function declaration instruction. Combined with the `evt`
 (event/callback) marker it declares an **event** or callback handler; `call` is
 the entry/function-call point. Timers that raise events: `dtim` (delayed timer),
-`tik` (time elapse), `lag` / `delay` (period).
+`tik` (time elapse), `delay` (period).
 
 ```vibedsl
 fun name="on_update" par="data" evt:
    -> run:check par=data:
-      -> data:prs(data)->ret
+      -> data:pres(data)->ret
    -> call:notify{async}
    -> with(strk)->add(ref lang=usr:lang)
 ```
@@ -112,13 +112,13 @@ try:->logic ->cch:err ->fin:close
 
 ## Domain-oriented — домен
 
-Targeted at domains: `dom` (domain), `dir` (directory / subdomain), `prj`
+Targeted at domains: `domain` (domain), `dir` (directory / subdomain), `prj`
 (project), `infr` (infrastructure unit), `svc` (service), `ept` (endpoint),
-`afi` (API / interface contract).
+`api` (API / interface contract).
 
 ```vibedsl
 prj name="picture_lib":
-   -> dom:name
+   -> domain:name
    -> svc:micro
    -> ept:"/api/v1"
 ```

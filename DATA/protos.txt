@@ -1,14 +1,14 @@
 *-> proto(any) id="any" desc="generic node template: lang, type and name are required" act=[crt,exam] type=rule:
-   -> lang: any requ
-      type: any requ
-      type==[dcm,file]:
-      -> name: any requ
+   -> lang: any reqr
+      type: any reqr
+      type==[dom,file]:
+      -> name: any reqr
 
-*-> proto(if) id="if" desc="if gate: single-instruction condition on singl, else object-object expression" act=[crt,exam]
-   if(inst is singl): 
-   -> stx="obj~obj"
+*-> proto(if) id="if" desc="if gate: single-instruction condition on single, else object~object expression" act=[crt,exam]
+   if(instr is single): 
+   -> syn="obj~obj"
    else
-   -> stx="inst(obj~obj)"
+   -> syn="instr(obj~obj)"
 
 *-> proto(goal) id="goal" desc="goal handler: prints context and success message" act=[wrt,exam,crt]
    show(cxt)
@@ -20,11 +20,11 @@
       usr:apr:retry
    }   
 
-*-> proto(varn) id="varn5" desc="variants gate: offers up to 5 options and requires user selection" type=rule scp=root
+*-> proto(varn) id="varn5" desc="variants gate: offers up to 5 options and requires user selection" type=rule scop=root
    show(varn:max(5)||req) ret=usr:sel:->
 
-*-> proto(retry) id="r5" desc="retry loop: retries up to 5 times, asking the user when possible" type=rule scp=root
-      for(var i=0;i<5;i=inc(1))<>:
+*-> proto(retry) id="r5" desc="retry loop: retries up to 5 times, asking the user when possible" type=rule scop=root
+      for(var i=0;i<5;i=incr(1))<>:
       -> retry
       -> show(llm->user req?)<>:
          -> retry

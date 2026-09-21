@@ -1,7 +1,7 @@
 start base syntax
-*-> ->           - right strict link to a node, dependence or relationship
+*-> ->           - next node: right strict link to a node, dependence or relationship
     -> exm:[model1]->[model2]
-*-> <-           - left strict link, inverse node, inverse dependence or relationship
+*-> <-           - prev node: left strict link, inverse node, inverse dependence or relationship
     -> exm:[file:text]<-[lng:eng]
 *-> <->          - two-way strict link, public function or interface
     -> exm:[uroot con:lng]<->[usr:seq]
@@ -14,11 +14,11 @@ start base syntax
 *-> ()->         - nesting forward operator
     -> exm:node()->inner
 *-> <|           - extract from a source object
-    -> exm:fun crt file name="out.xml" <| file name="project.exe" :? data:type=dcm
+    -> exm:fun crt file name="out.xml" <| file name="project.exe" :? data:type=dom
 *-> |>           - mix (combine) two objects
     -> exm:struct|>json
 *-> :?           - comparator with condition applied during extraction
-    -> exm::? data:type=dcm
+    -> exm::? data:type=dom
 *-> :            - logical operator and null-safe presence check; verifies the property exists and is executable step by step, halts the logic if absent and ASKS the human (null safe WITH ask, see `ask`); resolves by position (pointer, validator, parent context, payload separator)
 *-> -Z>          - Z vector: the language is a 2D diagram in text (nodes, arrows, indentation = two axes), like Miro; the third axis (Z) holds logic states - industrial cases demand three-dimensional states, and `-Z>` lifts the object off the 2D graph without breaking it (stays a tagged node instead of branching the graph into 3D); optional convenience flag, usually written after the colon `:-Z>`, example crt model:-Z> type=human; prefix form -Z> [a,b,c]:[d,e,f]:[x,y,z]: is also allowed; never changes semantics; the dimensions are logical (states), NOT spatial 3D / 3D modeling / coordinates; `:` between vectors selects one element; `<>:` branches into several paths by the selection and requires explicit conditions, without them works as plain `:`
 *-> \            - ordinary mathematical division operator
@@ -69,8 +69,20 @@ start base syntax
     -> exm:diff=a-b
 *-> %            - modulo operator (math), remainder of division
     -> exm:rem=a%b
-*-> <=           - reference to an external contour beyond the root boundary: links the current node to an object outside the root scope (e.g. a VLAN leaving to the internet)
-    -> exm:<= vlan1 -> wan
-*-> =>           - explicit return: hands a value/parameter into the target marked with id="<id>" inside a spec or blueprint
-    -> exm:func type static par a a+12 ret a => id=12
+*-> <=           - comparison: less than or equal, numeric/logical value check
+    -> exm:val1<=val2->ret
+*-> >=           - comparison: greater than or equal, numeric/logical value check
+    -> exm:val1>=val2->ret
+*-> !=           - comparison: not equal, inverse of ==; halts or gates when values differ
+    -> exm:if(a!=b)->halt
+*-> +=           - add to the object: for numbers - numeric addition, for logic/collections - union/merge added to the object. Depends on the object being written (OOP-like behavior)
+    -> exm:total+=par
+*-> -=           - subtract from the object: for numbers - numeric subtraction, for logic/collections - removal/exclusion from the object. Depends on the object being written (OOP-like behavior)
+    -> exm:total-=par
+*-> c++          - postfix increment by one (C-style)
+    -> exm:i++
+*-> <(src)-        - link to an external source beyond the spec/understanding: one-way departure from the current contour into an external source (outside the spec, in parentheses), accepted as a given that it left and may not return. Distinct from <- (prev node) - this is a reference marker, not graph navigation, the source name sits in brackets
+    -> exm:pc->router<(world wide web)-
+*-> -(id)>         - link to an internal object: reference to a logical object inside the current spec (not graph navigation to the next node), target identified inside the brackets by id="<id>"
+    -> exm:func type static par a a+12 ret a -(id=12)>
 end base syntax

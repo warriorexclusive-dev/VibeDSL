@@ -57,6 +57,11 @@ parent:                       parent is the object with a colon at the end of th
 :                             logical operator + null-safe presence check (a:b:c); checks the object and marks the condition that the logic is done; can take the <> multi-way prefix
 ->  <-  <->                   right strict link / inverse / two-way public interface
 ==  =                         equality (if-then gate) / assignment
+<=  >=  !=                    comparison: less-or-equal / greater-or-equal / not equal
++=  -=                       add/subtract to the object (numbers or logic, OOP-like)
+c++                           postfix increment by one (C-style)
+-(id)>                           link to an internal object of the spec (by id)
+<(src)-                          link to an external source beyond the spec: one-way departure, may not return
 |  ||  !                      logical or / and / reverse
 {}  ""                        free-form custom logic / custom value mapping
 part N:  stage N:             isolated partition / staged partition with reference
@@ -78,7 +83,7 @@ root:
       -> tab:rows
          -> inx:[0,1,2]
    -> sel[val1,val2]->fun data=sel:ret
-      -> for(i<10,inc(1))
+      -> for(i<10,incr(1))
          -> data:inx[i]
 
 root:node == a<>:             : two-way logic, Y/N scope
@@ -122,32 +127,32 @@ CODE);
 ?></pre>
 
   <h2>Prototypes and scope</h2>
-  <p><code>scp</code> sets the scope of a rule or prototype - <code>scp=root</code>
+  <p><code>scop</code> sets the scope of a rule or prototype - <code>scop=root</code>
      means global and always active. Example taken from the base agent rules:</p>
   <pre class="code"><?php echo htmlspecialchars(<<<'CODE'
-fun type=agent scp=root -> act == crt [code, data, file]
-   -> crt spc lng=VibeDSL proto:
-   -> exam(spc:stx==VibeDSL:dict:stx)<>:
-      -> exam(spc:logc!=?)<>:
-         -> show spc lang=VibeDSL src=orig with(VibeDSL:prnt:strk:->add(ref lang=usr:lang)):
+fun type=agent scop=root -> act == crt [code, data, file]
+   -> crt spec lng=VibeDSL proto:
+   -> exam(spec:syn==VibeDSL:dict:syn)<>:
+      -> exam(spec:logic!=?)<>:
+         -> show spec lang=VibeDSL src=orig with(VibeDSL:prnt:strk:->add(ref lang=usr:lang)):
             -> usr apr:
-               -> crt [code, data, file] lng = spc:lng:name:
-                  -> exam(file:stx==spc:lng:stx):
-                     -> exam(file:logc==spc:logc)<>:
+               -> crt [code, data, file] lng = spec:lng:name:
+                  -> exam(file:syn==spec:lng:syn):
+                     -> exam(file:logic==spec:logic)<>:
                         -> wrt:goal
                         -> retry(5)!:rollb
 CODE);
 ?></pre>
 
-  <p><code>blpt</code> is a formal plan blueprint - the same prototype idea as
+  <p><code>blplan</code> is a formal plan blueprint - the same prototype idea as
      <code>proto</code>, but a stricter form meant for plan mechanics. Blueprints
-     are pulled in by their id via the <code>inc="&lt;blueprint-id&gt;"</code>
+     are pulled in by their id via the <code>incld="&lt;blueprint-id&gt;"</code>
      attribute: the id resolves through <code>blueprint_get?id=&lt;id&gt;</code>
      and injects that blueprint's behavior into the prototype:</p>
   <pre class="code"><?php echo htmlspecialchars(<<<'CODE'
-blpt(plan) id="p_goal" desc="formal plan blueprint" inc="goal,retry" act=[crt,exam] scp=root:
+blplan(plan) id="p_goal" desc="formal plan blueprint" incld="goal,retry" act=[crt,exam] scop=root:
    -> crt plan lng=VibeDSL
-      -> exam(plan:stx==VibeDSL:dict:stx)<>:
+      -> exam(plan:syn==VibeDSL:dict:syn)<>:
          -> goal
          -> retry(5)!:rollb
 CODE);
@@ -193,6 +198,7 @@ CODE);
 
 <div class="body-bottom">
   <p><b>License Apache 2.0</b> - VibeDSL v1.0 alfa. Usage, modification and distribution permitted under the terms of the Apache License, Version 2.0.</p>
+  <p>Powered by <b>Big Pickle</b> - crafted with <a href="https://opencode.ai" style="color:#6fe3a1;">opencode</a> - respect and gratitude to its developers.</p>
 </div>
 
 </div>
