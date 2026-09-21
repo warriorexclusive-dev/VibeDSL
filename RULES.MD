@@ -70,7 +70,7 @@
         skl:code="middle"
         skl:arc="senior"
         targ:prj:name="http server"
-        mod:name:"load_controller":
+        module:name:"load_controller":
         <-> fun name:load_image par:name="pic"
             in:   picture->
             cnv:  byte[]->

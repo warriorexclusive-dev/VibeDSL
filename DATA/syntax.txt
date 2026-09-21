@@ -43,7 +43,7 @@ start base syntax
 *-> !            - reverse logic, not condition
     -> exm:if (!a==a)->ret
 *-> part         - `part N:` isolates a partition of logic (separator to a context window) - tasks not connected to one another
-    -> exm:part 1: mod name="kernel.dll" | part 2: mod name="user.dll"
+    -> exm:part 1: module name="kernel.dll" | part 2: module name="user.dll"
 *-> stage        - `stage N:` partitions logic where the previous stage serves as a reference for the next one
     -> exm:stage 2: <- part 1 logic DSL schema as reference
 *-> fun          - function declaration: name and parameters, then the arrow to the target logic
@@ -56,7 +56,7 @@ start base syntax
       skl:code="middle"
       skl:arc="senior"
       targ:prj:name="http server"
-      mod:name:"load_controller":
+      module:name:"load_controller":
       <-> fun name:load_image par:name="pic"
           in:   picture->
           cnv:  byte[]->

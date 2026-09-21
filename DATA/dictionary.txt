@@ -31,9 +31,9 @@ start language dictionary
     -> exm:dir:"dot.comm/project"
 *-> arc          - architecture or pattern, example: func name="upload_photo" arc:coroutine; describes a function with the coroutine pattern
     -> exm:arc:coroutine
-*-> pat          - partition of logic, separator to context window, example: part 1: mod name="kernel.dll" part 2: mod name="user.dll" ; describes isolated tasks that are not connected to one another
+*-> pat          - partition of logic, separator to context window, example: part 1: module name="kernel.dll" part 2: module name="user.dll" ; describes isolated tasks that are not connected to one another
     -> exm:pat:"observer"
-*-> part         - partition of logic, separator to context window, example: part 1: mod name="kernel.dll" part 2: mod name="user.dll" ; describes isolated tasks that are not connected to one another
+*-> part         - partition of logic, separator to context window, example: part 1: module name="kernel.dll" part 2: module name="user.dll" ; describes isolated tasks that are not connected to one another
     -> exm:part 1: (logic)
 *-> stage        - partition of logic, describes tasks where the logic of a previous task can serve as a reference
     -> exm:stage 2: &lt;- part 1
@@ -82,12 +82,20 @@ start language dictionary
     -> exm:fun name="load" par="val1"
 *-> abfun         - abstract , interface, inject
     -> exm:abfun:-&gt;interface
-*-> mod          - class, module, include type
-    -> exm:mod name="kernel.dll"
+*-> mod          - logic modify: modify/alter the logic (not a class/module - those are module/class)
+    -> exm:mod spec:logic+=rule
+*-> module        - module, class unit, include type
+    -> exm:module name="kernel.dll"
+*-> frmwrk, framework - framework
+    -> exm:frmwrk name="Hybernate ORM"
+*-> model         - model, data/domain model
+    -> exm:model name="user" tp:type="account"
+*-> include       - physical library or item (an actual linked artifact)
+    -> exm:include:frmwk name="Hybernate ORM"
 *-> stat         - static
-    -> exm:stat:-&gt;mod
+    -> exm:stat:-&gt;module
 *-> singleton         - singleton
-    -> exm:singleton:-&gt;mod
+    -> exm:singleton:-&gt;module
 *-> standalone         - stand alone
     -> exm:standalone:true
 *-> isol         - isolate
@@ -298,7 +306,7 @@ start language dictionary
 *-> os           - base OS system
     -> exm:os:win
 *-> sys          - systematization role
-    -> exm:sys:mod
+    -> exm:sys:module
 *-> conf         - configuration, settings
     -> exm:conf:settings
 *-> cof          - coefficient, factor, percentage example [cof]=80
@@ -431,13 +439,13 @@ start language dictionary
 *-> chk          - check/validation
     -> exm:chk:valid
 *-> dn           - dependency
-    -> exm:dn:-&gt;mod
+    -> exm:dn:-&gt;module
 *-> dpd          - deprecated
     -> exm:dpd:old
 *-> cfg          - config/settings file
     -> exm:cfg:settings
 *-> api          - api/interface (contract point)
-    -> exm:api:-&gt;mod
+    -> exm:api:-&gt;module
 *-> ept          - endpoint (entry point)
     -> exm:ept:"/api/v1"
 *-> db           - database
@@ -609,7 +617,8 @@ start language dictionary
     -> exm:show(msg(goal))
 *-> cxt          - context, execution/working context object
     -> exm:show(cxt)
-*-> use          - use, apply/engage an object or prototype
+*-> use          - logical include command: apply/engage an object, prototype or include; the logical side of include (include is the physical lib/item, use is the logical command that engages it)
+    -> exm:use(agent name="dsl-coder")
     -> exm:use(VibeDSL:proto[if,goal,fail])
 *-> row          - composition: linear horizontal axis of children
     -> exm:pan->row: btn name="ok"

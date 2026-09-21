@@ -62,13 +62,13 @@ for(i<10,incr(1))->data:inx[i]
 
 ## Inheritance — наследование
 
-Hierarchy is expressed with `sub` (subclass / child entity), `mod` (class,
+Hierarchy is expressed with `sub` (subclass / child entity), `module` (class,
 module), `abfun` (abstract / interface / inject), `generic` (generic), `gener`
 (generation). Presence and typing: `is` / `pres` (instanceof), `tp:type`, `styp`
-(subtype), `<->` two-way public interface.
+(subtype), `<->` two-way public interface. `mod` is the logic modify operator.
 
 ```vibedsl
--> mod name="base_controller"
+-> module name="base_controller"
    -> sub:cls
    -> abfun:interface
    -> generic:T
