@@ -447,7 +447,7 @@ start language dictionary
     -> exm:fin:close
 *-> ref          - reference (variable/object)
     -> exm:ref:var
-*-> evt,event    - event/callback, lifecycle marker
+*-> evt,event    - any event base logic: event/callback, lifecycle marker
     -> exm:evt:notify
     -> exm:event type="onCreate" -> load view name="main"
 *-> call         - entry / function call
