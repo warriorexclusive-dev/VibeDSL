@@ -242,10 +242,11 @@ start language dictionary
     -> exm:usr:lang="RU:ru"
 *-> wrt          - write
     -> exm:wrt:goal
-*-> null         - exact empty value (not a logical operator): explicit void, "nothing here"; synonyms: null,void. Unlike none (pure logical absence) null is a concrete value that can be compared. Compare with the logical operator none, which states absence without halting logic
+*-> null, void   - exact empty value (not a logical operator): explicit void, "nothing here". Unlike none (pure logical absence that continues) null is a concrete empty value: where a value is REQUIRED (req/expected), null HALTS the logic - try/catch, fail. none says "not required/absent, keep going"; null says "empty value present, stop here"
     -> exm:fun name="getarc" if(lng:arc==null)<>:
          -> null
          -> arc
+    -> exm:name req -> try name=="null" cch -> halt
 *-> all          - all, more, everething
     -> exm:all:entries
 *-> env          - environment or other variables
