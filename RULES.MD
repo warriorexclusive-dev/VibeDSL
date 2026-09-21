@@ -45,6 +45,7 @@
 * [] - block of multiple logical objects, exxample [val1,val2,val3,...], ... applies only if there is a valid array reference and the array length exceeds 10 elements. 
 * {} it,s marker of declaration a functionaly custom logic of element, it,s is custom specific functionaly logic of object 
 * :, !:, |, ||, ->,<->,<-,==,!=,=, <=, >=, +=, -=, c++, <(src)-, -(id)>, <-(), ()->, logical way and construct operators 
+* aliases: | = or, || = and (also &&), ! = not; / = division, \ = logic filter; <> = multi-way branching, NOT "not equal" (use !=) 
 * "" way to сustomisation mapping all units, example: infr:->node type="panasonic ats" name ="telephony"
 * part and stage commant as separator of logic, syntax and example: part 1: (isolate logic), part2 (isolate logic) | stage 1: (isolate logic), stage 2 (isolate logic) <- part 1 logic DSL schema as reference  
 * Try to keep your scripts as concise as possible.
@@ -108,6 +109,18 @@
 * logs,log    - logging
 * req,reqr    - request / required
 * uslng       - user language (rus is the same as `usr:lang`)
+* return,ret   - return value
+* catch,cch    - catch block
+* break,brk    - break
+* func,function,fun - function
+* import,incld - include
+* nil,void,null - exact empty value (NOT `none`, which is logical non-halting absence)
+* true,false   - boolean literals (synonyms of the bool values Y / N)
+* class,module - class / module
+* and,&&,||    - logical AND
+* or,|         - logical OR
+* not,!        - logical NOT
+* /            - mathematical division; \ - logic filter (exclusion by condition)
 * if `component` is ambiguous in a script, use the unambiguous full word `component`; `compil` is always the compiling meaning.
 * Sources stay in sync: the dictionary lives in `DATA/dictionary.txt` and is served via RAG (`GET /API/get?dict=dictionary`); RULES.MD references it.
 

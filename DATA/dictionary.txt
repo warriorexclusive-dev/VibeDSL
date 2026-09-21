@@ -78,14 +78,17 @@ start language dictionary
     -> exm:mov:-&gt;dest
 *-> add          - depency, addiction, relation
     -> exm:add:-&gt;dep
-*-> fun          - function.
+*-> fun, func, function - function
     -> exm:fun name="load" par="val1"
+    -> exm:func name="load"
+    -> exm:function name="load"
 *-> abfun         - abstract , interface, inject
     -> exm:abfun:-&gt;interface
 *-> mod          - logic modify: modify/alter the logic (not a class/module - those are module/class)
     -> exm:mod spec:logic+=rule
-*-> module        - module, class unit, include type
+*-> module, class - module, class unit, include type
     -> exm:module name="kernel.dll"
+    -> exm:class name="user_model"
 *-> frmwrk, framework - framework
     -> exm:frmwrk name="Hybernate ORM"
 *-> model         - model, data/domain model
@@ -138,8 +141,9 @@ start language dictionary
     -> exm:{do x}
 *-> }            - end custom logic description
     -> exm:{...}
-*-> incld         - additional, include
+*-> incld, import - additional, include (logical/physical inclusion)
     -> exm:incld:-&gt;header
+    -> exm:import:module name="kernel"
 *-> lunit        - logical unit
     -> exm:lunit:node
 *-> lib          - library, codebase, or open source project / git repository, codesnippet
@@ -204,8 +208,9 @@ start language dictionary
     -> exm:fun(do)
 *-> switch         - switch case action
     -> exm:switch:case val1: bk
-*-> brk          - break
+*-> brk, break   - break
     -> exm:brk:0
+    -> exm:break
 *-> aff          - affiliation, associacion, property of the object located in front of the sign
     -> exm:obj:aff
 *-> goto         - go to point
@@ -226,6 +231,9 @@ start language dictionary
     -> exm:apr:true
 *-> bool          - Y or N - yes, no basic logical boolean
     -> exm:bool:Y
+*-> true, false   - boolean literals: synonyms of the bool values Y / N
+    -> exm:alw:true
+    -> exm:def:false
 *-> req          - request
     -> exm:req:post
 *-> reqr         - required
@@ -244,13 +252,16 @@ start language dictionary
     -> exm:[val1,val2]
 *-> obj          - object or entity
     -> exm:obj:entity
+*-> item         - logical operator binding a real physical or code object (the concrete item behind a logical node)
+    -> exm:rcl src="items" item="row"
+    -> exm:item name="user_row"
 *-> plan         - make plan mode or cpecs
     -> exm:plan:-&gt;specs
 *-> usr          - language model user, operator.
     -> exm:usr:lang="RU:ru"
 *-> wrt          - write
     -> exm:wrt:goal
-*-> null, void   - exact empty value (not a logical operator): explicit void, "nothing here". Unlike none (pure logical absence that continues) null is a concrete empty value: where a value is REQUIRED (req/expected), null HALTS the logic - try/catch, fail. none says "not required/absent, keep going"; null says "empty value present, stop here"
+*-> null, void, nil - exact empty value (not a logical operator): explicit void, "nothing here". Unlike none (pure logical absence that continues) null is a concrete empty value: where a value is REQUIRED (req/expected), null HALTS the logic - try/catch, fail. none says "not required/absent, keep going"; null says "empty value present, stop here"
     -> exm:fun name="getarc" if(lng:arc==null)<>:
          -> null
          -> arc
@@ -277,6 +288,11 @@ start language dictionary
     -> exm:mix:-&gt;strc
 *-> prj          - project
     -> exm:prj name="picture_lib"
+*-> game         - game project type (a project whose target is a game)
+    -> exm:game name="runner" lng:name="c++"
+*-> player       - game player entity: the controlled actor in a game
+    -> exm:player name="p1" x=0 y=0
+    -> exm:on kdown:key="Space" -> player:jump
 *-> ==           - if,can sequence
     -> exm:a==b-&gt;run
 *-> ""           - included custom string
@@ -365,8 +381,9 @@ start language dictionary
     -> exm:unqe:task
 *-> que          - queue
     -> exm:que:task
-*-> ret          - returned logical unit
+*-> ret, return  - returned logical unit (return value)
     -> exm:ret:val
+    -> exm:return val
 *-> sel          - select, syntax example sel[val1,val2] after ->swt if more way or ->abslt{} if abstract, example sel[val1,val2]->fun data=sel:ret , sel[val1,val2]->swt case val1: data1=val1 bk
     -> exm:sel[v1,v2]-&gt;swt
 *-> for          - for example for(val1<0,incr(1))->data1=val1
@@ -396,7 +413,7 @@ start language dictionary
     -> exm:els:-&gt;ret
 *-> pres          - present, belong, instanceof, syntax val1:pres(val2)->ret{} , returned Y or N, can be used inside the block if
     -> exm:val1:pres(val2)-&gt;ret{}
-*-> !            - reverse logic, example if (!a==a)->ret is NO, not condition
+*-> !, not        - reverse logic, example if (!a==a)->ret is NO, not condition
     -> exm:if (!a==a)->ret
 *-> rev          - reverse logic, example if (!a==a)->ret is NO, not condition
     -> exm:rev:-&gt;code
@@ -452,8 +469,9 @@ start language dictionary
     -> exm:db:sql
 *-> try          - try block marker
     -> exm:try:-&gt;logic
-*-> cch          - catch block marker
+*-> cch, catch   - catch block marker
     -> exm:cch:err
+    -> exm:catch err
 *-> fin          - finally block marker
     -> exm:fin:close
 *-> ref          - reference (variable/object)
@@ -473,10 +491,11 @@ start language dictionary
     -> exm:instr(obj~obj)
 *-> insrt          - insert
     -> exm:insrt:row
-*-> |            - logical or
+*-> |, or         - logical or
     -> exm:a==b | a==c
-*-> ||           - logical and
+*-> ||, and, &&  - logical and
     -> exm:a==b || c==d
+    -> exm:a==b && c==d
 *-> put          - put
     -> exm:put:value
 *-> cmd          - command
@@ -511,16 +530,16 @@ start language dictionary
     -> exm:src:file
 *-> !:           - expression of operation or logic not complete/valid
     -> exm:x!:-&gt;halt
-*-> <>           - multiple way logic operator; forks the logic into N parallel ways with their own results
+*-> <>           - multiple way logic operator; forks the logic into N parallel ways with their own results. WARNING: `<>` is NOT "not equal" (unlike some languages) - for inequality use `!=`. Any doubt about `<>` MUST be checked against the dictionary
     -> exm:a?<>:
        -> b
        -> c
 *-> -Z>          - Z vector: the language is a two-dimensional diagram in text form (nodes, arrows, indentation = two axes; a whiteboard like Miro); the third axis (Z) holds logic states - industrial cases need three-dimensional states, and `-Z>` lifts such an object off the 2D graph without breaking it (it stays a tagged node instead of the graph branching into 3D); optional convenience flag, usually written after the colon `:-Z>`, example crt model:-Z> type=human; may also prefix the declaration -Z> [a,b,c]:[d,e,f]:[x,y,z]:; never changes semantics; the dimensions are logical (states), NOT spatial 3D / 3D modeling / coordinates; `:` between vectors is the selection operator (one element resolved); `<>:` opens several logic paths dependent on the selection (explicit conditions required); without conditions it works as plain `:`
     -> exm:crt model:-Z> type=human
-*-> \            - ordinary mathematical division operator
-    -> exm:val b=y \ e
-*-> /            - logic subtraction operator: exclusion/filtering when applied inside brackets or quotes, example crt/show - create without showing
-    -> exm:crt/show
+*-> /            - ordinary mathematical division operator (divide)
+    -> exm:val b=y / e
+*-> \            - logic filter operator: exclusion/filtering by condition when applied inside brackets or quotes, example crt\show - create without showing
+    -> exm:crt\show
 *-> :            - it's semantic has with virtual/abstract qualifier, logical exist with Y/N, return Y/true if property exist or expression is valid, return N/false example lang:c++: wrt; null safe WITH ask - on N the logic halts and ASKS the human (see `ask`: when the check does not converge, the AI must ask, never guess)
     -> exm:lang:c++:
 *-> rollb        - revert, return previos state, rollback
@@ -691,8 +710,14 @@ start language dictionary
     -> exm:on scrtap:x=10,y=20
 *-> enter        - user input: enter key, confirm/select
     -> exm:on enter->btn name="ok"
+*-> kbd, key     - keyboard key: physical/logical key identifier used by input events
+    -> exm:on kpress:key="Enter"->run
+    -> exm:on kdown:kbd="Space"->player:jump
 *-> view         - concrete view frame: a definite rendered frame/screen instance (not vis - vis is the visual element/type abstraction)
     -> exm:view name="main" src="layout.xml"
+*-> swap         - UI logical behavior: swipe / page turn between views, default direction left to right unless otherwise specified
+    -> exm:on swap:dir="ltr" -> pag name="next"
+    -> exm:swap:dir="rtl" -> pag name="prev"
 *-> creative      - executor freedom scale for the task (0-100): 0 = follow blueprint/spec straight, no improvisation; 50 = own solutions within the structure (names, layout, implementations); 100 = full freedom limited only by syntax and logic. Whole scale: `creative=N` with N from 0 to 100; 0 (default, if absent) = strict, straight from blueprint/spec; ~50 = own decisions inside the allowed structure; 100 = total freedom, only syntax + logic constrain. Applies ONLY to implementation freedom - never to grammar/dictionary or the given input data
     -> exm:crt site lang=php vis:lang="javascript" logc={Магазин электротоваров, склад 5 человек} creative=80
 *-> none          - explicit absence of a value, logical operator: "here is nothing". Covers logical operators like :, req, -> with a way to state that a parameter is either not required or absent depending on reading context. Unlike !: it does NOT halt the logic - execution continues past an absent/not-required value

@@ -121,17 +121,17 @@ crt model:-Z> type=human      -Z> = lift this node into the 3rd state axis
 -Z> [a,b,c]:[d,e,f]:[x,y,z]:  : selects one element -> one common logic
 -Z> [a,b,c]:[d,e,f]:[x,y,z]<>: paths depend on the selection
      a,d,z -> val a = d = z
-     b,e,y -> val b = y \ e   \ = division
+     b,e,y -> val b = y / e   / = division
      ->  show                 default: every selection except the two above
 ```
 
-`/` subtracts logic - exclusion/filtering when used inside brackets or quotes;
-`\` is plain mathematical division:
+`\` filters logic - exclusion/filtering by condition when used inside brackets or
+quotes; `/` is plain mathematical division:
 
 ```
-crt/show file name="out.xml"     create, but do not show (logic subtraction)
-list/users                       filter: everything except "users"
-val rate = 10 \ 2                \ = division
+crt\show file name="out.xml"     create, but do not show (logic filter)
+list\users                       filter: everything except "users"
+val rate = 10 / 2                / = division
 ```
 
 ## Prototypes, blueprints and scope

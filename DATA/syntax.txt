@@ -5,7 +5,7 @@ start base syntax
     -> exm:[file:text]<-[lng:eng]
 *-> <->          - two-way strict link, public function or interface
     -> exm:[uroot con:lng]<->[usr:seq]
-*-> <>: 	 - variant logic
+*-> <>: 	 - variant logic (WARNING: `<>` is multi-way branching, NOT "not equal"; use `!=` for inequality)
     -> exm:a==b<>:
 	-> a=c       "it's yes way"
 	-> b=a	     "it's no way"
@@ -21,9 +21,10 @@ start base syntax
     -> exm::? data:type=dom
 *-> :            - logical operator and null-safe presence check; verifies the property exists and is executable step by step, halts the logic if absent and ASKS the human (null safe WITH ask, see `ask`); resolves by position (pointer, validator, parent context, payload separator)
 *-> -Z>          - Z vector: the language is a 2D diagram in text (nodes, arrows, indentation = two axes), like Miro; the third axis (Z) holds logic states - industrial cases demand three-dimensional states, and `-Z>` lifts the object off the 2D graph without breaking it (stays a tagged node instead of branching the graph into 3D); optional convenience flag, usually written after the colon `:-Z>`, example crt model:-Z> type=human; prefix form -Z> [a,b,c]:[d,e,f]:[x,y,z]: is also allowed; never changes semantics; the dimensions are logical (states), NOT spatial 3D / 3D modeling / coordinates; `:` between vectors selects one element; `<>:` branches into several paths by the selection and requires explicit conditions, without them works as plain `:`
-*-> \            - ordinary mathematical division operator
-*-> /            - logic subtraction operator: exclusion/filtering inside brackets or quotes (example crt/show - create without showing)
-    -> exm:lang:c++:wrt
+*-> /            - ordinary mathematical division operator (divide)
+    -> exm:total / count
+*-> \            - logic filter operator: exclusion/filtering by condition inside brackets or quotes (example crt\show - create without showing)
+    -> exm:crt\show
 *-> !:           - operation or logic not complete / invalid (NO|false)
     -> exm:x!:->halt
 *-> []           - block of logical objects or list of parameters; `...` only when the array length exceeds 10 elements
