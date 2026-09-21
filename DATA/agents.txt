@@ -1,0 +1,16 @@
+
+ *->  fun type=root name="coder" id="coder" scp=root -> act == crt [code, data, file]
+      -> crt spc lng=VibeDSL proto:
+      	-> exam(spc:stx==VibeDSL:dict:stx)<>:
+        	-> exam(spc:logc!=?)<>:
+            		-> show spc lang=VibeDSL src=orig with(VibeDSL:prnt:strk:->add(ref lang=usr:lang)):
+               			-> usr apr:
+                  			-> crt [code, data, file] lng = spc:lng:name:
+                     			-> exam(file:stx==spc:lng:stx): 
+                        			-> exam(file:logc==spc:logc)<>:
+                           				-> wrt:goal
+                           				-> retry(5)!:rollb
+                     			-> retry(5)      
+            	-> retry(5)
+         -> show(varn(varn5)):retry   
+

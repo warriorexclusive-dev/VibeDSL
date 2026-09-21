@@ -1,0 +1,66 @@
+<?php
+declare(strict_types=1);
+mb_internal_encoding('UTF-8');
+
+/**
+ * VibeDSL API - search
+ * GET ?in=<term>
+ * arc=RAG, logc=srch
+ * source=[DATA/dictionary.txt, DATA/syntax.txt, DATA/agents.txt]
+ * ret text blob: objects split by marker "*->", line breaks \r\n -> <br>, tab indentation preserved
+ */
+
+$base = dirname(__DIR__);
+require $base . '/API/lib';
+$sources = vibedslSources($base);
+unset($sources['blueprints']);
+unset($sources['protos']);
+
+$term = trim((string)($_GET['in'] ?? ''));
+
+header('Content-Type: text/html; charset=utf-8');
+
+if ($term === '') {
+    echo vibedslPage('rsn: term required GET ?in=<term>', 'VibeDSL srch');
+    exit;
+}
+
+$blob = '';
+
+foreach ($sources as $file) {
+    if (!is_file($file)) {
+        continue;
+    }
+
+    $text = (string)file_get_contents($file);
+    $objects = preg_split('/(?m)(?=^[ \t]*\*->)/', $text);
+
+    foreach ($objects as $obj) {
+        $obj = preg_replace('/^\s*\r?\n+/', '', $obj);
+        $obj = rtrim($obj);
+        if ($obj === '') {
+            continue;
+        }
+        $obj = preg_replace('/\r?\n/', "\x0D\x0A", $obj);
+        if (str_contains($obj, $term)) {
+            $blob .= $obj . "\x0D\x0A\x0D\x0A";
+        }
+    }
+}
+
+function page(string $body, string $term): string
+{
+    return vibedslPage($body, 'VibeDSL srch: ' . $term);
+}
+
+function toHtml(string $text, string $term): string
+{
+    return vibedslToHtml($text, 'VibeDSL srch: ' . $term);
+}
+
+if ($blob === '') {
+    echo page(sprintf('[no match for "%s"]', $term), $term);
+    exit;
+}
+
+echo toHtml($blob, $term);

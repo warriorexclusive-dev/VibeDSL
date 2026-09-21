@@ -1,0 +1,64 @@
+start base syntax
+*-> ->           - right strict link to a node, dependence or relationship
+    -> exm:[model1]->[model2]
+*-> <-           - left strict link, inverse node, inverse dependence or relationship
+    -> exm:[file:text]<-[lng:eng]
+*-> <->          - two-way strict link, public function or interface
+    -> exm:[uroot con:lng]<->[usr:seq]
+*-> <>: 	 - variant logic
+    -> exm:a==b<>:
+	-> a=c       "it's yes way"
+	-> b=a	     "it's no way"
+*-> <-()         - nesting backward operator
+    -> exm:out<-()in
+*-> ()->         - nesting forward operator
+    -> exm:node()->inner
+*-> <|           - extract from a source object
+    -> exm:fun crt file name="out.xml" <| file name="project.exe" :? data:type=dcm
+*-> |>           - mix (combine) two objects
+    -> exm:struct|>json
+*-> :?           - comparator with condition applied during extraction
+    -> exm::? data:type=dcm
+*-> :            - logical operator and null-safe presence check; verifies the property exists and is executable step by step, halts the logic if absent and ASKS the human (null safe WITH ask, see `ask`); resolves by position (pointer, validator, parent context, payload separator)
+*-> -Z>          - Z vector: the language is a 2D diagram in text (nodes, arrows, indentation = two axes), like Miro; the third axis (Z) holds logic states - industrial cases demand three-dimensional states, and `-Z>` lifts the object off the 2D graph without breaking it (stays a tagged node instead of branching the graph into 3D); optional convenience flag, usually written after the colon `:-Z>`, example crt model:-Z> type=human; prefix form -Z> [a,b,c]:[d,e,f]:[x,y,z]: is also allowed; never changes semantics; the dimensions are logical (states), NOT spatial 3D / 3D modeling / coordinates; `:` between vectors selects one element; `<>:` branches into several paths by the selection and requires explicit conditions, without them works as plain `:`
+*-> \            - ordinary mathematical division operator
+*-> /            - logic subtraction operator: exclusion/filtering inside brackets or quotes (example crt/show - create without showing)
+    -> exm:lang:c++:wrt
+*-> !:           - operation or logic not complete / invalid (NO|false)
+    -> exm:x!:->halt
+*-> []           - block of logical objects or list of parameters; `...` only when the array length exceeds 10 elements
+    -> exm:[node:root]->[env:code]="invoke delegate"
+*-> {}           - custom functional logic of an element, intentionally free-form, never rewritten into a rigid schema
+    -> exm:out: http request {generate http tomcat request class}
+*-> ""           - customization mapping of all unit values
+    -> exm:infr:->node type="panasonic ats" name="telephony"
+*-> =            - assignment
+    -> exm:[env:code]="invoke delegate"
+*-> ==           - equality, if-then gate, can sequence
+    -> exm:if(a==b)->ret
+*-> |            - logical or
+    -> exm:a==b | c==d
+*-> ||           - logical and
+    -> exm:a==b || c==d
+*-> !            - reverse logic, not condition
+    -> exm:if (!a==a)->ret
+*-> part         - `part N:` isolates a partition of logic (separator to a context window) - tasks not connected to one another
+    -> exm:part 1: mod name="kernel.dll" | part 2: mod name="user.dll"
+*-> stage        - `stage N:` partitions logic where the previous stage serves as a reference for the next one
+    -> exm:stage 2: <- part 1 logic DSL schema as reference
+*-> fun          - function declaration: name and parameters, then the arrow to the target logic
+    -> exm:fun name="load" par="name=pic" in:picture-> out:http
+*-> indent       - nesting is set by indentation (Python/YAML style); parent is the object with `:` at the end of the line, children begin with an arrow marker; equal indent = siblings, deeper indent = child
+    -> exm:prj name="picture_lib":
+   -> type=lib
+      node=root
+      lng:name="c++"
+      skl:code="middle"
+      skl:arc="senior"
+      targ:prj:name="http server"
+      mod:name:"load_controller":
+      <-> fun name:load_image par:name="pic"
+          in:   picture->
+          cnv:  byte[]->
+          out:  http request {generate http tomcat request class}
+end base syntax

@@ -1,0 +1,56 @@
+<?php
+declare(strict_types=1);
+mb_internal_encoding('UTF-8');
+
+/**
+ * VibeDSL API - proto search
+ * GET ?in=<term>
+ * logc=srch | scope=protos only, matches by id="" or desc="" (abstract prototypes)
+ * ret text blob: matching proto objects, line breaks \r\n -> <br>, indentation preserved
+ */
+
+$base = dirname(__DIR__);
+require $base . '/API/lib';
+$sources = vibedslSources($base);
+$file = $sources['protos'] ?? null;
+
+$term = trim((string)($_GET['in'] ?? ''));
+
+header('Content-Type: text/html; charset=utf-8');
+
+if ($file === null || !is_file($file)) {
+    http_response_code(404);
+    echo vibedslPage('[404] proto source missing', 'VibeDSL proto srch');
+    exit;
+}
+
+if ($term === '') {
+    echo vibedslPage('rsn: term required GET ?in=<term>', 'VibeDSL proto srch');
+    exit;
+}
+
+$blob = '';
+$text = (string)file_get_contents($file);
+$objects = preg_split('/(?m)(?=^[ \t]*\*->)/', $text);
+
+foreach ($objects as $obj) {
+    $obj = preg_replace('/^\s*\r?\n+/', '', $obj);
+    $obj = rtrim($obj);
+    if ($obj === '') {
+        continue;
+    }
+    preg_match('/id="([^"]*)"/', $obj, $mid);
+    preg_match('/desc="([^"]*)"/', $obj, $mdesc);
+    $id   = $mid[1] ?? '';
+    $desc = $mdesc[1] ?? '';
+    if (stripos($id, $term) !== false || stripos($desc, $term) !== false) {
+        $blob .= $obj . "\x0D\x0A\x0D\x0A";
+    }
+}
+
+if ($blob === '') {
+    echo vibedslPage(sprintf('[no proto match for "%s"]', $term), 'VibeDSL proto srch: ' . $term);
+    exit;
+}
+
+echo vibedslToHtml($blob, 'VibeDSL proto srch: ' . $term);

@@ -1,0 +1,558 @@
+start language dictionary
+*-> act          - action
+    -> exm:act==run
+*-> rule         - rule
+    -> exm:fun type=rule scp=root
+*-> root         - base node module or program or...
+    -> exm:node=root
+*-> cnd          - context name declaration
+    -> exm:cnd:"semantic"
+*-> tp           - type
+    -> exm:tp="xml"
+*-> if           - if then else | if elif els - base logic operator to condition
+    -> exm:if obj==obj | if a!=b
+*-> type         - type
+    -> exm:type=lib
+*-> chd          - child node
+    -> exm:chd:-&gt;node
+*-> infr         - infrastructure unit, like a router or PC or worker humans or users or datacenter
+    -> exm:infr:-&gt;node type="panasonic ats"
+*-> spc          - specific
+    -> exm:spc:lang="VibeDSL"
+*-> mk           - make
+    -> exm:mk:-&gt;file
+*-> ch           - change
+    -> exm:ch:-&gt;file:name
+*-> rm           - remove
+    -> exm:rm:-&gt;file
+*-> del          - remove
+    -> exm:del:-&gt;node
+*-> dir          - directory or subdomain example: dot.com/project; project is dir
+    -> exm:dir:"dot.com/project"
+*-> arc          - architecture or pattern, example: func name="upload_photo" arc:coroutine; describes a function with the coroutine pattern
+    -> exm:arc:coroutine
+*-> pat          - partition of logic, separator to context window, example: part 1: mod name="kernel.dll" part 2: mod name="user.dll" ; describes isolated tasks that are not connected to one another
+    -> exm:pat:"observer"
+*-> part         - partition of logic, separator to context window, example: part 1: mod name="kernel.dll" part 2: mod name="user.dll" ; describes isolated tasks that are not connected to one another
+    -> exm:part 1: (logic)
+*-> stage        - partition of logic, describes tasks where the logic of a previous task can serve as a reference
+    -> exm:stage 2: &lt;- part 1
+*-> comp         - compiling (exactly: see compi/comp:compile). If the meaning is a component, write `comp` only with `stp` or in UI context, else use the unambiguous form.
+    -> exm:comp:-&gt;code
+*-> struct       - structure, box, layout, data class (context: field/data layout)
+    -> exm:struct:-&gt;box
+*-> strc         - structure, box, layout, data class (context: field/data layout)
+    -> exm:strc:-&gt;layout
+*-> len          - length or size
+    -> exm:len:1024
+*-> str          - string (var or literal `str:"..."`; structure is `struct`, never `str`)
+    -> exm:str:"value"
+*-> int          - integer | 4 bytes | or other 32 bit non dot var type for all lang
+    -> exm:int:32
+*-> long         - long or other 64 bit non dot var type for all lang
+    -> exm:long:64
+*-> float        - floating point variable 32 bit for all lang
+    -> exm:float:1.5
+*-> double       - floating point variable 64 bit for all lang
+    -> exm:double:1.14
+*-> lim          - limit
+    -> exm:lim:100
+*-> min          - minimum
+    -> exm:min:0
+*-> max          - maximum
+    -> exm:max:255
+*-> run          - execute, run, sequence, request
+    -> exm:run:-&gt;exec
+*-> lag          - delay or period
+    -> exm:lag:2s
+*-> delay        - delay or period
+    -> exm:delay:500
+*-> chr          - chars
+    -> exm:chr:128
+*-> alw          - allow, allowed,
+    -> exm:alw:true
+*-> ucs          - upercase string
+    -> exm:ucs:"HELLO"
+*-> lcs          - lowercase string
+    -> exm:lcs:"hello"
+*-> dtim         - delayed timer
+    -> exm:dtim:500
+*-> mov          - move
+    -> exm:mov:-&gt;dest
+*-> add          - depency, addiction, relation
+    -> exm:add:-&gt;dep
+*-> fun          - function.
+    -> exm:fun name="load" par="val1"
+*-> afun         - abstract , interface, inject
+    -> exm:afun:-&gt;interface
+*-> mod          - class, module, include type
+    -> exm:mod name="kernel.dll"
+*-> stat         - static
+    -> exm:stat:-&gt;mod
+*-> sing         - singleton
+    -> exm:sing:-&gt;mod
+*-> stal         - stand alone
+    -> exm:stal:true
+*-> isol         - isolate
+    -> exm:isol:-&gt;task
+*-> smb          - symbols
+    -> exm:smb:["a","b"]
+*-> wsmb         - windows samba protocol
+    -> exm:wsmb:"\\\\server\share"
+*-> logic        - logical structure
+    -> exm:logic:-&gt;tree
+*-> data         - data structure
+    -> exm:data:tab
+*-> logs         - logging
+    -> exm:logs:-&gt;file
+*-> log          - logging
+    -> exm:log:info
+*-> blp          - blueprint, massive prototype
+    -> exm:blp:-&gt;proto
+*-> desc         - description
+    -> exm:desc:"what it does"
+*-> hunit        - hardware unit
+    -> exm:hunit:"router"
+*-> sunit        - software unit
+    -> exm:sunit:"service"
+*-> unit         - abstract unit
+    -> exm:unit:abstract
+*-> trbw         - troubles, throws
+    -> exm:trbw:Exception
+*-> uslng        - user language
+    -> exm:uslng:"ru"
+*-> lang         - target language, c++, go, xml, yaml,...
+    -> exm:lang:name="c++"
+*-> lng          - target language, c++, go, xml, yaml,...
+    -> exm:lng:xml
+*-> targ         - target, result
+    -> exm:targ:prj:name="http server"
+*-> vis          - visual element or type
+    -> exm:vis:pan
+*-> abs          - absolute, if in logical it's a marker, to a exact type casting is required
+    -> exm:abs:-&gt;cast
+*-> {            - start custom logic description
+    -> exm:{do x}
+*-> }            - end custom logic description
+    -> exm:{...}
+*-> incl         - additional, include
+    -> exm:incl:-&gt;header
+*-> lunit        - logical unit
+    -> exm:lunit:node
+*-> lib          - library, codebase, or open source project / git repository, codesnippet
+    -> exm:lib:repo="open-utils"
+*-> csp          - codesnippet type in unit
+    -> exm:csp:-&gt;unit
+*-> dry          - don't repeat youself
+    -> exm:dry:true
+*-> soll         - sollid pattern 80 symbols in stroke, 300 stroke in module, 10 function in module
+    -> exm:soll:80/300/10
+*-> u_root       - admin user
+    -> exm:u_root:access
+*-> mem          - memory
+    -> exm:mem:16gb
+*-> cont         - content
+    -> exm:cont:"dictionary"
+*-> cnt          - content
+    -> exm:cnt:value
+*-> ctx          - context
+    -> exm:ctx:proc
+*-> comp         - component
+    -> exm:comp:-&gt;code
+*-> compi        - compilation, compile
+    -> exm:compi:-&gt;code
+*-> com          - comunication
+    -> exm:com:ch
+*-> compl        - complex
+    -> exm:compl:obj
+*-> proto        - prototype, template, syntax proto(object)
+    -> exm:proto(object)
+*-> dcm          - DOM, Document Object Model
+    -> exm::? data:type=dcm
+*-> llm          - LLM model its you
+    -> exm:llm:lng="VibeDSL"
+*-> stp          - sub type
+    -> exm:stp:subtype
+*-> pkg          - package
+    -> exm:pkg name="core"
+*-> ask          - request; RESOLUTION ORDER: first ask the base (dictionary/syntax/protos/blueprints via RAG search/get) - if the answer is already recorded, do NOT ask again; only if the base has no answer, ask the human; never guess or invent - this frees the human from repeated questions; the constructor is a contract between human and AI, and a human can programme in this language too
+    -> exm:ask:-&gt;promt
+*-> code         - code.
+    -> exm:code:java
+*-> inv          - invariant
+    -> exm:inv:true
+*-> fbd          - Forbidden
+    -> exm:fbd:null
+*-> rev          - review
+    -> exm:rev:-&gt;code
+*-> answ         - answer to user.
+    -> exm:answ:-&gt;usr
+*-> ans          - answer to user.
+    -> exm:ans:lng=usr:lang
+*-> resp         - response
+    -> exm:resp:xml
+*-> err          - error
+    -> exm:err:rsn="example"
+*-> you          - it's you
+    -> exm:you:llm
+*-> stk          - stroke
+    -> exm:stk:row
+*-> ()           - action or id link
+    -> exm:fun(do)
+*-> swch         - switch case action
+    -> exm:swch:case val1: bk
+*-> brk          - break
+    -> exm:brk:0
+*-> aff          - affiliation, associacion, property of the object located in front of the sign
+    -> exm:obj:aff
+*-> goto         - go to point
+    -> exm:goto::point:
+*-> file         - file
+    -> exm:file:name="out.xml"
+*-> :point:      - example of point for go to
+    -> exm:goto::point:
+*-> inx          - indexes
+    -> exm:inx:[0,1,2]
+*-> gen          - generation;
+    -> exm:gen:-&gt;class
+*-> genc         - generic
+    -> exm:genc:T
+*-> pic          - picture, image
+    -> exm:pic:-&gt;file
+*-> apr          - aprove
+    -> exm:apr:true
+*-> bll          - Y or N - yes, no basic logical boolean
+    -> exm:bll:Y
+*-> req          - request
+    -> exm:req:post
+*-> requ         - requred
+    -> exm:type: * requ
+*-> cnv          - convert, rerole, translate
+    -> exm:cnv:xml-&gt;class
+*-> scsh         - screennshot
+    -> exm:scsh:path
+*-> ssp          - spec file in this syntax
+    -> exm:ssp:file.spec
+*-> ci           - code anallize, review without editing, testing
+    -> exm:ci:-&gt;src
+*-> cd           - code compilation or deployment
+    -> exm:cd:-&gt;build
+*-> []           - block of entity or node, example [node:root]->[invoke delegate]>->[env:code] = "invoke delegate" or list params example [val1,val2,val3]
+    -> exm:[val1,val2]
+*-> obj          - object or entity
+    -> exm:obj:entity
+*-> plan         - make plan mode or cpecs
+    -> exm:plan:-&gt;specs
+*-> usr          - language model user, operator.
+    -> exm:usr:lang="RU:ru"
+*-> wrt          - write
+    -> exm:wrt:goal
+*-> null         - absent, not specified
+    -> exm:null:none
+*-> all          - all, more, everething
+    -> exm:all:entries
+*-> env          - environment or other variables
+    -> exm:env:code="PATH"
+*-> exm          - example
+    -> exm:exm:this
+*-> skl          - skill
+    -> exm:skl:code="middle"
+*-> acc          - access
+    -> exm:acc:r/w
+*-> auth         - authentication, login
+    -> exm:auth:login
+*-> util         - utilites, auxiliary modules and libraries
+    -> exm:util:-&gt;lib
+*-> scp          - scope
+    -> exm:scp:root
+*-> rgx          - regex
+    -> exm:rgx:"^[A-Z].*"
+*-> mix          - mixing,
+    -> exm:mix:-&gt;strc
+*-> prj          - project
+    -> exm:prj name="picture_lib"
+*-> ==           - if,can sequence
+    -> exm:a==b-&gt;run
+*-> ""           - included custom string
+    -> exm:type="panasonic ats"
+*-> sub          - subclass, sub function, affiliation, child entity
+    -> exm:sub:cls
+*-> stx          - syntax
+    -> exm:stx:"obj~obj"
+*-> in           - input data
+    -> exm:in:request
+*-> ovf          - overflow
+    -> exm:ovf:check
+*-> crt          - critical
+    -> exm:crt:err
+*-> vul          - vulnerable
+    -> exm:vul:fix
+*-> web          - http base protocols example http:json, http:soap, web
+    -> exm:web:http:json
+*-> net          - socket TCP/IP or UDP protocol
+    -> exm:net:tcp
+*-> prt          - protocol
+    -> exm:prt:http
+*-> netfx        - РЎ sharp language, ASP, WPF
+    -> exm:netfx:wpf
+*-> out          - output data
+    -> exm:out:response
+*-> os           - base OS system
+    -> exm:os:win
+*-> sys          - systematization role
+    -> exm:sys:mod
+*-> conf         - configuration, settings
+    -> exm:conf:settings
+*-> cof          - coefficient, factor, percentage example [cof]=80
+    -> exm:[cof]=80
+*-> dom          - domain
+    -> exm:dom:name
+*-> -> or        - - right strict link to node,dependence or relationship or other, example [model1]->[model2] or [node]->[fun]{act}
+    -> exm:exm:-> or
+*-> <            - - left strict ,inverse node,dependence or relationship or other, example [file:text]<-[lng:eng]
+    -> exm:val1 &lt; val2
+*-> <->          - two-way strict node,dependence or relationship, public function or interface and other, example [uroot con:lng]<->[usr:seq]
+    -> exm:[a]&lt;-&gt;[b]
+*-> blpr         - blueprint, base logical abstract pattern, Behavioral Model for Enforcement, Behavioral law to apply, Always true and serves as the instruction for use, unless explicitly stated or red
+    -> exm:blpr:behavior
+*-> blpt         - plan blueprint prototype, more formal variant of proto for plan mechanics
+    -> exm:blpt(plan) scp=root
+*-> link         - target affiliation logic instruction. (exmaple link: prj:skl) -> command to use skill in project specs
+    -> exm:link: prj:skl
+*-> vrt          - virtual
+    -> exm:vrt:property
+*-> tab          - table, table based data structure in memory
+    -> exm:tab:rows
+*-> tree         - tree structure
+    -> exm:tree:root
+*-> reg          - register
+    -> exm:reg:var
+*-> fifo         - forward in forward out algorithm
+    -> exm:fifo:que
+*-> io           - input output
+    -> exm:io:port
+*-> cil          - cicle example cil(100) a loop that runs 100 times, cil(0) - infinite loop, in memory 890000000000000000 - infinite loop
+    -> exm:cil(100)
+*-> case         - case
+    -> exm:case val1: bk
+*-> grap         - visual graphic
+    -> exm:grap:scene
+*-> pan          - visual panel
+    -> exm:pan:main
+*-> text         - visual text
+    -> exm:text:label
+*-> thm          - theme visal or logic
+    -> exm:thm:dark
+*-> cos          - cosine
+    -> exm:cos:deg
+*-> sin          - sin
+    -> exm:sin:rad
+*-> abst         - abstrack
+    -> exm:abst:-&gt;type
+*-> rsn          - reason, sintax example err:rsn="example"
+    -> exm:err:rsn="example"
+*-> err          - error
+    -> exm:err:rsn="example"
+*-> unq          - unique
+    -> exm:unq:true
+*-> unqe         - unqueue
+    -> exm:unqe:task
+*-> que          - quque
+    -> exm:que:task
+*-> ret          - returned logical unit
+    -> exm:ret:val
+*-> sel          - select, sintax example sel[val1,val2] after ->swt if more way or ->abs{} if abstract, example sel[val1,val2]->fun data=sel:ret , sel[val1,val2]->swt case val1: data1=val1 bk
+    -> exm:sel[v1,v2]-&gt;swt
+*-> for          - for example for(val1<0,inc(1))->data1=val1
+    -> exm:for(i&lt;10,inc(1))
+*-> inc          - increment sintax inc(value) example inc(5) added 5 unit
+    -> exm:inc(5)
+*-> dec          - decrement sintax dec(value) example dec(4) decrement on 4 unit
+    -> exm:dec(4)
+*-> tkn          - token
+    -> exm:tkn:auth
+*-> uid          - unique id like UUID or unique key autoincrement if SQL
+    -> exm:uid:auto
+*-> *            - any data, object, abstract
+    -> exm:proto(*)
+*-> dict         - dictionary
+    -> exm:dict:key
+*-> alm          - this architecture language for LLM model name VibeDSL
+    -> exm:alm:VibeDSL
+*-> if           - if
+    -> exm:if(a==b)-&gt;ret
+*-> elif         - else if
+    -> exm:elif(c==d)-&gt;ret
+*-> els          - else
+    -> exm:els:-&gt;ret
+*-> else         - else
+    -> exm:els:-&gt;ret
+*-> prs          - present, belong, instanceof, sintax val1:prs(val2)->ret{} , returned Y or N, can be used inside the block if
+    -> exm:val1:prs(val2)-&gt;ret{}
+*-> !            - reverse logic, example if (!a==a)->ret is NO, not condition
+    -> exm:if (!a==a)->ret
+*-> rev          - reverse logic, example if (!a==a)->ret is NO, not condition
+    -> exm:rev:-&gt;code
+*-> pat          - pattern
+    -> exm:pat:"observer"
+*-> patn         - pattern
+    -> exm:patn:"observer"
+*-> vfo          - verified only, verified data
+    -> exm:vfo:data
+*-> unk          - unknown
+    -> exm:unk:type
+*-> onlv         - only, verifiication action
+    -> exm:onlv:check
+*-> scan         - scaning, examination
+    -> exm:scan:-&gt;file
+*-> par          - property, parametr
+    -> exm:par:name="pic"
+*-> ainc         - autoincrement
+    -> exm:ainc:auto
+*-> con          - console, or text visual output
+    -> exm:con:out:txt="hi"
+*-> tok          - LLM tokens
+    -> exm:tok:500
+*-> tik          - time elapse, example [llm:con:out:txt="hi im here" tic(1m)], print message to user "im here" after 1m
+    -> exm:tic(1m)
+*-> dsl          - VibeDSL
+    -> exm:dsl:spc
+*-> def          - default
+    -> exm:def:true
+*-> pctx         - process, context,isolate thread
+    -> exm:pctx:thread
+*-> new          - instruction of creation object
+    -> exm:new:obj
+*-> lst          - list/array/collection
+    -> exm:lst:[v1,v2]
+*-> fmt          - format/formatter
+    -> exm:fmt:table
+*-> svc          - service (micro/mono)
+    -> exm:svc:micro
+*-> chk          - check/validation
+    -> exm:chk:valid
+*-> dn           - dependency
+    -> exm:dn:-&gt;mod
+*-> dpd          - deprecated
+    -> exm:dpd:old
+*-> cfg          - config/settings file
+    -> exm:cfg:settings
+*-> afi          - api/interface (kontrakt point)
+    -> exm:afi:-&gt;mod
+*-> ept          - endpoint (entry point)
+    -> exm:ept:"/api/v1"
+*-> db           - database
+    -> exm:db:sql
+*-> try          - try block marker
+    -> exm:try:-&gt;logic
+*-> cch          - catch block marker
+    -> exm:cch:err
+*-> fin          - finally block marker
+    -> exm:fin:close
+*-> ref          - reference (variable/object)
+    -> exm:ref:var
+*-> evt          - event/callback
+    -> exm:evt:notify
+*-> call         - entry / function call
+    -> exm:call:fn()
+*-> rag          - Retrieval Augmented Generation
+    -> exm:rag:retrieve
+*-> srch         - search
+    -> exm:srch:query
+*-> singl        - single, standalone
+    -> exm:singl:true
+*-> inst         - instruction
+    -> exm:inst(obj~obj)
+*-> ins          - insert
+    -> exm:ins:row
+*-> |            - logical or
+    -> exm:a==b | a==c
+*-> ||           - logical and
+    -> exm:a==b || c==d
+*-> put          - put
+    -> exm:put:value
+*-> cmd          - command
+    -> exm:cmd:run
+*-> proc         - procedure
+    -> exm:proc:workflow
+*-> is           - instanceof
+    -> exm:obj is type
+*-> show         - show object in console
+    -> exm:show:x
+*-> ~            - expression example ==,<>,<=,>=,is
+    -> exm:exam(obj~obj)
+*-> ex           - extended
+    -> exm:ex:key
+*-> exam         - examination, must be expression of start next node and retry, example exam(obj~obj):retri(5) check the object 5 times or proceed to the next instruction upon a positive result
+    -> exm:exam(obj~obj):retry(5)
+*-> sem          - semantiСЃ
+    -> exm:sem:syntax
+*-> ext          - extension
+    -> exm:ext:ext
+*-> vld          - valid
+    -> exm:vld:ok
+*-> exs          - exist
+    -> exm:exs:file
+*-> end          - end
+    -> exm:end:block
+*-> with         - An operator indicating the simultaneous execution of two logical actions on a single object; syntax: with(*) example: `with(strk)->add(ref lang=usr:lng)`  (add a new parallel logic action; add a description to the text lines in the user's language).
+    -> exm:with(strk)-&gt;add
+*-> orig         - original
+    -> exm:src=orig
+*-> src          - source
+    -> exm:src:file
+*-> !:           - expression of operation or logic not complete/valid
+    -> exm:x!:-&gt;halt
+*-> <>           - multiple way logic operator; forks the logic into N parallel ways with their own results
+    -> exm:a?<>:
+       -> b
+       -> c
+*-> -Z>          - Z vector: the language is a two-dimensional diagram in text form (nodes, arrows, indentation = two axes; a whiteboard like Miro); the third axis (Z) holds logic states - industrial cases need three-dimensional states, and `-Z>` lifts such an object off the 2D graph without breaking it (it stays a tagged node instead of the graph branching into 3D); optional convenience flag, usually written after the colon `:-Z>`, example crt model:-Z> type=human; may also prefix the declaration -Z> [a,b,c]:[d,e,f]:[x,y,z]:; never changes semantics; the dimensions are logical (states), NOT spatial 3D / 3D modeling / coordinates; `:` between vectors is the selection operator (one element resolved); `<>:` opens several logic paths dependent on the selection (explicit conditions required); without conditions it works as plain `:`
+    -> exm:crt model:-Z> type=human
+*-> \            - ordinary mathematical division operator
+    -> exm:val b=y \ e
+*-> /            - logic subtraction operator: exclusion/filtering when applied inside brackets or quotes, example crt/show - create without showing
+    -> exm:crt/show
+*-> :            - it's semantic has with virtual/abstract qualifier, logical exist with Y/N, return Y/true if property exist or expression is valid, return N/false example lang:c++: wrt; null safe WITH ask - on N the logic halts and ASKS the human (see `ask`: when the check does not converge, the AI must ask, never guess)
+    -> exm:lang:c++:
+*-> rollb        - revert, return previos state, rollback
+    -> exm:rollb:state
+*-> =            - assignment
+    -> exm:x=5
+*-> ==           - equality
+    -> exm:a==b-&gt;run
+*-> strk         - stroke, line of text
+    -> exm:strk:line
+*-> prnt         - print
+    -> exm:prnt:"text"
+*-> retry        - retry
+    -> exm:retry(5)
+*-> goal         - positive end of scrip or operation,or else action
+    -> exm:goal:end
+*-> fail         - negative or failed script, operation, or else action
+    -> exm:fail:err
+*-> ?            - potentialy two or more way logic
+    -> exm:exam?-&gt;varn
+*-> varn         - variants
+    -> exm:varn(max5)
+*-> <-()         - nesting backward operator
+    -> exm:out&lt;-()in
+*-> ()->         - nesting forvard operator
+    -> exm:node()-&gt;inner
+*-> :?           - comaprator with condition example: fun crt file name="out.xml" <| file name="project.exe" :? data:type=dcm; extract all DOM elements in project.exe to out.xml
+    -> exm:<| file :? data:type=dcm
+*-> |>           - mix
+    -> exm:struct|&gt;json
+*-> <|           - extract, example: fun crt file name="out.xml" <| file name="project.exe" :? data:type=dcm ; extract all DOM elements in project.exe to out.xml
+    -> exm:out.xml &lt;| project.exe
+*-> promt        - user/human prompt
+    -> exm:promt:run()
+*-> think        - model think  your raw reasoning is needed for tracing.
+    -> exm:think:-&gt;show
+*-> get          - to obtain, take, use; to specify what to use as a basis and where to source data; denotes an explicit logical data source
+    -> exm:get:data:src
+*-> * 	       - any,all possible
+    -> exm:get:dict(*)->show
+*-> agent      - Announcement regarding the use of an AI agent
+    -> exm:agent("coder") 
+end language dictionary

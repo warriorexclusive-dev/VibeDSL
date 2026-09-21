@@ -1,0 +1,31 @@
+<?php
+declare(strict_types=1);
+mb_internal_encoding('UTF-8');
+
+function vibedslPage(string $body, string $title): string
+{
+    return '<!DOCTYPE html><html lang="en"><head><meta charset="utf-8">'
+         . '<style>body{font-size:14pt;color:#fff;background:#2f2f2f;font-family:"Consolas","Courier New",monospace;padding:16px;}</style>'
+         . '<title>' . $title . '</title></head><body>'
+         . $body . '</body></html>';
+}
+
+function vibedslToHtml(string $text, string $title): string
+{
+    $text = htmlspecialchars($text, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
+    $text = str_replace("\t", '&nbsp;&nbsp;&nbsp;&nbsp;', $text);
+    $text = preg_replace_callback('/^ +/m', fn($m) => str_replace(' ', '&nbsp;', $m[0]), $text);
+    $text = str_replace(["\x0D\x0A", "\r", "\n"], '<br>', $text);
+    return vibedslPage($text, $title);
+}
+
+function vibedslSources(string $base): array
+{
+    return [
+        'dictionary' => $base . '/DATA/dictionary.txt',
+        'syntax'     => $base . '/DATA/syntax.txt',
+        'blueprints' => $base . '/DATA/blueprints.txt',
+        'protos'     => $base . '/DATA/protos.txt',
+        'agents'     => $base . '/DATA/agents.txt',
+    ];
+}

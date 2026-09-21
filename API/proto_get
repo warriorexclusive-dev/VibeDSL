@@ -1,0 +1,43 @@
+<?php
+declare(strict_types=1);
+mb_internal_encoding('UTF-8');
+
+/**
+ * VibeDSL API - proto get
+ * GET ?id=<proto-id>
+ * logc=get | scope=protos only, exact match by id="" (abstract prototypes)
+ * ret html: full proto object for the id, 404 if absent
+ */
+
+$base = dirname(__DIR__);
+require $base . '/API/lib';
+$sources = vibedslSources($base);
+$file = $sources['protos'] ?? null;
+
+$id = trim((string)($_GET['id'] ?? ''));
+
+header('Content-Type: text/html; charset=utf-8');
+
+if ($file === null || !is_file($file)) {
+    http_response_code(404);
+    echo vibedslPage('[404] proto source missing', 'VibeDSL proto get');
+    exit;
+}
+
+if ($id === '') {
+    echo vibedslPage('rsn: id required GET ?id=<proto-id>', 'VibeDSL proto get');
+    exit;
+}
+
+$text = (string)file_get_contents($file);
+$objects = preg_split('/(?m)(?=^[ \t]*\*->)/', $text);
+
+foreach ($objects as $obj) {
+    if (preg_match('/id="([^"]*)"/', $obj, $m) && $m[1] === $id) {
+        echo vibedslToHtml(rtrim($obj), 'VibeDSL proto get: ' . $id);
+        exit;
+    }
+}
+
+http_response_code(404);
+echo vibedslPage(sprintf('[404] no proto with id="%s"', $id), 'VibeDSL proto get');
