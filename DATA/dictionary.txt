@@ -242,8 +242,10 @@ start language dictionary
     -> exm:usr:lang="RU:ru"
 *-> wrt          - write
     -> exm:wrt:goal
-*-> null         - absent, not specified
-    -> exm:null:none
+*-> null         - exact empty value (not a logical operator): explicit void, "nothing here"; synonyms: null,void. Unlike none (pure logical absence) null is a concrete value that can be compared. Compare with the logical operator none, which states absence without halting logic
+    -> exm:fun name="getarc" if(lng:arc==null)<>:
+         -> null
+         -> arc
 *-> all          - all, more, everething
     -> exm:all:entries
 *-> env          - environment or other variables
@@ -681,4 +683,8 @@ start language dictionary
     -> exm:on enter->btn name="ok"
 *-> view         - concrete view frame: a definite rendered frame/screen instance (not vis - vis is the visual element/type abstraction)
     -> exm:view name="main" src="layout.xml"
+*-> creative      - executor freedom scale for the task (0-100): 0 = follow blueprint/spec straight, no improvisation; 50 = own solutions within the structure (names, layout, implementations); 100 = full freedom limited only by syntax and logic. Whole scale: `creative=N` with N from 0 to 100; 0 (default, if absent) = strict, straight from blueprint/spec; ~50 = own decisions inside the allowed structure; 100 = total freedom, only syntax + logic constrain. Applies ONLY to implementation freedom - never to grammar/dictionary or the given input data
+    -> exm:crt site lang=php vis:lang="javascript" logc={Магазин электротоваров, склад 5 человек} creative=80
+*-> none          - explicit absence of a value, logical operator: "here is nothing". Covers logical operators like :, req, -> with a way to state that a parameter is either not required or absent depending on reading context. Unlike !: it does NOT halt the logic - execution continues past an absent/not-required value
+    -> exm:proto req(name) id="name" name-> blueprint id=name name=none
 end language dictionary

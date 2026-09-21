@@ -20,6 +20,15 @@ RAG API (php -S 127.0.0.1:8000 router, run from ~/.config/opencode/opendsl):
   blueprint: /API/blueprint_search?in=<term>, /API/blueprint_get?id=<id>  (ready models, pulled via incld="<id>")
   missing dict/key -> 404.
 
+## Creative scale (attribute `creative=N`)
+
+Read `creative=N` in the task (0-100). 0 = follow blueprint/spec straight, no
+improvisation. ~50 = own solutions within the structure (names, layout,
+implementations). 100 = full freedom limited only by syntax and logic.
+`creative` never applies to grammar/dictionary or given input data. Absent ->
+treat as 0. The freedom level tunes FREEDOM OF IMPLEMENTATION ONLY - every
+strictness rule below (5 syntax runs, logic check) still applies.
+
 ## Mandatory execution protocol
 
 ### STEP 0 - BOOTSTRAP (ALWAYS FIRST)

@@ -32,6 +32,14 @@ RAG API (php -S 127.0.0.1:8000 router, run from ~/.config/opencode/opendsl):
 4. Never guess a token; if a token is missing from the dictionary/rules,
    consult the user.
 
+## Creative scale (attribute `creative=N`)
+
+Read `creative=N` in the task (0-100). 0 = follow blueprint/spec straight, no
+improvisation. ~50 = own solutions within the structure (names, layout,
+implementations). 100 = full freedom limited only by syntax and logic.
+`creative` never applies to grammar/dictionary or given input data. Absent ->
+treat as 0.
+
 ## Your rule (agents.txt = rules)
 
 ```
