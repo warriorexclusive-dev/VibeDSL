@@ -447,8 +447,9 @@ start language dictionary
     -> exm:fin:close
 *-> ref          - reference (variable/object)
     -> exm:ref:var
-*-> evt          - event/callback
+*-> evt,event    - event/callback, lifecycle marker
     -> exm:evt:notify
+    -> exm:event type="onCreate" -> load view name="main"
 *-> call         - entry / function call
     -> exm:call:fn()
 *-> rag          - Retrieval Augmented Generation
@@ -678,4 +679,6 @@ start language dictionary
     -> exm:on scrtap:x=10,y=20
 *-> enter        - user input: enter key, confirm/select
     -> exm:on enter->btn name="ok"
+*-> view         - concrete view frame: a definite rendered frame/screen instance (not vis - vis is the visual element/type abstraction)
+    -> exm:view name="main" src="layout.xml"
 end language dictionary

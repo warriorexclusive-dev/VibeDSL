@@ -137,6 +137,7 @@ Navigation: `nav bct tab link`
 Input controls: `inp btn sel tgl slr pic srch`
 Display & feedback: `crd lst icn avt bdg dvr prg skn tip msg dlg sht thm`
 User input events: `kdown kpress kup mosup mosdown scrtap enter`
+Entities: `view` (concrete frame/screen, distinct from `vis` - visual element/type), `evt,event` (lifecycle/callback marker alias)
 
 ```vibedsl
 prj name="settings" thm="m3":

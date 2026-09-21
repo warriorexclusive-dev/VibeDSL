@@ -103,6 +103,7 @@ CODE);
     <li>Input controls: <code>inp btn sel tgl slr pic srch</code></li>
     <li>Display &amp; feedback: <code>crd lst icn avt bdg dvr prg skn tip msg dlg sht thm</code></li>
     <li>User input events: <code>kdown kpress kup mosup mosdown scrtap enter</code></li>
+    <li>Entities: <code>view</code> (concrete frame/screen - not <code>vis</code>, that is the visual element/type abstraction), <code>evt,event</code> (lifecycle/callback marker alias, e.g. <code>event type="onCreate" -&gt; load view</code>)</li>
   </ul>
 <pre><code>prj name="settings" thm="m3":
    -> pag name="main":

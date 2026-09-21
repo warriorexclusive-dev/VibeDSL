@@ -89,6 +89,7 @@ over precise (precision closes via `styp`/`{}`).
 - Input controls: `inp btn sel tgl slr pic srch`
 - Display & feedback: `crd lst icn avt bdg dvr prg skn tip msg dlg sht thm`
 - User input events: `kdown kpress kup mosup mosdown scrtap enter`
+- Entities: `view` (concrete frame/screen - not `vis`, that is the visual element/type abstraction), `evt,event` (lifecycle/callback marker alias, e.g. `event type="onCreate" -> load view`)
 
 Sketch:
 
