@@ -63,10 +63,9 @@ start language dictionary
     -> exm:max:255
 *-> run          - execute, run, sequence, request
     -> exm:run:-&gt;exec
-*-> lag          - delay or period
-    -> exm:lag:2s
 *-> delay        - delay or period
     -> exm:delay:500
+    -> exm:delay:2s
 *-> chr          - chars
     -> exm:chr:128
 *-> alw          - allow, allowed,
@@ -555,4 +554,50 @@ start language dictionary
     -> exm:get:dict(*)->show
 *-> agent      - Announcement regarding the use of an AI agent
     -> exm:agent("coder") 
+*-> lan          - local area network, internal trusted segment
+    -> exm:lan:node->acc:rw
+*-> dmz          - demilitarized zone, isolated segment for internet-facing servers, buffer between WAN and LAN
+    -> exm:dmz:web<-fw<-wan
+*-> vpn          - virtual private network, encrypted tunnel over public network between sites or remote workers
+    -> exm:vpn:tun->lan
+*-> san          - storage area network, dedicated network for fast data access
+    -> exm:san:io=ssd
+*-> wlan         - wireless lan, wifi segment
+    -> exm:wlan:net=wifi
+*-> subint       - subinterface, virtual sub-interface for VLAN, e.g. eth0.10
+    -> exm:subint:eth0.10
+*-> lo           - loopback, local interface inside the OS itself
+    -> exm:lo:127.0.0.1
+*-> lbh          - localhost
+    -> exm:lbh:port=8000
+*-> tun          - tunnel interface, network (IP) layer virtual interface for VPN
+    -> exm:tun:ip=10.8.0.1
+*-> tap          - tunnel interface, link (Ethernet) layer virtual interface for VPN
+    -> exm:tap:eth
+*-> lag          - link aggregation group, grouped physical ports into one logical channel
+    -> exm:lag:lacp(2)
+*-> lacp         - link aggregation control protocol, negotiates LAG bundling
+    -> exm:lacp:lag
+*-> fw           - firewall, main filtering node
+    -> exm:fw:rule="lan->web"
+*-> gw           - gateway, default exit point from one segment to another
+    -> exm:gw:out=wan
+*-> nat          - network address translation, local network hides behind one WAN IP
+    -> exm:nat:lan->wan
+*-> lb           - load balancer, distributes requests between servers/gpus
+    -> exm:lb:pool=[a,b,c]
+*-> vip          - virtual ip, switches on the fly between servers on failure
+    -> exm:vip:10.0.0.100->srv
+*-> vxlan        - virtual extensible lan, encapsulation protocol for overlay networks over physical (DC standard)
+    -> exm:vxlan:vni=100
+*-> vpc          - virtual private cloud, isolated virtual network in cloud or local virtualization cluster
+    -> exm:vpc:subnet="10.0.0.0/16"
+*-> sdn          - software-defined networking, control logic separated from data transfer
+    -> exm:sdn:ctl->data
+*-> vlan         - virtual lan
+    -> exm:vlan:id=10
+*-> eth          - ethernet, link-layer network interface
+    -> exm:eth:link=1g
+*-> wan          - wide area network, internet/external segment
+    -> exm:wan:net=isp
 end language dictionary
