@@ -69,4 +69,8 @@ start base syntax
     -> exm:diff=a-b
 *-> %            - modulo operator (math), remainder of division
     -> exm:rem=a%b
+*-> <=           - reference to an external contour beyond the root boundary: links the current node to an object outside the root scope (e.g. a VLAN leaving to the internet)
+    -> exm:<= vlan1 -> wan
+*-> =>           - explicit return: hands a value/parameter into the target marked with id="<id>" inside a spec or blueprint
+    -> exm:func type static par a a+12 ret a => id=12
 end base syntax
