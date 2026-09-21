@@ -77,6 +77,32 @@ root:node == a<>:             : two-way logic, Y/N scope
 Indentation itself is also a vector - **horizontal**: each nesting level chains its
 child objects into an ordered hierarchy.
 
+## UI layer (Material Design 3)
+
+The visual/frontend zone is described with Material Design 3 vocabulary — in trend,
+and a clear textbook. Tokens are short (3-4 chars) to fit small models, abstract
+over precise (precision closes via `styp`/`{}`).
+
+- Composition: `row col grd frm grp ovl pag sec hscroll vscroll spr`
+- Recycler (first-class, not composed from abstracts): `rcl`
+- Navigation: `nav bct tab link`
+- Input controls: `inp btn sel tgl slr pic srch`
+- Display & feedback: `crd lst icn avt bdg dvr prg skn tip msg dlg sht thm`
+- User input events: `kdown kpress kup mosup mosdown scrtap enter`
+
+Sketch:
+
+```vibedsl
+prj name="settings" thm="m3":
+   -> pag name="main":
+      -> col: -> sec name="profile" | -> frm name="list_card":
+         -> inp name="login" styp:text
+         -> sel name="theme" styp:switch
+         -> btn name="save" act:apr
+   -> rcl src="msg:list" item="row"
+   -> ovl: -> dlg name="confirm" | -> msg name="saved" styp:snackbar
+```
+
 ## Z vector (`-Z>`)
 
 Industrial requests need three-dimensional states, and `-Z>` lifts such an object off

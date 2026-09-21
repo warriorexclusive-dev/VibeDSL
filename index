@@ -92,6 +92,29 @@ root:node == a<>:             : two-way logic, Y/N scope
 CODE);
 ?></pre>
 
+  <h2>UI layer (Material Design 3)</h2>
+  <p>Visual/frontend zone uses Material Design 3 vocabulary - in trend, and a
+     clear textbook. Tokens are short (3-4 chars) for small models, abstract
+     over precise (precision closes via <code>styp</code>/<code>{}</code>).</p>
+  <ul>
+    <li>Composition: <code>row col grd frm grp ovl pag sec hscroll vscroll spr</code></li>
+    <li>Recycler (first-class, not composed from abstracts): <code>rcl</code></li>
+    <li>Navigation: <code>nav bct tab link</code></li>
+    <li>Input controls: <code>inp btn sel tgl slr pic srch</code></li>
+    <li>Display &amp; feedback: <code>crd lst icn avt bdg dvr prg skn tip msg dlg sht thm</code></li>
+    <li>User input events: <code>kdown kpress kup mosup mosdown scrtap enter</code></li>
+  </ul>
+<pre><code>prj name="settings" thm="m3":
+   -> pag name="main":
+      -> col: -> sec name="profile" | -> frm name="list_card":
+         -> inp name="login" styp:text
+         -> sel name="theme" styp:switch
+         -> btn name="save" act:apr
+   -> rcl src="msg:list" item="row"
+   -> ovl: -> dlg name="confirm" | -> msg name="saved" styp:snackbar
+CODE);
+?></pre>
+
   <h2>Z vector (-Z>)</h2>
   <p>The language is a two-dimensional diagram in text - nodes, arrows and
      indentation form two axes, a whiteboard like Miro. The third axis (Z) is

@@ -607,4 +607,75 @@ start language dictionary
     -> exm:show(cxt)
 *-> use          - use, apply/engage an object or prototype
     -> exm:use(VibeDSL:proto[if,goal,fail])
+*-> row          - composition: linear horizontal axis of children
+    -> exm:pan->row: btn name="ok"
+*-> col          - composition: linear vertical axis of children
+    -> exm:col: inp name="login" | btn name="save"
+*-> grd          - composition: grid, two-axis placement (columns/areas)
+    -> exm:grd:cols=3: card name="c1"
+*-> frm          - composition: frame, bordered/inset container or viewport crop
+    -> exm:frm:image name="pic1"
+*-> grp          - composition: logical cluster of elements, one unit of state
+    -> exm:grp name="form": inp | sel
+*-> ovl          - composition: overlay, layer stacked above the base surface
+    -> exm:ovl: dlg name="confirm"
+*-> pag          - composition: page, screen/route boundary
+    -> exm:pag name="main"
+*-> sec          - composition: section, block within a page
+    -> exm:sec name="profile"
+*-> hscroll      - horizontal scroll container, base scroll
+    -> exm:hscroll: row: card name="c1"
+*-> vscroll      - vertical scroll container, base scroll
+    -> exm:vscroll: lst name="items"
+*-> spr          - composition: spacer, flexible empty space
+    -> exm:row: spr | btn
+*-> nav          - navigation rail/bar/drawer/tab-row, concrete via styp
+    -> exm:nav styp:rail: link prj:skl
+*-> bct          - breadcrumb, trail of parent contexts
+    -> exm:bct: root:sec:item
+*-> inp          - input field (text/number/multiline via styp)
+    -> exm:inp name="login" styp:text
+*-> btn          - button action (plain/fab/icon via styp)
+    -> exm:btn name="save" act:apr
+*-> tgl          - binary toggle control
+    -> exm:tgl name="dark_mode" def:dwn
+*-> slr          - slider, continuous value input
+    -> exm:slr name="volume" def 0..100
+*-> crd          - card/surface container
+    -> exm:crd name="user" thm="elevated"
+*-> icn          - icon, pictographic marker
+    -> exm:icn name="gear"
+*-> avt          - avatar, identity surface (person/entity)
+    -> exm:avt src="photo.png"
+*-> bdg          - badge, counters/status dot
+    -> exm:bdg cnt=5
+*-> dvr          - divider, separator line
+    -> exm:dvr title="section"
+*-> prg          - progress, busy/loading indicator (linear/circular via styp)
+    -> exm:prg 45
+*-> skn          - skeleton/shimmer placeholder
+    -> exm:skn name="loading_card"
+*-> tip          - tooltip, hover help
+    -> exm:tip txt="click to save"
+*-> dlg          - dialog, modal/alert
+    -> exm:dlg name="confirm"
+*-> sht          - sheet, bottom/side panel
+    -> exm:sht name="filters"
+*-> rcl          - recycler: first-class virtualized list component, not composed from abstracts; manages its own adapter/view-holder pool, view reuse and lazy data binding via src
+    -> exm:rcl src="items" item="row"
+    -> exm:rcl src="file:list" bind:name/line
+*-> kdown        - user input: key pressed down event
+    -> exm:on kdown:key="A"->kpress
+*-> kpress       - user input: key press (down+up) event
+    -> exm:on kpress:key="Enter"->run
+*-> kup          - user input: key released up event
+    -> exm:on kup:key="Shift"
+*-> mosup        - user input: mouse button up event
+    -> exm:on mosup:btn="left"->tgl
+*-> mosdown      - user input: mouse button down event
+    -> exm:on mosdown:btn="right"->dlg
+*-> scrtap       - user input: screen tap event
+    -> exm:on scrtap:x=10,y=20
+*-> enter        - user input: enter key, confirm/select
+    -> exm:on enter->btn name="ok"
 end language dictionary
