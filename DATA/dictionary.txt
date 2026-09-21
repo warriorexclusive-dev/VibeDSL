@@ -372,8 +372,9 @@ start language dictionary
     -> exm:tkn:auth
 *-> uid          - unique id like UUID or unique key autoincrement if SQL
     -> exm:uid:auto
-*-> *            - any data, object, abstract
-    -> exm:proto(*)
+*-> any          - any operator of anything: objects, logic, etc. - the object for everything
+    -> exm:proto(any)
+    -> exm:get:dict(any)->show
 *-> dict         - dictionary
     -> exm:dict:key
 *-> alm          - this architecture language for LLM model name VibeDSL
@@ -494,7 +495,7 @@ start language dictionary
     -> exm:exs:file
 *-> end          - end
     -> exm:end:block
-*-> with         - An operator indicating the simultaneous execution of two logical actions on a single object; syntax: with(*) example: `with(strk)->add(ref lang=usr:lng)`  (add a new parallel logic action; add a description to the text lines in the user's language).
+*-> with         - An operator indicating the simultaneous execution of two logical actions on a single object; syntax: with(any) example: `with(strk)->add(ref lang=usr:lng)`  (add a new parallel logic action; add a description to the text lines in the user's language).
     -> exm:with(strk)-&gt;add
 *-> orig         - original
     -> exm:src=orig
@@ -550,8 +551,6 @@ start language dictionary
     -> exm:think:-&gt;show
 *-> get          - to obtain, take, use; to specify what to use as a basis and where to source data; denotes an explicit logical data source
     -> exm:get:data:src
-*-> * 	       - any,all possible
-    -> exm:get:dict(*)->show
 *-> agent      - Announcement regarding the use of an AI agent
     -> exm:agent("coder") 
 *-> lan          - local area network, internal trusted segment

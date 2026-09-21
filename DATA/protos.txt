@@ -1,8 +1,8 @@
-*-> proto(*) id="any" desc="generic node template: lang, type and name are required" act=[crt,exam] type=rule:
-   -> lang: * requ
-      type: * requ
+*-> proto(any) id="any" desc="generic node template: lang, type and name are required" act=[crt,exam] type=rule:
+   -> lang: any requ
+      type: any requ
       type==[dcm,file]:
-      -> name: * requ
+      -> name: any requ
 
 *-> proto(if) id="if" desc="if gate: single-instruction condition on singl, else object-object expression" act=[crt,exam]
    if(inst is singl): 

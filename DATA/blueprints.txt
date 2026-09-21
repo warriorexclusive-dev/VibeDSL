@@ -1,8 +1,8 @@
 *-> blpr id="any" desc="ready generic node blueprint: lang, type and name are required" act=[crt,exam]:
-   -> lang: * requ
-      type: * requ
+   -> lang: any requ
+      type: any requ
       type==[dcm,file]:
-      -> name: * requ
+      -> name: any requ
 
 *-> blpr id="if" desc="ready if gate blueprint: single-instruction condition, else object~object expression" act=[crt,exam]
    if(inst is singl):

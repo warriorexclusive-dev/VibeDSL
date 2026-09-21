@@ -61,4 +61,12 @@ start base syntax
           in:   picture->
           cnv:  byte[]->
           out:  http request {generate http tomcat request class}
+*-> *            - multiplication operator (math)
+    -> exm:[cof]=80*2
+*-> +            - addition operator (math)
+    -> exm:total=a+b
+*-> -            - subtraction operator (math)
+    -> exm:diff=a-b
+*-> %            - modulo operator (math), remainder of division
+    -> exm:rem=a%b
 end base syntax
