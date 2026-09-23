@@ -5,7 +5,7 @@ start base syntax
     -> exm:[file:text]<-[lng:eng]
 *-> <->          - two-way strict link, public function or interface
     -> exm:[uroot con:lng]<->[usr:seq]
-*-> <>: 	 - variant logic (WARNING: `<>` is multi-way branching, NOT "not equal"; use `!=` for inequality)
+*-> <> 	 - logical branching operator to a set: forks the logic into N parallel ways; : is the true/false limiter and check; combined <>: = variant logic with a per-way Y/N check (WARNING: <> is NOT "not equal"; use != for inequality)
     -> exm:a==b<>:
 	-> a=c       "it's yes way"
 	-> b=a	     "it's no way"
@@ -19,15 +19,16 @@ start base syntax
     -> exm:struct|>json
 *-> :?           - comparator with condition applied during extraction
     -> exm::? data:type=dom
-*-> :            - logical operator and null-safe presence check; verifies the property exists and is executable step by step, halts the logic if absent and ASKS the human (null safe WITH ask, see `ask`); resolves by position (pointer, validator, parent context, payload separator)
-*-> -Z>          - Z vector: the language is a 2D diagram in text (nodes, arrows, indentation = two axes), like Miro; the third axis (Z) holds logic states - industrial cases demand three-dimensional states, and `-Z>` lifts the object off the 2D graph without breaking it (stays a tagged node instead of branching the graph into 3D); optional convenience flag, usually written after the colon `:-Z>`, example crt model:-Z> type=human; prefix form -Z> [a,b,c]:[d,e,f]:[x,y,z]: is also allowed; never changes semantics; the dimensions are logical (states), NOT spatial 3D / 3D modeling / coordinates; `:` between vectors selects one element; `<>:` branches into several paths by the selection and requires explicit conditions, without them works as plain `:`
+*-> :            - logical operator and null-safe presence check; verifies the property exists and is executable step by step, halts the logic if absent and ASKS the human (null safe WITH ask, see ask); resolves by position (pointer, validator, parent context, payload separator)
+*-> -[]>          - multi vector: raises an object into N parallel logical dimensions (states); -[N]> where N = number of dimensions; marks a CRITICAL branching node of logic - not a plain yes/no, the choice splits into N state paths and needs attention when reading; usually written after the colon :-[N]>, prefix form -[N]> [a,b,c]:[d,e,f]: is also allowed; the dimensions are logical (states), NOT spatial 3D / 3D modeling / coordinates
+    -> exm: crt(model type=cube)<>:-[3]> [x,y,z]:size=20 as num:format(0.0)
 *-> /            - ordinary mathematical division operator (divide)
     -> exm:total / count
 *-> \            - logic filter operator: exclusion/filtering by condition inside brackets or quotes (example crt\show - create without showing)
-    -> exm:crt\show
+    -> exm:crt\show(file name="out.xml")
 *-> !:           - operation or logic not complete / invalid (NO|false)
     -> exm:x!:->halt
-*-> []           - block of logical objects or list of parameters; `...` only when the array length exceeds 10 elements
+*-> []           - block of logical objects or list of parameters; use triple dot only when the array length exceeds 10 elements
     -> exm:[node:root]->[env:code]="invoke delegate"
 *-> {}           - custom functional logic of an element, intentionally free-form, never rewritten into a rigid schema
     -> exm:out: http request {generate http tomcat request class}
@@ -36,20 +37,20 @@ start base syntax
 *-> =            - assignment
     -> exm:[env:code]="invoke delegate"
 *-> ==           - equality, if-then gate, can sequence
-    -> exm:if(a==b)->ret
+    -> exm:if(a==b)->ret()
 *-> |            - logical or
     -> exm:a==b | c==d
 *-> ||           - logical and
     -> exm:a==b || c==d
 *-> !            - reverse logic, not condition
-    -> exm:if (!a==a)->ret
-*-> part         - `part N:` isolates a partition of logic (separator to a context window) - tasks not connected to one another
+    -> exm:if (!a==a)->ret()
+*-> part         - part N: isolates a partition of logic (separator to a context window) - tasks not connected to one another
     -> exm:part 1: module name="kernel.dll" | part 2: module name="user.dll"
-*-> stage        - `stage N:` partitions logic where the previous stage serves as a reference for the next one
+*-> stage        - stage N: partitions logic where the previous stage serves as a reference for the next one
     -> exm:stage 2: <- part 1 logic DSL schema as reference
-*-> fun          - function declaration: name and parameters, then the arrow to the target logic
-    -> exm:fun name="load" par="name=pic" in:picture-> out:http
-*-> indent       - nesting is set by indentation (Python/YAML style); parent is the object with `:` at the end of the line, children begin with an arrow marker; equal indent = siblings, deeper indent = child
+*-> evt,event    - event entity: event/callback, lifecycle marker; fires on occurrence - not a pure action and not mapping; logical event base action, originates from the external environment - usable both as an action and as a mapping
+    -> exm:event:onCreate -> load(view name="main")
+*-> indent       - nesting is set by indentation (Python/YAML style); parent is the object with : at the end of the line, children begin with an arrow marker; equal indent = siblings, deeper indent = child
     -> exm:prj name="picture_lib":
    -> type=lib
       node=root
@@ -71,9 +72,9 @@ start base syntax
 *-> %            - modulo operator (math), remainder of division
     -> exm:rem=a%b
 *-> <=           - comparison: less than or equal, numeric/logical value check
-    -> exm:val1<=val2->ret
+    -> exm:val1<=val2->ret()
 *-> >=           - comparison: greater than or equal, numeric/logical value check
-    -> exm:val1>=val2->ret
+    -> exm:val1>=val2->ret()
 *-> !=           - comparison: not equal, inverse of ==; halts or gates when values differ
     -> exm:if(a!=b)->halt
 *-> +=           - add to the object: for numbers - numeric addition, for logic/collections - union/merge added to the object. Depends on the object being written (OOP-like behavior)
@@ -85,5 +86,38 @@ start base syntax
 *-> <(src)-        - link to an external source beyond the spec/understanding: one-way departure from the current contour into an external source (outside the spec, in parentheses), accepted as a given that it left and may not return. Distinct from <- (prev node) - this is a reference marker, not graph navigation, the source name sits in brackets
     -> exm:pc->router<(world wide web)-
 *-> -(id)>         - link to an internal object: reference to a logical object inside the current spec (not graph navigation to the next node), target identified inside the brackets by id="<id>"
-    -> exm:func type static par a a+12 ret a -(id=12)>
+    -> exm:func type="static" par name="a" a+12 ret a -(id=12)>
+*-> show(:fmt)     - formatted output to user console: show(value:format("pattern")); 0 = digit placeholder, decimal point sets fractional digits, H = hex uppercase, % = percent, zero-pad to width
+    -> exm:show(255):format("02H")       -> FF
+    -> exm:show(5):format("02H")         -> 05
+    -> exm:show(3.14159):format("0.0")   -> 3.1
+    -> exm:show(0.5):format("0.0%")      -> 50.0%
+*-> flow            - behavior flow of any entity: processing strategy/sequence of an entity (queue, pipeline, etc.); queue and pipeline are handled through flow, not separate keywords
+    -> exm:controller: -> var a = list[num]:flow["queue", "pipeline"]
+*-> sort            - sorted mapping of any entity
+    -> exm:list[num]:sort:asc
+    -> exm:list[num]:sort:desc
+*-> abstract      - the declaration of a pure concept (idea) that defines the general properties and behavior for a group or single of future entity
+    -> exm: &-> abstract "etalon" -> act="group of entities of one kind" :
+            prj "site" etalon("www.other-site.com")
+            prj "service" etalon("BranchCache"):OS="Windows"
+    -> exm: &-> abstract "user" -> act="identify a person profile" :
+            usr user("alice"):type="registered"
+    -> exm: &-> abstract "site" -> act="link an object to a URL" :
+            prj site("www.other-site.com")
+*-> fun declaration - fun = declaration of intention (like abstract, proto, etc.); REQUIRED: space after fun, then the action/object; can continue on next line
+    -> exm:fun crt(file name="out.xml"):->save()
+    -> exm:fun crt(file
+            name="main.xml"):-> save()
+*-> action scope () - every action is called with parentheses () as its scope; the object/operator/function of the action sits inside the parens; nested operator calls allowed; multi-line allowed
+    -> exm:crt(file name="out.xml"):->save()
+    -> exm:mem-save(file name:"mem.dump")
+*-> name property - name/value properties continue after a space on the same line or on the next line; proper names are quoted
+    -> exm:name="out.xml"
+*-> flow model (fun/abstract) - function flow like a Java abstract: INPUT function first (takes the parameter/slot), then EXECUTABLE function (produces the result/flow/object); first = entry point, the rest = execution chain
+    -> exm:abstract name="openfile" -> open(file:prop) -> open(file name=prop)
+    -> exm:fun crt(file name="out.xml"):->save()
+*-> alias kws - user alias: alias [list] as NAME declares a name for a set of values; NAME then usable as a type/token
+    -> exm:alias [".mod",".modding",".md"] as file_mods
+    -> exm:openfile(file:file_mods)
 end base syntax

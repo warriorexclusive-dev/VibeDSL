@@ -25,7 +25,14 @@
 
 *-> blueprint id="retry" desc="ready retry blueprint: retries up to 5 times, asking the user when possible" type=rule scop=root
    for(var i=0;i<5;i=incr(1))<>:
-   -> retry
+   -> retry()
    -> show(llm->user req?)<>:
-      -> retry
+      -> retry()
+      -> fail
+
+*-> blueprint id="order_bp" desc="TEST blueprint: ready order pipeline, uses order_test proto" incld="order_test" act=[crt,exam,use] type="rule" scop="root":
+   -> use(order_test)
+   -> exam(order:total>=0)<>:
+      -> show(order total num format("usd"))
+      -> goal
       -> fail

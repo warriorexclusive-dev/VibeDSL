@@ -73,11 +73,24 @@
         targ:prj:name="http server"
         module:name:"load_controller":
         <-> fun name:load_image par:name="pic"
-            in:   picture->
-            cnv:  byte[]->
-            out:  http request {generate http tomcat request class}
+in:   picture->
+             cnv:  byte[]->
+             out:  http request {generate http tomcat request class}
 
-## 8. DICTIONARY        
+### 7.1 STRICT GRAMMAR (VALIDATOR)
+* enforced by `validator/validator.py`: `py validator\validator.py <file>` checks any VibeDSL block against the dictionary (sorted) categories + these rules
+* `fun` / `func` / `function` is a DECLARATION keyword: followed by a SPACE, then the name. `fun(do)` is an error; `fun name(...)` is the form.
+* EVERY ACTION declares scope `()`: `crt(...)`, `show(...)`, `ret(...)`. A bare action word = mapping key, NOT a call.
+* PROPER NAMES / bare values after `=` go into quotes: `name="out.xml"`, `lng="VibeDSL"`. Bare word after `=` = warning.
+* FLOW MODEL: `fun` = executable function; `abstract` = pure concept (idea) - defines properties/behavior for a group or single of future entity, cannot create an instance of itself. Flow = input function -> executable function (Java-abstract analogy).
+* ALIAS KWS: `alias [...] as NAME` (grammar word `as`).
+* USERDEFS register: `abstract name="X"` and `alias [...] as NAME`; abstract body = `[abstract body]`, not re-validated. `{}` = AI custom block; `/* */` and `//` = human comments (skipped).
+* `act="..."` declares a function - two canonical forms, written in VibeDSL:
+  - `abstract "open_file" -> act="open file by name"` - declares function `open_file`; call: `open_file("main.txt")`
+  - `file:act="grant access to user":name="access"` - declares entity function `file:access` (`:name="..."` binds the name to the same declaration); call: `file:access(context:user)`
+* SYNTAX REFERENCE: use the RAG base (DATA/dictionary.txt + DATA/syntax.txt) and `py validator\validator.py <file>`; add new rules in short English - save tokens.
+
+## 8. DICTIONARY
 * If you encounter a standard definition, do not attempt to write a custom version; instead, suggest that the user expand the dictionary. If you encounter a standard action, create a blueprint (ready architectural model) and record it in the rules.
 * start language dictionary
 * The dictionary is NOT stored inline. It is served by the local RAG API:
@@ -111,6 +124,8 @@
 * uslng       - user language (rus is the same as `usr:lang`)
 * return,ret   - return value
 * catch,cch    - catch block
+* err,error    - logic action of error (logic-stop trigger); alt form: fun event:err:-> ret:except:response
+* quote        - verbatim speech marker (mapping to base): "this was said", not for interpretation
 * break,brk    - break
 * func,function,fun - function
 * import,incld - include
@@ -132,17 +147,17 @@
 
 ## 10. BASE AGENT RULES 
 
-fun type=rule scop=root -> act == crt [logic,arc:ref,spec,plan] ->  lng = VibeDSL
+fun type="rule" scop="root" -> event:crt([logic,arc:ref,spec,plan]) -> lng="VibeDSL"
 
-fun type=rule scop=root -> act == answ user -> lng = usr:lang
+fun type="rule" scop="root" -> event:answ(user) -> lng=usr:lang
 
-fun type=rule scop=root -> act == crt [code, data, file]
-  -> crt spec lng=VibeDSL proto:
+fun type="rule" scop="root" -> event:crt([code, data, file])
+  -> crt(spec lng="VibeDSL" proto):
   -> exam(spec:syn==VibeDSL:dict:syn)<>:
      -> exam(spec:logic!=?)<>:
-        -> show spec lang=VibeDSL src=orig with(VibeDSL:prnt:strk:->add(ref lang=usr:lang)):
+        -> show(spec lang="VibeDSL" src="orig" with(VibeDSL:prnt:strk:->add(ref lang=usr:lang))):
            -> usr apr:
-              -> crt [code, data, file] lng = spec:lng:name:
+              -> crt([code, data, file] lng=spec:lng:name):
                  -> exam(file:syn==spec:lng:syn): 
                     -> exam(file:logic==spec:logic)<>:
                        -> wrt:goal
@@ -177,26 +192,26 @@ VibeDSL:
 -> proto(varn) id="varn5" type=rule scop=root
    show(varn:max(5)||req) ret=usr:sel:->
 
--> proto(retry) id="r5" type=rule scop=root
+-> proto(retry) id="r5" type="rule" scop="root"
       for(var i=0;i<5;i=incr(1))<>:
-      -> retry
+      -> retry()
       -> show(llm->user req?)<>:
-         -> retry
+         -> retry()
          -> fail
 
 
--> proto(?) type=rule scop=root act=[wrt,exam,crt]
+-> proto(?) type="rule" scop="root" act=[wrt,exam,crt]
    show(varn:max(3)||req) ret=usr:sel1:->
 
-fun type=rule scop=root -> use(VibeDSL:proto[if,goal,fail])
-fun type=rule scop=root ->
-   prompt:lng == VibeDSL:
+fun type="rule" scop="root" -> use(VibeDSL:proto[if,goal,fail])
+fun type="rule" scop="root" ->
+   prompt:lng == "VibeDSL":
       prompt:run()
 
-fun type=rule scop=root -> get think:->show{without conversion to user lang}
-fun type=rule scop=root -> usr:lang="RU:ru"   
+fun type="rule" scop="root" -> get(think:->show()){without conversion to user lang}
+fun type="rule" scop="root" -> usr:lang="RU:ru"   
 
 
 
 ## 11. INSIDE OPEN AI RULE 
-* Rule config file location "C:\Users\SoftIce\.config\opencode\AGENTS.md"
+* Rule config file location "~USER_DIR~\.config\opencode\AGENTS.md"

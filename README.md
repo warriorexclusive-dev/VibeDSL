@@ -26,7 +26,7 @@ parent:                       parent is the object with a colon at the end of th
 ->  <-  <->                   right strict link / inverse / two-way public interface
 ==  =                         equality (if-then gate) / assignment
 <=  >=  !=                    comparison: less-or-equal / greater-or-equal / not equal
-+=  -=                       add/subtract to the object (numbers or logic, OOP-like)
++=  -=                       // add/subtract to the object (numbers or logic, OOP-like)
 c++                           postfix increment by one (C-style)
 -(id)>                         link to an internal object of the spec (by id)
 <(src)-                        link to an external source beyond the spec: one-way departure, may not return
@@ -43,6 +43,8 @@ Core markers stay stable across the language:
 | indentation | horizontal vector: nesting / vertical hierarchy |
 | `:` | logical operator + null-safe presence check; **with ask** - if the object is absent it halts the logic and asks |
 | `<>:` | multi-way logic: several paths by selection; explicit conditions required, without them behaves as plain `:` |
+| `&->` | remember/author marker - memorizes the node as an etalon (used by `abstract`: `&-> abstract(act id=...)`) |
+| `quote` | verbatim speech marker (mapping to base) - "this was said", not for interpretation |
 | `=` `==` | assignment / equality (if-then gate) |
 | `->` `<-` `<->` | right strict link / inverse / two-way public interface |
 | `id=""` `desc=""` | object identity and description (used by `*_get` / `*_search`) |
@@ -104,34 +106,34 @@ prj name="settings" thm="m3":
    -> ovl: -> dlg name="confirm" | -> msg name="saved" styp:snackbar
 ```
 
-## Z vector (`-Z>`)
+## Multi vector (`-[]>`)
 
-Industrial requests need three-dimensional states, and `-Z>` lifts such an object off
-the 2D graph **without breaking it** - the object stays a tagged node instead of the
-graph branching into 3D. The dimensions are **logical (states)**, NOT spatial geometry.
-The flag is optional, usually written after the colon (`:-Z>`) as in
-`crt model:-Z> type=human`, and never changes semantics.
+`-[N]>` marks a **critical branching node of logic**: it lifts an object into N
+parallel state dimensions instead of a plain yes/no path. The choice is important -
+it splits into N state paths and deserves attention when you read the logic. The
+dimensions are **logical (states)**, NOT spatial geometry. Usually written after the
+colon (`:-[N]>`) as in `crt model:-[3]> type=human`.
 
 `:` between vectors selects one element and flows into one common logic; `<>:` opens
 several logic paths depending on the selection and requires explicit conditions.
 
 ```
-crt model:-Z> type=human      -Z> = lift this node into the 3rd state axis
+crt(model:-[3]> type="human")   // -[3]> = critical branching node: 3 state axes
 
--Z> [a,b,c]:[d,e,f]:[x,y,z]:  : selects one element -> one common logic
--Z> [a,b,c]:[d,e,f]:[x,y,z]<>: paths depend on the selection
+-[3]> [a,b,c]:[d,e,f]:[x,y,z]:  : selects one element -> one common logic
+-[3]> [a,b,c]:[d,e,f]:[x,y,z]<>: paths depend on the selection
      a,d,z -> val a = d = z
-     b,e,y -> val b = y / e   / = division
-     ->  show                 default: every selection except the two above
+     b,e,y -> val b = y / e   // / = division
+     ->  show()               // default: every selection except the two above
 ```
 
 `\` filters logic - exclusion/filtering by condition when used inside brackets or
 quotes; `/` is plain mathematical division:
 
 ```
-crt\show file name="out.xml"     create, but do not show (logic filter)
-list\users                       filter: everything except "users"
-val rate = 10 / 2                / = division
+crt\show(file name="out.xml")  // create, but do not show (logic filter)
+list\users                     // filter: everything except "users"
+val rate = 10 / 2              // / = division
 ```
 
 ## Prototypes, blueprints and scope
@@ -139,13 +141,13 @@ val rate = 10 / 2                / = division
 `scop` sets the scope of a rule or prototype - `scop=root` means global and always active.
 
 ```
-fun type=agent scop=root -> act == crt [code, data, file]
-   -> crt spec lng=VibeDSL proto:
+fun type="agent" scop="root" -> event:crt([code, data, file])
+   -> crt(spec lng="VibeDSL" proto):
    -> exam(spec:syn==VibeDSL:dict:syn)<>:
       -> exam(spec:logic!=?)<>:
-         -> show spec lang=VibeDSL src=orig with(VibeDSL:prnt:strk:->add(ref lang=usr:lang)):
+         -> show(spec lang="VibeDSL" src="orig" with(VibeDSL:prnt:strk:->add(ref lang="usr:lang"))):
             -> usr apr:
-               -> crt [code, data, file] lng = spec:lng:name:
+               -> crt([code, data, file] lng=spec:lng:name):
                   -> exam(file:syn==spec:lng:syn):
                      -> exam(file:logic==spec:logic)<>:
                         -> wrt:goal
@@ -160,8 +162,8 @@ fun type=agent scop=root -> act == crt [code, data, file]
   blueprint's behavior into the prototype.
 
 ```
-blplan(plan) id="p_goal" desc="formal plan blueprint" incld="goal,retry" act=[crt,exam] scop=root:
-   -> crt plan lng=VibeDSL
+blplan(plan) id="p_goal" desc="formal plan blueprint" incld="goal,retry" act=[crt,exam] scop="root":
+   -> crt(plan lng="VibeDSL")
       -> exam(plan:syn==VibeDSL:dict:syn)<>:
          -> goal
          -> retry(5)!:rollb
@@ -177,6 +179,33 @@ blplan(plan) id="p_goal" desc="formal plan blueprint" incld="goal,retry" act=[cr
 3. If the base is **silent**, the **human** is asked.
 
 This keeps small models from having to memorise thousands of sessions.
+
+## Grammar rules (strict)
+
+The **frame** of the language is strict - a small model must never need to guess it.
+The `:` operator roles and precedence are defined in RULES.MD §7; the enforced rules
+(checked by `validator/validator.py`, run as `py validator\validator.py <file>`):
+
+- **`fun` / `func` / `function` is a declaration keyword** - it takes a space, then
+  the name: `fun load(...) ...`. `fun(do)` is an error (fun name must be separated).
+- **Every action declares scope `()`**: `crt(...)`, `show(...)`, `ret(...)`,
+  `rebuild()`. A bare action word (`crt`, `ret`) is a mapping key, not a call.
+- **Proper names and bare values after `=` go into quotes**: `name="out.xml"`,
+  `lng="VibeDSL"`. A bare word after `=` is a warning.
+- **Flow model**: `fun` declares an *executable* function; `abstract` declares a
+  *pure concept* (idea) that defines properties/behavior for a group or single of
+  future entity but cannot create an instance of itself. A flow is
+  `input function -> executable function` (Java-`abstract` analogy).
+- **Alias keyword form**: aliases are declared explicitly - `alias [...] as NAME`
+  (the word `as` is grammar).
+- **User-defined concepts** register with the validator: `abstract name="X"` and
+  `alias [...] as NAME`; the abstract body is checked as `[abstract body]` (not
+  re-validated). `{}` = AI custom block, `/* */` / `//` = human comments (skipped).
+
+Current base additions: `err, error` is a **logic action** (logic-stop trigger;
+`fun event:err:-> ret:except:response`); `quote` is a verbatim-speech mapping
+marker; `rebuild` is an action; `num` is the unified numeric value with
+`format("...")` patterns; `flow` is a behavior, `sort` is a mapping.
 
 ## Project layout
 
@@ -212,6 +241,21 @@ php -S 127.0.0.1:8000 router
 ```
 
 Then open <http://127.0.0.1:8000/>.
+
+## IDE
+
+`ide/` is a browser IDE (Monaco) with live VibeDSL validation (JS port of
+`validator/validator.py`, byte-parity checked by `node ide/test_parity.js`).
+It loads a vendored Monaco from `temp/package/min/vs`, which is **not** part of
+this repository (~70 MB build artifact) - vendors it yourself, e.g. the official
+`monaco-editor/min/vs` zip extracted to `temp/package/min/vs`, then:
+
+```
+php -S 127.0.0.1:8000 router
+```
+
+and open <http://127.0.0.1:8000/ide/>. Regenerate the embedded data after
+editing `DATA/`: `py ide/gen_data.py`.
 
 Verify endpoints headless (no PHPUnit; the repo is script-testable):
 

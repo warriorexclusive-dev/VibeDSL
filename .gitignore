@@ -1,0 +1,8 @@
+GLOS/temp/
+/GLOS/
+/temp/
+__pycache__/
+*.pyc
+*.log
+.DS_Store
+node_modules/

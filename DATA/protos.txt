@@ -25,7 +25,18 @@
 
 *-> proto(retry) id="r5" desc="retry loop: retries up to 5 times, asking the user when possible" type=rule scop=root
       for(var i=0;i<5;i=incr(1))<>:
-      -> retry
+      -> retry()
       -> show(llm->user req?)<>:
-         -> retry
+         -> retry()
          -> fail
+
+*-> proto(order) id="order_test" desc="TEST proto: order pipeline with act-declared functions" act=[crt,exam,use] type="rule" scop="root":
+   -> abstract "calc_total" -> act="sum line sub-totals by quantity"
+   -> order:act="save order to store":name="store"
+   -> order:store(context:user)
+   -> exam(order:items!=?)<>:
+      -> calc_total(rate)<>:
+         -> show(total num format("usd"))
+         -> goal
+      -> fail
+   use(varn5)

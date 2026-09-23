@@ -42,6 +42,7 @@ echo htmlspecialchars(implode("\n", $lines) . "\n\n    v1.0 alfa");
 ?></div>
 
 <div class="body-top">
+  <p style="margin:0 0 4px"><a href="/ide/" style="color:#6fe3a1; font-weight:bold">IDE with live validation (Monaco editor) &rarr;</a></p>
   <h1>What is VibeDSL?</h1>
   <p>VibeDSL is a semantic and NLP-based DSL - a <b>logic constructor</b> for tasks, rules
      and architectures that must be passed clearly to an AI. It is designed for both AI and humans.</p>
@@ -58,15 +59,26 @@ parent:                       parent is the object with a colon at the end of th
 ->  <-  <->                   right strict link / inverse / two-way public interface
 ==  =                         equality (if-then gate) / assignment
 <=  >=  !=                    comparison: less-or-equal / greater-or-equal / not equal
-+=  -=                       add/subtract to the object (numbers or logic, OOP-like)
++=  -=                       // add/subtract to the object (numbers or logic, OOP-like)
 c++                           postfix increment by one (C-style)
 -(id)>                           link to an internal object of the spec (by id)
 <(src)-                          link to an external source beyond the spec: one-way departure, may not return
 |  ||  !                      logical or / and / reverse
 {}  ""                        free-form custom logic / custom value mapping
+&->                           remember/author marker (abstract etalon)
+quote                         verbatim speech marker (mapping to base) - "this was said"
 part N:  stage N:             isolated partition / staged partition with reference
 CODE);
 ?></pre>
+
+  <h2>Strict grammar</h2>
+  <p>The language frame is strict: <code>fun</code>/<code>func</code>/<code>function</code>
+     is a declaration keyword followed by a <b>space</b>; <b>every action declares scope
+     <code>()</code></b> (<code>crt(...)</code>, <code>show(...)</code>); proper names and
+     bare values after <code>=</code> go into <b>quotes</b> (<code>name="out.xml"</code>).
+     Flow model: <code>fun</code> = executable function, <code>abstract</code> = pure concept
+     (no instance). Alias kws: <code>alias [...] as NAME</code>. Rule details: RULES.MD §7.1;
+     enforced by <code>validator/validator.py</code>.</p>
 
   <h2>Vectors</h2>
   <p>Logic is built as chains of linked vectors: <code>[model1]-&gt;[model2]</code>
@@ -116,37 +128,37 @@ CODE);
 CODE);
 ?></pre>
 
-  <h2>Z vector (-Z>)</h2>
+  <h2>Multi vector (-[]>)</h2>
   <p>The language is a two-dimensional diagram in text - nodes, arrows and
-     indentation form two axes, a whiteboard like Miro. The third axis (Z) is
-     states: industrial requests need three-dimensional states, and
-     <code>-Z&gt;</code> lifts such an object off the 2D graph without breaking
-     it - the object stays a tagged node instead of the graph branching into
-     3D. The dimensions are logical (states), NOT spatial geometry. The flag is
-     optional, usually written after the colon (<code>:-Z&gt;</code>) as in
-     <code>crt model:-Z&gt; type=human</code>; it never changes semantics.
+     indentation form two axes, a whiteboard like Miro. <code>-[N]&gt;</code>
+     marks a <strong>critical branching node of logic</strong>: it lifts an
+     object into N parallel state dimensions instead of a plain yes/no path.
+     The choice is important - it splits into N state paths and deserves
+     attention when reading the logic. The dimensions are logical (states), NOT
+     spatial geometry. Usually written after the colon
+     (<code>:-[N]&gt;</code>) as in <code>crt model:-[3]&gt; type=human</code>.
      <code>:</code> between vectors selects one element and flows into one
      common logic; <code>&lt;&gt;:</code> opens several logic paths depending on
      the selection and requires explicit conditions, without them it works as
      plain <code>:</code>. <code>\</code> filters logic (exclusion/filter by
      condition inside brackets/quotes); <code>/</code> is mathematical division.</p>
   <pre class="code"><?php echo htmlspecialchars(<<<'CODE'
-crt model:-Z> type=human      -Z> = lift this node into the 3rd state axis
+crt(model:-[3]> type="human")   // -[3]> = critical branching node: 3 state axes
 
--Z> [a,b,c]:[d,e,f]:[x,y,z]:  : selects one element -> one common logic
--Z> [a,b,c]:[d,e,f]:[x,y,z]<>: paths depend on the selection
+-[3]> [a,b,c]:[d,e,f]:[x,y,z]:  : selects one element -> one common logic
+-[3]> [a,b,c]:[d,e,f]:[x,y,z]<>: paths depend on the selection
      a,d,z -> val a = d = z
-     b,e,y -> val b = y / e   / = division
-     ->  show                 default: every selection except the two above
+     b,e,y -> val b = y / e   // / = division
+     ->  show()               // default: every selection except the two above
 CODE);
 ?></pre>
 
   <p><code>\</code> filters logic - exclusion/filtering by condition when used
      inside brackets or quotes; <code>/</code> is plain mathematical division:</p>
   <pre class="code"><?php echo htmlspecialchars(<<<'CODE'
-crt\show file name="out.xml"     create, but do not show (logic filter)
-list\users                       filter: everything except "users"
-val rate = 10 / 2                / = division
+crt\show(file name="out.xml")  // create, but do not show (logic filter)
+list\users                     // filter: everything except "users"
+val rate = 10 / 2              // / = division
 CODE);
 ?></pre>
 
@@ -154,13 +166,13 @@ CODE);
   <p><code>scop</code> sets the scope of a rule or prototype - <code>scop=root</code>
      means global and always active. Example taken from the base agent rules:</p>
   <pre class="code"><?php echo htmlspecialchars(<<<'CODE'
-fun type=agent scop=root -> act == crt [code, data, file]
-   -> crt spec lng=VibeDSL proto:
+fun type="agent" scop="root" -> event:crt([code, data, file])
+   -> crt(spec lng="VibeDSL" proto):
    -> exam(spec:syn==VibeDSL:dict:syn)<>:
       -> exam(spec:logic!=?)<>:
-         -> show spec lang=VibeDSL src=orig with(VibeDSL:prnt:strk:->add(ref lang=usr:lang)):
+         -> show(spec lang="VibeDSL" src="orig" with(VibeDSL:prnt:strk:->add(ref lang="usr:lang"))):
             -> usr apr:
-               -> crt [code, data, file] lng = spec:lng:name:
+               -> crt([code, data, file] lng=spec:lng:name):
                   -> exam(file:syn==spec:lng:syn):
                      -> exam(file:logic==spec:logic)<>:
                         -> wrt:goal
@@ -174,8 +186,8 @@ CODE);
      attribute: the id resolves through <code>blueprint_get?id=&lt;id&gt;</code>
      and injects that blueprint's behavior into the prototype:</p>
   <pre class="code"><?php echo htmlspecialchars(<<<'CODE'
-blplan(plan) id="p_goal" desc="formal plan blueprint" incld="goal,retry" act=[crt,exam] scop=root:
-   -> crt plan lng=VibeDSL
+blplan(plan) id="p_goal" desc="formal plan blueprint" incld="goal,retry" act=[crt,exam] scop="root":
+   -> crt(plan lng="VibeDSL")
       -> exam(plan:syn==VibeDSL:dict:syn)<>:
          -> goal
          -> retry(5)!:rollb

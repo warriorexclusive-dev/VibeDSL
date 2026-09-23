@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>VibeDSL IDE</title>
+<style>
+    * { box-sizing: border-box; }
+    html, body { height: 100%; margin: 0; background: #1e1e1e; color: #d4d4d4;
+                 font-family: "Segoe UI", sans-serif; font-size: 14px; }
+    body { display: flex; flex-direction: column; }
+    header { display: flex; align-items: center; gap: 8px; padding: 6px 10px;
+             background: #252526; border-bottom: 1px solid #3c3c3c; }
+    header .title { font-weight: 600; color: #4ec9b0; margin-right: 8px; }
+    #status { font-family: Consolas, monospace; font-weight: 700; padding: 2px 10px;
+              border-radius: 3px; }
+    #status.pass { background: #1e3d1e; color: #6a9955; }
+    #status.fail { background: #3d1e1e; color: #f48771; }
+    header .spacer { flex: 1; }
+    button { background: #3c3c3c; color: #d4d4d4; border: 1px solid #555;
+             border-radius: 3px; padding: 3px 10px; cursor: pointer; }
+    button:hover { background: #4a4a4a; }
+    #editor { flex: 1 1 auto; min-width: 0; min-height: 0; }
+    #work { flex: 1 1 auto; min-height: 0; display: flex; }
+    #panel { flex: 0 0 0px; overflow: hidden; display: flex; flex-direction: column;
+             border-left: 1px solid #3c3c3c; background: #252526;
+             transition: flex-basis .15s ease; }
+    #panel.open { flex-basis: 25%; }
+    #panelBtns { display: flex; gap: 6px; align-items: center; padding: 6px 8px;
+                 border-bottom: 1px solid #3c3c3c; }
+    #panelBtns button.active { background: #094771; border-color: #3794ff; }
+    #helpText { flex: 1; overflow: auto; margin: 0; padding: 8px;
+                font-family: Consolas, monospace; font-size: 14px; color: #d4d4d4;
+                white-space: pre; }
+    #bottom { flex: 0 0 32%; display: flex; border-top: 1px solid #3c3c3c;
+              min-height: 0; }
+    #problems { flex: 1 1 45%; overflow: auto; padding: 6px 8px;
+                border-right: 1px solid #3c3c3c; font-size: 14px; }
+    .problem { padding: 2px 6px; cursor: pointer; border-left: 3px solid #f48771;
+               margin-bottom: 3px; background: #2a2020; font-family: Consolas, monospace; }
+    .problem:hover { background: #3a2a2a; }
+    .ok { color: #6a9955; font-style: italic; padding: 4px 6px; }
+    #log { flex: 1 1 55%; overflow: auto; margin: 0; padding: 6px 8px;
+           font-family: Consolas, monospace; font-size: 14px; color: #9cdcfe;
+           white-space: pre; }
+</style>
+</head>
+<body>
+<header>
+    <span class="title">VibeDSL IDE</span>
+    <span id="status">…</span>
+    <span class="spacer"></span>
+    <button id="openBtn">Open</button>
+    <button id="saveBtn">Save</button>
+    <button id="demoBtn">Demo</button>
+    <button id="helpBtn">Help</button>
+    <input id="fileInput" type="file" accept=".vibe,.txt" style="display:none">
+</header>
+<div id="work">
+    <div id="editor"></div>
+    <aside id="panel">
+        <div id="panelBtns">
+            <span style="color:#9cdcfe; font-size:14px">reference</span>
+            <button id="dictBtn" class="active">dictionary</button>
+            <button id="syntaxBtn">syntax</button>
+        </div>
+        <pre id="helpText"></pre>
+    </aside>
+</div>
+<div id="bottom">
+    <div id="problems"></div>
+    <pre id="log"></pre>
+</div>
+<script src="/temp/package/min/vs/loader.js"></script>
+<script src="/ide/data.js"></script>
+<script src="/ide/validator.js"></script>
+<script src="/ide/main.js"></script>
+</body>
+</html>
