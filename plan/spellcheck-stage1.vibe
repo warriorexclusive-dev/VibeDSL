@@ -1,0 +1,15 @@
+stage 1:
+   abstract function id="get_commands" -> src:dict
+      crt file="action.dict" as file_action
+      crt file="mapping.dict" as file_mapping
+      crt file="operators.dict" as file_operators
+      crt file="abstracts.txt" as file_abstracts
+      get_commands(dict:src):swt:type:
+         case "action":
+            save(file_action)
+         case "mapping":
+            save(file_mapping)
+         case "operator":
+            save(file_operators)
+         case "abstracts":
+            save(file_abstracts)
