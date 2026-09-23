@@ -17,6 +17,7 @@ function jsOut(text, srcName) {
         dictName: DATA.dictName,
         protosText: DATA.protos,
         blueprintsText: DATA.blueprints,
+        syntaxText: DATA.syntax,
         srcName: srcName
     }).out.join("\n");
 }

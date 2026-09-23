@@ -85,6 +85,7 @@ require(["vs/editor/editor.main"], function () {
             dictName: DATA.dictName,
             protosText: DATA.protos,
             blueprintsText: DATA.blueprints,
+            syntaxText: DATA.syntax,
             srcName: "<editor>"
         });
         monaco.editor.setModelMarkers(model, "vibedsl", res.markers);

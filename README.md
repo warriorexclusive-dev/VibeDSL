@@ -184,23 +184,28 @@ This keeps small models from having to memorise thousands of sessions.
 
 The **frame** of the language is strict - a small model must never need to guess it.
 The `:` operator roles and precedence are defined in RULES.MD §7; the enforced rules
-(checked by `validator/validator.py`, run as `py validator\validator.py <file>`):
+are checked by `validator/validator.py` (v2, search-command; run as
+`py -X utf8 validator\validator.py <file>`; the old v1 spell-checker is kept as
+`validator/validator_deprecated.py`):
 
-- **`fun` / `func` / `function` is a declaration keyword** - it takes a space, then
-  the name: `fun load(...) ...`. `fun(do)` is an error (fun name must be separated).
-- **Every action declares scope `()`**: `crt(...)`, `show(...)`, `ret(...)`,
-  `rebuild()`. A bare action word (`crt`, `ret`) is a mapping key, not a call.
-- **Proper names and bare values after `=` go into quotes**: `name="out.xml"`,
-  `lng="VibeDSL"`. A bare word after `=` is a warning.
-- **Flow model**: `fun` declares an *executable* function; `abstract` declares a
-  *pure concept* (idea) that defines properties/behavior for a group or single of
-  future entity but cannot create an instance of itself. A flow is
-  `input function -> executable function` (Java-`abstract` analogy).
-- **Alias keyword form**: aliases are declared explicitly - `alias [...] as NAME`
-  (the word `as` is grammar).
-- **User-defined concepts** register with the validator: `abstract name="X"` and
-  `alias [...] as NAME`; the abstract body is checked as `[abstract body]` (not
-  re-validated). `{}` = AI custom block, `/* */` / `//` = human comments (skipped).
+- **2D indentation tree**: deeper indent = step down into a scope, same indent =
+  step sideways / scope end. A spec is validated as a tree, not a flat token list.
+- **Action scope `()`**: an `action(` opening paren must be closed before the
+  indent returns to the command start level; an `extra ) before its ( scope` and
+  an `unclosed ( ... )` are errors.
+- **`<>:` variant**: the following child lines must each carry `->` ahead
+  (`a, d, z -> value = a = d = z`).
+- **`\(` change operator** must carry `act="..."` (or `action="..."`) inside.
+- **Symbols**: `abstract id="X"` declares objects you can extend with
+  `X:prop`/`X:fun name="Y"`; `crt ... as v` binds variables; `fun name="Z"`
+  declares functions; `entity:act="...":name="access"` declares
+  `entity:access`. A command word is flagged only when its declaration is not
+  visible in the scope chain.
+- **`use(...)`**: keeps protos/blueprints loaded by id
+  (`PROTO/DATA/protos.txt`, `DATA/blueprints.txt`) in memory as higher-level
+  code chunks - their ids and declared symbols resolve in the importing scope
+  (`use(order_bp)`, `use(VibeDSL:proto[if,goal,fail])`, `use(agent name=...)`).
+- **`{}` = AI custom block, `/* */` and `//` = human comments** (skipped).
 
 Current base additions: `err, error` is a **logic action** (logic-stop trigger;
 `fun event:err:-> ret:except:response`); `quote` is a verbatim-speech mapping
@@ -245,7 +250,7 @@ Then open <http://127.0.0.1:8000/>.
 ## IDE
 
 `ide/` is a browser IDE (Monaco) with live VibeDSL validation (JS port of
-`validator/validator.py`, byte-parity checked by `node ide/test_parity.js`).
+`validator/validator.py` (v2), byte-parity checked by `node ide/test_parity.js`).
 It loads a vendored Monaco from `temp/package/min/vs`, which is **not** part of
 this repository (~70 MB build artifact) - vendors it yourself, e.g. the official
 `monaco-editor/min/vs` zip extracted to `temp/package/min/vs`, then:
