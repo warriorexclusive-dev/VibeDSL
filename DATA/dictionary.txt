@@ -18,6 +18,12 @@ start language dictionary
 *-> if           - if then else | if elif els - base logic operator to condition
     -> exm:if obj==obj | if a!=b
     -> exm:if(a==b)->ret
+*-> while        - while: loop, repeat a block while the condition holds, condition is checked before each iteration
+    -> exm: while(len>0):size-=1
+*-> when         - when: single conditional trigger, fires once when the condition becomes true
+    -> exm: when(file:state:"opened"):close(file)
+*-> as           - creates a variable/alias binding: expression + as + name makes the object available under that name
+    -> exm: crt file="action.dict" as file_action
 *-> child,       - child dcope of object entity or any unit
     -> exm:chd:->node
 *-> infra        - infrastructure, like a router or PC or worker humans or users or datacenter
@@ -355,6 +361,8 @@ start language dictionary
     -> exm: if(file:state:"opened"):close(file)
 *-> case         - case
     -> exm:case val1: break
+*-> switch, swt  - switch: branch selection by value, paired with case
+    -> exm: :swt:type:case "action":
 *-> graphics,visual,vis,render, UI - UI user interface mapping comands
     -> exm:graph:scene
 *-> pan, balance - action of precise correction of imprecise entities  

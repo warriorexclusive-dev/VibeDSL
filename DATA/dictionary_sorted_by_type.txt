@@ -865,6 +865,15 @@ type:logical operators
     -> exm:if obj==obj | if a!=b
     -> exm:if(a==b)->ret
 
+*-> while        - while: loop, repeat a block while the condition holds, condition is checked before each iteration
+    -> exm: while(len>0):size-=1
+
+*-> when         - when: single conditional trigger, fires once when the condition becomes true
+    -> exm: when(file:state:"opened"):close(file)
+
+*-> as           - creates a variable/alias binding: expression + as + name makes the object available under that name
+    -> exm: crt file="action.dict" as file_action
+
 *-> {            - start custom logic description
     -> exm:{do x}
 
@@ -917,6 +926,9 @@ type:logical operators
 
 *-> case         - case
     -> exm:case val1: break
+
+*-> switch, swt  - switch: branch selection by value, paired with case
+    -> exm: :swt:type:case "action":
 
 *-> for          - for example for(val1<0,incr(1))->data1=val1 -> for action
 
