@@ -1,5 +1,5 @@
 start language dictionary
-*-> act, action - action: `act="desc"` declares any function - standalone abstract or entity function (two canonical forms)
+*-> act, action - action: act="desc" declares any function - standalone abstract or entity function (two canonical forms)
     -> exm: abstract "open_file" -> act="open file by name"   // declares function: open_file
     -> exm: open_file("main.txt")                             // usage
     -> exm: file:act="grant access to user":name="access"    // declares entity function: file:access
@@ -36,6 +36,8 @@ start language dictionary
     -> exm:ch:->file:name
 *-> rm, remove, del, delete - remove
     -> exm:rm:->file name="main"
+*-> trim         - action: trim/strip characters from a string or collection (default whitespace)
+    -> exm:name=trim("  hello  ")
 *-> dir?directory       - directory or subdomain example: dot.comm/project; project is dir
     -> exm:dir:"dot.comm/project"
 *-> arc,arch,architect,architecture - architecture, example: func name="upload_photo" arc:coroutine; describes a function with the coroutine pattern
@@ -50,13 +52,13 @@ start language dictionary
 *-> len, size, length - length or size of any entity
     -> exm:loop:len:1024 //
 *-> //           - comment action // human to human comment, not use this info as context     
-*-> string       - string (var or literal `str:"..."`; structure is `struct`, never `str`)
+*-> string       - string (var or literal str:"..."; structure is struct, never str)
     -> exm:str:"value"
 *-> num          - unified numeric value for all lang (single representation instead of int, long, float, double): any integer or fractional 32/64 bit number, bit depth and type resolved by value
     -> exm:num:255
     -> exm:num:3.14
     -> exm:num:-42
-    -> exm:num:format("0.0") - float format, `0` is a digit placeholder, decimal point sets fraction digits
+    -> exm:num:format("0.0") - float format, 0 is a digit placeholder, decimal point sets fraction digits
     -> exm:num:3.14159:format("0.0") - 3.1
     -> exm:num:255:format("02H")     - hex (H), zero-padded width 2: FF
     -> exm:num:255:format("0")       - integer
@@ -74,7 +76,7 @@ start language dictionary
     -> exm:loop()     - infinite delay
     -> exm:delay()    - infinite delay
 *-> char          - char
-    -> exm:char[...] - char array unknown size
+    -> exm:char[n] - char array unknown size
 *-> allow, allw          - allow, allowed,
     -> exm:alw:true
 *-> uper,upercase   - upercase any text conversation or mapping
@@ -91,7 +93,7 @@ start language dictionary
     -> exm: file to string
     -> exm: data:"json" convert to data:"xml"
 *-> map, mapping - action mapping for any entity        
-*-> fun, func, function - function: an action when it is a rule or an agent; an API entry point when it is a spec or architecture; often used with the `par` key (parameter) and `ret` (return), and the logic is preferably written through the language's logical operators
+*-> fun, func, function - function: an action when it is a rule or an agent; an API entry point when it is a spec or architecture; often used with the par key (parameter) and ret (return), the logic is preferably written through the language logical operators
     -> exm:fun type=rule scop=root
     -> exm:fun name="load" par="val1"
     -> exm:func name="load"
@@ -105,12 +107,12 @@ start language dictionary
     -> exm: open_file("main.txt")                             // usage
     -> exm: file:act="grant access to user":name="access"    // declares entity function: file:access
     -> exm: file:access(context:user)                         // usage
-*-> open         - generic canonical act function on any entity: open(<entity> ...) - opens the entity bound node for changes, declared once via act, works for every entity
+*-> open         - generic canonical act function on any entity: open(<entity>) - opens the entity bound node for changes, declared once via act, works for every entity
     -> exm: open(file name="out.xml")
     -> exm: open(user name="alice")
-*-> close        - generic canonical act function on any entity: close(<entity> ...) - finalizes the entity and saves its bound node state, declared once via act, works for every entity
+*-> close        - generic canonical act function on any entity: close(<entity>) - finalizes the entity and saves its bound node state, declared once via act, works for every entity
     -> exm: close(file name="out.xml")
-*-> save         - generic canonical act function on any entity: save(<entity> ...) - persists the entity to its bound node, declared once via act, works for every entity
+*-> save         - generic canonical act function on any entity: save(<entity>) - persists the entity to its bound node, declared once via act, works for every entity
     -> exm: save(file name="out.xml")
             prj "site" Etalon("www.other-site.com")
             prj "service"  Etalon("BranchCache"):OS="Windows"
@@ -139,7 +141,7 @@ start language dictionary
 *-> smbls         - predict array of symbols
     -> exm:smbls:["a","b"]       instruction of use only symbols a and b, need to direct syntax rule in all lang
 *-> protoc, proto - logic mapping protocols
-    -> exm:open("connection"):protocol("samba"):\\\\server\share"
+    -> exm:open("connection"):protocol("samba"):\\\\server\share
 *-> quote        - mapping of llm text / quote
 *-> logic        - entity of logic
     -> exm:logic to tree
@@ -154,7 +156,7 @@ start language dictionary
 *-> unit        - any abstract unit
     -> exm: prj: 
             ->unit id="router" name="router" model=type {physical router d-link dir 300}
-            -> unit id="o_service" name="service model=type {service of lan packet recursion}
+            -> unit id="o_service" name="service model=type {service of lan packet recursion}"
             -> class name="route service" type=service target=router
 *-> throw,error,err  - troubles, throws, errors
     -> exm: throw:Exception
@@ -176,7 +178,7 @@ start language dictionary
     -> exm:import:module name="kernel"
 *-> lib          - mapping library, codebase, or open source project / git repository, codesnippet
     -> exm:lib:repo="open-utils"
-*-> dry          - don't repeat youself
+*-> dry          - do not repeat yourself
     -> exm:dry:true
 *-> memory,mem          - memory
     -> exm:mem:16gb
@@ -190,7 +192,7 @@ start language dictionary
     -> exm:compil:->code
 *-> complex        - complex
     -> exm:complex:obj
-*-> ;            - end of current function/layer/context do not use in prototypes or rules it's a marker of end context and clean token memory
+*-> ;            - end of current function/layer/context do not use in prototypes or rules it is a marker of end context and clean token memory
     exm: 
         use dict src="VibeDSL" as data 
         -> crt file name="example.txt"
@@ -202,7 +204,7 @@ start language dictionary
 *-> proto, prototype        - prototype property of any entity use RAG to search base prototype or use &-> to include prototype in specs 
 *-> blplan         - blueprint plan: formal plan artifact (stricter form of proto), pulled by incld="<id>", written to plan/ 
     -> exm: proto file:type = [xml,doc,txt]
-            proto file:type:name = [...]  it's add prperty to file, example usage: file:xml:"main.xml"
+            proto file:type:name = [n]  it is add property to file, example usage: file:xml:"main.xml"
 *-> alias, assoc      - alias or association of any entity
     exm: [xml,doc,dsl] alias file
            open xml           
@@ -248,7 +250,7 @@ start language dictionary
     -> exm:open file:"1.cpp" wrt instr:"case:"inx:[0,1,2]->  writed case 1:,case 2: case 3: in cpp file;  
 *-> generic      - generic instrustion of current object 
     -> exm: show(file:generic) -> display all prop in file
-            show(file:generic:...) -> display all prop in file, and props of props, and props of props from props, etc.  
+            show(file:generic) -> display all prop in file, and props of props, and props of props from props, etc.  
 *-> apr, aprove  - approve
     -> exm:apr:true
 *-> bool          - Y or N - yes, no basic logical boolean
@@ -285,7 +287,7 @@ start language dictionary
     -> exm:usr:lang="RU:ru"
 *-> wrt,write    - write action
     -> exm:wrt:goal
-*-> null, void, nil - exact empty value (not a logical operator): explicit void, "nothing here". Unlike none (pure logical absence that continues) null is a concrete empty value: where a value is REQUIRED (req/expected), null HALTS the logic - try/catch, fail. none says "not required/absent, keep going"; null says "empty value present, stop here"
+*-> null, void, nil - exact empty value (not a logical operator): explicit void, "nothing here" Unlike none (pure logical absence that continues) null is a concrete empty value: where a value is REQUIRED (req/expected), null HALTS the logic - try/catch, fail; none says "not required/absent, keep going"; null says "empty value present, stop here"
     -> exm:fun name="getarc" if(lng:arc==null)<>:
          -> null
          -> arc
@@ -304,13 +306,13 @@ start language dictionary
 *-> scope          - scope of entity 
     -> exm: this:scope = VibeDSL:dict 
 *-> rgx          - regex
-    -> exm:rgx:"^[A-Z].*"
+    -> exm:rgx:"^[A-Z][a-z]"
 *-> mix          - mix action: combine/merge any two objects
     -> exm:mix:->struct
     -> exm:fun open (file name="out.xml" alias xml ): -> open(file name="project.exe"):alias source:->mix(source *? data:type=dom to xml)->save(file:out_1.xml)
 *-> prj          - project
     -> exm:prj name="picture_lib"
-*-> ==           - logical and mat equals of any object's operator
+*-> ==           - logical and mat equals of any object operator
     -> exm:a==b->run
 *-> ""           - included custom string
     -> exm:type="panasonic ats"
@@ -384,7 +386,7 @@ start language dictionary
     -> exm:return val
 *-> select       - select action, syntax example sel[val1,val2] after ->swt if more way or ->abslt{} if abstract, example sel[val1,val2]->fun data=sel:ret , sel[val1,val2]->swt case val1: data1=val1 bk
     -> exm:sel[v1,v2]->swt
-    -> exm:fun par name="a" type="list" -> list:sel[...]:fun ->(item:date > item:date)->ret
+    -> exm:fun par name="a" type="list" -> list:sel[n]:fun ->(item:date > item:date)->ret
 *-> for          - for example for(val1<0,incr(1))->data1=val1 -> for action
 *-> incr         - increment built-in: incr(val) -> value + 1 (counter step in for loops, e.g. i=incr(1))
     -> exm:for(i<10,incr(1))
@@ -421,7 +423,7 @@ start language dictionary
     -> exm:autoinc:auto
 *-> console      - console, or text visual output
     -> exm:con:out:txt="hi"
-*-> tick         - time elapse, example [llm:con:out:txt="hi im here" tikc(1m)], print message to user "im here" after 1m
+*-> tick         - time elapse, example [llm:con:out:txt="hi im here" tic(1m)], print message to user "im here" after 1m
     -> exm:tic(1m)
 *-> bsns, busines - entity of bussines logic    
 *-> dsl          - VibeDSL
@@ -436,7 +438,7 @@ start language dictionary
     -> exm:list:[v1,v2]
 *-> fmt, format  - format/formatter mapping of any entyty
     -> exm: fmt[name,file,date]:table
-    -> exm:num:format("0.0")     - float pattern, `0` = digit, `0.0` = 1 decimal, `0.00` = 2 decimals, etc.
+    -> exm:num:format("0.0")     - float pattern, 0 = digit, 0.0 = 1 decimal, 0.00 = 2 decimals, etc.
     -> exm:num:format("0")       - integer number
     -> exm:num:format("02H")     - hex uppercase, width 2 zero-padded (255 -> FF)
     -> exm:num:format("0.0%")    - percent, 1 decimal (0.5 -> 50.0%)
@@ -529,7 +531,7 @@ start language dictionary
     -> exm:src:file
 *-> !           - expression of revers logic like not 
     -> exm:x!:->halt
-*-> <>           - logical branching operator to a set: forks the logic into N parallel ways with their own results. `:` (the colon) is the true/false limiter and check - together `<>:` is variant logic where every way is checked Y/N. WARNING: `<>` is NOT "not equal" (unlike some languages) - for inequality use `!=`. Any doubt about `<>` MUST be checked against the dictionary
+*-> <>           - logical branching operator to a set: forks the logic into N parallel ways with their own results. : (the colon) is the true/false limiter and check - together <>: is variant logic where every way is checked Y/N, WARNING: <> is NOT "not equal" (unlike some languages) - for inequality use !=; any doubt about <> MUST be checked against the dictionary
     -> exm:a?<>:
        -> b
        -> c
@@ -539,7 +541,10 @@ start language dictionary
     -> exm:val b=y / e
 *-> \*            - logic filter operator: exclusion\*filtering by condition when applied inside brackets or quotes, example crt\*show - create without showing
     -> exm:crt\show
-*-> :            - true/false limiter and check; logical exist with Y/N, return Y/true if property exist or expression is valid, return N/false example lang:c++: wrt; null safe WITH ask - on N the logic halts and ASKS the human (see `ask`: when the check does not converge, the AI must ask, never guess)
+*-> \            - abstract change logic operator: applies an abstract change to a subject set: \(<subjects> act="add|delete|..."); \* is the filter form of this operator
+    -> exm: \(file:name="dictionary.txt" act="delete")
+    -> exm: \(stage 1:[file_abstracts,file_action,file_mapping,file_operators] action="add")
+*-> :            - true/false limiter and check; logical exist with Y/N, return Y/true if property exist or expression is valid, return N/false example lang:c++: wrt; null safe WITH ask - on N the logic halts and ASKS the human (see ask: when the check does not converge, the AI must ask, never guess)
     -> exm:lang:c++:
 *-> rollb,revert - revert, return previos state, rollback
     -> exm:rollb:state
@@ -667,9 +672,9 @@ start language dictionary
 *-> swap         - UI logical behavior: swipe / page turn between views, default direction left to right unless otherwise specified
     -> exm:on swap:dir="ltr" -> pag name="next"
     -> exm:swap:dir="rtl" -> pag name="prev"
-*-> creative      - executor freedom scale for the task (0-100): 0 = follow blueprint/spec straight, no improvisation; 50 = own solutions within the structure (names, layout, implementations); 100 = full freedom limited only by syntax and logic. Whole scale: `creative=N` with N from 0 to 100; 0 (default, if absent) = strict, straight from blueprint/spec; ~50 = own decisions inside the allowed structure; 100 = total freedom, only syntax + logic constrain. Applies ONLY to implementation freedom - never to grammar/dictionary or the given input data
+*-> creative      - executor freedom scale for the task (0-100): 0 = follow blueprint/spec straight, no improvisation; 50 = own solutions within the structure (names, layout, implementations); 100 = full freedom limited only by syntax and logic. Whole scale: creative=N with N from 0 to 100; 0 (default, if absent) = strict, straight from blueprint/spec; ~50 = own decisions inside the allowed structure; 100 = total freedom, only syntax + logic constrain. Applies ONLY to implementation freedom - never to grammar/dictionary or the given input data
     -> exm:crt site lang=php vis:lang="javascript" logc={Магазин электротоваров, склад 5 человек} creative=80
-*-> none          - explicit absence of a value, logical operator: "here is nothing". Covers logical operators like :, req, -> with a way to state that a parameter is either not required or absent depending on reading context. Unlike !: it does NOT halt the logic - execution continues past an absent/not-required value
+*-> none          - explicit absence of a value, logical operator: "here is nothing" Covers logical operators like :, req, -> with a way to state that a parameter is either not required or absent depending on reading context; unlike the ! marker it does NOT halt the logic, execution continues past an absent/not-required value
     -> exm:proto req(name) id="name" name-> blueprint id=name name=none
 *-> direction     - logical mapping direciton behavior of any entity
     -> exm: card:direction=up to down

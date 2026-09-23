@@ -24,7 +24,7 @@ start base syntax
     -> exm: crt(model type=cube)<>:-[3]> [x,y,z]:size=20 as num:format(0.0)
 *-> /            - ordinary mathematical division operator (divide)
     -> exm:total / count
-*-> \            - logic filter operator: exclusion/filtering by condition inside brackets or quotes (example crt\show - create without showing)
+*-> \            - abstract change logic operator: applies an abstract change to a subject set \(<subjects> act="add|delete|...") - delete/add subjects or call a change function; \* is its filter form (exclusion/filtering by condition, example crt\show - create without showing)
     -> exm:crt\show(file name="out.xml")
 *-> !:           - operation or logic not complete / invalid (NO|false)
     -> exm:x!:->halt
@@ -77,9 +77,9 @@ start base syntax
     -> exm:val1>=val2->ret()
 *-> !=           - comparison: not equal, inverse of ==; halts or gates when values differ
     -> exm:if(a!=b)->halt
-*-> +=           - add to the object: for numbers - numeric addition, for logic/collections - union/merge added to the object. Depends on the object being written (OOP-like behavior)
+*-> +=           - add assignment (C++ style): numeric addition of a value to the object (x+=n), plain math
     -> exm:total+=par
-*-> -=           - subtract from the object: for numbers - numeric subtraction, for logic/collections - removal/exclusion from the object. Depends on the object being written (OOP-like behavior)
+*-> -=           - subtract assignment (C++ style): numeric subtraction of a value from the object (x-=n), plain math
     -> exm:total-=par
 *-> c++          - postfix increment by one (C-style)
     -> exm:i++
