@@ -1,0 +1,65 @@
+<?php
+declare(strict_types=1);
+mb_internal_encoding('UTF-8');
+
+/**
+ * VibeDSL API - save (IDE autosave / save)
+ * PUT/POST body (form or JSON): name=<file.vibe>&text=...
+ * ret json: {"ok":true,"file":"GLOS/temp/<name>","bytes":N}
+ * Writes the IDE text into the gitignored temp store GLOS/temp/.
+ */
+
+header('Content-Type: application/json; charset=utf-8');
+header('Access-Control-Allow-Origin: *');
+header('Access-Control-Allow-Methods: POST, PUT, OPTIONS');
+header('Access-Control-Allow-Headers: Content-Type');
+
+if (($_SERVER['REQUEST_METHOD'] ?? '') === 'OPTIONS') {
+    http_response_code(204);
+    exit;
+}
+if (($_SERVER['REQUEST_METHOD'] ?? '') !== 'POST' && ($_SERVER['REQUEST_METHOD'] ?? '') !== 'PUT') {
+    echo json_encode(['ok' => false, 'error' => 'use POST/PUT']);
+    exit;
+}
+
+$raw = (string)file_get_contents('php://input');
+$name = '';
+$text = '';
+if ($raw !== '' && ($raw[0] === '{' || $raw[0] === '[')) {
+    $j = json_decode($raw, true);
+    if (is_array($j)) {
+        $name = (string)($j['name'] ?? '');
+        $text = (string)($j['text'] ?? '');
+    }
+}
+if ($name === '') {
+    $name = (string)($_POST['name'] ?? '');
+}
+if ($text === '') {
+    $text = (string)($_POST['text'] ?? '');
+}
+
+$base = dirname(__DIR__);
+$name = preg_replace('/[\\\\\\/]+/', '_', trim($name));
+$name = preg_replace('/[^A-Za-z0-9._-]+/', '_', $name);
+if ($name === '' || $name === '.') {
+    $name = 'edit.vibe';
+}
+if (!str_contains($name, '.')) {
+    $name .= '.vibe';
+}
+
+$dir = $base . '/GLOS/temp';
+if (!is_dir($dir)) {
+    @mkdir($dir, 0777, true);
+}
+
+$file = $dir . '/' . $name;
+if (file_put_contents($file, $text) === false) {
+    http_response_code(500);
+    echo json_encode(['ok' => false, 'error' => 'write failed']);
+    exit;
+}
+
+echo json_encode(['ok' => true, 'file' => 'GLOS/temp/' . $name, 'bytes' => strlen($text)]);

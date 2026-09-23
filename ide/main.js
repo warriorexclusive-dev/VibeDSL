@@ -78,6 +78,73 @@ require(["vs/editor/editor.main"], function () {
     var statusEl = document.getElementById("status");
     var logEl = document.getElementById("log");
     var problemsEl = document.getElementById("problems");
+    var nameInput = document.getElementById("nameInput");
+    var savedEl = document.getElementById("saved");
+
+    var draftPrefix = "vibedsl.draft:";
+    var activeKey = "vibedsl.active";
+    var httpProto = location.protocol.indexOf("http") === 0;
+
+    function currentName() {
+        var n = nameInput.value.trim();
+        if (!n) return "edit.vibe";
+        if (n.indexOf(".") === -1) return n + ".vibe";
+        return n;
+    }
+
+    function storeLocal(key, val) {
+        try { localStorage.setItem(key, val); } catch (e) { /* private mode */ }
+    }
+    function readLocal(key) {
+        try { return localStorage.getItem(key); } catch (e) { return null; }
+    }
+    function currentText() { return model.getValue(); }
+
+    function saveDraftLocal() {
+        var n = currentName();
+        storeLocal(activeKey, n);
+        storeLocal(draftPrefix + n, currentText());
+    }
+
+    function setSavedLabel(msg, cls) {
+        savedEl.textContent = msg;
+        savedEl.style.color = cls === "fail" ? "#f48771" : "#6a9955";
+    }
+
+    function saveDraftServer(quiet) {
+        if (!httpProto) return;
+        var body = JSON.stringify({ name: currentName(), text: currentText() });
+        fetch("API/save", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: body
+        }).then(function (r) { return r.json(); })
+        .then(function (j) {
+            if (j && j.ok) {
+                var t = new Date();
+                var hh = ("0" + t.getHours()).slice(-2);
+                var mm = ("0" + t.getMinutes()).slice(-2);
+                var ss = ("0" + t.getSeconds()).slice(-2);
+                setSavedLabel("saved " + hh + ":" + mm + ":" + ss + "  " + j.file, "pass");
+            } else if (!quiet) {
+                setSavedLabel(j && j.error ? "save error: " + j.error : "save server error", "fail");
+            }
+        })
+        .catch(function () {
+            if (!quiet) setSavedLabel("no autosave server (router down?)", "fail");
+        });
+    }
+
+    function restoreDraft() {
+        var n = readLocal(activeKey);
+        var draft = n ? readLocal(draftPrefix + n) : null;
+        if (draft !== null && draft !== DATA.demo) {
+            model.setValue(draft);
+            nameInput.value = n;
+            logEl.textContent = "restored autosaved draft '" + n + "' (refresh keeps your text)\n";
+            setSavedLabel("draft restored", "pass");
+        }
+    }
 
     function validateNow() {
         var res = VibeDSLValidator.validate(model.getValue(), {
@@ -116,9 +183,25 @@ require(["vs/editor/editor.main"], function () {
     }
 
     var timer = null;
+    var draftTimer = null;
     model.onDidChangeContent(function () {
         clearTimeout(timer);
         timer = setTimeout(validateNow, 250);
+        clearTimeout(draftTimer);
+        draftTimer = setTimeout(saveDraftLocal, 400);
+        setSavedLabel("editing…", "pass");
+    });
+
+    setInterval(function () { saveDraftServer(true); }, 10000);
+    window.addEventListener("beforeunload", function () {
+        saveDraftLocal();
+        saveDraftServer(true);
+    });
+    document.addEventListener("visibilitychange", function () {
+        if (document.visibilityState === "hidden") {
+            saveDraftLocal();
+            saveDraftServer(true);
+        }
     });
 
     document.getElementById("openBtn").addEventListener("click", function () {
@@ -129,19 +212,26 @@ require(["vs/editor/editor.main"], function () {
         if (!file) return;
         var reader = new FileReader();
         reader.onload = function () {
+            nameInput.value = file.name;
             model.setValue(String(reader.result));
+            saveDraftLocal();
+            saveDraftServer(true);
             editor.focus();
         };
         reader.readAsText(file);
         e.target.value = "";
     });
     document.getElementById("saveBtn").addEventListener("click", function () {
+        var n = currentName();
+        nameInput.value = n;
         var blob = new Blob([model.getValue()], { type: "text/plain" });
         var a = document.createElement("a");
         a.href = URL.createObjectURL(blob);
-        a.download = "edit.vibe";
+        a.download = n;
         a.click();
         URL.revokeObjectURL(a.href);
+        saveDraftLocal();
+        saveDraftServer(false);
     });
     document.getElementById("demoBtn").addEventListener("click", function () {
         model.setValue(DATA.demo);
@@ -163,6 +253,7 @@ require(["vs/editor/editor.main"], function () {
     document.getElementById("dictBtn").addEventListener("click", function () { showHelp("dict"); });
     document.getElementById("syntaxBtn").addEventListener("click", function () { showHelp("syntax"); });
 
+    restoreDraft();
     validateNow();
     editor.focus();
     }

@@ -15,6 +15,12 @@
               border-radius: 3px; }
     #status.pass { background: #1e3d1e; color: #6a9955; }
     #status.fail { background: #3d1e1e; color: #f48771; }
+    #nameInput { background: #1e1e1e; color: #d4d4d4; border: 1px solid #555;
+                 border-radius: 3px; padding: 3px 8px; font-family: Consolas, monospace;
+                 font-size: 13px; width: 180px; }
+    #nameInput:focus { outline: none; border-color: #3794ff; }
+    #saved { font-family: Consolas, monospace; font-size: 12px; color: #6a9955;
+             white-space: nowrap; }
     header .spacer { flex: 1; }
     button { background: #3c3c3c; color: #d4d4d4; border: 1px solid #555;
              border-radius: 3px; padding: 3px 10px; cursor: pointer; }
@@ -49,8 +55,10 @@
     <span class="title">VibeDSL IDE</span>
     <span id="status">…</span>
     <span class="spacer"></span>
-    <button id="openBtn">Open</button>
-    <button id="saveBtn">Save</button>
+    <span id="saved"></span>
+    <input id="nameInput" value="edit.vibe" spellcheck="false" title="file name for Save / autosave">
+    <button id="openBtn" title="open a spec">Open</button>
+    <button id="saveBtn" title="save to GLOS/temp and download">Save</button>
     <button id="demoBtn">Demo</button>
     <button id="helpBtn">Help</button>
     <input id="fileInput" type="file" accept=".vibe,.txt" style="display:none">
