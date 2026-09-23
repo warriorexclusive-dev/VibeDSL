@@ -61,6 +61,17 @@ line("multivec block",
      + '     ->  show()               // default: every selection except the two above');
 line("abstract act decl", 'abstract "open_file" -> act="open file by name"\nopen_file("main.txt")');
 line("entity act decl", 'file:act="grant access to user":name="access"\nfile:access(context:user)');
+line("custom/comments",
+     'stage 10:\n'
+     + '   build ai {\n'
+     + '      -> add_file(args)\n'
+     + '      fakeword2(...)\n'
+     + '   }\n'
+     + '   // human -> fiction_cmd\n'
+     + '   /* block:\n'
+     + '      -> fiction_cmd2\n'
+     + '   */\n'
+     + '   -> show(file name="out.xml")  // trailing comment\n');
 
 const only = process.argv[2];
 let failed = 0;

@@ -40,6 +40,75 @@ class Node:
         self.missing_use = set()
 
 
+def mask_lines(lines):
+    """Blank out AI custom blocks { ... }, block comments /* ... */ and line
+    comments // (quoted string contents are preserved). Content inside them must
+    never be validated: {} = AI custom block, /* */ and // = human comments."""
+    out = []
+    in_custom = 0
+    in_comment = False
+    for raw in lines:
+        s = raw
+        n = len(s)
+        i = 0
+        res = []
+        in_str = False
+        while i < n:
+            c = s[i]
+            if in_comment:
+                if c == "*" and i + 1 < n and s[i + 1] == "/":
+                    in_comment = False
+                    res.append("  ")
+                    i += 2
+                    continue
+                res.append(" ")
+                i += 1
+                continue
+            if in_custom:
+                if c == "{":
+                    in_custom += 1
+                elif c == "}":
+                    in_custom -= 1
+                    if in_custom < 0:
+                        in_custom = 0
+                res.append(" ")
+                i += 1
+                continue
+            if not in_str:
+                if c == '"':
+                    in_str = True
+                    res.append(c)
+                    i += 1
+                    continue
+                if c == "/" and i + 1 < n and s[i + 1] == "/":
+                    break
+                if c == "/" and i + 1 < n and s[i + 1] == "*":
+                    in_comment = True
+                    res.append("  ")
+                    i += 2
+                    continue
+                if c == "{":
+                    in_custom = 1
+                    res.append(" ")
+                    i += 1
+                    continue
+            else:
+                if c == "\\" and i + 1 < n:
+                    res.append(s[i])
+                    res.append(s[i + 1])
+                    i += 2
+                    continue
+                if c == '"':
+                    in_str = False
+                res.append(c)
+                i += 1
+                continue
+            res.append(c)
+            i += 1
+        out.append("".join(res))
+    return out
+
+
 def build_tree(lines):
     root = Node(None, 0, -1)
     stack = [root]
@@ -299,7 +368,7 @@ def main():
             text = path
             src = "<line>"
         del OUT[:]
-        root = build_tree(text.splitlines())
+        root = build_tree(mask_lines(text.splitlines()))
         collect_all(root)
         for ch in root.children:
             compute_blocks(ch)

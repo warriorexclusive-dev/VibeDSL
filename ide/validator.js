@@ -35,6 +35,46 @@
         this.missingUse = new Set();
     }
 
+    function maskLines(lines) {
+        /* Blank out AI custom blocks { ... } and comments (, human and
+           block), preserving quoted string contents.
+           Mirror of validator.py mask_lines. */
+        var out = [];
+        var inCustom = 0, inComment = false;
+        for (var li = 0; li < lines.length; li++) {
+            var s = String(lines[li]), n = s.length, i = 0, res = [], inStr = false;
+            while (i < n) {
+                var c = s.charAt(i);
+                if (inComment) {
+                    if (c === "*" && i + 1 < n && s.charAt(i + 1) === "/") {
+                        inComment = false; res.push("  "); i += 2; continue;
+                    }
+                    res.push(" "); i++; continue;
+                }
+                if (inCustom) {
+                    if (c === "{") inCustom++;
+                    else if (c === "}") { inCustom--; if (inCustom < 0) inCustom = 0; }
+                    res.push(" "); i++; continue;
+                }
+                if (!inStr) {
+                    if (c === '"') { inStr = true; res.push(c); i++; continue; }
+                    if (c === "/" && i + 1 < n && s.charAt(i + 1) === "/") break;
+                    if (c === "/" && i + 1 < n && s.charAt(i + 1) === "*") {
+                        inComment = true; res.push("  "); i += 2; continue;
+                    }
+                    if (c === "{") { inCustom = 1; res.push(" "); i++; continue; }
+                } else {
+                    if (c === "\\" && i + 1 < n) { res.push(s.charAt(i)); res.push(s.charAt(i + 1)); i += 2; continue; }
+                    if (c === '"') inStr = false;
+                    res.push(c); i++; continue;
+                }
+                res.push(c); i++;
+            }
+            out.push(res.join(""));
+        }
+        return out;
+    }
+
     function buildTree(lines) {
         var root = new Node(null, 0, -1);
         var stack = [root];
@@ -302,7 +342,7 @@
         out.push("== " + String(srcName).split(/[\\/]/).pop());
 
         var lines = String(text || "").split(/\r\n|\r|\n/);
-        var root = buildTree(lines);
+        var root = buildTree(maskLines(lines));
         collectAll(root, entries);
         root.children.forEach(computeBlocks);
 
