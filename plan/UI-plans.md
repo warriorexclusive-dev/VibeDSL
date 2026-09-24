@@ -1,6 +1,8 @@
 # VibeDSL — UI Layer Plan (Material Design 3 reference)
 
-Status: PLANNING (nothing added to dictionary yet)
+Status: DONE — UI tokens committed to `DATA/dictionary_sorted_by_type.txt`
+(mapping section); M3-reference blocks in `VibeDSL.md`, `README.md`, `index`;
+validator-enforced and demonstrated by `plan/object-spellcheck.vibe`.
 Reference: Material Design 3 (m3.material.io) — reasons:
   1. M3 is the current trend in interface design
   2. M3 is a clean textbook of interface vocabulary
@@ -108,6 +110,6 @@ not composed from abstracts.
 
 ## TODO
 - [x] Add approved UI tokens to DATA/dictionary_sorted_by_type.txt (COMPOSITION + NAV + INPUT + DISPLAY + USER INPUT)
-- [ ] M3-reference block into VibeDSL.md + README.md + index
+- [x] M3-reference block into VibeDSL.md + README.md + index
 - [x] Sync RAG mirror + global agents
-- [ ] Commit after docs
+- [x] Commit after docs
