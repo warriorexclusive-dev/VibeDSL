@@ -27,10 +27,11 @@ OUT = []
 
 
 class Node:
-    __slots__ = ("text", "no", "indent", "children", "parent", "symbols", "block_syms", "missing_use")
+    __slots__ = ("text", "raw", "no", "indent", "children", "parent", "symbols", "block_syms", "missing_use", "abs_ids", "dup_ids")
 
-    def __init__(self, text, no, indent):
+    def __init__(self, text, no, indent, raw=None):
         self.text = text
+        self.raw = raw if raw is not None else text
         self.no = no
         self.indent = indent
         self.children = []
@@ -38,6 +39,8 @@ class Node:
         self.symbols = set()
         self.block_syms = set()
         self.missing_use = set()
+        self.abs_ids = set()
+        self.dup_ids = set()
 
 
 def mask_lines(lines):
@@ -109,7 +112,7 @@ def mask_lines(lines):
     return out
 
 
-def build_tree(lines):
+def build_tree(lines, raw_lines=None):
     root = Node(None, 0, -1)
     stack = [root]
     for no, raw in enumerate(lines, 1):
@@ -118,7 +121,8 @@ def build_tree(lines):
         if not text or text.startswith("#"):
             continue
         indent = len(norm) - len(norm.lstrip())
-        node = Node(text, no, indent)
+        src = raw_lines[no - 1] if raw_lines else raw
+        node = Node(text, no, indent, src)
         while stack[-1].indent >= node.indent:
             stack.pop()
         node.parent = stack[-1]
@@ -201,12 +205,14 @@ def use_targets(inner):
 
 def blueprint_symbols(entry_text, seen, out):
     out.update(collect_decls(entry_text))
+    parse_abstract(entry_text, TYPE_SYMS, out)
     for inner in USE_CALL.findall(entry_text):
         for t in use_targets(inner):
             if t in seen:
                 continue
             seen.add(t)
             if t in load_entries():
+                USE_REACH.add(t)
                 out.add(t)
                 blueprint_symbols(load_entries()[t], seen, out)
 
@@ -216,6 +222,51 @@ RE_FUN = re.compile(r"\bfun(?:ction)?\s+(?:id|name)=\"([^\"]+)\"")
 RE_ENTITY_ACT = re.compile(r"^\s*(\w+):act=\"[^\"]*\"\s*(?::\s*name=\"([^\"]+)\")?")
 RE_COLON_BRANCH = re.compile(r"<>:|<>:\s*$")
 RE_CMD_WORD = re.compile(r"(?:->|<->|<>:|&->|:|\\)\s*([A-Za-z_]\w*)|^\s*([A-Za-z_]\w*)\s*(?:\(|:|\\|$)")
+
+ABSTRACT_TYPES = ("function", "prop", "item")
+TYPE_SYMS = {}
+USE_REACH = set()
+
+
+def parse_abstract(raw, typed, out):
+    """Full abstract syntax (object spell-checker):
+    abstract{description} function{type function,prop,item} id="X" {init in quotes} -> {logic}
+    The type (a bare word function|prop|item and/or a comma list inside the brace
+    block after 'function') names the in-memory dictionaries the checker must
+    register into; quoted init registers compound pins id:name into the same
+    dictionaries. Returns the declared id (or None) for uniqueness tracking."""
+    m = re.search(r"\babstract\b", raw or "")
+    if not m:
+        return None
+    seg = raw[m.start():]
+    mid = re.search(r'\bid="([^"]+)"', seg)
+    if not mid:
+        return None
+    aid = mid.group(1)
+    types = []
+    tm = re.search(r"\bfunction\b\s*\{([^}]*)\}", seg)
+    if tm:
+        for t in re.split(r"[\s,]+", tm.group(1).strip()):
+            t = t.lower()
+            if t in ABSTRACT_TYPES:
+                types.append(t)
+    for t in re.findall(r"\b(?:function|prop|item)\b", seg):
+        types.append(t)
+    if not types:
+        types = ["item"]
+    subs = []
+    mim = re.search(r'\bid="[^"]+"\s*\{([^}]*)\}', seg)
+    if mim:
+        subs = re.findall(r'"([^"]+)"', mim.group(1))
+    for t in types:
+        d = typed.setdefault(t, set())
+        d.add(aid)
+        for s in subs:
+            d.add(aid + ":" + s)
+    out.add(aid)
+    for s in subs:
+        out.add(aid + ":" + s)
+    return aid
 
 
 def collect_decls(text):
@@ -271,6 +322,7 @@ def resolve_uses(node):
                 continue
             seen.add(t)
             if t in entries:
+                USE_REACH.add(t)
                 node.symbols.add(t)
                 blueprint_symbols(entries[t], seen, node.symbols)
             else:
@@ -281,9 +333,44 @@ def resolve_uses(node):
 
 def collect_all(node):
     node.symbols = collect_decls(node.text or "")
+    node.abs_ids = set()
+    raw = node.raw or ""
+    for mm in RE_ABSTRACT.finditer(raw):
+        if mm.group(1):
+            node.abs_ids.add(mm.group(1))
+        if mm.group(2):
+            node.abs_ids.add(mm.group(2))
+    aid = parse_abstract(raw, TYPE_SYMS, node.symbols)
+    if aid:
+        node.abs_ids.add(aid)
     resolve_uses(node)
     for ch in node.children:
         collect_all(ch)
+
+
+def dup_check(root):
+    """The spell-checker sees ids everywhere in files connected via use():
+    an abstract id must not duplicate an id declared in the reachable base
+    (or another line of the same spec) - the re-declaration is an error."""
+    base = set(USE_REACH)
+    for rid in USE_REACH:
+        txt = ENTRIES.get(rid)
+        if not txt:
+            continue
+        for mm in RE_ABSTRACT.finditer(txt):
+            if mm.group(1):
+                base.add(mm.group(1))
+            if mm.group(2):
+                base.add(mm.group(2))
+        for mm in RE_FUN.finditer(txt):
+            base.add(mm.group(1))
+    visited = set()
+    for nd in children_chain(root):
+        for aid in nd.abs_ids:
+            if aid in base or aid in visited:
+                nd.dup_ids.add(aid)
+            else:
+                visited.add(aid)
 
 
 def is_visible(node, sym):
@@ -344,6 +431,8 @@ def check(node):
             depth = 0
     for t in node.missing_use:
         OUT.append((node.no, "E", "line %d: use(...) target %s not in base (protos.txt/blueprints.txt)" % (node.no, t)))
+    for aid in node.dup_ids:
+        OUT.append((node.no, "E", "line %d: id '%s' already defined (use base or duplicated)" % (node.no, aid)))
     if depth:
         OUT.append((node.no, "E", "line %d: unclosed ( ... ) - scope must close before indent returns to command level" % node.no))
 
@@ -368,8 +457,11 @@ def main():
             text = path
             src = "<line>"
         del OUT[:]
-        root = build_tree(mask_lines(text.splitlines()))
+        TYPE_SYMS.clear()
+        USE_REACH.clear()
+        root = build_tree(mask_lines(text.splitlines()), text.splitlines())
         collect_all(root)
+        dup_check(root)
         for ch in root.children:
             compute_blocks(ch)
         walk(root)

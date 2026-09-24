@@ -277,7 +277,9 @@ type:mapping
 *-> io           - End-to-end any entity state modification without change context, mapping command
     -> exm: fun name="mapping" param data, param type io(data->cnv(type)) 
 
-*-> state        - logical mapping state of any entity
+*-> cluster      - mapping cluster of any entity
+
+*-> state        - mapping state of any entity
     -> exm: if(file:state:"opened"):close(file)
 
 *-> graphics,visual,vis,render, UI - UI user interface mapping comands

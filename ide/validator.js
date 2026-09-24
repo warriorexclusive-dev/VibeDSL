@@ -23,9 +23,13 @@
     var SKIP_USE = ["agent", "use", "proto", "blueprint", "rule", "type", "scop",
                     "root", "src", "as", "dict", "name", "id", "incld", "act", "desc"];
     var ALNUM = /[\p{L}\p{N}]/u;
+    var ABSTRACT_TYPES = ["function", "prop", "item"];
+
+    var RUN = { typed: {}, useReach: new Set() };
 
     function Node(text, no, indent) {
         this.text = text;
+        this.raw = text;
         this.no = no;
         this.indent = indent;
         this.children = [];
@@ -33,6 +37,8 @@
         this.symbols = new Set();
         this.blockSyms = new Set();
         this.missingUse = new Set();
+        this.absIds = new Set();
+        this.dupIds = new Set();
     }
 
     function maskLines(lines) {
@@ -75,7 +81,7 @@
         return out;
     }
 
-    function buildTree(lines) {
+    function buildTree(lines, rawLines) {
         var root = new Node(null, 0, -1);
         var stack = [root];
         for (var i = 0; i < lines.length; i++) {
@@ -84,6 +90,7 @@
             if (!text || text.charAt(0) === "#") continue;
             var indent = norm.length - norm.replace(/^\s+/, "").length;
             var node = new Node(text, i + 1, indent);
+            node.raw = rawLines ? String(rawLines[i]) : text;
             while (stack[stack.length - 1].indent >= node.indent) stack.pop();
             node.parent = stack[stack.length - 1];
             stack[stack.length - 1].children.push(node);
@@ -146,6 +153,42 @@
         return syms;
     }
 
+    function parseAbstract(raw, typed, out) {
+        /* Full abstract syntax (object spell-checker):
+           abstract{description} function{type function,prop,item} id="X" {init} -> {logic}
+           Returns the declared id (or null) for uniqueness tracking. */
+        var m = /\babstract\b/.exec(raw || "");
+        if (!m) return null;
+        var seg = raw.slice(m.index);
+        var mid = /id="([^"]+)"/.exec(seg);
+        if (!mid) return null;
+        var aid = mid[1];
+        var types = [];
+        var tm = /function\s*\{([^}]*)\}/.exec(seg);
+        if (tm) {
+            tm[1].split(/[\s,]+/).forEach(function (t) {
+                t = t.trim().toLowerCase();
+                if (ABSTRACT_TYPES.indexOf(t) !== -1) types.push(t);
+            });
+        }
+        var kw = seg.match(/\b(?:function|prop|item)\b/g) || [];
+        kw.forEach(function (t) { types.push(t); });
+        if (!types.length) types = ["item"];
+        var subs = [];
+        var mim = /id="[^"]+"\s*\{([^}]*)\}/.exec(seg);
+        if (mim) {
+            subs = (mim[1].match(/"[^"]+"/g) || []).map(function (s) { return s.slice(1, -1); });
+        }
+        types.forEach(function (t) {
+            if (!typed[t]) typed[t] = new Set();
+            typed[t].add(aid);
+            subs.forEach(function (s) { typed[t].add(aid + ":" + s); });
+        });
+        out.add(aid);
+        subs.forEach(function (s) { out.add(aid + ":" + s); });
+        return aid;
+    }
+
     function useTargets(inner) {
         inner = String(inner || "").trim();
         if (!inner || /agent/i.test(inner) || REG_USE_SRC.test(inner)) return [];
@@ -162,12 +205,14 @@
 
     function blueprintSymbols(entryText, seen, out, entries) {
         collectDecls(entryText).forEach(function (s) { out.add(s); });
+        parseAbstract(entryText, RUN.typed, out);
         var mm;
         while ((mm = RE_USE.exec(entryText)) !== null) {
             useTargets(mm[1]).forEach(function (t) {
                 if (seen.has(t)) return;
                 seen.add(t);
                 if (t in entries) {
+                    RUN.useReach.add(t);
                     out.add(t);
                     blueprintSymbols(entries[t], seen, out, entries);
                 }
@@ -212,6 +257,7 @@
                 if (seen.has(t)) return;
                 seen.add(t);
                 if (t in entries) {
+                    RUN.useReach.add(t);
                     node.symbols.add(t);
                     blueprintSymbols(entries[t], seen, node.symbols, entries);
                 } else {
@@ -225,8 +271,44 @@
 
     function collectAll(node, entries) {
         node.symbols = collectDecls(node.text || "");
+        node.absIds = new Set();
+        var raw = node.raw || "";
+        var mm;
+        RE_ABSTRACT.lastIndex = 0;
+        while ((mm = RE_ABSTRACT.exec(raw)) !== null) {
+            if (mm[1]) node.absIds.add(mm[1]);
+            if (mm[2]) node.absIds.add(mm[2]);
+        }
+        var aid = parseAbstract(raw, RUN.typed, node.symbols);
+        if (aid) node.absIds.add(aid);
         resolveUses(node, entries);
         node.children.forEach(function (ch) { collectAll(ch, entries); });
+    }
+
+    function dupCheck(root, entries) {
+        /* The spell-checker sees ids everywhere in files connected via use():
+           an abstract id must not duplicate an id declared in the reachable
+           base (or another line of the same spec). */
+        var base = new Set(RUN.useReach);
+        RUN.useReach.forEach(function (rid) {
+            var txt = rid in entries ? entries[rid] : null;
+            if (!txt) return;
+            var mm;
+            RE_ABSTRACT.lastIndex = 0;
+            while ((mm = RE_ABSTRACT.exec(txt)) !== null) {
+                if (mm[1]) base.add(mm[1]);
+                if (mm[2]) base.add(mm[2]);
+            }
+            RE_FUN.lastIndex = 0;
+            while ((mm = RE_FUN.exec(txt)) !== null) base.add(mm[1]);
+        });
+        var visited = new Set();
+        childrenChain(root).forEach(function (nd) {
+            nd.absIds.forEach(function (aid) {
+                if (base.has(aid) || visited.has(aid)) nd.dupIds.add(aid);
+                else visited.add(aid);
+            });
+        });
     }
 
     function isVisible(node, sym) {
@@ -305,6 +387,9 @@
         node.missingUse.forEach(function (t) {
             diags.push([node.no, "E", "line " + node.no + ": use(...) target " + t + " not in base (protos.txt/blueprints.txt)"]);
         });
+        node.dupIds.forEach(function (aid) {
+            diags.push([node.no, "E", "line " + node.no + ": id '" + aid + "' already defined (use base or duplicated)"]);
+        });
         if (depth) {
             diags.push([node.no, "E", "line " + node.no + ": unclosed ( ... ) - scope must close before indent returns to command level"]);
         }
@@ -338,12 +423,15 @@
         entryAliases(opts.syntaxText || "").forEach(function (w) { KNOWN.add(w); });
         ["stage", "scop", "srch", "mix"].forEach(function (w) { KNOWN.add(w); });
         var entries = loadEntries(opts.protosText || "", opts.blueprintsText || "");
+        RUN.typed = {};
+        RUN.useReach = new Set();
 
         out.push("== " + String(srcName).split(/[\\/]/).pop());
 
         var lines = String(text || "").split(/\r\n|\r|\n/);
-        var root = buildTree(maskLines(lines));
+        var root = buildTree(maskLines(lines), lines);
         collectAll(root, entries);
+        dupCheck(root, entries);
         root.children.forEach(computeBlocks);
 
         var diags = [];

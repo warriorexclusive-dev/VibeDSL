@@ -1,0 +1,10 @@
+stage 2: object spell checker
+   abstract function id="object_checker" -> src:scop in memory
+      crt mod="scan" as scan all objects
+   abstract{abstract full syntax} function{function,prop,item} id="abs" {"type","init"} -> {logic}
+   abstract prop id="object" {"name","track"} -> {any syntax allowed}
+   abstract item id="line" {"text"} -> {any syntax allowed}
+   -> show(object_checker)
+   -> show(object:name)
+   -> show(line:text)
+   use(agent name="dsl-plan")

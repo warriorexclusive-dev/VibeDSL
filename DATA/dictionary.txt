@@ -359,7 +359,8 @@ start language dictionary
     -> exm:tree:root
 *-> io           - End-to-end any entity state modification without change context, mapping command
     -> exm: fun name="mapping" param data, param type io(data->cnv(type)) 
-*-> state        - logical mapping state of any entity
+*-> cluster      - mapping cluster of any entity
+*-> state        - mapping state of any entity
     -> exm: if(file:state:"opened"):close(file)
 *-> case         - case
     -> exm:case val1: break
