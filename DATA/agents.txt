@@ -20,8 +20,8 @@
          -> exam(spec:syn==VibeDSL:dict:syn)<>:
             -> exam(!(spec:logic==?))<>:
                -> show spec lang=VibeDSL src=orig with(VibeDSL:prnt:strk:->add(ref lang=usr:lang)):
-                  -> usr apr:
-                     -> wrt plan:goal
-                     -> varn(varn5):retry
+-> usr apr:
+                      -> wrt plan:goal
+                      -> goal
             -> ask:retry
          -> ask:retry

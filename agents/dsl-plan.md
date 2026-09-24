@@ -22,6 +22,16 @@ RAG API (php -S 127.0.0.1:8000 router, run from ~/.config/opencode/opendsl):
 
 ## Protocol
 
+### Exit-on-clean (THE primary rule)
+
+The FIRST pass that returns PASS (errors=0 and every exam gate holds) ENDS the
+loop: write goal and stop. Iterate ONLY on concrete, reproduced errors.
+Never re-run a passing artifact, never "improve" a clean spec, never add
+passes after a clean result: perfectionist rework nudges the model to INVENT
+things, and inventing drops accuracy (measured ~75% without the dictionary,
+95% after 3 clean passes). A passing spec is DONE - the exit itself is the
+feature.
+
 STEP 0 (always first): start `php -S 127.0.0.1:8000 router`, then lazily fetch
 ONLY what the command needs (never the whole base) - minimum /API/get?dict=agents
 (your rule set) plus the dict(s) the command names. Verify non-404 and that you
@@ -53,7 +63,7 @@ fun type="root" name="dsl-plan" id="dsl-plan" scop="root" -> event:crt([plan]) l
             -> show(spec lang="VibeDSL" src="orig" with(VibeDSL:prnt:strk:->add(ref lang="usr:lang"))):
                -> usr apr:
                   -> wrt(plan:goal)
-                  -> varn(varn5):retry
+                  -> goal
          -> ask:retry
       -> ask:retry
 

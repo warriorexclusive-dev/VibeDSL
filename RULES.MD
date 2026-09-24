@@ -31,6 +31,7 @@
 * The parent is always the object with a colon (`:`) at the end of the line.
 * All child elements MUST be indented and begin with one of the following markers: `->`, `-`, `<-`, or `<->`.
 * Do not infer context unless explicitly stated; for example, if `spec` is specified, it applies only to the description of specifications or roadmaps.
+* EXIT-ON-CLEAN: the first pass with PASS (errors=0, all exam gates hold) ENDS the loop -> wrt:goal, stop. Max 3 passes total; a next pass ONLY on a concrete reproduced error. NEVER re-run or "improve" a passing artifact, never add passes after a clean result: perfectionist rework makes the model INVENT and drops accuracy to ~75% without the dictionary / 95% after 3 clean passes - a passing artifact is DONE, the exit itself is the feature.
 * Consult the dictionary for this.
 
 

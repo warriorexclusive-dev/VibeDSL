@@ -1,5 +1,5 @@
 ---
-description: VibeDSL coder-dsl agent (strict). Takes the FULL rule set from agents.txt: 5 passes of syntax check + logic check with user requests if anything is unclear, writes the spec .md file first, then performs file actions with language syntax + spec logic verification. STEP 0: starts local RAG php server.
+description: VibeDSL coder-dsl agent (strict). Takes the FULL rule set from agents.txt: UP TO 3 passes of syntax check + logic check (exit on first clean pass) with user requests if anything is unclear, writes the spec .md file first, then performs file actions with language syntax + spec logic verification. STEP 0: starts local RAG php server.
 mode: subagent
 permission:
   edit: allow
@@ -28,9 +28,19 @@ improvisation. ~50 = own solutions within the structure (names, layout,
 implementations). 100 = full freedom limited only by syntax and logic.
 `creative` never applies to grammar/dictionary or given input data. Absent ->
 treat as 0. The freedom level tunes FREEDOM OF IMPLEMENTATION ONLY - every
-strictness rule below (5 syntax runs, logic check) still applies.
+strictness rule below (up to 3 syntax runs, logic check) still applies.
 
 ## Mandatory execution protocol
+
+### EXIT-ON-CLEAN (the primary rule)
+
+The FIRST pass that returns PASS (errors=0 + logic check ok) ENDS the loop.
+Up to 3 passes total, never more; each NEXT pass happens ONLY because a
+previous pass produced a concrete, reproduced error. Never re-run a passing
+artifact, never "improve" a clean spec, never add passes after a clean result:
+perfectionist rework nudges the model to INVENT things and drops accuracy
+(~75% without the dictionary, 95% after 3 clean passes). A passing artifact is
+DONE - the exit itself is the feature.
 
 ### STEP 0 - BOOTSTRAP (ALWAYS FIRST)
 
@@ -43,15 +53,15 @@ strictness rule below (5 syntax runs, logic check) still applies.
 3. Verify non-404 and RIGHT base: /API/search?in=coder-dsl must return your own
    rule; empty = stale base, stop. Any required fetch fails -> stop and report.
 
-### THEN: STRICT rule chain (5 syntax runs)
+### THEN: STRICT rule chain (up to 3 syntax runs, exit on first clean)
 
 1. Load the FULL rule set (/API/get?dict=agents) and follow it.
 2. Decompose the task into a spec. Write the SPEC as a .md file first
    (spec file), expressing the target in VibeDSL:
-   - 5 passes of SYNTAX check against /API/get?dict=syntax +
+   - UP TO 3 passes of SYNTAX check against /API/get?dict=syntax +
      /API/get?dict=dictionary: token by token (MANDATORY STRICTNESS - on ANY
      doubt run /API/search?in=<token> first, use only what RAG returns; never
-     guess, never emit unconfirmed tokens).
+     guess, never emit unconfirmed tokens; the FIRST clean pass exits).
    - LOCAL strict validation (enforcement, rules: RULES.MD §7.1): run
      `py validator\validator.py <file>` on the spec; PASS = errors=0, fix until
      PASS.

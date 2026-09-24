@@ -1,0 +1,10 @@
+stage 1: exit on first clean pass
+   abstract function id="pass" -> {any pass with errors=0 + all exam gates hold}
+   abstract prop id="loop" {"passes","goal"} -> {transfer fidelity counter, max 3}
+   abstract prop id="dict" -> {self-check dictionary; without it model-to-model transfer fidelity drops to ~75%}
+   -> wrt(loop:goal)             <- EXIT: first clean pass = DONE, record goal, stop
+   -> retry()                    <- ONLY on a concrete reproduced error, never on a clean result
+   -> show(pass)
+   -> show(loop:passes)
+   use(agent name="coder")
+   use(agent name="dsl-plan")

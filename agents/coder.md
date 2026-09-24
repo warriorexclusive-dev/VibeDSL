@@ -23,7 +23,11 @@ RAG API (php -S 127.0.0.1:8000 router, run from ~/.config/opencode/opendsl):
 ## Light protocol
 
 1. Think on OpenDSL and verify your result against YOUR OWN spec (this file).
-   No multi-run loops, no 5-10 RAG passes.
+   EXIT-ON-CLEAN is the primary rule: the first PASS (errors=0, gates hold)
+   finishes the task - record goal and stop. Never re-run a passing artifact,
+   never "improve" it, never do multi-run loops or 5-10 RAG passes; retry/varn
+   are ONLY for concrete reproduced errors. Perfectionist rework makes the
+   model INVENT things and drops accuracy.
 2. Before acting: output an approval request "do / don't" to the user.
 3. Exactly 1 RAG run per task (safety), right BEFORE save + approve: start
    `php -S 127.0.0.1:8000 router`, then /API/search?in=<key token(s)> once to
