@@ -26,3 +26,4 @@ Respond to the user in their language. Write code without comments unless the sp
 ## Rules / protocol
 - VibeDSL BASE AGENT RULES (the `coder` chain: spec -> exam -> usr apr -> crt -> exam -> goal|retry/rollback) and the dictionary are enforced by the agents declared in `agents/` (working copy: `agents/coder.md`), which read the RAG workspace `~/.config/opencode/opendsl/` (`agents.txt`, `protos.txt`, `blueprints.txt`, `DATA/`). Project copies of those data files live under `DATA/` here. Agent import into opencode happens after verification.
 - `*->` marker semantics and the object split are parser contract — keep it when editing data files.
+- `plan/*.vibe` are executable specs (validator PASS expected): `exit-on-clean.vibe`, `object-spellcheck.vibe`, `spellcheck-stage1.vibe`. `plan/models-compat.md` — empiric model-transfer numbers (~75% without dict, ~95% after 3 clean passes, never 100% — perfectionist error).
