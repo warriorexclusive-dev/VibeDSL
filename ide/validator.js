@@ -346,6 +346,39 @@
         return o - c;
     }
 
+    function objectSets() {
+        var declared = new Set();
+        var owned = new Set();
+        Object.keys(RUN.typed).forEach(function (k) {
+            RUN.typed[k].forEach(function (v) {
+                if (v.indexOf(":") !== -1) owned.add(v);
+                else declared.add(v);
+            });
+        });
+        return { declared: declared, owned: owned };
+    }
+
+    var RE_PIN = /(?<![:\w])([A-Za-z_]\w*):([A-Za-z_]\w*)/g;
+
+    function checkPins(node, scanText, diags) {
+        /* Object spell-checker: a compound obj:pin is allowed only if pin was
+           declared for the object (abstract{...} init or obj:act name="..."). */
+        var sets = objectSets();
+        var sparse = String(scanText || "").replace(/"[^"]*"/g, '""');
+        RE_PIN.lastIndex = 0;
+        var mm;
+        while ((mm = RE_PIN.exec(sparse)) !== null) {
+            var obj = mm[1];
+            var pin = mm[2];
+            if (pin === "act" || pin === "action") continue;
+            if (!sets.declared.has(obj)) continue;
+            var comp = obj + ":" + pin;
+            if (sets.owned.has(comp) || isVisible(node, comp)) continue;
+            diags.push([node.no, "E", "line " + node.no + ": unknown pin '" + comp + "' not declared for object '" + obj + "' (abstract init or " + obj + ":act name=...)"]);
+        }
+        RE_PIN.lastIndex = 0;
+    }
+
     function check(node, KNOWN, diags) {
         var text = node.text || "";
 
@@ -375,6 +408,8 @@
             if (isVisible(node, w)) return;
             diags.push([node.no, "E", "line " + node.no + ": unknown command word '" + w + "' not declared in visible scope"]);
         });
+
+        objectSets().declared.size !== 0 && checkPins(node, scanText, diags);
 
         var depth = 0;
         blockLines(node).forEach(function (pair) {

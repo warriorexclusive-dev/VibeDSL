@@ -2,17 +2,131 @@ start language dictionary
 
 type:mapping
 
+*-> ""           - included custom string
+    -> exm:type="panasonic ats"
+
+*-> agent      - mapping operator of AI agent
+    -> exm:agent("coder")
+
+*-> alias, assoc      - alias or association of any entity
+    exm: [xml,doc,dsl] alias file
+           open xml
+
+*-> avt          - avatar, identity surface (person/entity)
+    -> exm:avt src="photo.png"
+
+*-> bct          - breadcrumb, trail of parent contexts
+    -> exm:bct: root:sec:item
+
+*-> bdg          - badge, counters/status dot
+    -> exm:bdg count=5
+
+*-> bool          - Y or N - yes, no basic logical boolean
+    -> exm:bool:Y
+
+*-> btn          - button action (plain/fab/icon via styp)
+    -> exm:btn name="save" act:apr
+
+*-> char          - char
+    -> exm:char[n] - char array unknown size
+
+*-> chk, check     - mapping action check/validation
+    -> exm: fun "valid user" -> user:chk -> ret
+
+*-> cluster      - mapping cluster of any entity
+
+*-> cnv, convert     - convert, rerole, translate
+    -> exm:cnv:xml->class
+
+*-> col          - composition: linear vertical axis of children
+    -> exm:col: inp name="login" | btn name="save"
+
+*-> console      - console, or text visual output
+    -> exm:con:out:txt="hi"
+
+*-> cos, cosine          - cosine
+    -> exm:cos:deg
+
+*-> crd          - card/surface container
+    -> exm:crd name="user" thm="elevated"
+
 *-> date          - mapping date
-*-> time          - mapping time
 
-*-> type          - mapping type of any entity
-    -> exm: Convert("HelloWorld" lang="ru" type="colloquial")->show()
+*-> dlg          - dialog, modal/alert
+    -> exm:dlg name="confirm"
 
-*-> struct       - any predefined structure or class in the case of OOP
-    -> exm:struct:->box
+*-> dvr          - divider, separator line
+    -> exm:dvr title="section"
 
-*-> string       - string (var or literal str:"..."; structure is struct, never str)
-    -> exm:str:"value"
+*-> fmt, format  - format/formatter mapping of any entyty
+    -> exm: fmt[name,file,date]:table
+    -> exm:num:format("0.0")     - float pattern, 0 = digit, 0.0 = 1 decimal, 0.00 = 2 decimals, etc.
+    -> exm:num:format("0")       - integer number
+    -> exm:num:format("02H")     - hex uppercase, width 2 zero-padded (255 -> FF)
+    -> exm:num:format("0.0%")    - percent, 1 decimal (0.5 -> 50.0%)
+
+*-> frm          - composition: frame, bordered/inset container or viewport crop
+    -> exm:frm:image name="pic1"
+
+*-> graphics,visual,vis,render, UI - UI user interface mapping comands
+    -> exm:graph:scene
+
+*-> grd          - composition: grid, two-axis placement (columns/areas)
+    -> exm:grd:cols=3: card name="c1"
+
+*-> grp          - composition: logical cluster of elements, one unit of state
+    -> exm:grp name="form": inp | sel
+
+*-> hscroll      - horizontal scroll container, base scroll
+    -> exm:hscroll: row: card name="c1"
+
+*-> icn          - icon, pictographic marker
+    -> exm:icn name="gear"
+
+*-> in           - input entity or object mapping operator
+    -> exm:in:request
+
+*-> inp          - input field (text/number/multiline via styp)
+    -> exm:inp name="login" styp:text
+
+*-> io           - End-to-end any entity state modification without change context, mapping command
+    -> exm: fun name="mapping" param data, param type io(data->cnv(type))
+
+*-> lang         - mapping any entity language
+    -> exm: prj lang="c++"
+            user:lang="RU"
+
+*-> lib          - mapping library, codebase, or open source project / git repository, codesnippet
+    -> exm:lib:repo="open-utils"
+
+*-> locat, location - logical mapping of location any entity
+    -> exm: panel:location=up
+
+*-> lower,lowercase - lowercase any text conversacion or mapping
+    -> exm: name=lower("hello")
+
+*-> map, mapping - action mapping for any entity
+
+*-> mapping, map   - action represent entity
+
+*-> mix          - mix action: combine/merge any two objects
+    -> exm:mix:->struct
+    -> exm:fun open (file name="out.xml" alias xml ): -> open(file name="project.exe"):alias source:->mix(source *? data:type=dom to xml)->save(file:out_1.xml)
+
+*-> msg          - message, output/status message object
+    -> exm:show(msg(goal))
+
+*-> nav          - navigation rail/bar/drawer/tab-row, concrete via styp
+    -> exm:nav styp:rail: link prj:skl
+
+*-> new          - mapping of creation object
+    -> exm:fun name=i new:txt           function inner code create a new txt file
+
+*-> null, void, nil - exact empty value (not a logical operator): explicit void, "nothing here" Unlike none (pure logical absence that continues) null is a concrete empty value: where a value is REQUIRED (req/expected), null HALTS the logic - try/catch, fail; none says "not required/absent, keep going"; null says "empty value present, stop here"
+    -> exm:fun name="getarc" if(lng:arc==null)<>:
+         -> null
+         -> arc
+    -> exm:name req -> try name=="null" cch -> halt
 
 *-> num          - unified numeric value for all lang (single representation instead of int, long, float, double): any integer or fractional 32/64 bit number, bit depth and type resolved by value
     -> exm:num:255
@@ -23,164 +137,8 @@ type:mapping
     -> exm:num:255:format("02H")     - hex (H), zero-padded width 2: FF
     -> exm:num:255:format("0")       - integer
 
-*-> char          - char
-    -> exm:char[n] - char array unknown size
-
-*-> uper,upercase   - upercase any text conversation or mapping
-    -> exm: name=uper("HEllO") 
-    -> exm: name="Hello world":uper 
-
-*-> lower,lowercase - lowercase any text conversacion or mapping
-    -> exm: name=lower("hello")
-
-*-> to           - logical pointer from entity to entity read from left to right: maps to the target entity
-    -> exm: string to array
-    -> exm: file to string
-    -> exm: data:"json" convert to data:"xml"
-
-*-> map, mapping - action mapping for any entity        
-
-*-> protoc, proto - logic mapping protocols
-    -> exm:open("connection"):protocol("samba"):\\\\server\share
-
-*-> quote        - mapping of llm text / quote
-
-*-> lang         - mapping any entity language
-    -> exm: prj lang="c++"
-            user:lang="RU"
-
-*-> UI,vis          - visual element or type
-    -> exm:UI:pan
-
-*-> lib          - mapping library, codebase, or open source project / git repository, codesnippet
-    -> exm:lib:repo="open-utils"
-
-*-> alias, assoc      - alias or association of any entity
-    exm: [xml,doc,dsl] alias file
-           open xml           
-
-*-> bool          - Y or N - yes, no basic logical boolean
-    -> exm:bool:Y
-
-*-> true, Y, yes, false, N, no - boolean literals: synonyms of the bool values Y / N
-    -> exm:alw:true
-    -> exm:def:false
-
-*-> reqred, required - required, mapping triger to trigger for mandatory parameter entr, none if absent
-    -> exm:type: any reqr
-
-*-> cnv, convert     - convert, rerole, translate
-    -> exm:cnv:xml->class
-
-*-> specfile, spec - mapping of specifics and logic
-    -> exm: prj "any" stage:1 create spec
-
-*-> null, void, nil - exact empty value (not a logical operator): explicit void, "nothing here" Unlike none (pure logical absence that continues) null is a concrete empty value: where a value is REQUIRED (req/expected), null HALTS the logic - try/catch, fail; none says "not required/absent, keep going"; null says "empty value present, stop here"
-    -> exm:fun name="getarc" if(lng:arc==null)<>:
-         -> null
-         -> arc
-    -> exm:name req -> try name=="null" cch -> halt
-
-*-> rgx          - regex
-    -> exm:rgx:"^[A-Z][a-z]"
-
-*-> mix          - mix action: combine/merge any two objects
-    -> exm:mix:->struct
-    -> exm:fun open (file name="out.xml" alias xml ): -> open(file name="project.exe"):alias source:->mix(source *? data:type=dom to xml)->save(file:out_1.xml)
-
-*-> ""           - included custom string
-    -> exm:type="panasonic ats"
-
-*-> in           - input entity or object mapping operator
-    -> exm:in:request
-
-*-> proto, protocol - protocol of any entity
-    -> exm: prj:"simple http server" lang:java proto:http
-
 *-> out          - output mapping of any entity
     -> exm: out:response
-
-*-> tab, table          - table, table mapping of any entity instruction
-    -> exm: show(file:"dictionery.txt" to tab:rows["names"])
-
-*-> io           - End-to-end any entity state modification without change context, mapping command
-    -> exm: fun name="mapping" param data, param type io(data->cnv(type)) 
-
-*-> cluster      - mapping cluster of any entity
-
-*-> state        - mapping state of any entity
-    -> exm: if(file:state:"opened"):close(file)
-
-*-> graphics,visual,vis,render, UI - UI user interface mapping comands
-    -> exm:graph:scene
-
-*-> text         - visual text
-    -> exm:text:label
-
-*-> cos, cosine          - cosine
-    -> exm:cos:deg
-
-*-> sin, sinus      - sin
-    -> exm:sin:rad
-
-*-> token          - llm token object mapping 
-    -> exm: save(llm:token)    example save gurent session
-
-*-> console      - console, or text visual output
-    -> exm:con:out:txt="hi"
-
-*-> new          - mapping of creation object
-    -> exm:fun name=i new:txt           function inner code create a new txt file    
-
-*-> fmt, format  - format/formatter mapping of any entyty
-    -> exm: fmt[name,file,date]:table
-    -> exm:num:format("0.0")     - float pattern, 0 = digit, 0.0 = 1 decimal, 0.00 = 2 decimals, etc.
-    -> exm:num:format("0")       - integer number
-    -> exm:num:format("02H")     - hex uppercase, width 2 zero-padded (255 -> FF)
-    -> exm:num:format("0.0%")    - percent, 1 decimal (0.5 -> 50.0%)
-
-*-> svc, service   - mapping service role of entity
-    -> exm: thread svc:"micro_transaction"
-
-*-> chk, check     - mapping action check/validation
-    -> exm: fun "valid user" -> user:chk -> ret 
-
-*-> ref          - reference mapping of example any entity
-    -> exm: file:save(dsl:ref)
-
-*-> mapping, map   - action represent entity    
-
-*-> print         - mapping operator of visual output logic
-    -> exm: vis type:table event:onCreate->table:print:data
-
-*-> with         - mapping of logic extension    
-
-*-> prompt        - mapping operator of user/human prompt
-    -> exm: prompt:run()
-
-*-> think        - mapping operator of model reflections.
-    -> exm:think:->show
-
-*-> agent      - mapping operator of AI agent
-    -> exm:agent("coder") 
-
-*-> msg          - message, output/status message object
-    -> exm:show(msg(goal))
-
-*-> row          - composition: linear horizontal axis of children
-    -> exm:pan->row: btn name="ok"
-
-*-> col          - composition: linear vertical axis of children
-    -> exm:col: inp name="login" | btn name="save"
-
-*-> grd          - composition: grid, two-axis placement (columns/areas)
-    -> exm:grd:cols=3: card name="c1"
-
-*-> frm          - composition: frame, bordered/inset container or viewport crop
-    -> exm:frm:image name="pic1"
-
-*-> grp          - composition: logical cluster of elements, one unit of state
-    -> exm:grp name="form": inp | sel
 
 *-> ovl          - composition: overlay, layer stacked above the base surface
     -> exm:ovl: dlg name="confirm"
@@ -188,76 +146,119 @@ type:mapping
 *-> pag          - composition: page, screen/route boundary
     -> exm:pag name="main"
 
-*-> sec          - composition: section, block within a page
-    -> exm:sec name="profile"
-
-*-> hscroll      - horizontal scroll container, base scroll
-    -> exm:hscroll: row: card name="c1"
-
-*-> vscroll      - vertical scroll container, base scroll
-    -> exm:vscroll: list name="items"
-
-*-> spr          - composition: spacer, flexible empty space
-    -> exm:row: spr | btn
-
-*-> nav          - navigation rail/bar/drawer/tab-row, concrete via styp
-    -> exm:nav styp:rail: link prj:skl
-
-*-> bct          - breadcrumb, trail of parent contexts
-    -> exm:bct: root:sec:item
-
-*-> inp          - input field (text/number/multiline via styp)
-    -> exm:inp name="login" styp:text
-
-*-> btn          - button action (plain/fab/icon via styp)
-    -> exm:btn name="save" act:apr
-
-*-> tgl          - binary toggle control
-    -> exm:tgl name="dark_mode" def:dwn
-
-*-> slr          - slider, continuous value input
-    -> exm:slr name="volume" def 0..100
-
-*-> crd          - card/surface container
-    -> exm:crd name="user" thm="elevated"
-
-*-> icn          - icon, pictographic marker
-    -> exm:icn name="gear"
-
-*-> avt          - avatar, identity surface (person/entity)
-    -> exm:avt src="photo.png"
-
-*-> bdg          - badge, counters/status dot
-    -> exm:bdg count=5
-
-*-> dvr          - divider, separator line
-    -> exm:dvr title="section"
-
 *-> prg          - progress, busy/loading indicator (linear/circular via styp)
     -> exm:prg 45
 
-*-> skn          - skeleton/shimmer placeholder
-    -> exm:skn name="loading_card"
+*-> print         - mapping operator of visual output logic
+    -> exm: vis type:table event:onCreate->table:print:data
 
-*-> tip          - tooltip, hover help
-    -> exm:tip txt="click to save"
+*-> prompt        - mapping operator of user/human prompt
+    -> exm: prompt:run()
 
-*-> dlg          - dialog, modal/alert
-    -> exm:dlg name="confirm"
+*-> proto, protocol - protocol of any entity
+    -> exm: prj:"simple http server" lang:java proto:http
 
-*-> sht          - sheet, bottom/side panel
-    -> exm:sht name="filters"
+*-> protoc, proto - logic mapping protocols
+    -> exm:open("connection"):protocol("samba"):\\\\server\share
+
+*-> quote        - mapping of llm text / quote
 
 *-> rcl          - recycler: first-class virtualized list component, not composed from abstracts; manages its own adapter/view-holder pool, view reuse and lazy data binding via src
     -> exm:rcl src="items" item="row"
     -> exm:rcl src="file:list" bind:name/line
 
-*-> view         - concrete view frame: a definite rendered frame/screen instance (not vis - vis is the visual element/type abstraction)
-    -> exm:view name="main" src="layout.xml"
+*-> ref          - reference mapping of example any entity
+    -> exm: file:save(dsl:ref)
 
-*-> locat, location - logical mapping of location any entity
-    -> exm: panel:location=up
+*-> reqred, required - required, mapping triger to trigger for mandatory parameter entr, none if absent
+    -> exm:type: any reqr
+
+*-> rgx          - regex
+    -> exm:rgx:"^[A-Z][a-z]"
+
+*-> row          - composition: linear horizontal axis of children
+    -> exm:pan->row: btn name="ok"
+
+*-> sec          - composition: section, block within a page
+    -> exm:sec name="profile"
+
+*-> sht          - sheet, bottom/side panel
+    -> exm:sht name="filters"
+
+*-> sin, sinus      - sin
+    -> exm:sin:rad
+
+*-> skn          - skeleton/shimmer placeholder
+    -> exm:skn name="loading_card"
+
+*-> slr          - slider, continuous value input
+    -> exm:slr name="volume" def 0..100
 
 *-> sort          - sorted mapping of any entity
     -> exm:list[num]:sort:asc
     -> exm:list[num]:sort:desc
+
+*-> specfile, spec - mapping of specifics and logic
+    -> exm: prj "any" stage:1 create spec
+
+*-> spr          - composition: spacer, flexible empty space
+    -> exm:row: spr | btn
+
+*-> state        - mapping state of any entity
+    -> exm: if(file:state:"opened"):close(file)
+
+*-> string       - string (var or literal str:"..."; structure is struct, never str)
+    -> exm:str:"value"
+
+*-> struct       - any predefined structure or class in the case of OOP
+    -> exm:struct:->box
+
+*-> svc, service   - mapping service role of entity
+    -> exm: thread svc:"micro_transaction"
+
+*-> tab, table          - table, table mapping of any entity instruction
+    -> exm: show(file:"dictionery.txt" to tab:rows["names"])
+
+*-> text         - visual text
+    -> exm:text:label
+
+*-> tgl          - binary toggle control
+    -> exm:tgl name="dark_mode" def:dwn
+
+*-> think        - mapping operator of model reflections.
+    -> exm:think:->show
+
+*-> time          - mapping time
+
+*-> tip          - tooltip, hover help
+    -> exm:tip txt="click to save"
+
+*-> to           - logical pointer from entity to entity read from left to right: maps to the target entity
+    -> exm: string to array
+    -> exm: file to string
+    -> exm: data:"json" convert to data:"xml"
+
+*-> token          - llm token object mapping 
+    -> exm: save(llm:token)    example save gurent session
+
+*-> true, Y, yes, false, N, no - boolean literals: synonyms of the bool values Y / N
+    -> exm:alw:true
+    -> exm:def:false
+
+*-> type          - mapping type of any entity
+    -> exm: Convert("HelloWorld" lang="ru" type="colloquial")->show()
+
+*-> UI,vis          - visual element or type
+    -> exm:UI:pan
+
+*-> uper,upercase   - upercase any text conversation or mapping
+    -> exm: name=uper("HEllO") 
+    -> exm: name="Hello world":uper
+
+*-> view         - concrete view frame: a definite rendered frame/screen instance (not vis - vis is the visual element/type abstraction)
+    -> exm:view name="main" src="layout.xml"
+
+*-> vscroll      - vertical scroll container, base scroll
+    -> exm:vscroll: list name="items"
+
+*-> with         - mapping of logic extension

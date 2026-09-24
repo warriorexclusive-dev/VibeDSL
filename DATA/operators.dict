@@ -2,24 +2,32 @@ start language dictionary
 
 type:logical operators
 
-*-> if           - if then else | if elif els - base logic operator to condition
-    -> exm:if obj==obj | if a!=b
-    -> exm:if(a==b)->ret
+*-> !, not, revers    - reverse logic, example if (!a==a)->ret is NO, not condition
+    -> exm:if (!a==a)->ret
 
-*-> while        - while: loop, repeat a block while the condition holds, condition is checked before each iteration
-    -> exm: while(len>0):size-=1
+*-> !           - expression of revers logic like not 
+    -> exm:x!:->halt
 
-*-> when         - when: single conditional trigger, fires once when the condition becomes true
-    -> exm: when(file:state:"opened"):close(file)
+*-> ()           - logical action of object 
+    -> exm:(do)
 
-*-> as           - creates a variable/alias binding: expression + as + name makes the object available under that name
-    -> exm: crt file="action.dict" as file_action
+*-> ()->         - nesting forvard operator
+    -> exm:node()->inner
 
-*-> {            - start custom logic description
-    -> exm:{do x}
+*-> *?           - comaprator with condition      
+    -> exm:fun crt (file name="out.xml" alias xml ): -> open(file name="project.exe"):alias source:->extract(source *? data:type=dom to xml)   // extract all DOM elements in project.exe to out.xml
 
-*-> }            - end custom logic description
-    -> exm:{...}
+*-> -> or        - right strict link to node,dependence or relationship or other, example [model1]->[model2] or [node]->[fun]{act}
+    -> exm:[a]->[b]
+
+*-> /            - ordinary mathematical division operator (divide)
+    -> exm:val b=y / e
+
+*-> :            - true/false limiter and check; logical exist with Y/N, return Y/true if property exist or expression is valid, return N/false example lang:c++: wrt; null safe WITH ask - on N the logic halts and ASKS the human (see ask: when the check does not converge, the AI must ask, never guess)
+    -> exm:lang:c++:
+
+*-> :point:      - example of point for go to
+    -> exm:goto::point:
 
 *-> ;            - end of current function/layer/context do not use in prototypes or rules it is a marker of end context and clean token memory
     exm: 
@@ -30,48 +38,53 @@ type:logical operators
               append data
               save();     - end of logical block, marker of erase token logical data
 
-*-> ()           - logical action of object 
-    -> exm:(do)
+*-> <            - left strict link to node, inverse node,dependence or relationship or other, example [file:text]<-[lng:eng]
+    -> exm:val1 < val2
 
-*-> switch         - switch case action
-    -> exm:switch:case val1: break
+*-> <-()         - nesting backward operator
+    -> exm:out<-()in
+
+*-> <->          - two-way strict node,dependence or relationship, public function or interface and other, example [uroot con:lng]<->[usr:seq]
+    -> exm:[a]<->[b]
+
+*-> <>           - logical branching operator to a set: forks the logic into N parallel ways with their own results. : (the colon) is the true/false limiter and check - together <>: is variant logic where every way is checked Y/N, WARNING: <> is NOT "not equal" (unlike some languages) - for inequality use !=; any doubt about <> MUST be checked against the dictionary
+    -> exm:a?<>:
+       -> b
+       -> c
+
+*-> ==           - logical and mat equals of any object operator
+    -> exm:a==b->run
+
+*-> ?            - mapping marker of potentialy more way logic
+    -> exm:exam?->show(variant(5))
+
+*-> []           - block of entity or node, example [node:root]->[invoke delegate]>->[env:code] = "invoke delegate" or list params example [val1,val2,val3]
+    -> exm:[val1,val2]
+
+*-> \            - abstract change logic operator: applies an abstract change to a subject set: \(<subjects> act="add|delete|..."); \* is the filter form of this operator
+    -> exm: \(file:name="dictionary.txt" act="delete")
+    -> exm: \(stage 1:[file_abstracts,file_action,file_mapping,file_operators] action="add")
+
+*-> \*            - logic filter operator: exclusion\*filtering by condition when applied inside brackets or quotes, example crt\*show - create without showing
+    -> exm:crt\show
+
+*-> as           - creates a variable/alias binding: expression + as + name makes the object available under that name
+    -> exm: crt file="action.dict" as file_action
 
 *-> brk, break   - break
     -> exm:switch(a) 
              case 1: 
              break
 
-*-> continue     - continue: go on to the next iteration of the loop; the opposite of break
-    -> exm:continue
-
-*-> goto         - go to point
-    -> exm:goto::point:
-
-*-> :point:      - example of point for go to
-    -> exm:goto::point:
-
-*-> []           - block of entity or node, example [node:root]->[invoke delegate]>->[env:code] = "invoke delegate" or list params example [val1,val2,val3]
-    -> exm:[val1,val2]
-
-*-> ==           - logical and mat equals of any object operator
-    -> exm:a==b->run
-
-*-> -> or        - right strict link to node,dependence or relationship or other, example [model1]->[model2] or [node]->[fun]{act}
-    -> exm:[a]->[b]
-
-*-> <            - left strict link to node, inverse node,dependence or relationship or other, example [file:text]<-[lng:eng]
-    -> exm:val1 < val2
-
-*-> <->          - two-way strict node,dependence or relationship, public function or interface and other, example [uroot con:lng]<->[usr:seq]
-    -> exm:[a]<->[b]
-
 *-> case         - case
     -> exm:case val1: break
 
-*-> switch, swt  - switch: branch selection by value, paired with case
-    -> exm: :swt:type:case "action":
+*-> cch, catch   - catch block marker, operator type action
+    -> exm:cch:err
+    -> exm:catch err
 
-*-> for          - for example for(val1<0,incr(1))->data1=val1 -> for action
+*-> continue     - continue: go on to the next iteration of the loop; the opposite of break
+    -> exm:continue
 
 *-> elif         - else if
     -> exm:elif(c==d)->ret
@@ -79,24 +92,55 @@ type:logical operators
 *-> else, els         - else
     -> exm:els:->ret
 
+*-> end          - end
+    -> exm:end:block
+
+*-> exist          - exist
+    -> exm:exst:file
+
+*-> fin, finally   - finally block marker, operator type action
+    -> exm: fin(close)
+
+*-> for          - for example for(val1<0,incr(1))->data1=val1 -> for action
+
+*-> goto         - go to point
+    -> exm:goto::point:
+
+*-> if           - if then else | if elif els - base logic operator to condition
+    -> exm:if obj==obj | if a!=b
+    -> exm:if(a==b)->ret
+
+*-> is           - instanceof
+    -> exm:obj is type
+
+*-> none          - explicit absence of a value, logical operator: "here is nothing" Covers logical operators like :, req, -> with a way to state that a parameter is either not required or absent depending on reading context; unlike the ! marker it does NOT halt the logic, execution continues past an absent/not-required value
+    -> exm:proto req(name) id="name" name-> blueprint id=name name=none
+
+end language dictionary
+
 *-> present , instanceof, belong - present, belong, instanceof, logical membership check condition 
     -> exm: file instanceof xml:->save()
 
-*-> !, not, revers    - reverse logic, example if (!a==a)->ret is NO, not condition
-    -> exm:if (!a==a)->ret
+*-> switch         - switch case action
+    -> exm:switch:case val1: break
 
-*-> unk, none, unknown - unknown, unknown state of required param. use this if param need entropy logic, or abstract  
-    -> exm: data to file:name:none:map to mem
+*-> switch, swt  - switch: branch selection by value, paired with case
+    -> exm: :swt:type:case "action":
 
 *-> try          - try block marker, operator type action
     -> exm:try:->logic
 
-*-> cch, catch   - catch block marker, operator type action
-    -> exm:cch:err
-    -> exm:catch err
+*-> unk, none, unknown - unknown, unknown state of required param. use this if param need entropy logic, or abstract  
+    -> exm: data to file:name:none:map to mem
 
-*-> fin, finally   - finally block marker, operator type action
-    -> exm: fin(close)
+*-> when         - when: single conditional trigger, fires once when the condition becomes true
+    -> exm: when(file:state:"opened"):close(file)
+
+*-> while        - while: loop, repeat a block while the condition holds, condition is checked before each iteration
+    -> exm: while(len>0):size-=1
+
+*-> {            - start custom logic description
+    -> exm:{do x}
 
 *-> |, or         - logical or
     -> exm:a==b | a==c
@@ -105,52 +149,8 @@ type:logical operators
     -> exm:a==b || c==d
     -> exm:a==b && c==d
 
-*-> is           - instanceof
-    -> exm:obj is type
+*-> }            - end custom logic description
+    -> exm:{...}
 
 *-> ~            - logical mapping representation of any comparison expression
     -> exm: abstract if(obj~obj)
-
-*-> exist          - exist
-    -> exm:exst:file
-
-*-> end          - end
-    -> exm:end:block
-
-*-> !           - expression of revers logic like not 
-    -> exm:x!:->halt
-
-*-> <>           - logical branching operator to a set: forks the logic into N parallel ways with their own results. : (the colon) is the true/false limiter and check - together <>: is variant logic where every way is checked Y/N, WARNING: <> is NOT "not equal" (unlike some languages) - for inequality use !=; any doubt about <> MUST be checked against the dictionary
-    -> exm:a?<>:
-       -> b
-       -> c
-
-*-> /            - ordinary mathematical division operator (divide)
-    -> exm:val b=y / e
-
-*-> \*            - logic filter operator: exclusion\*filtering by condition when applied inside brackets or quotes, example crt\*show - create without showing
-    -> exm:crt\show
-
-*-> \            - abstract change logic operator: applies an abstract change to a subject set: \(<subjects> act="add|delete|..."); \* is the filter form of this operator
-    -> exm: \(file:name="dictionary.txt" act="delete")
-    -> exm: \(stage 1:[file_abstracts,file_action,file_mapping,file_operators] action="add")
-
-*-> :            - true/false limiter and check; logical exist with Y/N, return Y/true if property exist or expression is valid, return N/false example lang:c++: wrt; null safe WITH ask - on N the logic halts and ASKS the human (see ask: when the check does not converge, the AI must ask, never guess)
-    -> exm:lang:c++:
-
-*-> ?            - mapping marker of potentialy more way logic
-    -> exm:exam?->show(variant(5))
-
-*-> <-()         - nesting backward operator
-    -> exm:out<-()in
-
-*-> ()->         - nesting forvard operator
-    -> exm:node()->inner
-
-*-> *?           - comaprator with condition      
-    -> exm:fun crt (file name="out.xml" alias xml ): -> open(file name="project.exe"):alias source:->extract(source *? data:type=dom to xml)   // extract all DOM elements in project.exe to out.xml
-
-*-> none          - explicit absence of a value, logical operator: "here is nothing" Covers logical operators like :, req, -> with a way to state that a parameter is either not required or absent depending on reading context; unlike the ! marker it does NOT halt the logic, execution continues past an absent/not-required value
-    -> exm:proto req(name) id="name" name-> blueprint id=name name=none
-
-end language dictionary

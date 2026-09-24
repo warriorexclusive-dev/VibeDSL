@@ -61,6 +61,17 @@ line("multivec block",
      + '     ->  show()               // default: every selection except the two above');
 line("abstract act decl", 'abstract "open_file" -> act="open file by name"\nopen_file("main.txt")');
 line("entity act decl", 'file:act="grant access to user":name="access"\nfile:access(context:user)');
+line("unknown pin on declared object",
+     'stage 1:\n'
+     + '   abstract function{function,prop} id="reader" {"size"}\n'
+     + '   -> reader:size(...)\n'
+     + '   -> reader:nope(...)');
+line("use deep inline",
+     'stage 1:\n'
+     + '   use(order_bp)\n'
+     + '   -> order_bp(...)\n'
+     + '   -> goal(...)\n'
+     + '   -> calc_total(rate)<>:show(total num format("usd"))');
 line("custom/comments",
      'stage 10:\n'
      + '   build ai {\n'

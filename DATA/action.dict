@@ -2,8 +2,6 @@ start language dictionary
 
 type:action
 
-*-> async         - action async run of any entity
-
 *-> act, action - action: act="desc" declares any function - standalone abstract or entity function (two canonical forms)
     -> exm: abstract "open_file" -> act="open file by name"   // declares function: open_file
     -> exm: open_file("main.txt")                             // usage
@@ -11,20 +9,40 @@ type:action
     -> exm: file:access(context:user)                         // usage
     -> exm: act==run
 
-*-> make, mk           - make
-    -> exm:mk:->file
+*-> add          - logical adding entity action 
+    -> exm: xml files add to prj
+
+*-> answ, answer - answer to user.
+    -> exm:answ:->;usr
+    -> exm:answ:lng=usr:lang
+
+*-> apr, aprove  - approve
+    -> exm:apr:true
+
+*-> ask          - request; RESOLUTION ORDER: first ask the base (dictionary/syntax/protos/blueprints via RAG search/get) - if the answer is already recorded, do NOT ask again; only if the base has no answer, ask the human; never guess or invent - this frees the human from repeated questions; the constructor is a contract between human and AI, and a human can programme in this language too
+    -> exm:ask:->prompt
+
+*-> async         - action async run of any entity
+
+*-> call         - entry / function call
+    -> exm: call:fn()
 
 *-> change,ch           - change
     -> exm:ch:->file:name
 
-*-> rm, remove, del, delete - remove
-    -> exm:rm:->file name="main"
+*-> codrev           - code anallize, review without editing, testing
+    -> exm:codrev:->src
 
-*-> trim         - action: trim/strip characters from a string or collection (default whitespace)
-    -> exm:name=trim("  hello  ")
+*-> compil        - compilation, compile
+    -> exm:compil:->code
 
-*-> run,exec     - execute, run, sequence, request action in program, not you
-    -> exm:run:->exec
+*-> compress      - compress action of any entity
+    -> exm: compress(llm:token)
+
+*-> crt, create - action create: create a file, api, class, function etc. (create action; pairs with its target: crt fun, crt file, crt api)
+    -> exm:crt fun name="load"
+    -> exm:crt [code, data, file]
+    -> exm:create fun name="load"
 
 *-> delay,loop   - delay or period
     -> exm:delay(500) - delay 500 times
@@ -32,11 +50,15 @@ type:action
     -> exm:loop()     - infinite delay
     -> exm:delay()    - infinite delay
 
-*-> move         - logical move action
-    -> exm:db1:move(table)->db2
+*-> deploy           - code compilation or deployment
+    -> exm:deploy:->build
 
-*-> add          - logical adding entity action 
-    -> exm: xml files add to prj
+*-> err, error   - logic action of error: a logic-stop trigger
+    -> exm:fun event:err:-> ret:except:response
+    -> exm:if(err)->show(excpt)
+
+*-> extract      - extract action
+    -> exm:fun crt (file name="out.xml" alias xml ): -> open(file name="project.exe"):alias source:->extract(source *? data:type=dom to xml)
 
 *-> fun, func, function - function: an action when it is a rule or an agent; an API entry point when it is a spec or architecture; often used with the par key (parameter) and ret (return), the logic is preferably written through the language logical operators
     -> exm:fun type=rule scop=root
@@ -46,132 +68,110 @@ type:action
     -> exm:crt fun name="load" par="val1"
     -> exm:crt fun type="web api": par "in" type="text" desc="vibedsl request" :-> srch(in) type="RAG":-> ret
 
-*-> modify       - logic modify: modify/alter the logic (not a class/module - those are module/class)
-    -> exm:mod spec:logic+=rule
-
-*-> throw,error,err  - troubles, throws, errors
-    -> exm: throw:Exception
+*-> get          - action to obtain any entity 
+    -> exm: get:data:src
 
 *-> incld, import, include - additional, include (logical/physical inclusion)
     -> exm:incld:->;header
     -> exm:import:module name="kernel"
 
-*-> compil        - compilation, compile
-    -> exm:compil:->code
-
-*-> proto, prototype        - prototype property of any entity use RAG to search base prototype or use &-> to include prototype in specs 
-
-*-> ask          - request; RESOLUTION ORDER: first ask the base (dictionary/syntax/protos/blueprints via RAG search/get) - if the answer is already recorded, do NOT ask again; only if the base has no answer, ask the human; never guess or invent - this frees the human from repeated questions; the constructor is a contract between human and AI, and a human can programme in this language too
-    -> exm:ask:->prompt
-
-*-> review, rvw,    - review
-    -> exm:rvw:->;code
-
-*-> answ, answer - answer to user.
-    -> exm:answ:->;usr
-    -> exm:answ:lng=usr:lang
-
-*-> err, error   - logic action of error: a logic-stop trigger
-    -> exm:fun event:err:-> ret:except:response
-    -> exm:if(err)->show(excpt)
-
-*-> apr, aprove  - approve
-    -> exm:apr:true
-
-*-> req, request  - action request from llm to user
-    -> exm:req:post
-
-*-> scrsht         - screenshot
-    -> exm:scrsht:path
-
-*-> codrev           - code anallize, review without editing, testing
-    -> exm:codrev:->src
-
-*-> deploy           - code compilation or deployment
-    -> exm:deploy:->build
-
-*-> plan         - make plan mode or cpecs
-    -> exm:plan:->specs
-
-*-> wrt,write    - write action
-    -> exm:wrt:goal
-
-*-> crt, create - action create: create a file, api, class, function etc. (create action; pairs with its target: crt fun, crt file, crt api)
-    -> exm:crt fun name="load"
-    -> exm:crt [code, data, file]
-    -> exm:create fun name="load"
-
-*-> pan, balance - action of precise correction of imprecise entities  
-    -> exm: llm:creative:factor[0,100]:pan(20)
-
-*-> ret, return  - return any object action
-    -> exm:ret:val
-    -> exm:return val
-
-*-> select       - select action, syntax example sel[val1,val2] after ->swt if more way or ->abslt{} if abstract, example sel[val1,val2]->fun data=sel:ret , sel[val1,val2]->swt case val1: data1=val1 bk
-    -> exm:sel[v1,v2]->swt
-    -> exm:fun par name="a" type="list" -> list:sel[n]:fun ->(item:date > item:date)->ret
-
-*-> compress      - compress action of any entity
-    -> exm: compress(llm:token)    
-
-*-> only         - only, verifiication action
-    -> exm:only:check
-
-*-> scan, exam   - scaning, examination
-    -> exm:scan:->file
-
-*-> tick         - time elapse, example [llm:con:out:txt="hi im here" tic(1m)], print message to user "im here" after 1m
-    -> exm:tic(1m)
-
-*-> store           - logic store of any entity              
-
-*-> replaced        - logical replaced of any entity
-    -> exm:dpd:old
+*-> insert,       - logical action insert of any entity
+    -> exm:insrt:row
+    -> exm:if(dir:empty):insert(file)
 
 *-> load         - load action: load a view, file or base by name
     -> exm:load(view name="main")
     -> exm:event:onCreate -> load(view name="main")
 
-*-> call         - entry / function call
-    -> exm: call:fn()
+*-> make, mk           - make
+    -> exm:mk:->file
 
-*-> srch         - search action: search over a node/base by query
-    -> exm:srch(in) type="RAG"
+*-> modify       - logic modify: modify/alter the logic (not a class/module - those are module/class)
+    -> exm:mod spec:logic+=rule
 
-*-> insert,       - logical action insert of any entity
-    -> exm:insrt:row
-    -> exm:if(dir:empty):insert(file) 
+*-> move         - logical move action
+    -> exm:db1:move(table)->db2
 
-*-> remake          - logical remake                
+*-> only         - only, verifiication action
+    -> exm:only:check
+
+*-> pan, balance - action of precise correction of imprecise entities  
+    -> exm: llm:creative:factor[0,100]:pan(20)
+
+*-> plan         - make plan mode or cpecs
+    -> exm:plan:->specs
+
+*-> proto, prototype        - prototype property of any entity use RAG to search base prototype or use &-> to include prototype in specs
 
 *-> rebuild          - action rebuild any entity
     -> exm:event(exam(obj):type==exm)<>:
             ->rebuild()
             ->show()
 
-*-> show         - action show any entity in user out default text console 
-    -> exm: show(dict)
+*-> remake          - logical remake
+
+*-> replaced        - logical replaced of any entity
+    -> exm:dpd:old
+
+*-> req, request  - action request from llm to user
+    -> exm:req:post
+
+*-> ret, return  - return any object action
+    -> exm:ret:val
+    -> exm:return val
+
+*-> retry        - action retry
+    -> exm:retry(5)
+
+*-> review, rvw,    - review
+    -> exm:rvw:->;code
+
+*-> rm, remove, del, delete - remove
+    -> exm:rm:->file name="main"
 
 *-> rollb,revert - revert, return previos state, rollback
     -> exm:rollb:state
 
-*-> retry        - action retry
-    -> exm:retry(5)
+*-> run,exec     - execute, run, sequence, request action in program, not you
+    -> exm:run:->exec
+
+*-> scan, exam   - scaning, examination
+    -> exm:scan:->file
+
+*-> scrsht         - screenshot
+    -> exm:scrsht:path
+
+*-> select       - select action, syntax example sel[val1,val2] after ->swt if more way or ->abslt{} if abstract, example sel[val1,val2]->fun data=sel:ret , sel[val1,val2]->swt case val1: data1=val1 bk
+    -> exm:sel[v1,v2]->swt
+    -> exm:fun par name="a" type="list" -> list:sel[n]:fun ->(item:date > item:date)->ret
+
+*-> set          - setter action of any entity
+    -> exm: table:xml event:onOpen->set(data)
+
+*-> show         - action show any entity in user out default text console 
+    -> exm: show(dict)
+
+*-> srch         - search action: search over a node/base by query
+    -> exm:srch(in) type="RAG"
+
+*-> store           - logic store of any entity
+
+*-> throw,error,err  - troubles, throws, errors
+    -> exm: throw:Exception
+
+*-> tick         - time elapse, example [llm:con:out:txt="hi im here" tic(1m)], print message to user "im here" after 1m
+    -> exm:tic(1m)
+
+*-> trim         - action: trim/strip characters from a string or collection (default whitespace)
+    -> exm:name=trim("  hello  ")
+
+*-> use          - logical include command: apply/engage an object, prototype or include; the logical side of include (include is the physical lib/item, use is the logical command that engages it)
+    -> exm:use(agent name="dsl-coder")
+    -> exm:use(VibeDSL:proto[if,goal,fail])
 
 *-> variant, varn - action reduce variants
     -> exm: fun type=rule -> if(event(?))-> show(?:variant(5))
     -> exm: fun type=rule -> if(event(?))-> show(?:variant(5 with ask))
 
-*-> extract      - extract action
-    -> exm:fun crt (file name="out.xml" alias xml ): -> open(file name="project.exe"):alias source:->extract(source *? data:type=dom to xml)
-
-*-> get          - action to obtain any entity 
-    -> exm: get:data:src
-
-*-> set          - setter action of any entity
-    -> exm: table:xml event:onOpen->set(data)     
-
-*-> use          - logical include command: apply/engage an object, prototype or include; the logical side of include (include is the physical lib/item, use is the logical command that engages it)
-    -> exm:use(agent name="dsl-coder")
-    -> exm:use(VibeDSL:proto[if,goal,fail])
+*-> wrt,write    - write action
+    -> exm:wrt:goal

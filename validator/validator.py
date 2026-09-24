@@ -398,6 +398,43 @@ def command_words(text):
     return used
 
 
+def object_sets():
+    """Declared abstract ids and their owned compound pins, from the typed
+    in-memory dictionaries (spec + reachable use() base)."""
+    declared = set()
+    owned = set()
+    for d in TYPE_SYMS.values():
+        for v in d:
+            if ":" in v:
+                owned.add(v)
+            else:
+                declared.add(v)
+    return declared, owned
+
+
+RE_PIN = re.compile(r"(?<![:\w])([A-Za-z_]\w*):([A-Za-z_]\w*)")
+
+
+def check_pins(node, scan_text):
+    """Object spell-checker: a compound obj:pin is allowed only if pin was
+    declared for the object (abstract{...} init or obj:act name="..."). On
+    declared objects an undeclared pin is an error (no guessing)."""
+    declared, owned = object_sets()
+    if not declared:
+        return
+    sparse = re.sub(r'"[^"]*"', '""', scan_text or "")
+    for m in RE_PIN.finditer(sparse):
+        obj, pin = m.group(1), m.group(2)
+        if pin in ("act", "action"):
+            continue
+        if obj not in declared:
+            continue
+        comp = obj + ":" + pin
+        if comp in owned or is_visible(node, comp):
+            continue
+        OUT.append((node.no, "E", "line %d: unknown pin '%s' not declared for object '%s' (abstract init or %s:act name=...)" % (node.no, comp, obj, obj)))
+
+
 def check(node):
     text = node.text or ""
 
@@ -422,6 +459,8 @@ def check(node):
         if is_visible(node, w):
             continue
         OUT.append((node.no, "E", "line %d: unknown command word '%s' not declared in visible scope" % (node.no, w)))
+
+    check_pins(node, scan_text)
 
     depth = 0
     for ch, ch_line in block_lines(node):
