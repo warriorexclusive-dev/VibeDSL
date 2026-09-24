@@ -13,7 +13,7 @@
     var RE_ABSTRACT = /\babstract\b[^\n]*?\bid="([^"]+)"|\babstract\b\s+"([^"]+)"/g;
     var RE_AS = /\b(?:[,\s:(]as|:as|\bas)\s+([A-Za-z_]\w*)/g;
     var RE_FUN = /\bfun(?:ction)?\s+(?:id|name)="([^"]+)"/g;
-    var RE_ENTITY_ACT = /^\s*(\w+):act="[^"]*"\s*(?::\s*name="([^"]+)")?/;
+    var RE_ENTITY_ACT = /^\s*(?:->|&->|<-|<->)?\s*(\w+):act="[^"]*"\s*(?::\s*name="([^"]+)")?/;
     var RE_COLON_BRANCH = /<>:|<>:\s*$/;
     var RE_CMD_WORD = /(?:->|<->|<>:|&->|:|\\)\s*([A-Za-z_]\w*)|^\s*([A-Za-z_]\w*)\s*(?:\(|:|\\|$)/g;
     var RE_USE = /\buse\(([^)]*)\)/g;

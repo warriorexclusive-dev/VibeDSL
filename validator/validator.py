@@ -219,7 +219,7 @@ def blueprint_symbols(entry_text, seen, out):
 RE_ABSTRACT = re.compile(r"\babstract\b[^\n]*?\bid=\"([^\"]+)\"|\babstract\b\s+\"([^\"]+)\"")
 RE_AS = re.compile(r"\b(?:[,\s:(]as|:as|\bas)\s+([A-Za-z_]\w*)")
 RE_FUN = re.compile(r"\bfun(?:ction)?\s+(?:id|name)=\"([^\"]+)\"")
-RE_ENTITY_ACT = re.compile(r"^\s*(\w+):act=\"[^\"]*\"\s*(?::\s*name=\"([^\"]+)\")?")
+RE_ENTITY_ACT = re.compile(r"^\s*(?:->|&->|<-|<->)?\s*(\w+):act=\"[^\"]*\"\s*(?::\s*name=\"([^\"]+)\")?")
 RE_COLON_BRANCH = re.compile(r"<>:|<>:\s*$")
 RE_CMD_WORD = re.compile(r"(?:->|<->|<>:|&->|:|\\)\s*([A-Za-z_]\w*)|^\s*([A-Za-z_]\w*)\s*(?:\(|:|\\|$)")
 
