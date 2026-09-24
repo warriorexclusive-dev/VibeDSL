@@ -2,6 +2,9 @@ start language dictionary
 
 type:mapping
 
+*-> date          - mapping date
+*-> time          - mapping time
+
 *-> type          - mapping type of any entity
     -> exm: Convert("HelloWorld" lang="ru" type="colloquial")->show()
 

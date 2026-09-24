@@ -2,6 +2,8 @@ start language dictionary
 
 type:action
 
+*-> async         - action async run of any entity
+
 *-> act, action - action: act="desc" declares any function - standalone abstract or entity function (two canonical forms)
     -> exm: abstract "open_file" -> act="open file by name"   // declares function: open_file
     -> exm: open_file("main.txt")                             // usage
@@ -175,6 +177,9 @@ type:action
     -> exm:use(VibeDSL:proto[if,goal,fail])
 
 type:mapping
+
+*-> date          - mapping date
+*-> time          - mapping time
 
 *-> type          - mapping type of any entity
     -> exm: Convert("HelloWorld" lang="ru" type="colloquial")->show()
