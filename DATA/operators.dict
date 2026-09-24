@@ -47,7 +47,7 @@ type:logical operators
 *-> <->          - two-way strict node,dependence or relationship, public function or interface and other, example [uroot con:lng]<->[usr:seq]
     -> exm:[a]<->[b]
 
-*-> <>           - logical branching operator to a set: forks the logic into N parallel ways with their own results. : (the colon) is the true/false limiter and check - together <>: is variant logic where every way is checked Y/N, WARNING: <> is NOT "not equal" (unlike some languages) - for inequality use !=; any doubt about <> MUST be checked against the dictionary
+*-> <>           - logical branching operator to a set: forks the logic into N parallel ways with their own results. : (the colon) is the true/false limiter and check - together <>: is variant logic where every way is checked Y/N, WARNING: <> is NOT "not equal" (unlike some languages) - for inequality use !(a==b); any doubt about <> MUST be checked against the dictionary
     -> exm:a?<>:
        -> b
        -> c
@@ -107,7 +107,7 @@ type:logical operators
     -> exm:goto::point:
 
 *-> if           - if then else | if elif els - base logic operator to condition
-    -> exm:if obj==obj | if a!=b
+    -> exm:if obj==obj | if !(a==b)
     -> exm:if(a==b)->ret
 
 *-> is           - instanceof
@@ -137,7 +137,7 @@ end language dictionary
     -> exm: when(file:state:"opened"):close(file)
 
 *-> while        - while: loop, repeat a block while the condition holds, condition is checked before each iteration
-    -> exm: while(len>0):size-=1
+    -> exm: while(len>0):size=size-1
 
 *-> {            - start custom logic description
     -> exm:{do x}

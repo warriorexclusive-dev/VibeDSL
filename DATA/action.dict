@@ -87,7 +87,7 @@ type:action
     -> exm:mk:->file
 
 *-> modify       - logic modify: modify/alter the logic (not a class/module - those are module/class)
-    -> exm:mod spec:logic+=rule
+    -> exm:mod spec:logic=spec:logic+rule
 
 *-> move         - logical move action
     -> exm:db1:move(table)->db2

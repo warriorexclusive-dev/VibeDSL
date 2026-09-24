@@ -5,7 +5,7 @@ start base syntax
     -> exm:[file:text]<-[lng:eng]
 *-> <->          - two-way strict link, public function or interface
     -> exm:[uroot con:lng]<->[usr:seq]
-*-> <> 	 - logical branching operator to a set: forks the logic into N parallel ways; : is the true/false limiter and check; combined <>: = variant logic with a per-way Y/N check (WARNING: <> is NOT "not equal"; use != for inequality)
+*-> <> 	 - logical branching operator to a set: forks the logic into N parallel ways; : is the true/false limiter and check; combined <>: = variant logic with a per-way Y/N check (WARNING: <> is NOT "not equal"; use !(a==b) for inequality)
     -> exm:a==b<>:
 	-> a=c       "it's yes way"
 	-> b=a	     "it's no way"
@@ -13,10 +13,6 @@ start base syntax
     -> exm:out<-()in
 *-> ()->         - nesting forward operator
     -> exm:node()->inner
-*-> <|           - extract from a source object
-    -> exm:fun crt file name="out.xml" <| file name="project.exe" :? data:type=dom
-*-> |>           - mix (combine) two objects
-    -> exm:struct|>json
 *-> :?           - comparator with condition applied during extraction
     -> exm::? data:type=dom
 *-> :            - logical operator and null-safe presence check; verifies the property exists and is executable step by step, halts the logic if absent and ASKS the human (null safe WITH ask, see ask); resolves by position (pointer, validator, parent context, payload separator)
@@ -75,14 +71,6 @@ start base syntax
     -> exm:val1<=val2->ret()
 *-> >=           - comparison: greater than or equal, numeric/logical value check
     -> exm:val1>=val2->ret()
-*-> !=           - comparison: not equal, inverse of ==; halts or gates when values differ
-    -> exm:if(a!=b)->halt
-*-> +=           - add assignment (C++ style): numeric addition of a value to the object (x+=n), plain math
-    -> exm:total+=par
-*-> -=           - subtract assignment (C++ style): numeric subtraction of a value from the object (x-=n), plain math
-    -> exm:total-=par
-*-> c++          - postfix increment by one (C-style)
-    -> exm:i++
 *-> <(src)-        - link to an external source beyond the spec/understanding: one-way departure from the current contour into an external source (outside the spec, in parentheses), accepted as a given that it left and may not return. Distinct from <- (prev node) - this is a reference marker, not graph navigation, the source name sits in brackets
     -> exm:pc->router<(world wide web)-
 *-> -(id)>         - link to an internal object: reference to a logical object inside the current spec (not graph navigation to the next node), target identified inside the brackets by id="<id>"

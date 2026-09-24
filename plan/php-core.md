@@ -75,7 +75,7 @@ fun type=root name="vibedsl-php" id="vibedsl-php" scop=root -> act == crt [spec]
 blplan(plan) id="php_core" desc="SPECIFICATION to create every PHP unit of VibeDSL (front controller, landing page, shared lib, six endpoints); extensionless files; create, do not execute" incld="any,goal,fail,retry" act=[crt,exam] scop=root:
    -> crt spec lng=VibeDSL src={VibeDSL PHP core} extn=N
    -> exam(spec:syn==VibeDSL:dict:syn)<>:
-      -> exam(spec:logic!=?)<>:
+      -> exam(!(spec:logic==?))<>:
          -> goal
          -> retry(5)!:rollb
       -> ask:retry
@@ -257,7 +257,7 @@ part 9: {API/blueprint_search}
 
 ## Verification — 5 syntax passes
 
-Pass 1 (operators): every operator used here (`-> : == != <> | || ! reqr`)
+Pass 1 (operators): every operator used here (`-> : == <> | || ! reqr`)
 is present in `syntax.txt` / `dictionary_sorted_by_type.txt`.
 Pass 2 (keys): every structural key used outside `{}` (`fun type root name id
 scop act crt create spec lng src extn reqr req exam syn logic goal retry rollb

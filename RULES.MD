@@ -44,8 +44,8 @@
 * syntax of functions -> fun name="example" par="val1" -> logic. 
 * [] - block of multiple logical objects, exxample [val1,val2,val3,...], ... applies only if there is a valid array reference and the array length exceeds 10 elements. 
 * {} it,s marker of declaration a functionaly custom logic of element, it,s is custom specific functionaly logic of object 
-* :, !:, |, ||, ->,<->,<-,==,!=,=, <=, >=, +=, -=, c++, <(src)-, -(id)>, <-(), ()->, logical way and construct operators 
-* aliases: | = or, || = and (also &&), ! = not; / = division, \ = logic filter; <> = multi-way branching, NOT "not equal" (use !=) 
+* :, !:, |, ||, ->,<->,<-,==,=, <=, >=, <(src)-, -(id)>, <-(), ()->, logical way and construct operators 
+* aliases: | = or, || = and (also &&), ! = not; / = division, \ = logic filter; <> = multi-way branching, NOT "not equal" (use !(a==b)) 
 * "" way to сustomisation mapping all units, example: infr:->node type="panasonic ats" name ="telephony"
 * part and stage commant as separator of logic, syntax and example: part 1: (isolate logic), part2 (isolate logic) | stage 1: (isolate logic), stage 2 (isolate logic) <- part 1 logic DSL schema as reference  
 * Try to keep your scripts as concise as possible.
@@ -154,7 +154,7 @@ fun type="rule" scop="root" -> event:answ(user) -> lng=usr:lang
 fun type="rule" scop="root" -> event:crt([code, data, file])
   -> crt(spec lng="VibeDSL" proto):
   -> exam(spec:syn==VibeDSL:dict:syn)<>:
-     -> exam(spec:logic!=?)<>:
+     -> exam(!(spec:logic==?))<>:
         -> show(spec lang="VibeDSL" src="orig" with(VibeDSL:prnt:strk:->add(ref lang=usr:lang))):
            -> usr apr:
               -> crt([code, data, file] lng=spec:lng:name):

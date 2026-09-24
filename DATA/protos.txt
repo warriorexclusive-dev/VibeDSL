@@ -34,7 +34,7 @@
    -> abstract "calc_total" -> act="sum line sub-totals by quantity"
    -> order:act="save order to store":name="store"
    -> order:store(context:user)
-   -> exam(order:items!=?)<>:
+   -> exam(!(order:items==?))<>:
       -> calc_total(rate)<>:
          -> show(total num format("usd"))
          -> goal

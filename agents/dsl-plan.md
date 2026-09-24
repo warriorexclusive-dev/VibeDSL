@@ -49,7 +49,7 @@ run(agent(dsl-plan))
 fun type="root" name="dsl-plan" id="dsl-plan" scop="root" -> event:crt([plan]) lng="VibeDSL"
    -> crt(spec lng="VibeDSL" blplan(plan)):
       -> exam(spec:syn==VibeDSL:dict:syn)<>:
-         -> exam(spec:logic!=?)<>:
+         -> exam(!(spec:logic==?))<>:
             -> show(spec lang="VibeDSL" src="orig" with(VibeDSL:prnt:strk:->add(ref lang="usr:lang"))):
                -> usr apr:
                   -> wrt(plan:goal)

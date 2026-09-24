@@ -25,9 +25,7 @@ parent:                       parent is the object with a colon at the end of th
                               is done; can take the <> multi-way prefix
 ->  <-  <->                   right strict link / inverse / two-way public interface
 ==  =                         equality (if-then gate) / assignment
-<=  >=  !=                    comparison: less-or-equal / greater-or-equal / not equal
-+=  -=                       // add/subtract to the object (numbers or logic, OOP-like)
-c++                           postfix increment by one (C-style)
+<=  >=                        comparison: less-or-equal / greater-or-equal
 -(id)>                         link to an internal object of the spec (by id)
 <(src)-                        link to an external source beyond the spec: one-way departure, may not return
 |  ||  !                      logical or / and / reverse
@@ -144,7 +142,7 @@ val rate = 10 / 2              // / = division
 fun type="agent" scop="root" -> event:crt([code, data, file])
    -> crt(spec lng="VibeDSL" proto):
    -> exam(spec:syn==VibeDSL:dict:syn)<>:
-      -> exam(spec:logic!=?)<>:
+      -> exam(!(spec:logic==?))<>:
          -> show(spec lang="VibeDSL" src="orig" with(VibeDSL:prnt:strk:->add(ref lang="usr:lang"))):
             -> usr apr:
                -> crt([code, data, file] lng=spec:lng:name):
