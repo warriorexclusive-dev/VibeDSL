@@ -201,8 +201,8 @@ CODE);
     <tr><th>Endpoint</th><th>Params</th><th>Returns</th></tr>
     <tr>
       <td><code>GET /API/get</code></td>
-      <td><code>dict=dictionary|syntax|blueprints|protos|agents</code></td>
-      <td>Whole requested source as HTML; unknown <code>dict</code> -&gt; 404 page</td>
+      <td><code>dict=dictionary|action|mapping|operators|abstracts|syntax|blueprints|protos|agents</code></td>
+      <td>Whole requested source as HTML (category splits generated into <code>DATA/</code> by <code>validator/spellcheck.py</code>); unknown <code>dict</code> -&gt; 404 page</td>
     </tr>
     <tr>
       <td><code>GET /API/search</code></td>

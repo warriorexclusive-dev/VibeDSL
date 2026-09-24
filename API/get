@@ -4,7 +4,7 @@ mb_internal_encoding('UTF-8');
 
 /**
  * VibeDSL API - get
- * GET ?dict=<dictionary|syntax|blueprints|protos|agents>
+ * GET ?dict=<dictionary|action|mapping|operators|abstracts|syntax|blueprints|protos|agents>
  * par name="dict" as in
  * logc=get -> ret file: sel[...] == in:content
  * ret html: \r\n -> <br>, tab/space indentation -> &nbsp;

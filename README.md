@@ -224,7 +224,8 @@ API/proto_get    exact abstract prototype by id
 API/blueprint_search  search ready blueprints by id / desc
 API/blueprint_get     exact ready blueprint by id
 API/lib          shared helpers (vibedslPage, vibedslToHtml, vibedslSources)
-DATA/dictionary.txt   full dictionary entries (incl. keyword list)
+DATA/dictionary_sorted_by_type.txt  master dictionary entries (type sections)
+DATA/action.dict, DATA/mapping.dict, DATA/operators.dict, DATA/abstracts.txt  category split canon (validator/spellcheck.py)
 DATA/syntax.txt       base syntax symbols
 DATA/protos.txt       abstract prototypes (proto / blplan)
 DATA/blueprints.txt   ready architectural models (blueprint)

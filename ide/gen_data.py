@@ -21,6 +21,10 @@ if not demo:
 payload = {
     "dict": read(os.path.join(DATA, "dictionary_sorted_by_type.txt")),
     "dictName": "dictionary_sorted_by_type.txt",
+    "dictAction": read(os.path.join(DATA, "action.dict")),
+    "dictMapping": read(os.path.join(DATA, "mapping.dict")),
+    "dictOperators": read(os.path.join(DATA, "operators.dict")),
+    "dictAbstracts": read(os.path.join(DATA, "abstracts.txt")),
     "protos": read(os.path.join(DATA, "protos.txt")),
     "blueprints": read(os.path.join(DATA, "blueprints.txt")),
     "syntax": read(os.path.join(DATA, "syntax.txt")),
@@ -37,6 +41,7 @@ with io.open(out, "w", encoding="utf-8") as f:
     f.write('if (typeof window !== "undefined") window.VIBEDSL_DATA = VIBEDSL_DATA;\n')
 
 print("wrote %s (%d bytes)" % (out, os.path.getsize(out)))
-print("dict=%d protos=%d blueprints=%d demo=%d" % (
-    len(payload["dict"]), len(payload["protos"]),
-    len(payload["blueprints"]), len(payload["demo"])))
+print("dict=%d action=%d mapping=%d operators=%d abstracts=%d protos=%d blueprints=%d demo=%d" % (
+    len(payload["dict"]), len(payload["dictAction"]), len(payload["dictMapping"]),
+    len(payload["dictOperators"]), len(payload["dictAbstracts"]),
+    len(payload["protos"]), len(payload["blueprints"]), len(payload["demo"])))

@@ -6,7 +6,7 @@ mb_internal_encoding('UTF-8');
  * VibeDSL API - search
  * GET ?in=<term>
  * arc=RAG, logc=srch
- * source=[DATA/dictionary.txt, DATA/syntax.txt, DATA/agents.txt]
+ * source=[DATA/dictionary_sorted_by_type.txt, DATA/syntax.txt, DATA/agents.txt]
  * ret text blob: objects split by marker "*->", line breaks \r\n -> <br>, tab indentation preserved
  */
 

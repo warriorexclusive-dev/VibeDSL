@@ -107,7 +107,7 @@ not composed from abstracts.
 - [ ] Still open: how deep UI states (enabled/hover/focus) get documented
 
 ## TODO
-- [x] Add approved UI tokens to DATA/dictionary.txt (COMPOSITION + NAV + INPUT + DISPLAY + USER INPUT)
+- [x] Add approved UI tokens to DATA/dictionary_sorted_by_type.txt (COMPOSITION + NAV + INPUT + DISPLAY + USER INPUT)
 - [ ] M3-reference block into VibeDSL.md + README.md + index
 - [x] Sync RAG mirror + global agents
 - [ ] Commit after docs

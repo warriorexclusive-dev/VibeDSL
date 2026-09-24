@@ -11,14 +11,15 @@ free-form.
 
 The language base is served by the local RAG API:
 
-- `GET /API/get?dict=dictionary` — full keyword dictionary with examples
+- `GET /API/get?dict=dictionary` — full keyword dictionary with examples (master, separated by type)
+- `GET /API/get?dict=action|mapping|operators|abstracts` — category split dictionaries (generated into `DATA/` by `validator/spellcheck.py`)
 - `GET /API/get?dict=syntax` — base syntax symbols
 - `GET /API/get?dict=agents` — agent rules
 - `GET /API/search?in=<term>` — RAG search across dictionary/syntax/agents
 - `GET /API/blueprint_search?in=<term>` — search blueprints by `id=""` / `desc=""`
 - `GET /API/blueprint_get?id=<id>` — exact blueprint object by `id=""` (404 if absent)
 
-Sources under `DATA/`: `dictionary.txt`, `syntax.txt`, `blueprints.txt`, `agents.txt`.
+Sources under `DATA/`: `dictionary_sorted_by_type.txt` (master), split canon `action.dict` / `mapping.dict` / `operators.dict` / `abstracts.txt`, `syntax.txt`, `blueprints.txt`, `agents.txt`.
 
 ---
 

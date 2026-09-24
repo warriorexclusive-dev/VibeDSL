@@ -22,7 +22,11 @@ function vibedslToHtml(string $text, string $title): string
 function vibedslSources(string $base): array
 {
     return [
-        'dictionary' => $base . '/DATA/dictionary.txt',
+        'dictionary' => $base . '/DATA/dictionary_sorted_by_type.txt',
+        'action'     => $base . '/DATA/action.dict',
+        'mapping'    => $base . '/DATA/mapping.dict',
+        'operators'  => $base . '/DATA/operators.dict',
+        'abstracts'  => $base . '/DATA/abstracts.txt',
         'syntax'     => $base . '/DATA/syntax.txt',
         'blueprints' => $base . '/DATA/blueprints.txt',
         'protos'     => $base . '/DATA/protos.txt',

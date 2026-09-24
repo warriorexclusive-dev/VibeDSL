@@ -239,19 +239,30 @@ require(["vs/editor/editor.main"], function () {
 
     var panel = document.getElementById("panel");
     var helpText = document.getElementById("helpText");
+    var REFS = {
+        action: DATA.dictAction || "",
+        mapping: DATA.dictMapping || "",
+        operators: DATA.dictOperators || "",
+        abstracts: DATA.dictAbstracts || "",
+        syntax: DATA.syntax || ""
+    };
+    function refButtons() {
+        return Array.prototype.slice.call(document.querySelectorAll("#panelBtns .refBtn"));
+    }
     function showHelp(name) {
-        helpText.textContent = name === "dict" ? DATA.dict
-                             : name === "syntax" ? (DATA.syntax || "") : "";
-        document.getElementById("dictBtn").className = name === "dict" ? "active" : "";
-        document.getElementById("syntaxBtn").className = name === "syntax" ? "active" : "";
+        helpText.textContent = REFS[name] || "";
+        refButtons().forEach(function (b) {
+            b.className = b.getAttribute("data-ref") === name ? "refBtn active" : "refBtn";
+        });
     }
     document.getElementById("helpBtn").addEventListener("click", function () {
         var open = panel.classList.toggle("open");
-        if (open && !helpText.textContent) showHelp("dict");
+        if (open && !helpText.textContent) showHelp("action");
         editor.layout();
     });
-    document.getElementById("dictBtn").addEventListener("click", function () { showHelp("dict"); });
-    document.getElementById("syntaxBtn").addEventListener("click", function () { showHelp("syntax"); });
+    refButtons().forEach(function (b) {
+        b.addEventListener("click", function () { showHelp(b.getAttribute("data-ref")); });
+    });
 
     restoreDraft();
     validateNow();

@@ -15,7 +15,9 @@ Spec: plan/spellcheck-stage1.vibe
              case "abstracts":   save(file_abstracts)
 
 Category blocks come from the explicit `type:<name>` section headers in
-dictionary_sorted_by_type.txt.
+dictionary_sorted_by_type.txt. The category split files are THE CANON and
+live directly in DATA/ (served by API/get?dict=action|mapping|operators|
+abstracts and shown by the IDE reference panel).
 """
 import io
 import os
@@ -24,9 +26,10 @@ import sys
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 DATA = os.path.join(HERE, os.pardir, "DATA")
-OUT = os.path.join(HERE, "out")
 
 SRC = os.path.join(DATA, "dictionary_sorted_by_type.txt")
+
+DICT_PREFIX = "start language dictionary\n\n"
 
 CASES = [
     ("action",           "action.dict"),
@@ -57,7 +60,6 @@ def count_entries(blob):
 
 
 def main():
-    os.makedirs(OUT, exist_ok=True)
     text = read(SRC)
     blocks = split_blocks(text)
     missing = [name for name, _ in CASES if name not in blocks]
@@ -71,10 +73,9 @@ def main():
     total = 0
     for filename, parts in merged.items():
         body = "".join(blob for _, blob in parts)
-        prefix = "start language dictionary\n\n"
-        path = os.path.join(OUT, filename)
+        path = os.path.join(DATA, filename)
         with io.open(path, "w", encoding="utf-8") as f:
-            f.write(prefix + body)
+            f.write(DICT_PREFIX + body)
         n = count_entries(body)
         total += n
         print("  %-14s %s  (%d entries, %s:%s)" % (
@@ -85,7 +86,7 @@ def main():
 
 # ---------------------------------------------------------------- stage 2
 # spec: plan/spellcheck-stage1.vibe (stage 2)
-#   open(file:"API/get")   :\(file:name="dictionary.txt" act="delete"):\(stage 1:[...] action="add"):rebuild()
+#   open(file:"API/get")   :\(file act="rebuild" over action/mapping/operators/abstracts):stage 1:[...] action="add"
 #   open(file:"API/search") :as sc_file: fun name="search": ->\(... delete) ->\(... mix(...) add)  sc_file:rebuild()
 # The four split files (action/mapping/operators/abstracts) become THE CANON
 # once the spec passes: the parser knows syntax per type.
@@ -139,13 +140,13 @@ def load_section_index(source):
 
 
 def act_delete():
-    """delete local dictionary.txt (stale splits)."""
+    """delete stale split leftovers (.part), then the four canon files."""
     for name, _ in FILES:
-        p = os.path.join(OUT, name + ".part")
+        p = os.path.join(DATA, name + ".part")
         if os.path.exists(p):
             os.remove(p)
-    for fn in ("dictionary.txt",):
-        p = os.path.join(OUT, fn)
+    for fn, _ in FILES:
+        p = os.path.join(DATA, fn)
         if os.path.exists(p):
             os.remove(p)
 
@@ -155,7 +156,7 @@ def save_parts(buckets, index):
     for sec, fn in FILES:
         blobs = buckets.get(sec, [])
         body = "".join(b + "\n\n" for b in blobs)
-        with io.open(os.path.join(OUT, fn), "w", encoding="utf-8") as f:
+        with io.open(os.path.join(DATA, fn), "w", encoding="utf-8") as f:
             f.write(body)
         total += len(blobs)
         print("    %-14s %d entries" % (fn, len(blobs)))

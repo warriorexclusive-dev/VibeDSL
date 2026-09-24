@@ -41,7 +41,7 @@ function line(name, text) { cases.push({ name: name, args: [text], rel: null, te
 file("syntax.txt", "DATA\\syntax.txt");
 file("protos.txt", "DATA\\protos.txt");
 file("blueprints.txt", "DATA\\blueprints.txt");
-file("dictionary.txt", "DATA\\dictionary.txt");
+file("dictionary_sorted_by_type.txt", "DATA\\dictionary_sorted_by_type.txt");
 file("demo_act.vibe", path.join(process.env.TEMP, "opencode", "demo_act.vibe"));
 
 line("neg: undeclared call", "get_me_all()");

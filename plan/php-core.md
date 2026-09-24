@@ -143,7 +143,11 @@ part 3: {API/lib}
          -> ret {vibedslPage(text,title)}
       -> crt fun name="vibedslSources" par="base" out="lst" desc="map source name -> DATA file" -> act == crt [data]
          -> ret lst:
-            -> {dictionary -> base/DATA/dictionary.txt}
+            -> {dictionary -> base/DATA/dictionary_sorted_by_type.txt}
+            -> {action     -> base/DATA/action.dict}
+            -> {mapping    -> base/DATA/mapping.dict}
+            -> {operators  -> base/DATA/operators.dict}
+            -> {abstracts  -> base/DATA/abstracts.txt}
             -> {syntax     -> base/DATA/syntax.txt}
             -> {blueprints -> base/DATA/blueprints.txt}
             -> {protos     -> base/DATA/protos.txt}
@@ -254,7 +258,7 @@ part 9: {API/blueprint_search}
 ## Verification — 5 syntax passes
 
 Pass 1 (operators): every operator used here (`-> : == != <> | || ! reqr`)
-is present in `syntax.txt` / `dictionary.txt`.
+is present in `syntax.txt` / `dictionary_sorted_by_type.txt`.
 Pass 2 (keys): every structural key used outside `{}` (`fun type root name id
 scop act crt create spec lng src extn reqr req exam syn logic goal retry rollb
 ask part module desc in run if loop ret cnv show for par out ref data code file

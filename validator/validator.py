@@ -149,7 +149,7 @@ def entry_aliases(path):
 
 
 KNOWN = set()
-for fn in ("dictionary.txt", "syntax.txt"):
+for fn in ("dictionary_sorted_by_type.txt", "syntax.txt"):
     KNOWN |= entry_aliases(os.path.join(DATA, fn))
 KNOWN |= {"stage", "scop", "srch", "mix"}
 
