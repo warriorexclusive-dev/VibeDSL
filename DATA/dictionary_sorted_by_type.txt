@@ -54,7 +54,7 @@ type:action
     -> exm:delay()    - infinite delay
 
 *-> deploy           - code compilation or deployment
-    -> exm:deploy:->build
+    -> exm:deploy:->act="deploy to server"
 
 *-> err, error   - logic action of error: a logic-stop trigger
     -> exm:fun event:err:-> ret:except:response
@@ -151,7 +151,7 @@ type:action
 *-> scrsht         - screenshot
     -> exm:scrsht:path
 
-*-> select       - select action, syntax example sel[val1,val2] after ->swt if more way or ->abslt{} if abstract, example sel[val1,val2]->fun data=sel:ret , sel[val1,val2]->swt case val1: data1=val1 bk
+*-> select       - select action, syntax example sel[val1,val2] after ->swt if more way or ->abstract{} if abstract, example sel[val1,val2]->fun data=sel:ret , sel[val1,val2]->swt case val1: data1=val1 bk
     -> exm:sel[v1,v2]->swt
     -> exm:fun par name="a" type="list" -> list:sel[n]:fun ->(item:date > item:date)->ret
 
