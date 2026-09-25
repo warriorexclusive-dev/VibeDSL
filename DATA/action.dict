@@ -56,7 +56,7 @@ type:action
 *-> deploy           - code compilation or deployment
     -> exm:deploy:->act="deploy to server"
 
-*-> err, error   - logic action of error: a logic-stop trigger
+*-> err, error, halt - logic action of error / stop: a logic-stop trigger, immediate termination of the current flow
     -> exm:fun event:err:-> ret:except:response
     -> exm:if(err)->show(excpt)
 

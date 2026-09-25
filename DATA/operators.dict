@@ -21,7 +21,7 @@ type:logical operators
     -> exm:[a]->[b]
 
 *-> -[]>          - multi vector: 
-    -> exm: crt(model type=cube)<>:-[3]> [x,y,z]:size=20 as num:format(0.0)
+    -> exm: crt(model type=cube)-[3]> [x,y,z]:size=20 as num:format(0.0)
 
 *-> /            - ordinary mathematical division operator (divide)
     -> exm:val b=y / e
@@ -30,9 +30,6 @@ type:logical operators
 
 *-> :            - true/false limiter and check; logical exist with Y/N, return Y/true if property exist or expression is valid, return N/false example lang:c++: wrt; null safe WITH ask - on N the logic halts and ASKS the human (see ask: when the check does not converge, the AI must ask, never guess)
     -> exm:lang:c++:
-
-*-> :point:      - example of point for go to
-    -> exm:goto::point:
 
 *-> ;            - end of current function/layer/context do not use in prototypes or rules it is a marker of end context and clean token memory
     exm: 
@@ -112,7 +109,7 @@ type:logical operators
     -> exm:if obj==obj | if !(a==b)
     -> exm:if(a==b)->ret
 
-*-> incr         - increment built-in: incr(val) -> value + 1 (counter step in for loops, e.g. i=incr(1))
+*-> incr         - increment built-in: incr(val) = value + 1 (counter step in for loops, e.g. i=incr(1))
     -> exm:for(i<10,incr(1))
 
 *-> is           - instanceof
@@ -124,6 +121,9 @@ type:logical operators
 end language dictionary
 
 *-> part         - logical partition operator, applies to any entity
+
+*-> point, :point: - example of a goto label; usage goto: :point:
+    -> exm:goto::point:
 
 *-> present , instanceof, belong - present, belong, instanceof, logical membership check condition 
     -> exm: file instanceof xml:->save()
