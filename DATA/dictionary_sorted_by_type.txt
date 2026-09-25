@@ -161,6 +161,13 @@ type:action
 *-> show         - action show any entity in user out default text console 
     -> exm: show(dict)
 
+*-> split     - split anything into n parts by vectors, e.g. split a dictionary into its category parts and save
+    -> exm: split(dict,[actions,mapping,operators,abstracts])<>:
+            -> save(dict:"action")
+            -> save(dict:"mapping")
+            -> save(dict:"operators")
+            -> save(dict:"abstracts")
+
 *-> srch         - search action: search over a node/base by query
     -> exm:srch(in) type="RAG"
 
