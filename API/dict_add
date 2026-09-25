@@ -1,0 +1,132 @@
+<?php
+declare(strict_types=1);
+mb_internal_encoding('UTF-8');
+
+/**
+ * VibeDSL API - dict_add (IDE dictionary editor)
+ * POST JSON: {"section":"action|mapping|operators|abstracts",
+ *             "value":"alias[, alias2]","desc":"...","exm":"..."}
+ * Validates the entry, appends it to DATA/dictionary_sorted_by_type.txt under
+ * the requested `type:` section and rebuilds canon splits + ide/data.js via
+ * validator/pipeline_add.py.
+ * ret json: {"ok":true,"section":..,"value":..} | {"ok":false,"error":".."}
+ */
+
+header('Content-Type: application/json; charset=utf-8');
+header('Access-Control-Allow-Origin: *');
+header('Access-Control-Allow-Methods: POST, OPTIONS');
+header('Access-Control-Allow-Headers: Content-Type');
+
+if (($_SERVER['REQUEST_METHOD'] ?? '') === 'OPTIONS') {
+    http_response_code(204);
+    exit;
+}
+if (($_SERVER['REQUEST_METHOD'] ?? '') !== 'POST') {
+    echo json_encode(['ok' => false, 'error' => 'use POST']);
+    exit;
+}
+
+$raw = (string)file_get_contents('php://input');
+$j = json_decode($raw, true);
+if (!is_array($j)) {
+    echo json_encode(['ok' => false, 'error' => 'bad JSON body']);
+    exit;
+}
+
+$base = dirname(__DIR__);
+
+$section = (string)($j['section'] ?? '');
+$value   = (string)($j['value'] ?? '');
+$desc    = (string)($j['desc'] ?? '');
+$exm     = (string)($j['exm'] ?? '');
+
+$allowed = ['action' => true, 'mapping' => true, 'operators' => true, 'abstracts' => true];
+if (!isset($allowed[$section])) {
+    echo json_encode(['ok' => false, 'error' => 'unknown section; use action|mapping|operators|abstracts']);
+    exit;
+}
+
+$one_line = function (string $s): string {
+    return trim(preg_replace('/[\r\n]+/', ' ', $s) ?? '');
+};
+$value = $one_line($value);
+$desc  = $one_line($desc);
+$exm   = $one_line($exm);
+
+if ($value === '') {
+    echo json_encode(['ok' => false, 'error' => 'value (alias) is required']);
+    exit;
+}
+if (str_contains($value, ' - ') || str_starts_with($value, '*->')) {
+    echo json_encode(['ok' => false, 'error' => "value must not contain ' - ' or start with '*->'"]);
+    exit;
+}
+if (mb_strlen($value) > 200) {
+    echo json_encode(['ok' => false, 'error' => 'value too long (max 200)']);
+    exit;
+}
+if ($desc === '') {
+    echo json_encode(['ok' => false, 'error' => 'description is required']);
+    exit;
+}
+if (mb_strlen($desc) > 500) {
+    echo json_encode(['ok' => false, 'error' => 'description too long (max 500)']);
+    exit;
+}
+if (mb_strlen($exm) > 400) {
+    echo json_encode(['ok' => false, 'error' => 'example too long (max 400)']);
+    exit;
+}
+
+$dir = $base . '/GLOS/temp';
+if (!is_dir($dir)) {
+    @mkdir($dir, 0777, true);
+}
+$input = $dir . '/dict_add_input.json';
+$payload = ['section' => $section, 'value' => $value, 'desc' => $desc, 'exm' => $exm];
+if (file_put_contents($input, json_encode($payload, JSON_UNESCAPED_UNICODE)) === false) {
+    echo json_encode(['ok' => false, 'error' => 'cannot write input file']);
+    exit;
+}
+
+$script = $base . '/validator/pipeline_add.py';
+
+function find_python(): ?string
+{
+    foreach (['py', 'python', 'python3'] as $cand) {
+        exec(escapeshellcmd($cand) . ' -X utf8 -c "import sys" 2>&1', $o, $rc);
+        if ($rc === 0) {
+            return $cand;
+        }
+    }
+    return null;
+}
+
+$py = find_python();
+if ($py === null) {
+    echo json_encode(['ok' => false, 'error' => 'python not found (need py/python on PATH)']);
+    exit;
+}
+
+$cmd = escapeshellcmd($py) . ' -X utf8 ' . escapeshellarg($script) . ' ' . escapeshellarg($input) . ' 2>&1';
+$out = [];
+exec($cmd, $out, $rc);
+@unlink($input);
+
+$lastLine = '';
+foreach ($out as $line) {
+    if ($line !== '') {
+        $lastLine = $line;
+    }
+}
+$res = json_decode($lastLine, true);
+if (!is_array($res) || $rc !== 0) {
+    echo json_encode([
+        'ok' => false,
+        'error' => 'pipeline failed (rc=' . $rc . ')',
+        'detail' => implode("\n", array_slice($out, -12)),
+    ]);
+    exit;
+}
+$res['server'] = 'php dict_add';
+echo json_encode($res, JSON_UNESCAPED_UNICODE);

@@ -15,6 +15,7 @@ Respond to the user in their language. Write code without comments unless the sp
 - `API/proto_search?in=<term>` — search abstract prototypes only (proto/blplan formal plans), matches by `id=""` / `desc=""`; empty `in` -> term required.
 - `API/proto_get?id=<id>` — exact abstract prototype by `id=""`; 404 if absent or `id` missing.
 - `API/get?dict=<dictionary|action|mapping|operators|abstracts|syntax|blueprints|protos|agents>` — whole source file as HTML (the four category split dicts `action.dict`/`mapping.dict`/`operators.dict`/`abstracts.txt` are generated into `DATA/` by `validator/spellcheck.py`); unknown dict -> 404 page.
+- `API/dict_add` — POST JSON `{section, value, desc, exm}` (`section` in action|mapping|operators|abstracts), used by the IDE dictionary editor. Sanitizes (single-line fields, rejects `*->` / ` - ` in value), then calls `validator/pipeline_add.py`, which rejects duplicate aliases, appends the entry under the matching `type:` section of the master, and rebuilds canon splits + `ide/data.js` via `sort_dict.py --write` + `spellcheck.py` + `gen_data.py`. Ret JSON `{ok, section, value} | {ok, error}`.
 - `API/lib` — shared helpers (`vibedslPage`, `vibedslToHtml`, `vibedslSources`). Source paths live here; change them in one place.
 
 ## Data model (single source of truth = DATA/*.txt

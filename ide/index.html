@@ -48,6 +48,32 @@
     #log { flex: 1 1 55%; overflow: auto; margin: 0; padding: 6px 8px;
            font-family: Consolas, monospace; font-size: 14px; color: #9cdcfe;
            white-space: pre; }
+    .refBtn .chk { font-weight: 400; margin-left: 2px; }
+    .refBtn .chk.fail { color: #f48771; }
+    .refBtn .chk.pass { color: #6a9955; }
+    .modal { position: fixed; inset: 0; background: rgba(0, 0, 0, .55);
+             display: flex; align-items: center; justify-content: center; z-index: 50; }
+    .modal.hidden { display: none; }
+    .modalBox { background: #252526; border: 1px solid #3c3c3c; border-radius: 4px;
+                width: 480px; max-width: 94vw; padding: 14px 16px;
+                display: flex; flex-direction: column; gap: 10px; }
+    .modalTitle { font-weight: 600; color: #4ec9b0; }
+    .modalBox label { display: flex; flex-direction: column; gap: 4px;
+                      font-size: 13px; color: #9cdcfe; }
+    .modalBox input, .modalBox select { background: #1e1e1e; color: #d4d4d4;
+            border: 1px solid #555; border-radius: 3px; padding: 4px 8px;
+            font-family: inherit; font-size: 13px; }
+    .modalBox input:focus, .modalBox select:focus { outline: none; border-color: #3794ff; }
+    .hint { color: #858585; font-size: 12px; }
+    #addPreview { background: #1e1e1e; border: 1px solid #3c3c3c; border-radius: 3px;
+                  padding: 6px 8px; margin: 0; font-family: Consolas, monospace;
+                  font-size: 12px; white-space: pre; color: #9cdcfe;
+                  max-height: 120px; overflow: auto; }
+    #addResult { font-family: Consolas, monospace; font-size: 13px; min-height: 16px; }
+    #addResult.ok { color: #6a9955; }
+    #addResult.err { color: #f48771; }
+    .modalBtns { display: flex; gap: 8px; justify-content: flex-end; }
+    .modalBtns button.primary { background: #094771; border-color: #3794ff; color: #fff; }
 </style>
 </head>
 <body>
@@ -73,6 +99,7 @@
             <button class="refBtn" data-ref="operators">operators</button>
             <button class="refBtn" data-ref="abstracts">abstracts</button>
             <button class="refBtn" data-ref="syntax">syntax</button>
+            <button id="addDictBtn" title="add a dictionary entry">+ Add</button>
         </div>
         <pre id="helpText"></pre>
     </aside>
@@ -80,6 +107,34 @@
 <div id="bottom">
     <div id="problems"></div>
     <pre id="log"></pre>
+</div>
+<div id="dictModal" class="modal hidden">
+    <div class="modalBox">
+        <div class="modalTitle">add dictionary entry</div>
+        <label>section
+            <select id="addSection">
+                <option value="action">action</option>
+                <option value="mapping">mapping</option>
+                <option value="operators">operators</option>
+                <option value="abstracts">abstracts</option>
+            </select>
+        </label>
+        <label>value <span class="hint">(alias, comma-separated allowed)</span>
+            <input id="addValue" type="text" spellcheck="false" autocomplete="off">
+        </label>
+        <label>description
+            <input id="addDesc" type="text" spellcheck="false" autocomplete="off">
+        </label>
+        <label>example <span class="hint">(optional, one line)</span>
+            <input id="addExm" type="text" spellcheck="false" autocomplete="off">
+        </label>
+        <pre id="addPreview"></pre>
+        <div id="addResult"></div>
+        <div class="modalBtns">
+            <button id="addCancel">Cancel</button>
+            <button id="addOk" class="primary">Add to dictionary</button>
+        </div>
+    </div>
 </div>
 <script src="/temp/package/min/vs/loader.js"></script>
 <script src="/ide/data.js"></script>

@@ -246,23 +246,153 @@ require(["vs/editor/editor.main"], function () {
         abstracts: DATA.dictAbstracts || "",
         syntax: DATA.syntax || ""
     };
+    var CHK_KEYS = ["action", "mapping", "operators", "abstracts", "syntax"];
+    var CHK = {};
+    function dictCheck(name) {
+        if (CHK[name]) return CHK[name];
+        CHK[name] = VibeDSLValidator.validate(REFS[name] || "", {
+            dictText: DATA.dict,
+            dictName: DATA.dictName,
+            protosText: DATA.protos,
+            blueprintsText: DATA.blueprints,
+            syntaxText: DATA.syntax,
+            srcName: "dict:" + name
+        });
+        return CHK[name];
+    }
     function refButtons() {
         return Array.prototype.slice.call(document.querySelectorAll("#panelBtns .refBtn"));
     }
+    var activeRef = "action";
     function showHelp(name) {
-        helpText.textContent = REFS[name] || "";
+        activeRef = name;
+        var head = [];
+        if (CHK_KEYS.indexOf(name) !== -1) {
+            var r = dictCheck(name);
+            if (r.nerr) {
+                head.push("---- dictionary check: FAIL (errors=" + r.nerr + ") ----");
+                r.markers.forEach(function (m) {
+                    head.push("  L" + m.startLineNumber + ": " + m.message);
+                });
+            } else {
+                head.push("---- dictionary check: PASS (errors=0) ----");
+            }
+            head.push("-------------------------------------------");
+        }
+        helpText.textContent = (head.length ? head.join("\n") + "\n" : "") + (REFS[name] || "");
         refButtons().forEach(function (b) {
             b.className = b.getAttribute("data-ref") === name ? "refBtn active" : "refBtn";
         });
     }
-    document.getElementById("helpBtn").addEventListener("click", function () {
-        var open = panel.classList.toggle("open");
-        if (open && !helpText.textContent) showHelp("action");
-        editor.layout();
-    });
     refButtons().forEach(function (b) {
+        var dataRef = b.getAttribute("data-ref");
+        if (CHK_KEYS.indexOf(dataRef) !== -1) {
+            try {
+                var chk = dictCheck(dataRef);
+                var span = document.createElement("span");
+                span.className = "chk " + (chk.nerr ? "fail" : "pass");
+                span.textContent = chk.nerr ? "(" + chk.nerr + ")" : "(\u2713)";
+                b.appendChild(span);
+            } catch (e) { /* leave button plain */ }
+        }
         b.addEventListener("click", function () { showHelp(b.getAttribute("data-ref")); });
     });
+    document.getElementById("helpBtn").addEventListener("click", function () {
+        var open = panel.classList.toggle("open");
+        if (open && !helpText.textContent) showHelp(activeRef);
+        editor.layout();
+    });
+
+    var dictModal = document.getElementById("dictModal");
+    var addSection = document.getElementById("addSection");
+    var addValue = document.getElementById("addValue");
+    var addDesc = document.getElementById("addDesc");
+    var addExm = document.getElementById("addExm");
+    var addPreview = document.getElementById("addPreview");
+    var addResult = document.getElementById("addResult");
+    var KNOWN_ALIASES = null;
+    try {
+        KNOWN_ALIASES = VibeDSLValidator.entryAliases(DATA.dict);
+    } catch (e) { KNOWN_ALIASES = new Set(); }
+
+    function composePreview() {
+        var v = addValue.value.trim(), d = addDesc.value.trim(), e = addExm.value.trim();
+        if (!v && !d && !e) {
+            addPreview.textContent = "(type the fields above)";
+            return;
+        }
+        var lines = ["*-> " + v + " - " + d];
+        if (e) lines.push("    -> exm: " + e);
+        addPreview.textContent = lines.join("\n");
+    }
+    function setAddResult(msg, ok) {
+        addResult.textContent = msg;
+        addResult.className = ok ? "ok" : "err";
+    }
+    function openAddDict(section) {
+        if (CHK_KEYS.indexOf(section) === -1 || section === "syntax") section = "action";
+        addSection.value = section;
+        addValue.value = "";
+        addDesc.value = "";
+        addExm.value = "";
+        setAddResult("", true);
+        composePreview();
+        dictModal.classList.remove("hidden");
+        addValue.focus();
+    }
+    function submitAdd() {
+        var v = addValue.value.trim(), d = addDesc.value.trim(), e = addExm.value.trim();
+        if (!v || !d) {
+            setAddResult("value and description are required", false);
+            return;
+        }
+        var parts = v.split(",");
+        for (var i = 0; i < parts.length; i++) {
+            var t = parts[i].trim().toLowerCase();
+            if (t && KNOWN_ALIASES.has(t)) {
+                setAddResult("alias already in dictionary: " + parts[i].trim(), false);
+                return;
+            }
+        }
+        setAddResult("saving\u2026", true);
+        var body = JSON.stringify({ section: addSection.value, value: v, desc: d, exm: e });
+        fetch("API/dict_add", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: body
+        }).then(function (r) { return r.json(); })
+        .then(function (j) {
+            if (j && j.ok) {
+                storeLocal("vibedsl.addref", j.section || "action");
+                var added = (j.value || v).split(",")[0].trim();
+                setAddResult("added '" + added + "' to " + (j.section || "?") + " \u2014 reloading\u2026", true);
+                setTimeout(function () { location.reload(); }, 400);
+            } else {
+                setAddResult("error: " + (j && j.error ? j.error : "server rejected the entry"), false);
+            }
+        })
+        .catch(function () {
+            setAddResult("error: server unreachable (router down?)", false);
+        });
+    }
+    document.getElementById("addDictBtn").addEventListener("click", function () {
+        openAddDict(activeRef);
+    });
+    document.getElementById("addCancel").addEventListener("click", function () {
+        dictModal.classList.add("hidden");
+    });
+    document.getElementById("addOk").addEventListener("click", submitAdd);
+    addValue.addEventListener("input", composePreview);
+    addDesc.addEventListener("input", composePreview);
+    addExm.addEventListener("input", composePreview);
+
+    var afterAdd = readLocal("vibedsl.addref");
+    if (afterAdd) {
+        storeLocal("vibedsl.addref", "");
+        panel.classList.add("open");
+        showHelp(afterAdd);
+        editor.layout();
+    }
 
     restoreDraft();
     validateNow();
