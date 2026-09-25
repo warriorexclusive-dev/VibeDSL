@@ -1,0 +1,600 @@
+VibeDSL create-specs-manual
+============================
+УЧЕБНОЕ ПОСОБИЕ (living manual).
+Правило ведения: каждое новое понимание языка ДОПИСЫВАЕТСЯ в конец файла -
+в разделы "Хроника" и по нужной теме. Отдельные куски не переписываются,
+добавляются и помечаются датой.
+
+Как писать спеки под пересобранный словарь (dictionary_sorted_by_type.txt).
+
+ПРАВИЛА ЯЗЫКА (RU)
+------------------
+1. Проза в act="..." запрещена. Руну команды мапим структурой:
+   item name="router" behavior="root index" event="http_request"->act=select(path)<>:
+   -> act=open(file)
+   -> act=halt("http 404")
+   - item: объект-сущность, которую обрабатываем.
+   - event/behavior: контекст события и поведения (объявленные токены словаря).
+   - act=cmd(...): реальный action со скобками (select, open, halt, show, ret, save...).
+   - <>:: ветка; ниже - варианты, каждый начинает с "->".
+   - Значения-контекст - в кавычках: halt("http 404"), а не halt(err 404).
+
+2. Абстрактные пропсы-ручки объявляются через abstract prop, крепятся к объекту
+   через -> и двоеточие; конкретика - через exm: внутри того же frm:
+   abstract prop id="ui_control" -> frm:"ui_control"
+   abstract prop id="color" -> control:"color"
+   exm: frm control="button":color="#333333"
+   - abstract prop id="X" объявляет слово X в области видимости.
+   - -> frm:"ui_control" / -> ui_control:"color": после двоеточия слово уже видимо.
+   - исключения нет: abstract объявляет prop,function,item, родитель(Документ) его использует.
+   Это даёт меньше токенов и больше смысла, чем точные языковые условия-слова.
+
+3. Видимость: compute_blocks собирает символы по ветке. Абстракты должны
+   лежать внутри ОДНОГО родительского документа - сиблинги верхнего уровня не видят
+   декларации друг друга.
+
+4. Правило для ИИ агентов: Токены брать ТОЛЬКО из словаря. frame нет, есть frm. color нет - объявляется
+   abstract prop. Не выдумывать слова.
+
+5. Скан командных слов: после операторов (->, <->, <>, :, &->, \). Слова в
+   кавычках маскируются, но скобки балансируются; <-> и \\( внутри кавычек не
+   защищены от проверок.
+
+6. Гейты перед апрувом: validator.py PASS, 0 фигурных скобок, test_parity.js
+   ALL CASES PASS, RAG /API/search?in=coder.
+
+7. Обязательно сохранять наследовательность объектов/смыслов через : для оптимизации KV кеша
+   7.1 item name="item" <- неправильно пораждает большое колчиество ветвлений векторов
+   7.2 item:name="item" <- правильно : якорь для вектора
+
+8. Обязательно проверять токены на уникальность 
+   8.1 prop токены допускаются и даже в рамках одной задачи должны быть одинаковые, при условии что описывают одно и тоже или эдентичное по смыслу свойство.
+   8.2 item должны быть разными, так как означают разные объекты
+   8.3 fun, function должны быть разными, так как обозначают разные действия.
+
+9. Изменение состояния, новые объекты или действия в той же строке, 
+   продолжение поля объекта или функции после отступа, 
+   варианты действий в ветвлении, а так же явные побуждения к действию
+   должны быть описаны через знак -> , это семнатический якорь atention    
+
+ЯЗЫК: CN
+------------
+1. act="..." 中禁止散文。命令以结构映射：
+   item name="router" behavior="root index" event="http_request"->act=select(path)<>:
+   -> act=open(file)
+   -> act=halt("http 404")
+   - item：处理的实体对象。
+   - event/behavior：事件与行为上下文（词典已声明的记号）。
+   - act=cmd(...)：带括号的真实动作（select, open, halt, show, ret, save…）。
+   - <>:：分支；下方为变体，每行以 "->" 开头。
+   - 上下文值加引号：halt("http 404")，而非 halt(err 404)。
+
+2. 抽象属性用 abstract prop 声明，经 -> 与冒号挂到对象上；具体值用 exm:，
+   且位于同一 frm 内：
+   abstract prop id="ui_control" -> frm:"ui_control"
+   abstract prop id="color" -> ui_control:"color"
+   exm: frm ui_control="button":color="#333333"
+   - abstract prop id="X" 在作用域内声明单词 X。
+   - -> frm:"ui_control" / -> ui_control:"color"：冒号后的单词已可见。
+   - 无例外：abstract 声明 prop、function、item，父级（文档）使用它。
+   这样记号更少、含义更多，优于精确语言的限定词条件词。
+
+3. 可见性：compute_blocks 按分支汇总符号。抽象必须位于同一父文档内，
+   顶层兄弟节点互不可见。
+
+4. AI 代理规则：记号只能取自词典。无 frame，只有 frm。color 无，需以
+   abstract prop 声明。禁止编造单词。
+
+5. 命令词扫描：紧跟操作符（->, <->, <>, :, &->, \）。引号内词被掩蔽，但括号
+   仍然配平；引号内的 <-> 与 \( 不受保护。
+
+6. 批准前门槛：validator.py PASS、花括号为 0、test_parity.js ALL CASES PASS、
+   RAG /API/search?in=coder。
+
+7. 必须通过 ":" 保持对象/意义的继承性，以优化 KV 缓存：
+   7.1 item name="item" <- 错误：产生大量向量分支
+   7.2 item:name="item" <- 正确：":" 是向量的锚点
+
+8. 必须检查记号唯一性：
+   8.1 prop 记号可以相同，即便在同一任务内，只要描述同一个或意义相同的属性。
+   8.2 item 必须不同，因为它们表示不同对象。
+   8.3 fun、function 必须不同，因为它们表示不同动作。
+
+9. 状态改变、同一行内的新对象或新动作、缩进后对象/函数字段的延续、分支中的
+   动作变体，以及明确的行动提示，都必须通过 -> 描述——它是注意力的语义锚点。
+
+LANGUE: FR
+-----------
+1. Pas de prose dans act="...". La règle de commande se mappe par la structure :
+   item name="router" behavior="root index" event="http_request"->act=select(path)<>:
+   -> act=open(file)
+   -> act=halt("http 404")
+   - item : entité objet traitée.
+   - event/behavior : contexte événement/comportement (tokens déclarés du dico).
+   - act=cmd(...) : vraie action avec parenthèses (select, open, halt, show, ret, save...).
+   - <>: : branche ; en dessous, variantes commençant chacune par "->".
+   - Valeurs de contexte entre guillemets : halt("http 404"), pas halt(err 404).
+
+2. Les props abstraits se déclarent via abstract prop, se rattachent à l'objet par
+   -> et le deux-points ; le concret via exm:, dans le même frm :
+   abstract prop id="control" -> frm:"control"
+   abstract prop id="color" -> control:"color"
+   exm: frm control="button":color="#333333"
+   - abstract prop id="X" déclare le mot X dans la portée.
+   - -> frm:"control" / -> control:"color" : le mot après ":" est déjà visible.
+   Moins de tokens, plus de sens que mes conditions inventées.
+
+3. Visibilité : compute_blocks agrège les symboles par branche. Abstracts et exm
+   doivent être dans le MÊME frm parent ; des frères de niveau racine ne se voient pas.
+
+4. Tokens UNIQUEMENT du dictionnaire. frame n'existe pas, seul frm. color n'existe
+   pas - à déclarer par abstract prop. control existe (controller, control).
+
+5. Scan des mots de commande : après opérateur (->, <->, <>, :, &->, \). Les mots
+   entre guillemets sont masqués mais les parenthèses restent vérifiées ; <-> et \\(
+   dans les guillemets ne sont pas protégées.
+
+6. Portes avant validation : validator.py PASS, 0 accolades, test_parity.js ALL
+   CASES PASS, RAG /API/search?in=coder renvoie ma règle.
+
+SPRACHE: DE
+------------
+1. Keine Prosa in act="...". Die Befehl-Rune wird strukturell gemappt:
+   item name="router" behavior="root index" event="http_request"->act=select(path)<>:
+   -> act=open(file)
+   -> act=halt("http 404")
+   - item: verarbeitete Entität.
+   - event/behavior: Ereignis-/Verhaltenskontext (deklarierte Wörterbuch-Tokens).
+   - act=cmd(...): echtes Action mit Klammern (select, open, halt, show, ret, save...).
+   - <>:: Verzweigung; darunter Varianten, jede beginnt mit "->".
+   - Kontextwerte in Anführungszeichen: halt("http 404"), nicht halt(err 404).
+
+2. Abstrakte Props über abstract prop deklarieren, per -> und Doppelpunkt an das
+   Objekt binden; Konkretes über exm:, im selben frm:
+   abstract prop id="control" -> frm:"control"
+   abstract prop id="color" -> control:"color"
+   exm: frm control="button":color="#333333"
+   - abstract prop id="X" deklariert das Wort X im Scope.
+   - -> frm:"control" / -> control:"color": Wort nach ":" ist sichtbar.
+   Weniger Tokens, mehr Bedeutung als meine erfundenen Bedingungswörter.
+
+3. Sichtbarkeit: compute_blocks sammelt Symbole pro Zweig. Abstracts und exm
+   müssen im GLEICHEN Eltern-frm liegen; Geschwister auf oberster Ebene sehen
+   einander nicht.
+
+4. Tokens NUR aus dem Wörterbuch. frame gibt es nicht, nur frm. color nicht -
+   per abstract prop deklarieren. control existiert (controller, control).
+
+5. Befehlswort-Scan: nach Operatoren (->, <->, <>, :, &->, \). Wörter in
+   Anführungszeichen sind maskiert, aber Klammern werden balanciert; <-> und \\( in
+   Anführungszeichen sind nicht geschützt.
+
+6. Gates vor Approve: validator.py PASS, 0 geschweifte Klammern, test_parity.js
+   ALL CASES PASS, RAG /API/search?in=coder liefert meine Regel.
+
+LANGUAGE: EN
+-------------
+1. No prose in act="...". Map the command run structurally:
+   item name="router" behavior="root index" event="http_request"->act=select(path)<>:
+   -> act=open(file)
+   -> act=halt("http 404")
+   - item: the entity being handled.
+   - event/behavior: event/behavior context (declared dictionary tokens).
+   - act=cmd(...): a real action with parens (select, open, halt, show, ret, save...).
+   - <>:: branch; variant lines below, each starting with "->".
+   - Context values are quoted: halt("http 404"), not halt(err 404).
+
+2. Declare abstract props via abstract prop, bind them to the object with ->
+   and a colon; concrete values via exm:, inside the same frm:
+   abstract prop id="control" -> frm:"control"
+   abstract prop id="color" -> control:"color"
+   exm: frm control="button":color="#333333"
+   - abstract prop id="X" declares the word X in scope.
+   - -> frm:"control" / -> control:"color": the word after ":" is in scope.
+   Fewer tokens, more meaning than my invented condition words.
+
+3. Visibility: compute_blocks aggregates symbols per branch. Abstracts and exm
+   must live inside the SAME parent frm - top-level siblings never see each
+   other's declarations.
+
+4. Tokens ONLY from the dictionary. frame does not exist, only frm. color does
+   not exist - declare it via abstract prop. control exists (controller, control).
+
+5. Command-word scan: after operators (->, <->, <>, :, &->, \). Words in quotes
+   are masked, but parens are still balanced; <-> and \\( inside quotes are NOT
+   protected from those checks.
+
+6. Gates before approve: validator.py PASS, zero curly braces, test_parity.js
+   ALL CASES PASS, RAG /API/search?in=coder returns my rule.
+
+ЭКОНОМИЯ RESOURCES (обоснование паттерна abstract + :)
+------------------------------------------------------
+Задекларировано: паттерн "abstract prop id=X -> obj:X" специально спроектирован
+для моделей с ограниченными ресурсами (малый KV-cache, слабое железо).
+
+СУТЬ: объявляя абстракт, мы физически дописываем лишние строки в файл, НО
+сохраняем "векторение" через двоеточие (:). Слово объявлено один раз в
+deklaration, а во всех местах использования оно идёт ПОСЛЕ ":" (например,
+control:"color"). Это локализует ссылку: модели не нужно тянуть в KV-кеш
+больше токенов — она видит слово уже в области видимости, по двоеточию, и
+не держит длинный контекст. Меньше токенов в KV-кеше при чтении -> меньше
+ресурсов на инференс -> спека переваривается локальной моделью.
+
+ИТОГОВАЯ ТАРИФИРОВКА: +несколько строк деклараций в файле, но -токены в
+контексте за счёт ":"-векторения. Выигрыш для лимитированных моделей.
+
+ПРАВИЛО: КАЖДОЕ абстрактное слово, которое встречается в нескольких местах,
+ОБЪЯВЛЯЕТСЯ abstract prop и ВЕКТОРИТСЯ через ":" при каждом использовании.
+Не объявлять абстракт = заставлять модель догадываться/держать контекст.
+
+CASES: obj:"X" после ":" — уже видимо, не тянет контекст. exm: frm
+control="button":color="#333333" — "color" резолвится по ":" из декларации.
+
+УТОЧНЕНИЕ МЕХАНИЗМА (2026-09-25, поправка к разделам "СУТЬ" и "ИТОГОВАЯ ТАРИФИРОВКА")
+KV-экономия — НЕ по длине слов и не по сумме токенов самих по себе. При
+размышлениях (reasoning) KV-кеш грузится ОБЪЁМОМ ХЕШЕЙ КОНЕЧНЫХ ТОЧЕК —
+числом отдельных семантических якорей, которые модель держит живыми в
+аттеншн-структуре одновременно. Длина слова на это почти не влияет; влияет
+КОЛИЧЕСТВО неповторяющихся понятий-якорей.
+- Паттерн abstract prop + ":" минимизирует именно число якорей: понятие
+  существует в ОДНОМ объявлении (одна конечная точка, один хеш), все
+  использования — указатели ПОСЛЕ ":" на этот же якорь, новых точек не
+  плодят.
+- Проза разворачивает новые слова-якоря на каждую фразу -> объём живых
+  хешей растёт -> KV разбухает при размышлениях, даже если суммарная длина
+  текста близка.
+- СЛЕДСТВИЕ-ПРАВИЛО: цель не токено-счёт, а МИНИМИЗАЦИЯ числа живых конечных
+  точек при ОДНОМ объявлении на понятие. Переиспользование оправдано даже
+  при одинаковой длине текста.
+- АТРИБУЦИЯ (2026-09-25): проза-спека, перегружавшая локальную модель, была
+  написана coder-агентом (мной); пользователь лишь утвердил направление
+  "короче + структурнее". Это НЕ пользовательская проза.
+
+EN CORRECTION (2026-09-25): KV economy is measured by the VOLUME OF LIVE
+ENDPOINT HASHES (distinct semantic anchors held in the attention structure
+during reasoning), not by word length or total token count alone. The
+abstract+":" pattern keeps ONE hash per concept (single declaration, all uses
+are pointers after ":") and therefore minimizes live endpoint volume; prose
+spawns new anchors per phrase even at similar text length. Attribution: the
+over-heavy prose spec was written by the coder agent, not the user.
+
+RU ПОСТРОЕНИЕ СПЕКИ (2026-09-25, выведено на ide-spec.vibe):
+- Абстракты и exm: живут ВНУТРИ своего frm. Абстракты, объявленные в
+  родительском frm верхнего уровня, НЕ видны частям-сиблингам на том же
+  уровне (block_syms собирается по ветке от каждого корневого ребёнка).
+- Поэтому в каждой части свой frm + свои abstract prop внутри него, с
+  локальным id (draft, live, parity...).
+- Ветки <>: - только ГОЛЫЕ `-> act=...` по образцу руны команды. НЕ вводить
+  выдуманные слова-условия (empty, dup, self, dot) - это лишние якоря:
+  контекст условий уже описан в behavior= или act= атрибуте и в кавычках.
+- id абстракта должен совпадать с frm= именем части, где живёт (self-bind):
+  abstract prop id="draft" -> frm:"draft" - тогда "draft" видно по ":".
+- Значения context - в кавычках: halt("http 404"). Команды-глаголы - в
+  скобках после act=: act=open(file), act=show(verdict), act=ret(name...).
+- Каждая часть кончается -> show(имя_части), где имя - тот же self-абстракт.
+
+RU ВЕСЬ ЯЗЫК = KV-КЕШ (2026-09-25, подтверждено примерами словаря):
+ВСЕ конструкции языка - это якоря для переключения контекста в KV-кеше,
+включая "пайтон-подобные" переходы. Не только abstract+":", но и операторы:
+- if(cond) - якорь-условие, сужает контекст до одного продолжения:
+  exm:if(err)->show(excpt), exm:if(dir:empty):insert(file).
+- swt:type:case "X" - ветвление: :swt: объявляет контекст выбора,
+  case "X": - якорь входа в ветку; дальше можно вложенный if - ещё точнее.
+  exm: :swt:type:case "action": , exm: sel[v1,v2]->swt case v1: data1=v1 bk.
+- evt:onCreate / event:onCreate - якорь-триггер смены контекста извне:
+  exm: event:onCreate -> load(view name="main"), exm: evt:notify -> show().
+- ask - резолюция ПОРЯДКА: сначала база (dictionary/syntax/protos/blueprints
+  через RAG), потом человек; "не выдумывай" - это кэширование ответа, чтобы
+  НЕ плодить новые якоря и НЕ переспрашивать.
+- call:fn() - вызов функции = якорь перехода в контекст функции и обратно.
+- ret - возврат = якорь смены контекста к вызывающему.
+ИТОГ: каждая руна - это либо ЯКОР СОСТОЯНИЯ (abstract/if/evt/swt/case), либо
+ЯКОР ПЕРЕХОДА (->, call, ret), а "пайтон-подобные" ветки - те же якоря
+переключения контекста. Соотношение то же: меньше живых якорей при
+размышлениях - меньше KV-нагрузка для слабой модели.
+
+EN WHOLE LANGUAGE IS KV-CACHE (2026-09-25, confirmed by dictionary examples):
+ALL language constructs are anchors for context switching in the KV-cache,
+including the "python-like" transitions. Not only abstract+":", but also:
+- if(cond) - condition anchor narrowing context to one continuation:
+  exm:if(err)->show(excpt), exm:if(dir:empty):insert(file).
+- swt:type:case "X" - branching: :swt: declares choice context,
+  case "X": is the entry anchor into a branch; nested if refines further.
+  exm: :swt:type:case "action": , exm: sel[v1,v2]->swt case v1: data1=v1 bk.
+- evt:onCreate / event:onCreate - external context-switch trigger anchor:
+  exm: event:onCreate -> load(view name="main"), exm: evt:notify -> show().
+- ask - RESOLUTION ORDER: first the base (dictionary/syntax/protos/blueprints
+  via RAG), then the human; "never guess" = caching the answer so you don't
+  spawn new anchors or re-ask.
+- call:fn() - function call = anchor jumping into the function context and
+  back. ret - return = anchor switching context to the caller.
+BOTTOM LINE: each rune is either a STATE anchor (abstract/if/evt/swt/case) or
+a TRANSITION anchor (->, call, ret); the "python-like" branches are the same
+context-switch anchors. Same ratio: fewer live anchors during reasoning -
+less KV load for a weak model.
+
+EN SPEC STRUCTURE (2026-09-25, derived on ide-spec.vibe):
+- Abstracts and exm: live INSIDE their own frm. Abstracts declared in a
+  top-level parent frm are NOT visible to sibling parts on the same level
+  (block_syms is collected per branch from each root child).
+- Hence each part has its own frm + its own abstract prop inside, with a
+  LOCAL id (draft, live, parity...).
+- <>: branches - only BARE `-> act=...` following the command-run pattern. Do
+  NOT invent condition words (empty, dup, self, dot) - extra anchors: the
+  condition context is already in behavior= / act= attribute and in quotes.
+- The abstract id must match the part's frm= name (self-bind):
+  abstract prop id="draft" -> frm:"draft" - then "draft" resolves by ":".
+- Context values are quoted: halt("http 404"). Command verbs go in parens
+  after act=: act=open(file), act=show(verdict), act=ret(name...).
+- Each part ends with -> show(part_name), using the same self-abstract name.
+
+RESOURCES ECONOMY (rationale for abstract + colon pattern)
+----------------------------------------------------------
+Declared: the "abstract prop id=X -> obj:X" pattern is specifically designed
+for resource-limited models (small KV-cache, weak hardware).
+
+ESSENCE: declaring an abstract physically appends extra lines to the file, BUT
+it preserves "vectorization" via the colon (:). The word is declared once, and
+at every use site it appears AFTER the ":" (e.g. control:"color"). This
+localizes the reference: the model does not need to pull more tokens into the
+KV-cache - it sees the word already in scope, by the colon, without keeping a
+long context. Fewer KV-cache tokens at read time -> less inference resources
+-> the spec is digestible by a local model.
+
+NET TARIFF: +a few declaration lines in the file, but -tokens in context thanks
+to ":"-vectorization. Net win for limited models.
+
+RULE: EVERY abstract word used in multiple places IS declared as abstract prop
+and vectorized via ":" at each use. Not declaring = forcing the model to guess
+or hold context.
+
+CASES: obj:"X" after ":" is already visible, pulls no context. exm: frm
+control="button":color="#333333" - "color" resolves by ":" from the declaration.
+
+RESSOURCEN-ÖKONOMIE (Begründung: abstract + Doppelpunkt)
+--------------------------------------------------------
+Erklärt: Das Muster "abstract prop id=X -> obj:X" ist gezielt für
+ressourcenbegrenzte Modelle gebaut (kleiner KV-Cache, schwache Hardware).
+
+KERN: Beim Deklarieren von abstract kommen physisch Zeilen in die Datei, ABER
+das "Vektorisieren" über den Doppelpunkt (:) bleibt erhalten. Das Wort wird
+einmal deklariert und steht an jeder Nutzungsstelle NACH ":" (z. B.
+control:"color"). Das lokalisiert die Referenz: Das Modell muss nicht mehr
+Tokens in den KV-Cache ziehen - es sieht das Wort bereits im Scope, am
+Doppelpunkt, ohne langen Kontext. Weniger KV-Cache-Tokens beim Lesen ->
+weniger Inferenzressourcen -> die Spec wird auch von lokalen Modellen
+verarbeitet.
+
+SUMME: +ein paar Deklarationszeilen im File, aber -Tokens im Kontext durch
+":"-Vektorisierung. Netto-Gewinn für limitierte Modelle.
+
+REGEL: JEDES abstrakte Wort, das mehrfach vorkommt, wird als abstract prop
+deklariert und an jeder Verwendung über ":" vektorisiert. Kein abstract =
+Modell raten lassen / Kontext halten lassen.
+
+FÄLLE: obj:"X" nach ":" ist sichtbar, zieht keinen Kontext. exm: frm
+control="button":color="#333333" - "color" löst sich über ":" aus der Deklaration.
+
+ÉCONOMIE DE RESSOURCES (justification du modèle abstract + :)
+--------------------------------------------------------------
+Déclaré : le modèle "abstract prop id=X -> obj:X" est conçu pour les modèles à
+ressources limitées (petit cache KV, matériel faible).
+
+ESSENCE : déclarer un abstract ajoute des lignes au fichier, MAIS conserve la
+"vectorisation" via le deux-points (:). Le mot est déclaré une fois et à chaque
+usage il suit ":" (ex. control:"color"). La référence est localisée : le modèle
+n'a pas à pousser plus de tokens dans le cache KV - il voit déjà le mot dans la
+portée, via le deux-points, sans garder un long contexte. Moins de tokens en
+cache KV à la lecture -> moins de ressources d'inférence -> une spec digérable
+par un modèle local.
+
+BILAN : +quelques lignes de déclarations dans le fichier, mais -tokens en
+contexte grâce à la ":"-vectorisation. Gain net pour les modèles limités.
+
+RÈGLE : TOUT mot abstrait utilisé à plusieurs endroits est déclaré en abstract
+prop et vectorisé par ":" à chaque usage. Ne pas déclarer = forcer le modèle à
+deviner ou garder le contexte.
+
+CAS : obj:"X" après ":" est déjà visible, ne tire aucun contexte. exm: frm
+control="button":color="#333333" - "color" se résout par ":" depuis la déclaration.
+
+RESOURCES 节约（abstract + 冒号 的理据）
+--------------------------------------
+已声明：「abstract prop id=X -> obj:X」专门为资源受限的模型设计（小 KV 缓存、弱
+硬件）。
+
+本质：声明 abstract 会向文件物理地加行，但通过冒号 (:) 保留了「向量化」。词只
+声明一次，在每个使用点都出现在「:」之后（例如 control:"color"）。引用因此被
+局部化：模型无需向 KV 缓存拉取更多 token——它在冒号处就能看到该词已在作用域内，
+不需要维持长上下文。读取时 KV 缓存 token 减少 -> 推理资源更省 -> 本地模型也能
+消化规范。
+
+净账：文件里多几行声明，但靠「:」向量化在上下文中省下 token。对受限模型是净赢。
+
+规则：凡在多处使用抽象词，都必须以 abstract prop 声明，并在每次使用时以「:」
+向量化。不声明 = 逼模型猜测或持有上下文。
+
+用例：obj:"X" 在「:」之后即已可见，不拉取上下文。exm: frm control="button":
+color="#333333" —— "color" 经「:」从声明解析。
+
+ХРОНИКА (CHANGELOG)
+-------------------
+2026-09-25: базовый раздел создан (5 языков: RU, CN, FR, DE, EN). Правила:
+структурный маппинг рун вместо прозы, abstract prop + exm:, токены только из
+словаря, ветки <>: с вариантами через "->", гейты перед апрувом.
+2026-09-25: добавлен раздел ЭКОНОМИЯ RESOURCES (5 языков): обоснование паттерна
+abstract + ":" для лимитированных моделей - векторение через двоеточие снижает
+токены в KV-кеше, декларативные строки окупаются.
+2026-09-25: уточнён МЕХАНИЗМ экономии: KV грузится объёмом живых хешей конечных
+точек (число семантических якорей при reasoning), а не длиной слов/суммой токенов.
+Абстракт + ":" = один хеш на понятие, указатели после ":" не плодят новых точек.
+Зафиксирована атрибуция: проза-спека написана coder-агентом, не пользователем.
+2026-09-25: ПОСТРОЕНИЕ СПЕКИ. Абстракты и exm: внутри СВОЕГО frm; сиблинги на
+одном уровне не видят чужих абстрактов. Ветки <>: только голые -> act=... без
+выдуманных слов-условий. id абстракта = имя своего frm (self-bind). Значения в
+кавычках, глаголы в скобках после act=.
+2026-09-25: ВЕСЬ ЯЗЫК = KV-КЕШ. Подтверждено примерами словаря: все конструкции
+(if, swt/case, evt, ask, call, ret, пайтон-подобные переходы) - якоря для
+переключения контекста. Инвариант: МЕНЬШЕ ЖИВЫХ ЯКОРЕЙ ПРИ РАЗМЫШЛЕНИЯХ =
+МЕНЬШЕ KV-НАГРУЗКИ. Экономия через резолюцию порядка у ask (база -> человек,
+не кэшируем повторные вопросы).
+
+ПОПРАВКА 2026-09-25 (RU): АБСТРАКТЫ = ГЛОБАЛЬНЫЙ SCOPE ДОКУМЕНТА/БЛЮПРИНТА
+--------------------------------------------------------------------------
+- Абстракты живут в разрезе ОДНОГО документа или блюпринта: для конкретной
+  спеки они ВСЕГДА глобальны. Объявляются один раз сверху, видны всем партам.
+- Правильная форма декларации - якорь глобальности &-> в начале строки:
+  &-> abstract prop id="ui_control" -> frm:"ui_control"
+  &-> abstract prop id="color" -> control:"color"
+- -> внутри строки остаётся якорем привязки абстракта к типу объекта.
+- ЯКОРЯ ИТОГО: &-> = глобальная декларация (документ/блюпринт scope);
+  -> = локальная привязка / переход / attention (правило 9);
+  : = вектор наследования (правило 7).
+- ПРЕЖНИЙ пункт "абстракты внутри ОДНОГО frm / родителя" - ОШИБКА
+  интерпретации: тест шаблона показал механику валидатора (visible-scope
+  считает по ветке от каждого корневого ребёнка), а НЕ семантику языка.
+- ИЗВЕСТНАЯ СЛАБОСТЬ ВАЛИДАТОРА (к переделке, отдельная задача): не видит
+  разграничения объекта и его полей - в "frm name=\"\"" и "frm:name=\"\""
+  токен name остаётся "в вакууме", проверяется сам по себе -> ложные
+  срабатывания. Нужен СЛОЖНЫЙ алгоритм ассоциации объект -> поле: без ложных
+  срабатываний, на проблемных местах МЯГКИЙ РЕЖИМ warning (не жёсткая ошибка).
+  Переделка делается ПОСЛЕ фиксации спеки и правил.
+
+2026-09-25 修正 (CN)：抽象属性 = 文档/蓝图全局作用域
+---------------------------------------------
+- 抽象存在于一个文档或蓝图的作用域内：对具体规范而言它们总是全局的。声明一次，
+  所有 part 均可见。
+- 正确声明形式：行首使用全局性锚点 &->：
+  &-> abstract prop id="ui_control" -> frm:"ui_control"
+  &-> abstract prop id="color" -> control:"color"
+- 行内的 -> 仍是抽象到对象类型的绑定锚点。
+- 锚点总览：&-> = 全局声明（文档/蓝图作用域）；-> = 局部绑定/转移（规则 9）；
+  : = 继承向量（规则 7）。
+- 旧条目「抽象位于同一父级 / frm 内」是错误解读：模板测试揭示的是校验器的
+  机制（可见性按分支从每个根子节点计算），而非语言语义。
+- 已知校验器弱点（待重做，独立任务）：不区分对象与其字段——在
+  "frm name=\"\"" 或 "frm:name=\"\"" 中，name 悬空（"在真空中"），被单独
+  检查 -> 误报。需要复杂的 对象->字段 关联算法：避免误报，存疑处使用软性
+  warning 模式（而非硬错误）。重做在规范定稿之后。
+
+CORRECTION 2026-09-25 (FR) : LES ABSTRACTS = PORTEE GLOBALE DOCUMENT/BLUEPRINT
+-----------------------------------------------------------------------------
+- Les abstracts vivent dans la portee d'UN document ou blueprint : pour une spec
+  donnee ils sont TOUJOURS globaux. Declares une fois, visibles de tous les parts.
+- Forme correcte : l'ancre de globalite &-> en debut de ligne :
+  &-> abstract prop id="ui_control" -> frm:"ui_control"
+  &-> abstract prop id="color" -> control:"color"
+- Le -> dans la ligne reste l'ancre de liaison de l'abstract au type d'objet.
+- BILAN DES ANCRES : &-> = declaration globale (document/blueprint) ;
+  -> = liaison locale / transition / attention (regle 9) ;
+  : = vecteur d'heritage (regle 7).
+- L'ancienne note « abstracts dans le MEME frm parent » etait une MAUVAISE
+  lecture : le test du gabarit montrait la mecanique du validateur (scope visible
+  calcule par branche depuis chaque enfant racine), pas la semantique du langage.
+- FAIBLESSE CONNUE DU VALIDATEUR (a refondre, tache separee) : il ne distingue
+  pas objet et champs - dans "frm name=\"\"" et "frm:name=\"\"" le token name
+  reste « dans le vide », teste seul -> faux positifs. Il faut un ALGORITHME
+  COMPLEXE d'association objet->champ : sans faux positifs, en MODE WARNING doux
+  sur les cas douteux (pas d'erreur dure). La refonte vient APRES la fixation de
+  la spec et des regles.
+
+KORREKTUR 2026-09-25 (DE) : ABSTRACTS = DOKUMENTGLOBALER SCOPE (BLUEPRINT)
+-------------------------------------------------------------------------
+- Abstracts leben im Scope EINES Dokuments oder Blueprints: fuer eine konkrete
+  Spec sind sie IMMER global. Einmal deklariert, fuer alle Parts sichtbar.
+- Korrekte Form: Globalitaets-Anker &-> am Zeilenanfang:
+  &-> abstract prop id="ui_control" -> frm:"ui_control"
+  &-> abstract prop id="color" -> control:"color"
+- Das -> in der Zeile bleibt der Bindungs-Anker des Abstracts an den Objekttyp.
+- ANKER-BILANZ: &-> = globale Deklaration (Dokument/Blueprint) ;
+  -> = lokale Bindung / Uebergang / Aufmerksamkeit (Regel 9) ;
+  : = Vererbungsvektor (Regel 7).
+- Der alte Punkt « Abstracts im GLEICHEN Eltern-frm » war eine FALSCHE
+  Deutung: der Template-Test zeigte die Mechanik des Validators (visible-scope
+  pro Zweig von jedem Root-Kind), nicht die Sprachsemantik.
+- BEKANNTE VALIDATOR-SCHWAECHE (Umbau, eigene Aufgabe): trennt Objekt und
+  Felder nicht - in "frm name=\"\"" und "frm:name=\"\"" bleibt name «im Vakuum»
+  und wird isoliert geprueft -> False Positives. Noetig ist ein KOMPLEXER
+  Algorithmus fuer Objekt->Feld-Zuordnung: ohne False Positives, an strittigen
+  Stellen WEICHER WARNING-MODUS (kein harter Fehler). Umbau NACH Fixierung von
+  Spec und Regeln.
+
+CORRECTION 2026-09-25 (EN): ABSTRACTS = DOCUMENT-GLOBAL/BLUEPRINT SCOPE
+----------------------------------------------------------------------
+- Abstracts live in the scope of ONE document or blueprint: for a given spec
+  they are ALWAYS global. Declared once at the top, visible to all parts.
+- Correct form: the global anchor &-> at the start of the line:
+  &-> abstract prop id="ui_control" -> frm:"ui_control"
+  &-> abstract prop id="color" -> control:"color"
+- The -> inside the line stays the binding anchor of the abstract to its object.
+- ANCHOR SUMMARY: &-> = global declaration (document/blueprint scope) ;
+  -> = local binding / transition / attention (rule 9) ;
+  : = inheritance vector (rule 7).
+- The old note "abstracts inside a SINGLE parent frm" was a MISREADING: the
+  template test showed the validator mechanics (visible scope computed per
+  branch from each root child), NOT the language semantics.
+- KNOWN VALIDATOR WEAKNESS (rework, separate task): it does not separate an
+  object from its fields - in "frm name=\"\"" and "frm:name=\"\"" the token name
+  stays "in a vacuum", checked on its own -> false positives. Needs a COMPLEX
+  object->field association algorithm: no false positives, SOFT WARNING MODE on
+  doubtful spots (not a hard error). The rework comes AFTER the spec and rules
+  are finalized.
+
+ХРОНИКА (CHANGELOG) - ДОБАВЛЕНО
+-------------------------------
+2026-09-25: ПОПРАВКА: абстракты - ГЛОБАЛЬНЫЙ scope документа/блюпринта (для
+конкретной спеки ВСЕГДА глобальны), декларация через якорь &-> в начале строки:
+&-> abstract prop id="X" -> obj:"X". Якоря: &-> = глобальная декларация,
+-> = локальная привязка/переход, : = вектор (правило 7). Прежний пункт
+"абстракты внутри ОДНОГО frm/родителя" - ошибка интерпретации (тест шаблона =
+механика валидатора, не семантика). Зафиксирована известная слабость
+валидатора: не различает объект и его поля (frm name="", frm:name="" -> name
+"в вакууме" -> ложные срабатывания); переделка валидатора - отдельная задача
+ПОСЛЕ фиксации спеки: ассоциация объект->поле, warning-режим, без ложных
+срабатываний.
+
+ПЕРЕДЕЛКА ВАЛИДАТОРА 2026-09-25 (RU): внедрены правила языка
+-------------------------------------------------------------
+- Документ-глобальный scope для &->: символы, объявленные на строке, которая
+  начинается с &->, собираются в документ-глобальный набор; is_visible падает
+  в него ПОСЛЕ веточной цепочки. Абстракты с &-> видны ВСЕМ партам и самим
+  &->-строкам (бывшие 11 ошибок "not declared in visible scope" исчезли).
+  Обычные (не-&->) декларации остаются веточными.
+- Ассоциация объект -> поле: стандартные/словарные поля объекта
+  (name, id, desc, value, key, src, par, text, path, data, type + словарь
+  KNOWN) не флагуются: "frm:name=\"x\"", "frm name=\"x\"" валидны без
+  декларации. По-настоящему необъявленное поле на объявленном объекте ->
+  МЯГКОЕ ПРЕДУПРЕЖДЕНИЕ (W), не ошибка: verdict остаётся PASS при warnings>0
+  и вида "# verdict: PASS (errors=0, warnings=N)".
+- Реализовано ОДИНАКОВО в validator\validator.py и ide\validator.js; гейт
+  test_parity.js: ALL CASES PASS (кейс unknown pin на declared object стал
+  PASS (errors=0, warnings=1)).
+- ide-spec.vibe: PASS (errors=0); {} = 0.
+
+VALIDATOR REWORK 2026-09-25 (EN): the language rules are now enforced
+--------------------------------------------------------------------
+- Document-global scope for &->: symbols declared on a line starting with &->
+  join a document-global set consulted by is_visible after the branch chain;
+  &-> abstracts are visible to ALL parts and to sibling &-> lines (the former
+  11 "not declared in visible scope" errors are gone). Non-&-> declarations
+  stay branch-local.
+- Object->field association: standard/dictionary object fields (name, id,
+  desc, value, key, src, par, text, path, data, type + the KNOWN dict) never
+  fire - "frm:name=\"x\"", "frm name=\"x\"" are valid without any
+  declaration. A genuinely undeclared field on a declared object is a SOFT
+  WARNING (W), not an error: the verdict stays PASS with warnings>0, printed
+  as "# verdict: PASS (errors=0, warnings=N)".
+- Mirrored identically in validator\validator.py and ide\validator.js; gate
+  test_parity.js: ALL CASES PASS (the unknown-pin case is now PASS (errors=0,
+  warnings=1)).
+- ide-spec.vibe: PASS (errors=0); {} = 0.
+
+ХРОНИКА (CHANGELOG) - ДОБАВЛЕНО
+-------------------------------
+2026-09-25: ПЕРЕДЕЛКА ВАЛИДАТОРА (по правилам языка). Реализованы:
+документ-глобальный scope для &->-деклараций (видны всем партам и
+сиблинг-строкам; обычные декларации остаются веточными) и ассоциация
+объект->поле (стандартные поля не флагуются; необъявленное поле на
+объявленном объекте - мягкое W, не ошибка; вердикт PASS при warnings>0).
+Оба движка (validator.py + ide/validator.js) синхронны; parity ALL CASES
+PASS; ide-spec.vibe PASS (errors=0); {} = 0.

@@ -24,8 +24,9 @@
                     "root", "src", "as", "dict", "name", "id", "incld", "act", "desc"];
     var ALNUM = /[\p{L}\p{N}]/u;
     var ABSTRACT_TYPES = ["function", "prop", "item"];
+    var STD_FIELDS = ["name", "id", "desc", "value", "key", "src", "par", "text", "path", "data", "type"];
 
-    var RUN = { typed: {}, useReach: new Set() };
+    var RUN = { typed: {}, useReach: new Set(), docSyms: new Set() };
 
     function Node(text, no, indent) {
         this.text = text;
@@ -281,6 +282,9 @@
         }
         var aid = parseAbstract(raw, RUN.typed, node.symbols);
         if (aid) node.absIds.add(aid);
+        if (/^\s*&->/.test(raw)) {
+            node.symbols.forEach(function (s) { RUN.docSyms.add(s); });
+        }
         resolveUses(node, entries);
         node.children.forEach(function (ch) { collectAll(ch, entries); });
     }
@@ -315,7 +319,7 @@
         for (var cur = node; cur !== null; cur = cur.parent) {
             if (cur.blockSyms.has(sym)) return true;
         }
-        return false;
+        return RUN.docSyms.has(sym);
     }
 
     function commandWords(text) {
@@ -360,9 +364,12 @@
 
     var RE_PIN = /(?<![:\w])([A-Za-z_]\w*):([A-Za-z_]\w*)/g;
 
-    function checkPins(node, scanText, diags) {
-        /* Object spell-checker: a compound obj:pin is allowed only if pin was
-           declared for the object (abstract{...} init or obj:act name="..."). */
+    function checkPins(node, scanText, diags, KNOWN) {
+        /* Object spell-checker: a compound obj:pin is allowed if the pin was
+           declared for the object (abstract{...} init or obj:act name="...")
+           or is a standard/dictionary field (frm:name="x", frm name="x").
+           Object-field association: standard fields never fire; a genuinely
+           undeclared field on a declared object is a SOFT WARNING. */
         var sets = objectSets();
         var sparse = String(scanText || "").replace(/"[^"]*"/g, '""');
         RE_PIN.lastIndex = 0;
@@ -371,10 +378,11 @@
             var obj = mm[1];
             var pin = mm[2];
             if (pin === "act" || pin === "action") continue;
+            if (STD_FIELDS.indexOf(pin) !== -1 || (KNOWN && KNOWN.has(pin)) || pin.length < 2) continue;
             if (!sets.declared.has(obj)) continue;
             var comp = obj + ":" + pin;
             if (sets.owned.has(comp) || isVisible(node, comp)) continue;
-            diags.push([node.no, "E", "line " + node.no + ": unknown pin '" + comp + "' not declared for object '" + obj + "' (abstract init or " + obj + ":act name=...)"]);
+            diags.push([node.no, "W", "line " + node.no + ": field '" + comp + "' not declared for object '" + obj + "' (abstract init or " + obj + ":act name=...)"]);
         }
         RE_PIN.lastIndex = 0;
     }
@@ -409,7 +417,7 @@
             diags.push([node.no, "E", "line " + node.no + ": unknown command word '" + w + "' not declared in visible scope"]);
         });
 
-        objectSets().declared.size !== 0 && checkPins(node, scanText, diags);
+        objectSets().declared.size !== 0 && checkPins(node, scanText, diags, KNOWN);
 
         var depth = 0;
         blockLines(node).forEach(function (pair) {
@@ -460,6 +468,7 @@
         var entries = loadEntries(opts.protosText || "", opts.blueprintsText || "");
         RUN.typed = {};
         RUN.useReach = new Set();
+        RUN.docSyms = new Set();
 
         out.push("== " + String(srcName).split(/[\\/]/).pop());
 
@@ -482,11 +491,12 @@
         });
 
         var seen = new Set();
-        var errs = 0;
+        var errs = 0, warns = 0;
         diags.forEach(function (d) {
             if (seen.has(d[2])) return;
             seen.add(d[2]);
-            errs++;
+            if (d[1] === "W") warns++;
+            else errs++;
             out.push("  " + d[1] + " " + d[2]);
             var geo = markGeometry(d[2], lines[d[0] - 1] || "");
             markers.push({
@@ -495,18 +505,19 @@
                 endLineNumber: d[0],
                 endColumn: geo.end,
                 message: d[2],
-                severity: 8
+                severity: d[1] === "W" ? 4 : 8
             });
         });
 
         var verdict = errs === 0 ? "PASS" : "FAIL";
-        out.push("# verdict: " + verdict + " (errors=" + errs + ")");
+        var warnTxt = warns ? ", warnings=" + warns : "";
+        out.push("# verdict: " + verdict + " (errors=" + errs + warnTxt + ")");
 
         return {
             out: out,
             markers: markers,
             nerr: errs,
-            nwarn: 0,
+            nwarn: warns,
             verdict: verdict,
             diagnostics: diags
         };

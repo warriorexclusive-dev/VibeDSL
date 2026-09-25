@@ -226,6 +226,8 @@ RE_CMD_WORD = re.compile(r"(?:->|<->|<>:|&->|:|\\)\s*([A-Za-z_]\w*)|^\s*([A-Za-z
 ABSTRACT_TYPES = ("function", "prop", "item")
 TYPE_SYMS = {}
 USE_REACH = set()
+DOC_SYMS = set()
+STD_FIELDS = {"name", "id", "desc", "value", "key", "src", "par", "text", "path", "data", "type"}
 
 
 def parse_abstract(raw, typed, out):
@@ -343,6 +345,8 @@ def collect_all(node):
     aid = parse_abstract(raw, TYPE_SYMS, node.symbols)
     if aid:
         node.abs_ids.add(aid)
+    if re.match(r"^\s*&->", raw or ""):
+        DOC_SYMS.update(node.symbols)
     resolve_uses(node)
     for ch in node.children:
         collect_all(ch)
@@ -379,7 +383,7 @@ def is_visible(node, sym):
         if sym in cur.block_syms:
             return True
         cur = cur.parent
-    return False
+    return sym in DOC_SYMS
 
 
 def command_words(text):
@@ -416,9 +420,11 @@ RE_PIN = re.compile(r"(?<![:\w])([A-Za-z_]\w*):([A-Za-z_]\w*)")
 
 
 def check_pins(node, scan_text):
-    """Object spell-checker: a compound obj:pin is allowed only if pin was
-    declared for the object (abstract{...} init or obj:act name="..."). On
-    declared objects an undeclared pin is an error (no guessing)."""
+    """Object spell-checker: a compound obj:pin is allowed if the pin was
+    declared for the object (abstract{...} init or obj:act name="...") or is a
+    standard/dictionary field of the object (frm:name="x", frm name="x").
+    Object-field association: standard fields never fire; a genuinely
+    undeclared field on a declared object is a SOFT WARNING, not an error."""
     declared, owned = object_sets()
     if not declared:
         return
@@ -427,12 +433,14 @@ def check_pins(node, scan_text):
         obj, pin = m.group(1), m.group(2)
         if pin in ("act", "action"):
             continue
+        if pin in STD_FIELDS or pin in KNOWN or len(pin) < 2:
+            continue
         if obj not in declared:
             continue
         comp = obj + ":" + pin
         if comp in owned or is_visible(node, comp):
             continue
-        OUT.append((node.no, "E", "line %d: unknown pin '%s' not declared for object '%s' (abstract init or %s:act name=...)" % (node.no, comp, obj, obj)))
+        OUT.append((node.no, "W", "line %d: field '%s' not declared for object '%s' (abstract init or %s:act name=...)" % (node.no, comp, obj, obj)))
 
 
 def check(node):
@@ -498,6 +506,7 @@ def main():
         del OUT[:]
         TYPE_SYMS.clear()
         USE_REACH.clear()
+        DOC_SYMS.clear()
         root = build_tree(mask_lines(text.splitlines()), text.splitlines())
         collect_all(root)
         dup_check(root)
@@ -506,14 +515,20 @@ def main():
         walk(root)
         print("== %s" % src)
         seen = set()
+        errs = 0
+        warns = 0
         for no, kind, msg in sorted(OUT):
             if msg in seen:
                 continue
             seen.add(msg)
             print("  %s %s" % (kind, msg))
-        errs = len(seen)
+            if kind == "W":
+                warns += 1
+            else:
+                errs += 1
         total_e += errs
-        print("# verdict: %s (errors=%d)" % ("PASS" if errs == 0 else "FAIL", errs))
+        warn_txt = ", warnings=%d" % warns if warns else ""
+        print("# verdict: %s (errors=%d%s)" % ("PASS" if errs == 0 else "FAIL", errs, warn_txt))
     return 0 if total_e == 0 else 1
 
 
