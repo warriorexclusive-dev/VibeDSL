@@ -248,7 +248,7 @@ type:mapping
     -> exm:chd:->node
 
 *-> chk, check     - mapping action check/validation
-    -> exm: fun "valid user" -> user:chk -> ret
+    -> exm: fun "valid file" -> file:chk -> ret
 
 *-> cluster      - mapping cluster of any entity
 
@@ -365,7 +365,7 @@ type:mapping
     -> exm: fmt[name,file,date]:table
     -> exm:num:format("0.0")     - float pattern, 0 = digit, 0.0 = 1 decimal, 0.00 = 2 decimals, etc.
     -> exm:num:format("0")       - integer number
-    -> exm:num:format("02H")     - hex uppercase, width 2 zero-padded (255 -> FF)
+    -> exm:num:format("02H")     - hex uppercase, width 2 zero-padded (255 -> "FF")
     -> exm:num:format("0.0%")    - percent, 1 decimal (0.5 -> 50.0%)
 
 *-> frm          - composition: frame, bordered/inset container or viewport crop
@@ -375,8 +375,8 @@ type:mapping
     -> exm:frmwrk name="Hybernate ORM"
 
 *-> generic      - generic instrustion of current object 
-    -> exm: show(file:generic) -> display all prop in file
-            show(file:generic) -> display all prop in file, and props of props, and props of props from props, etc.
+    -> exm: show(file:generic)  - display all props in file
+            show(file:generic)  - display all props, and props of props, etc.
 
 *-> goal         - mapping positive end action marker 
     -> exm: fun type=rule -> set event:goal->show("im happy")
@@ -430,7 +430,7 @@ type:mapping
 
 *-> lang         - mapping any entity language
     -> exm: prj lang="c++"
-            user:lang="RU"
+            file:lang="RU"
 
 *-> len, size, length - length or size of any entity
     -> exm:loop:len:1024 //
@@ -444,7 +444,7 @@ type:mapping
 *-> line          - logical line
     -> exm:line==row
 
-*-> link         - target affiliation logic instruction. (exmaple link: prj:skl) -> command to use skill in project specs
+*-> link         - target affiliation logic instruction. (example link: prj:skl) - command to use skill in project specs
     -> exm:link: prj:skl
 
 *-> list, lst    - list/array/collection
@@ -505,7 +505,7 @@ type:mapping
     -> exm:fun name="getarc" if(lng:arc==null)<>:
          -> null
          -> arc
-    -> exm:name req -> try name=="null" cch -> halt
+    -> exm:name req -> try name=="null" cch -> ret
 
 *-> num          - unified numeric value for all lang (single representation instead of int, long, float, double): any integer or fractional 32/64 bit number, bit depth and type resolved by value
     -> exm:num:255
@@ -563,7 +563,7 @@ type:mapping
     -> exm: prj:"simple http server" lang:java proto:http
 
 *-> protoc, proto - logic mapping protocols
-    -> exm:open("connection"):protocol("samba"):\\\\server\share
+    -> exm:open("connection"):protocol("samba"):"\\\\server\share"
 
 *-> quote        - mapping of llm text / quote
 
@@ -660,7 +660,7 @@ type:mapping
     -> exm:str:"value"
 
 *-> struct       - any predefined structure or class in the case of OOP
-    -> exm:struct:->box
+    -> exm:struct:->file
 
 *-> svc, service   - mapping service role of entity
     -> exm: thread svc:"micro_transaction"
