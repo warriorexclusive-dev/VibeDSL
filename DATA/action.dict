@@ -30,6 +30,9 @@ type:action
 *-> change,ch           - change
     -> exm:ch:->file:name
 
+*-> close        - generic canonical act function on any entity: close(<entity>) - finalizes the entity and saves its bound node state, declared once via act, works for every entity
+    -> exm: close(file name="out.xml")
+
 *-> codrev           - code anallize, review without editing, testing
     -> exm:codrev:->src
 
@@ -95,13 +98,21 @@ type:action
 *-> only         - only, verifiication action
     -> exm:only:check
 
+*-> open         - generic canonical act function on any entity: open(<entity>) - opens the entity bound node for changes, declared once via act, works for every entity
+    -> exm: open(file name="out.xml")
+    -> exm: open(user name="alice")
+
+*-> open_file    - canonical abstract function declared via act (two forms, written in VibeDSL)
+    -> exm: abstract "open_file" -> act="open file by name"   // declares function: open_file
+    -> exm: open_file("main.txt")                             // usage
+    -> exm: file:act="grant access to user":name="access"    // declares entity function: file:access
+    -> exm: file:access(context:user)                         // usage
+
 *-> pan, balance - action of precise correction of imprecise entities  
     -> exm: llm:creative:factor[0,100]:pan(20)
 
 *-> plan         - make plan mode or cpecs
     -> exm:plan:->specs
-
-*-> proto, prototype        - prototype property of any entity use RAG to search base prototype or use &-> to include prototype in specs
 
 *-> rebuild          - action rebuild any entity
     -> exm:event(exam(obj):type==exm)<>:
@@ -134,6 +145,11 @@ type:action
 
 *-> run,exec     - execute, run, sequence, request action in program, not you
     -> exm:run:->exec
+
+*-> save         - generic canonical act function on any entity: save(<entity>) - persists the entity to its bound node, declared once via act, works for every entity
+    -> exm: save(file name="out.xml")
+            prj "site" Etalon("www.other-site.com")
+            prj "service"  Etalon("BranchCache"):OS="Windows"
 
 *-> scan, exam   - scaning, examination
     -> exm:scan:->file

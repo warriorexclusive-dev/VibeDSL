@@ -20,8 +20,13 @@ type:logical operators
 *-> -> or        - right strict link to node,dependence or relationship or other, example [model1]->[model2] or [node]->[fun]{act}
     -> exm:[a]->[b]
 
+*-> -[]>          - multi vector: 
+    -> exm: crt(model type=cube)<>:-[3]> [x,y,z]:size=20 as num:format(0.0)
+
 *-> /            - ordinary mathematical division operator (divide)
     -> exm:val b=y / e
+
+*-> //           - comment action // human to human comment, not use this info as context
 
 *-> :            - true/false limiter and check; logical exist with Y/N, return Y/true if property exist or expression is valid, return N/false example lang:c++: wrt; null safe WITH ask - on N the logic halts and ASKS the human (see ask: when the check does not converge, the AI must ask, never guess)
     -> exm:lang:c++:
@@ -68,9 +73,6 @@ type:logical operators
 *-> \*            - logic filter operator: exclusion\*filtering by condition when applied inside brackets or quotes, example crt\*show - create without showing
     -> exm:crt\show
 
-*-> as           - creates a variable/alias binding: expression + as + name makes the object available under that name
-    -> exm: crt file="action.dict" as file_action
-
 *-> brk, break   - break
     -> exm:switch(a) 
              case 1: 
@@ -110,6 +112,9 @@ type:logical operators
     -> exm:if obj==obj | if !(a==b)
     -> exm:if(a==b)->ret
 
+*-> incr         - increment built-in: incr(val) -> value + 1 (counter step in for loops, e.g. i=incr(1))
+    -> exm:for(i<10,incr(1))
+
 *-> is           - instanceof
     -> exm:obj is type
 
@@ -118,8 +123,13 @@ type:logical operators
 
 end language dictionary
 
+*-> part         - logical partition operator, applies to any entity
+
 *-> present , instanceof, belong - present, belong, instanceof, logical membership check condition 
     -> exm: file instanceof xml:->save()
+
+*-> stage        - separation with progress, applies to any entity
+    -> exm:stage 2: <- part 1
 
 *-> switch         - switch case action
     -> exm:switch:case val1: break
@@ -132,6 +142,14 @@ end language dictionary
 
 *-> unk, none, unknown - unknown, unknown state of required param. use this if param need entropy logic, or abstract  
     -> exm: data to file:name:none:map to mem
+
+*-> var, variable - variable of temporary logical entity
+
+*-> var          - variable, loop/local variable declaration
+    -> exm:for(var i=0;i<5;i=incr(1))
+
+
+end language dictionary
 
 *-> when         - when: single conditional trigger, fires once when the condition becomes true
     -> exm: when(file:state:"opened"):close(file)
