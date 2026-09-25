@@ -1,3 +1,6 @@
+# ARCHIVED v1 validator - DO NOT RUN. Canon: validator/validator.py + ide/validator.js
+# v1 tokens use removed operators (<|, |>, !=, +=, -=) and this file still points
+# at DATA/dictionary.txt, which no longer exists (master dict is dictionary_sorted_by_type.txt).
 # VibeDSL validator v1 - structure + entity categories
 import re, sys, io, os, argparse
 

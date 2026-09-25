@@ -1,3 +1,5 @@
+/* ARCHIVED v1 validator - DO NOT RUN. Canon: ide/validator.js (v2, py/js parity).
+   v1 tokens use removed operators (<|, |>, !=, +=, -=). Kept for reference only. */
 /* VibeDSL validator v1 - JS port of validator/validator.py
    Output (out[]) is byte-identical to the Python CLI (modulo CRLF). */
 (function (root, factory) {
