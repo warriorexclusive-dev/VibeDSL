@@ -102,12 +102,6 @@ type:action
     -> exm: open(file name="out.xml")
     -> exm: open(user name="alice")
 
-*-> open_file    - canonical abstract function declared via act (two forms, written in VibeDSL)
-    -> exm: abstract "open_file" -> act="open file by name"   // declares function: open_file
-    -> exm: open_file("main.txt")                             // usage
-    -> exm: file:act="grant access to user":name="access"    // declares entity function: file:access
-    -> exm: file:access(context:user)                         // usage
-
 *-> pan, balance - action of precise correction of imprecise entities  
     -> exm: llm:creative:factor[0,100]:pan(20)
 
