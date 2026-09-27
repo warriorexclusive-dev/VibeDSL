@@ -439,6 +439,69 @@ RX_DECL_CHAIN = re.compile(
     r"->\s*[A-Za-z_]\w*(?::[A-Za-z_]\w*)*:(?:%s)(?::[A-Za-z_]\w*)*"
     % "|".join(DECL_WORDS))
 
+# `- >` is not the arrow. The console autocompleter folds `->` into one symbol,
+# so the broken form is not something anyone types on purpose - but a paste, a
+# generator or a model can produce it, and then `->` is silently read as `-`
+# followed by `>`: two tokens, no continuation, no complaint from the lexer.
+RE_BAD_ARROW = re.compile(r"-(?:\s+)>")
+# a declared object immediately followed by a bare word, with no `:`. The
+# author almost always meant obj:field; what they wrote may be two objects.
+RE_NO_COLON = re.compile(r"\b([A-Za-z_]\w*)\s+([A-Za-z_]\w*)\b")
+RE_ACTION = re.compile(r'action="([^"]*)"')
+
+
+def _keep_actions(text):
+    """Blank every quoted span EXCEPT the payload of action="...".
+
+    The checker used to blank all of them, which erased the one place obj:pin
+    actually appears. What it was really reading was the incidental unquoted
+    tail after the payload - a second copy of the same pins - so it passed for
+    the wrong reason, and a typo written inside the action was invisible.
+    """
+    return RE_ACTION.sub(lambda m: " " + m.group(1) + " ", text)
+
+
+def check_shape(node, text):
+    """Three things a token-level grammar cannot see.
+
+    A lexer that knows `->` will never notice `- >`: both are legal tokens. A
+    grammar that reads `obj:field` will never notice `obj field`, because
+    those are two ordinary words. And nothing at all notices a spec line that
+    was never nested under an abstract - it parses fine as a top-level line
+    and simply does nothing. All three are soft: each has a legitimate reading.
+    """
+    for m in RE_BAD_ARROW.finditer(text):
+        OUT.append((node.no, "E", "line %d: '%s' is not the arrow - `->` is one symbol, "
+                    "`- >` is read as `-` then `>` and continues nothing" % (node.no, m.group(0))))
+
+    body = RX_DECL_CHAIN.sub(" ", _keep_actions(text))
+    # root is Node(None, 0, -1): its .no is 0 and the -1 is its indent, so
+    # asking "is this a top-level line" is `parent.parent is None` and nothing
+    # else. Reading the wrong field made the whole check unreachable.
+    if (node.parent is not None and node.parent.parent is None
+            and RE_PIN.search(body) and "&->" not in text
+            and not text.lstrip().startswith(("use(", "import("))):
+        OUT.append((node.no, "W", "line %d: obj:pin at top level - it is parsed but belongs "
+                    "under an abstract (no nesting, so it never runs)" % node.no))
+
+    declared, _owned = object_sets()
+    if not declared:
+        return
+    # Only the action payload is code. A `do:` block is prose, and prose is
+    # full of word pairs - "left otkryta", "theme zadan" - that look exactly
+    # like an object followed by a field and mean nothing of the kind.
+    code = " ".join(RE_ACTION.findall(text))
+    if not code:
+        return
+    for m in RE_NO_COLON.finditer(code):
+        o, w = m.group(1), m.group(2)
+        if (o in declared and w not in KNOWN and w not in STD_FIELDS
+                and w not in declared and len(w) >= 3):
+            OUT.append((node.no, "W", "line %d: '%s %s' has no `:` - this may be two different "
+                        "objects; if you meant one, write %s:%s" % (node.no, o, w, o, w)))
+            break
+
+
 
 def check_pins(node, scan_text):
     """Object spell-checker: a compound obj:pin is allowed if the pin was
@@ -463,7 +526,7 @@ def check_pins(node, scan_text):
         return
     text = scan_text or ""
     text = RX_DECL_CHAIN.sub(" ", text)
-    sparse = re.sub(r'"[^"]*"', '""', text)
+    sparse = re.sub(r'"[^"]*"', '""', _keep_actions(text))
     for m in RE_PIN.finditer(sparse):
         obj, pin = m.group(1), m.group(2)
         if pin in ("act", "action"):
@@ -471,6 +534,14 @@ def check_pins(node, scan_text):
         if pin in STD_FIELDS or pin in KNOWN or len(pin) < 2:
             continue
         if obj not in declared:
+            continue
+        # A pin that is ITSELF a declared abstract is a real name, not a typo.
+        # `frm:corner` and `io:func` were being reported as undeclared fields
+        # when corner and func are declared two lines above with id="corner" -
+        # the checker could see the compound `frm:corner` in owned, but never
+        # looked at the object vocabulary the spec had built for itself. Ten
+        # warnings, one cause: it did not know what the spec had declared.
+        if pin in declared:
             continue
         comp = obj + ":" + pin
         if comp in owned or is_visible(node, comp):
@@ -510,6 +581,7 @@ def check(node):
                         % (node.no, _v)))
 
     check_pins(node, scan_text)
+    check_shape(node, text)
 
     depth = 0
     for ch, ch_line in block_lines(node):
