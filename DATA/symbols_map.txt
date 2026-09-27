@@ -115,7 +115,7 @@ U+232C   ⌬  *-> agent      - mapping operator of AI agent
 U+224D   ≍  *-> alias      - alias or association of any entity
 U+2200   ∀  *-> all        - all, more, everething
 U+2714   ✔  *-> allow      - allow, allowed
-U+2203   ∃  *-> any        - any operator of anything: objects, logic, etc
+U+2203   ∃  *-> any, *, ...        - any operator of anything: objects, logic, values - the object for everything; * is the short wildcard form, ... is the spread form used when a list exceeds 10 elements
 U+25CE   ◎  *-> api        - api/interface logical contract point of any entity
 U+29FA   ⧺  *-> autoinc    - autoincrement
 U+2299   ⊙  *-> avt        - avatar, identity surface
