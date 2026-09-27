@@ -7,6 +7,9 @@
 
 # --- base: RULES block ---
 U+2192   →  *-> -> or      - right strict link to node,dependence or relationship or other
+U+2227   ∧  *-> and,&&      - logical and
+U+2228   ∨  *-> or,|        - logical or
+U+00AC   ¬  *-> revers, not, ! - reverse logic, example if (!a==a)->ret is NO, not condition
 U+2042   ⁂  *-> unk        - unknown, unknown state of required param
 U+003A   :  *-> :          - true/false limiter and check
 U+0028+0029  ()  *-> ()         - logical action of object
