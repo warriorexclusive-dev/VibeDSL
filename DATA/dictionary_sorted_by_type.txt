@@ -49,10 +49,10 @@ type:action
 *-> compress      - compress action of any entity
     -> exm: compress(llm:token)
 
-*-> create - action create: create a file, api, class, function etc. (create action; pairs with its target: crt fun, crt file, crt api)
-    -> exm:create:fun:name="load"
+*-> create - action create: create a file, api, class, function etc. (create action; pairs with its target: crt function, crt file, crt api)
+    -> exm:create:function:name="load"
     -> exm:create [code, data, file]
-    -> exm:create:fun:name="load"
+    -> exm:create:function:name="load"
 
 *-> delay   - delay or period
     -> exm:delay(500) - delay 500 times
@@ -72,13 +72,13 @@ type:action
     -> exm:run:->exec
 
 *-> extract      - extract action
-    -> exm:fun create (file name="out.xml" alias xml ): -> open(file name="project.exe"):alias source:->extract(source *? data:type=dom to xml)
+    -> exm:function create (file name="out.xml" alias xml ): -> open(file name="project.exe"):alias source:->extract(source *? data:type=dom to xml)
 
-*-> function - function: an action when it is a rule or an agent; an API entry point when it is a spec or architecture; often used with the par key (parameter) and ret (return), the logic is preferably written through the language logical operators
-    -> exm:function:type="root":name="vibide":id="vibide":scop="root"->action == create [spec]:lng="VibeDSL"
+*-> function - function: an action when it is a rule or an agent; an API entry point when it is a spec or architecture; often used with the param key and the return key, the logic is preferably written through the language logical operators
+    -> exm:function:type="root":name="vibide":id="vibide":scope="root"->action == create [spec]:lng="VibeDSL"
     -> exm:function:name="load"
-    -> exm:create:fun:name="load":par="val1"
-    -> exm:create:fun:type="web api": par "in":type="text":desc="vibedsl request" :-> srch(in) type="RAG":-> return
+    -> exm:create:function:name="load":param="val1"
+    -> exm:create:function:type="web api": param "in":type="text":desc="vibedsl request" :-> srch(in) type="RAG":-> return
 
 *-> get          - action to obtain any entity 
     -> exm: get:data:source
@@ -146,9 +146,9 @@ type:action
 *-> scrsht         - screenshot
     -> exm:scrsht:path
 
-*-> select       - select action, syntax example sel[val1,val2] after ->swt if more way or ->abstract{} if abstract, example sel[val1,val2]->fun data=sel:ret , sel[val1,val2]->swt case val1: data1=val1 bk
+*-> select       - select action, syntax example sel[val1,val2] after ->swt if more way or ->abstract{} if abstract, example sel[val1,val2]->function data=sel:return , sel[val1,val2]->swt case val1: data1=val1 bk
     -> exm:sel[v1,v2]->switch
-    -> exm:fun par:name="a":type="list" -> list:sel[n]:fun ->(item:date > item:date)->return
+    -> exm:function param:name="a":type="list" -> list:sel[n]:function ->(item:date > item:date)->return
 
 *-> set          - setter action of any entity
     -> exm: table:xml event:onOpen->set(data)
@@ -179,8 +179,8 @@ type:action
     -> exm:use(VibeDSL:proto[abstract])
 
 *-> variant - action reduce variants
-    -> exm: fun:type=rule -> if(event(?))-> show(?:variant(5))
-    -> exm: fun:type=rule -> if(event(?))-> show(?:variant(5 with ask))
+    -> exm: function:type=rule -> if(event(?))-> show(?:variant(5))
+    -> exm: function:type=rule -> if(event(?))-> show(?:variant(5 with ask))
 
 *-> write - write action
     -> exm:write:goal
@@ -244,7 +244,7 @@ type:mapping
     -> exm:char[n] - char array unknown size
 
 *-> check - mapping action check/validation
-    -> exm: fun "valid file" -> file:check -> return
+    -> exm: function "valid file" -> file:check -> return
 
 *-> child       - child dcope of object entity or any unit
     -> exm:chd:->node
@@ -295,7 +295,7 @@ type:mapping
 
 *-> data         - logical any data
     -> exm: show prj:source:data               command  show me project files content in console
-    -> exm: fun:name="convert_to_string" par:name="in" data:type="native" return string        logical multiple data in string data out in implementation on jave or c++ is executed across multiple functions with multiple input parameters num, etc.
+    -> exm: function:name="convert_to_string" param:name="in" data:type="native" return string        logical multiple data in string data out in implementation on jave or c++ is executed across multiple functions with multiple input parameters num, etc.
 
 *-> date          - mapping date
 
@@ -306,8 +306,8 @@ type:mapping
     -> exm:def:true
 
 *-> dependency - logical dependency of any entity
-    -> exm: fun "getData" in data setcall setData
-            fun "setData" depend:"getData"
+    -> exm: function "getData" in data setcall setData
+            function "setData" depend:"getData"
 
 *-> description - description
     -> exm: desc:"what it does"
@@ -344,13 +344,13 @@ type:mapping
 
 *-> environment - environment or other variables
 *-> error - ERROR AS EVENT: an error occurred; the event is denoted, not raised, and it does not stop the flow by itself
-    -> exm:fun event:err:-> return:exception:response
+    -> exm:function event:error:-> return:exception:response
 
 *-> example - example
     -> exm:example:this
 
 *-> exception    - ERROR AS CONTEXT: logical carrier of error information, the error is carried as state, not raised
-    -> exm:if(err)->show(excpt)
+    -> exm:if(error)->show(excpt)
 
 *-> extend           - extend any entity
     -> exm:extd:key
@@ -359,7 +359,7 @@ type:mapping
     -> exm:extn:extn
 
 *-> fail         - mapping negative or failed action marker
-    -> exm: fun:type=rule -> set event:fail->show("im angry")
+    -> exm: function:type=rule -> set event:fail->show("im angry")
 
 *-> false, no, N - boolean literal false: synonyms of the bool value N
     -> exm:def:false
@@ -390,7 +390,7 @@ type:mapping
             show(file:generic)  - display all props, and:props of props, etc.
 
 *-> goal         - mapping positive end action marker 
-    -> exm: fun:type=rule -> set event:goal->show("im happy")
+    -> exm: function:type=rule -> set event:goal->show("im happy")
 
 *-> graphics, render, visual, UI - UI user interface mapping commands
     -> exm:graph:scene
@@ -436,7 +436,7 @@ type:mapping
     -> exm:instr(obj~obj)
 
 *-> io           - End-to-end any entity state modification without change context, mapping command
-    -> exm: fun:name="mapping" param data, param type io(data->cnv(type))
+    -> exm: function:name="mapping" param data, param type io(data->cnv(type))
 
 *-> item,node    - logical operator binding a real physical or code object (the concrete item behind a logical node); node - the storage point for that object
     -> exm:rcl:source="items":item="row"
@@ -503,7 +503,7 @@ type:mapping
 
 *-> mix          - mix action: combine/merge any two objects
     -> exm:mix:->struct
-    -> exm:fun open (file name="out.xml" alias xml ): -> open(file name="project.exe"):alias source:->mix(source *? data:type=dom to xml)->save(file:out_1.xml)
+    -> exm:function open (file name="out.xml" alias xml ): -> open(file name="project.exe"):alias source:->mix(source *? data:type=dom to xml)->save(file:out_1.xml)
 
 *-> model         - model,  model of any entity or behavior
     -> exm:model:name="user":type="account"
@@ -522,10 +522,10 @@ type:mapping
     -> exm:nav styp:rail: link prj:skl
 
 *-> new          - mapping of creation object
-    -> exm:fun:name=i new:txt:          function inner code create a new txt file
+    -> exm:function:name=i new:txt:          function inner code create a new txt file
 
 *-> null, void, nil - exact empty value (not a logical operator): explicit void, "nothing here" Unlike none (pure logical absence that continues) null is a concrete empty value: where a value is REQUIRED (req/expected), null HALTS the logic - try/catch, fail; none says "not required/absent, keep going"; null says "empty value present, stop here"
-    -> exm:fun:name="getarc" if(lng:arc==null)<>:
+    -> exm:function:name="getarc" if(lng:arc==null)<>:
          -> null
          -> arc
     -> exm:name request -> try:name=="null" cch -> return
@@ -556,10 +556,10 @@ type:mapping
     -> exm:ovl: dlg:name="confirm"
 
 *-> param - property, parameter
-    -> exm:par:name="pic"
+    -> exm:param:name="pic"
 
 *-> parent       - logical property of parent: explicit indication that the value of the property is taken from the parent node
-    -> exm:create:fun:type="api":frmwrk=parent
+    -> exm:create:function:type="api":frmwrk=parent
 
 *-> portrait     - portrait orientation
     -> exm:view portrait:true
@@ -578,7 +578,7 @@ type:mapping
            -> var:a = open(file:work)
               a \ {invalid flow if not work}
               var:b = convert a to pdf
-           fun "getWorkFlow" in:null out:pdf -> ret workflow:b
+           function "getWorkFlow" in:null out:pdf -> return workflow:b
 
 *-> prompt        - mapping operator of user/human prompt
     -> exm: prompt:run()
@@ -597,8 +597,8 @@ type:mapping
     -> exm:rcl:source="items":item="row"
     -> exm:rcl:source="file:list" bind:name/line
 
-*-> reason - reason, syntax example err:rsn="example"
-    -> exm:err:reason="example"
+*-> reason - reason, syntax example error:rsn="example"
+    -> exm:error:reason="example"
 
 *-> ref          - reference mapping of example any entity
     -> exm: file:save(dsl:ref)
@@ -607,7 +607,7 @@ type:mapping
     -> exm:type: any reqr
 
 *-> response - response logical response of event or action
-    -> exm: if(err):response
+    -> exm: if(error):response
 
 *-> restriction        - logical mapping of restriction any entity
     -> exm: panel:location=up:restriction=frame:size * 0.25 bhvr:stretch
@@ -628,7 +628,7 @@ type:mapping
     -> exm:pan->row: btn:name="ok"
 
 *-> rule         - rule
-    -> exm:fun:type=rule:scop=root
+    -> exm:function:type=rule:scope=root
 
 *-> scope          - scope of entity 
     -> exm: this:scope = VibeDSL:dict
@@ -696,7 +696,7 @@ type:mapping
     -> exm:struct:->file
 
 *-> syntax - syntax
-    -> exm:syn:"obj~obj"
+    -> exm:syntax:"obj~obj"
 
 *-> system - systematization role
     -> exm:system:module
@@ -788,7 +788,7 @@ type:behavior
 
 *-> &->          - forced anchor: textual spelling of the anchor glyph U+2022; the compiler emits U+2022 in its place; a line that starts with &-> is pinned to document-global scope
 
-*-> arc          - architecture, example: func name="upload_photo" arc:coroutine; describes a function with the coroutine pattern
+*-> arc          - architecture, example: function name="upload_photo" arc:coroutine; describes a function with the coroutine pattern
     -> exm:arc:coroutine
 
 *-> behavior - logical mapping of behavior of any entity
@@ -805,7 +805,7 @@ type:behavior
             prototype file:type:name = [n]  it is add property to file, example usage: file:xml:"main.xml"
 
 *-> critical - logical critical instruction, behavior pay special attention and more-check.
-    -> exm:crit:err
+    -> exm:crit:error
 
 *-> dry          - do not repeat yourself
     -> exm:dry:true
@@ -912,7 +912,7 @@ type:logical operators
     -> exm:[cof]=80*2
 
 *-> *?           - comparator with condition: any + ?, i.e. the any-form with a condition applied      
-    -> exm:fun create (file name="out.xml" alias xml ): -> open(file name="project.exe"):alias source:->extract(source *? data:type=dom to xml)   // extract all DOM elements in project.exe to out.xml
+    -> exm:function create (file name="out.xml" alias xml ): -> open(file name="project.exe"):alias source:->extract(source *? data:type=dom to xml)   // extract all DOM elements in project.exe to out.xml
 
 *-> +            - addition operator (math)
     -> exm:total=a+b
@@ -920,7 +920,7 @@ type:logical operators
 *-> -            - subtraction operator (math), the sign is written U+2212 MINUS SIGN
     -> exm:diff=a-b
 
-*-> ->           - right strict link to node,dependence or relationship or other, example [model1]->[model2] or [node]->[fun]{act}
+*-> ->           - right strict link to node,dependence or relationship or other, example [model1]->[model2] or [node]->[function]{act}
     -> exm:[a]->[b]
 
 *-> -[]>          - multi vector: raises an object into N parallel logical dimensions, -[N]> where N is the dimension count. In compilation it expands into BRANCHING: one branch per dimension, each wrapped in {}, so -[3]> compiles to a three-way branch and is not a separate runtime construct 
@@ -1000,8 +1000,8 @@ type:logical operators
     -> exm:case val1: break
 
 *-> catch - catch block marker, operator type action
-    -> exm:cch:err
-    -> exm:catch err
+    -> exm:cch:error
+    -> exm:catch error
 
 *-> continue     - continue: go on to the next iteration of the loop; the opposite of break
     -> exm:continue
@@ -1049,7 +1049,7 @@ end language dictionary
 
 *-> part         - logical partition operator, applies to any entity
 
-*-> revers, not, ! - reverse logic, example if (!a==a)->ret is NO, not condition
+*-> revers, not, ! - reverse logic, example if (!a==a)->return is NO, not condition
     -> exm:if (!a==a)->return
 
 *-> stage        - separation with progress, applies to any entity

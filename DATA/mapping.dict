@@ -26,7 +26,7 @@ type:mapping
     -> exm:alw:true
 
 *-> any          - any operator of anything: objects, logic, values - the object for everything. `...` is NOT a name of this concept: it is spread notation, it stays text and never compiles
-    -> exm:proto(any)
+    -> exm:prototype:id="abstract":required:type[item,function,prop]:required:condition
     -> exm:get:dict(any)->show
 
 *-> api             - api/interface logical contract point of any entity
@@ -59,7 +59,7 @@ type:mapping
     -> exm:char[n] - char array unknown size
 
 *-> check - mapping action check/validation
-    -> exm: fun "valid file" -> file:check -> return
+    -> exm: function "valid file" -> file:check -> return
 
 *-> child       - child dcope of object entity or any unit
     -> exm:chd:->node
@@ -110,7 +110,7 @@ type:mapping
 
 *-> data         - logical any data
     -> exm: show prj:source:data               command  show me project files content in console
-    -> exm: fun:name="convert_to_string" par:name="in" data:type="native" return string        logical multiple data in string data out in implementation on jave or c++ is executed across multiple functions with multiple input parameters num, etc.
+    -> exm: function:name="convert_to_string" param:name="in" data:type="native" return string        logical multiple data in string data out in implementation on jave or c++ is executed across multiple functions with multiple input parameters num, etc.
 
 *-> date          - mapping date
 
@@ -121,8 +121,8 @@ type:mapping
     -> exm:def:true
 
 *-> dependency - logical dependency of any entity
-    -> exm: fun "getData" in data setcall setData
-            fun "setData" depend:"getData"
+    -> exm: function "getData" in data setcall setData
+            function "setData" depend:"getData"
 
 *-> description - description
     -> exm: desc:"what it does"
@@ -159,13 +159,13 @@ type:mapping
 
 *-> environment - environment or other variables
 *-> error - ERROR AS EVENT: an error occurred; the event is denoted, not raised, and it does not stop the flow by itself
-    -> exm:fun event:err:-> return:exception:response
+    -> exm:function event:error:-> return:exception:response
 
 *-> example - example
     -> exm:example:this
 
 *-> exception    - ERROR AS CONTEXT: logical carrier of error information, the error is carried as state, not raised
-    -> exm:if(err)->show(excpt)
+    -> exm:if(error)->show(excpt)
 
 *-> extend           - extend any entity
     -> exm:extd:key
@@ -174,7 +174,7 @@ type:mapping
     -> exm:extn:extn
 
 *-> fail         - mapping negative or failed action marker
-    -> exm: fun:type=rule -> set event:fail->show("im angry")
+    -> exm: function:type=rule -> set event:fail->show("im angry")
 
 *-> false, no, N - boolean literal false: synonyms of the bool value N
     -> exm:def:false
@@ -205,7 +205,7 @@ type:mapping
             show(file:generic)  - display all props, and:props of props, etc.
 
 *-> goal         - mapping positive end action marker 
-    -> exm: fun:type=rule -> set event:goal->show("im happy")
+    -> exm: function:type=rule -> set event:goal->show("im happy")
 
 *-> graphics, render, visual, UI - UI user interface mapping commands
     -> exm:graph:scene
@@ -251,7 +251,7 @@ type:mapping
     -> exm:instr(obj~obj)
 
 *-> io           - End-to-end any entity state modification without change context, mapping command
-    -> exm: fun:name="mapping" param data, param type io(data->cnv(type))
+    -> exm: function:name="mapping" param data, param type io(data->cnv(type))
 
 *-> item,node    - logical operator binding a real physical or code object (the concrete item behind a logical node); node - the storage point for that object
     -> exm:rcl:source="items":item="row"
@@ -318,7 +318,7 @@ type:mapping
 
 *-> mix          - mix action: combine/merge any two objects
     -> exm:mix:->struct
-    -> exm:fun open (file name="out.xml" alias xml ): -> open(file name="project.exe"):alias source:->mix(source *? data:type=dom to xml)->save(file:out_1.xml)
+    -> exm:function open (file name="out.xml" alias xml ): -> open(file name="project.exe"):alias source:->mix(source *? data:type=dom to xml)->save(file:out_1.xml)
 
 *-> model         - model,  model of any entity or behavior
     -> exm:model:name="user":type="account"
@@ -337,10 +337,10 @@ type:mapping
     -> exm:nav styp:rail: link prj:skl
 
 *-> new          - mapping of creation object
-    -> exm:fun:name=i new:txt:          function inner code create a new txt file
+    -> exm:function:name=i new:txt:          function inner code create a new txt file
 
 *-> null, void, nil - exact empty value (not a logical operator): explicit void, "nothing here" Unlike none (pure logical absence that continues) null is a concrete empty value: where a value is REQUIRED (req/expected), null HALTS the logic - try/catch, fail; none says "not required/absent, keep going"; null says "empty value present, stop here"
-    -> exm:fun:name="getarc" if(lng:arc==null)<>:
+    -> exm:function:name="getarc" if(lng:arc==null)<>:
          -> null
          -> arc
     -> exm:name request -> try:name=="null" cch -> return
@@ -371,10 +371,10 @@ type:mapping
     -> exm:ovl: dlg:name="confirm"
 
 *-> param - property, parameter
-    -> exm:par:name="pic"
+    -> exm:param:name="pic"
 
 *-> parent       - logical property of parent: explicit indication that the value of the property is taken from the parent node
-    -> exm:create:fun:type="api":frmwrk=parent
+    -> exm:create:function:type="api":frmwrk=parent
 
 *-> portrait     - portrait orientation
     -> exm:view portrait:true
@@ -393,7 +393,7 @@ type:mapping
            -> var:a = open(file:work)
               a \ {invalid flow if not work}
               var:b = convert a to pdf
-           fun "getWorkFlow" in:null out:pdf -> ret workflow:b
+           function "getWorkFlow" in:null out:pdf -> return workflow:b
 
 *-> prompt        - mapping operator of user/human prompt
     -> exm: prompt:run()
@@ -412,8 +412,8 @@ type:mapping
     -> exm:rcl:source="items":item="row"
     -> exm:rcl:source="file:list" bind:name/line
 
-*-> reason - reason, syntax example err:rsn="example"
-    -> exm:err:reason="example"
+*-> reason - reason, syntax example error:rsn="example"
+    -> exm:error:reason="example"
 
 *-> ref          - reference mapping of example any entity
     -> exm: file:save(dsl:ref)
@@ -422,7 +422,7 @@ type:mapping
     -> exm:type: any reqr
 
 *-> response - response logical response of event or action
-    -> exm: if(err):response
+    -> exm: if(error):response
 
 *-> restriction        - logical mapping of restriction any entity
     -> exm: panel:location=up:restriction=frame:size * 0.25 bhvr:stretch
@@ -443,7 +443,7 @@ type:mapping
     -> exm:pan->row: btn:name="ok"
 
 *-> rule         - rule
-    -> exm:fun:type=rule:scop=root
+    -> exm:function:type=rule:scope=root
 
 *-> scope          - scope of entity 
     -> exm: this:scope = VibeDSL:dict
@@ -511,7 +511,7 @@ type:mapping
     -> exm:struct:->file
 
 *-> syntax - syntax
-    -> exm:syn:"obj~obj"
+    -> exm:syntax:"obj~obj"
 
 *-> system - systematization role
     -> exm:system:module

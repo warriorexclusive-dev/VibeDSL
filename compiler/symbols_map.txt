@@ -267,7 +267,7 @@ U+222A   ∪  *-> with       - mapping of logic extension
 U+2732   ✲  *-> hint       - placeholder text shown in an empty input field, not a value
 
 # --- type:behavior ---
-U+2571 ╱ *-> arc               - architecture, example: func name="upload_photo" arc:coroutine
+U+2571 ╱ *-> arc               - architecture, example: function name="upload_photo" arc:coroutine; describes a function with the coroutine pattern
 U+22C9   ⋉  *-> bhvoper    - behavior pattern operator
 U+2262   ≢  *-> blplan     - blueprint plan: formal plan artifact
 U+273A ✺ *-> critical       - logical critical instruction, behavior pay special attention and more-check

@@ -49,10 +49,10 @@ type:action
 *-> compress      - compress action of any entity
     -> exm: compress(llm:token)
 
-*-> create - action create: create a file, api, class, function etc. (create action; pairs with its target: crt fun, crt file, crt api)
-    -> exm:create:fun:name="load"
+*-> create - action create: create a file, api, class, function etc. (create action; pairs with its target: crt function, crt file, crt api)
+    -> exm:create:function:name="load"
     -> exm:create [code, data, file]
-    -> exm:create:fun:name="load"
+    -> exm:create:function:name="load"
 
 *-> delay   - delay or period
     -> exm:delay(500) - delay 500 times
@@ -72,13 +72,13 @@ type:action
     -> exm:run:->exec
 
 *-> extract      - extract action
-    -> exm:fun create (file name="out.xml" alias xml ): -> open(file name="project.exe"):alias source:->extract(source *? data:type=dom to xml)
+    -> exm:function create (file name="out.xml" alias xml ): -> open(file name="project.exe"):alias source:->extract(source *? data:type=dom to xml)
 
-*-> function - function: an action when it is a rule or an agent; an API entry point when it is a spec or architecture; often used with the par key (parameter) and ret (return), the logic is preferably written through the language logical operators
-    -> exm:function:type="root":name="vibide":id="vibide":scop="root"->action == create [spec]:lng="VibeDSL"
+*-> function - function: an action when it is a rule or an agent; an API entry point when it is a spec or architecture; often used with the param key and the return key, the logic is preferably written through the language logical operators
+    -> exm:function:type="root":name="vibide":id="vibide":scope="root"->action == create [spec]:lng="VibeDSL"
     -> exm:function:name="load"
-    -> exm:create:fun:name="load":par="val1"
-    -> exm:create:fun:type="web api": par "in":type="text":desc="vibedsl request" :-> srch(in) type="RAG":-> return
+    -> exm:create:function:name="load":param="val1"
+    -> exm:create:function:type="web api": param "in":type="text":desc="vibedsl request" :-> srch(in) type="RAG":-> return
 
 *-> get          - action to obtain any entity 
     -> exm: get:data:source
@@ -146,9 +146,9 @@ type:action
 *-> scrsht         - screenshot
     -> exm:scrsht:path
 
-*-> select       - select action, syntax example sel[val1,val2] after ->swt if more way or ->abstract{} if abstract, example sel[val1,val2]->fun data=sel:ret , sel[val1,val2]->swt case val1: data1=val1 bk
+*-> select       - select action, syntax example sel[val1,val2] after ->swt if more way or ->abstract{} if abstract, example sel[val1,val2]->function data=sel:return , sel[val1,val2]->swt case val1: data1=val1 bk
     -> exm:sel[v1,v2]->switch
-    -> exm:fun par:name="a":type="list" -> list:sel[n]:fun ->(item:date > item:date)->return
+    -> exm:function param:name="a":type="list" -> list:sel[n]:function ->(item:date > item:date)->return
 
 *-> set          - setter action of any entity
     -> exm: table:xml event:onOpen->set(data)
@@ -179,8 +179,8 @@ type:action
     -> exm:use(VibeDSL:proto[abstract])
 
 *-> variant - action reduce variants
-    -> exm: fun:type=rule -> if(event(?))-> show(?:variant(5))
-    -> exm: fun:type=rule -> if(event(?))-> show(?:variant(5 with ask))
+    -> exm: function:type=rule -> if(event(?))-> show(?:variant(5))
+    -> exm: function:type=rule -> if(event(?))-> show(?:variant(5 with ask))
 
 *-> write - write action
     -> exm:write:goal

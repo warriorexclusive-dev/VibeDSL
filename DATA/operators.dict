@@ -12,7 +12,7 @@ type:logical operators
     -> exm:[cof]=80*2
 
 *-> *?           - comparator with condition: any + ?, i.e. the any-form with a condition applied      
-    -> exm:fun create (file name="out.xml" alias xml ): -> open(file name="project.exe"):alias source:->extract(source *? data:type=dom to xml)   // extract all DOM elements in project.exe to out.xml
+    -> exm:function create (file name="out.xml" alias xml ): -> open(file name="project.exe"):alias source:->extract(source *? data:type=dom to xml)   // extract all DOM elements in project.exe to out.xml
 
 *-> +            - addition operator (math)
     -> exm:total=a+b
@@ -20,7 +20,7 @@ type:logical operators
 *-> -            - subtraction operator (math), the sign is written U+2212 MINUS SIGN
     -> exm:diff=a-b
 
-*-> ->           - right strict link to node,dependence or relationship or other, example [model1]->[model2] or [node]->[fun]{act}
+*-> ->           - right strict link to node,dependence or relationship or other, example [model1]->[model2] or [node]->[function]{act}
     -> exm:[a]->[b]
 
 *-> -[]>          - multi vector: raises an object into N parallel logical dimensions, -[N]> where N is the dimension count. In compilation it expands into BRANCHING: one branch per dimension, each wrapped in {}, so -[3]> compiles to a three-way branch and is not a separate runtime construct 
@@ -100,8 +100,8 @@ type:logical operators
     -> exm:case val1: break
 
 *-> catch - catch block marker, operator type action
-    -> exm:cch:err
-    -> exm:catch err
+    -> exm:cch:error
+    -> exm:catch error
 
 *-> continue     - continue: go on to the next iteration of the loop; the opposite of break
     -> exm:continue
@@ -149,7 +149,7 @@ end language dictionary
 
 *-> part         - logical partition operator, applies to any entity
 
-*-> revers, not, ! - reverse logic, example if (!a==a)->ret is NO, not condition
+*-> revers, not, ! - reverse logic, example if (!a==a)->return is NO, not condition
     -> exm:if (!a==a)->return
 
 *-> stage        - separation with progress, applies to any entity

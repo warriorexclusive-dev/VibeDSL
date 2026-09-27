@@ -22,7 +22,7 @@ type:behavior
 
 *-> &->          - forced anchor: textual spelling of the anchor glyph U+2022; the compiler emits U+2022 in its place; a line that starts with &-> is pinned to document-global scope
 
-*-> arc          - architecture, example: func name="upload_photo" arc:coroutine; describes a function with the coroutine pattern
+*-> arc          - architecture, example: function name="upload_photo" arc:coroutine; describes a function with the coroutine pattern
     -> exm:arc:coroutine
 
 *-> behavior - logical mapping of behavior of any entity
@@ -39,7 +39,7 @@ type:behavior
             prototype file:type:name = [n]  it is add property to file, example usage: file:xml:"main.xml"
 
 *-> critical - logical critical instruction, behavior pay special attention and more-check.
-    -> exm:crit:err
+    -> exm:crit:error
 
 *-> dry          - do not repeat yourself
     -> exm:dry:true
