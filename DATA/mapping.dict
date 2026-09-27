@@ -394,11 +394,8 @@ type:mapping
 *-> prompt        - mapping operator of user/human prompt
     -> exm: prompt:run()
 
-*-> protoc, proto - logic mapping protocols
-    -> exm:open("connection"):protocol("samba"):"\\\\server\share"
-
-*-> protocol, proto - protocol of any entity
-    -> exm: prj:"simple http server" lang:java proto:http
+*-> protocol - protocol of any entity
+    -> exm: prj:"simple http server" lang:java protocol:http
 
 *-> quote        - mapping of llm text / quote
 

@@ -203,7 +203,7 @@ U+2399   ⎙  *-> print      - mapping operator of visual output logic
 U+2751   ❑  *-> prj        - project
 U+2503   ┃  *-> proc       - procedure vertical aligment logical, Unlike a function, there are no input or output parameters
 U+276F   ❯  *-> prompt     - mapping operator of user/human prompt
-U+225C   ≜  *-> proto      - protocol of any entity
+U+225C   ≜  *-> prototype - constructor of any entity: builds a structured template with its declared actions and conditions; in a declaration proto(...) reads as prototype; use RAG to search the base prototype or use &-> to include a prototype in specs
 U+275D   ❝  *-> quote      - mapping of llm text / quote
 U+261B   ☛  *-> rag        - Retrieval Augmented Generation
 U+21F5   ⇵  *-> rcl        - recycler: first-class virtualized list component, not composed from abstracts

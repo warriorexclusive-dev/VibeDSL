@@ -43,7 +43,7 @@ Instantiation / referencing a template by name and checking an artifact:
 
 ```vibedsl
 fun type=rule scop=root
-   -> crt spec lng=VibeDSL proto:if
+   -> crt spec lng=VibeDSL prototype:if
    -> exam(spec:syn==VibeDSL:dict:syn)<>:goal
 ```
 

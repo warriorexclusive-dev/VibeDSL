@@ -11,7 +11,7 @@ type:abstracts
 *-> blueprint         - blueprint, base logical abstract pattern, Behavioral Model for Enforcement, Behavioral law to apply, Always true and serves as the instruction for use, unless explicitly stated or red
     -> exm:blueprint:behavior
 
-*-> prototype, proto - prototype property of any entity use RAG to search base prototype or use &-> to include prototype in specs
+*-> prototype - constructor of any entity: builds a structured template with its declared actions and conditions; in a declaration proto(...) reads as prototype; use RAG to search the base prototype or use &-> to include a prototype in specs
 type:behavior
 
 *-> &->          - forced anchor: textual spelling of the anchor glyph U+2022; the compiler emits U+2022 in its place; a line that starts with &-> is pinned to document-global scope
@@ -29,8 +29,8 @@ type:behavior
             code:style:rule=code:style:rule+(solid);
 
 *-> blplan         - blueprint plan: formal plan artifact (stricter form of proto), pulled by incld="<id>", written to plan/ 
-    -> exm: proto file:type = [xml,doc,txt]
-            proto file:type:name = [n]  it is add property to file, example usage: file:xml:"main.xml"
+    -> exm: prototype file:type = [xml,doc,txt]
+            prototype file:type:name = [n]  it is add property to file, example usage: file:xml:"main.xml"
 
 *-> critical, crit - logical critical instruction, behavior pay special attention and more-check.
     -> exm:crit:err

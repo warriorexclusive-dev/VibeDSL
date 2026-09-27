@@ -11,7 +11,7 @@ Constraint: all PHP files are EXTENSIONLESS (no `.php`): `router`, `index`,
 `API/blueprint_get`, `API/blueprint_search`.
 
 Customization order (why there is almost no `{}` here):
-  1. shape/reference  -> `proto:<id>` (see Reference prototypes)
+  1. shape/reference  -> `prototype:<id>` (see Reference prototypes)
   2. identity/inputs  -> `name=`, `par=`, `out=`, `desc=`
   3. free-form logic  -> `{}` ONLY for the irreducible PHP expression itself.
 
@@ -98,7 +98,7 @@ part 0: {reference}
          -> ret {a VibeDSL page}
 
 part 1: {router}
-   module name="router" id="router" proto:module desc="front controller for the PHP built-in server: single entry, extensionless files, blocks extensions and traversal" lng:name="php" extn=N act=[get,exam,req,ret]
+   module name="router" id="router" prototype:module desc="front controller for the PHP built-in server: single entry, extensionless files, blocks extensions and traversal" lng:name="php" extn=N act=[get,exam,req,ret]
       -> crt fun name="route" par="uri" out="bool" desc="resolve a request path to an extensionless file; Y if required" -> act == crt [code]
          -> run {path = rawurldecode(parse_url(uri, PHP_URL_PATH))}
          -> if{path==='' || path==='/'}:
@@ -115,7 +115,7 @@ part 1: {router}
          -> ret N
 
 part 2: {index}
-   module name="index" id="index" proto:module desc="landing page: ASCII logo built in PHP, static documentation and the API table" lng:name="php" out="html" act=[crt,show]
+   module name="index" id="index" prototype:module desc="landing page: ASCII logo built in PHP, static documentation and the API table" lng:name="php" out="html" act=[crt,show]
       -> crt fun name="logo" par="word" out="string" desc="render a word from a 5-row glyph map" -> act == crt [data]
          -> run {font = ['V'=>[...],'i'=>[...],'b'=>[...],'e'=>[...],'D'=>[...],'S'=>[...],'L'=>[...]]}
          -> run {lines = array_fill(0,5,'')}
@@ -132,7 +132,7 @@ part 2: {index}
       -> show {license Apache 2.0 + powered by Big Pickle}
 
 part 3: {API/lib}
-   module name="API/lib" id="api_lib" proto:module desc="shared helpers: page wrapper, text-to-HTML normalizer, source map" lng:name="php" act=[crt,cnv]
+   module name="API/lib" id="api_lib" prototype:module desc="shared helpers: page wrapper, text-to-HTML normalizer, source map" lng:name="php" act=[crt,cnv]
       -> crt fun name="vibedslPage" par="body,title" out="html" desc="wrap a body in the VibeDSL HTML document" -> act == crt [code]
          -> ret {<!DOCTYPE html>...<title>title</title>...<body>body</body></html>}
       -> crt fun name="vibedslToHtml" par="text,title" out="html" desc="escape then normalize text to HTML" -> act == cnv
@@ -154,7 +154,7 @@ part 3: {API/lib}
             -> {agents     -> base/DATA/agents.txt}
 
 part 4: {API/get}
-   module name="API/get" id="api_get" proto:endpoint par="dict:any=dictionary" out="html" desc="whole source as HTML; unknown or missing dict -> 404 page" lng:name="php" extn=N act=[get,exam,ret]
+   module name="API/get" id="api_get" prototype:endpoint par="dict:any=dictionary" out="html" desc="whole source as HTML; unknown or missing dict -> 404 page" lng:name="php" extn=N act=[get,exam,ret]
       -> run {base = dirname(__DIR__); require base.'/API/lib'; map = vibedslSources(base)}
       -> run {file = map[dict] ?? null}
       -> exam{file===null || !is_file(file)}<>:
@@ -163,7 +163,7 @@ part 4: {API/get}
       -> ret {vibedslToHtml(file_get_contents(file), 'VibeDSL get: '.dict)}
 
 part 5: {API/search}
-   module name="API/search" id="api_search" proto:endpoint par="in:any" out="html" desc="RAG search across dictionary+syntax+agents; objects split by *-> markers; case-sensitive substring; no match message" lng:name="php" extn=N act=[srch,exam,ret]
+   module name="API/search" id="api_search" prototype:endpoint par="in:any" out="html" desc="RAG search across dictionary+syntax+agents; objects split by *-> markers; case-sensitive substring; no match message" lng:name="php" extn=N act=[srch,exam,ret]
       -> run {term = trim($_GET['in'] ?? ''); src = vibedslSources(base); unset src[blueprints], src[protos]}
       -> exam{term===''}<>:
          -> ret {vibedslPage('rsn: term required GET ?in=<term>')}
@@ -185,7 +185,7 @@ part 5: {API/search}
       -> ret {vibedslToHtml(blob, term)}
 
 part 6: {API/proto_get}
-   module name="API/proto_get" id="api_proto_get" proto:endpoint par="id:any" out="html" desc="exact abstract prototype by id; 404 if absent" lng:name="php" extn=N act=[get,exam,ret]
+   module name="API/proto_get" id="api_proto_get" prototype:endpoint par="id:any" out="html" desc="exact abstract prototype by id; 404 if absent" lng:name="php" extn=N act=[get,exam,ret]
       -> run {id = trim($_GET['id'] ?? ''); file = vibedslSources(base)['protos'] ?? null}
       -> exam{file===null || !is_file(file)}<>:
          -> run {http_response_code(404)}
@@ -199,7 +199,7 @@ part 6: {API/proto_get}
       -> ret {vibedslPage('[404] no proto with id="id"')}
 
 part 7: {API/proto_search}
-   module name="API/proto_search" id="api_proto_search" proto:endpoint par="in:any" out="html" desc="abstract-prototype search by id or desc (case-insensitive); scope=protos" lng:name="php" extn=N act=[srch,exam,ret]
+   module name="API/proto_search" id="api_proto_search" prototype:endpoint par="in:any" out="html" desc="abstract-prototype search by id or desc (case-insensitive); scope=protos" lng:name="php" extn=N act=[srch,exam,ret]
       -> run {term = trim($_GET['in'] ?? ''); file = vibedslSources(base)['protos'] ?? null}
       -> exam{file===null || !is_file(file)}<>:
          -> run {http_response_code(404)}
@@ -220,7 +220,7 @@ part 7: {API/proto_search}
       -> ret {vibedslToHtml(blob, term)}
 
 part 8: {API/blueprint_get}
-   module name="API/blueprint_get" id="api_blueprint_get" proto:endpoint par="id:any" out="html" desc="exact blueprint by id; 404 if absent; mirrors proto_get over the blueprints scope" lng:name="php" extn=N act=[get,exam,ret]
+   module name="API/blueprint_get" id="api_blueprint_get" prototype:endpoint par="id:any" out="html" desc="exact blueprint by id; 404 if absent; mirrors proto_get over the blueprints scope" lng:name="php" extn=N act=[get,exam,ret]
       -> run {id = trim($_GET['id'] ?? ''); file = vibedslSources(base)['blueprints'] ?? null}
       -> exam{file===null || !is_file(file)}<>:
          -> run {http_response_code(404)}
@@ -234,7 +234,7 @@ part 8: {API/blueprint_get}
       -> ret {vibedslPage('[404] no blueprint with id="id"')}
 
 part 9: {API/blueprint_search}
-   module name="API/blueprint_search" id="api_blueprint_search" proto:endpoint par="in:any" out="html" desc="blueprint search by id or desc (case-insensitive); scope=blueprints; mirrors proto_search" lng:name="php" extn=N act=[srch,exam,ret]
+   module name="API/blueprint_search" id="api_blueprint_search" prototype:endpoint par="in:any" out="html" desc="blueprint search by id or desc (case-insensitive); scope=blueprints; mirrors proto_search" lng:name="php" extn=N act=[srch,exam,ret]
       -> run {term = trim($_GET['in'] ?? ''); file = vibedslSources(base)['blueprints'] ?? null}
       -> exam{file===null || !is_file(file)}<>:
          -> run {http_response_code(404)}
@@ -266,7 +266,7 @@ lst Y N`) resolves in the dictionary.
 Pass 3 (aliases): `evt,event`, `ret,return`, `module,class`, `true,false` resolve
 identically through RAG (spot-checked via `/API/search`).
 Pass 4 (refs): `incld="any,goal,fail,retry"` exist in `DATA/protos.txt` /
-`DATA/blueprints.txt`; `proto:endpoint|handler|module|source` resolve to the
+`DATA/blueprints.txt`; `prototype:endpoint|handler|module|source` resolve to the
 Reference prototypes declared above.
 Pass 5 (no invention): PHP names (`path`, `candidate`, `realpath`, `preg_split`,
 `stripos`, ...) appear ONLY inside `{}`; no unverified token is used in the frame.
@@ -301,7 +301,7 @@ get vs search differ only by exact-id vs substring. Confirmed against source.
 4. REVIEW FIX B (customization path): endpoint interfaces are now declared with
    `name`/`par`/`out`/`desc`; `{}` is reserved for the irreducible PHP expression.
 5. REVIEW FIX C (prototypes): added reference protos `endpoint`, `handler`,
-   `module`, `source` and referenced them via `proto:<id>`; no more shapeless nodes.
+   `module`, `source` and referenced them via `prototype:<id>`; no more shapeless nodes.
 6. REVIEW FIX D (crt/fun): `crt` was defined as "critical" while used as "create"
    in ~37 places across docs/rules. Dictionary corrected to `crt, create` = action
    create; "critical" moved to `crit`; `fun` clarified (action if rule/agent, API
