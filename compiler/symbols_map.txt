@@ -128,7 +128,7 @@ U+21E3   ⇣  *-> child      - child dcope of object entity or any unit
 U+2B24   ⬤  *-> cluster    - mapping cluster of any entity
 U+21CC ⇌ *-> convert        - convert, rerole, translate
 U+27E6   ⟦  *-> code       - code
-U+2193   ↓  *-> col        - composition: linear vertical axis of children
+U+2193   ↓  *-> column      - composition: linear vertical axis of children
 U+2297   ⊗  *-> complex    - complex
 U+2610   ☐  *-> component  - component
 U+258C   ▌  *-> console    - console, or text visual output

@@ -23,7 +23,7 @@ function type="root" name="vibide" id="vibide" scop="root"->action == create [sp
 &-> abstract:prop:id="module"->frm:"module"
 &-> abstract:prop:id="split"->frm:"split"
 &-> abstract:prop:id="factor"->frm:"factor"
-&-> abstract:prop:id="col"->frm:"col"
+&-> abstract:prop:id="column"->frm:"column"
 &-> abstract:prop:id="row"->frm:"row"
 &-> abstract:prop:id="left"->frm:"left"
 &-> abstract:prop:id="right"->frm:"right"
@@ -54,7 +54,7 @@ function type="root" name="vibide" id="vibide" scop="root"->action == create [sp
 &-> abstract:id="set_theme"->action="load(mapping:theme) + frm:corner:radius:set(15) + frm:font:set(...) + font:font_size:set(...) + action=show(theme)"->load(mapping:theme)->frm:corner:radius:set(15)->frm:font:set("Arial")->font:font_size:set([12,14])->action=show(theme)
 
 &-> abstract:"bind_theme"->action="nasledovanie temy: view:theme:set()..console:theme:set() + action=show(theme)":
-      view:theme:set()->frm:theme:set()->col:theme:set()->row:theme:set()->left:theme:set()->right:theme:set()->tab_view:theme:set()->nav:theme:set()->inp:theme:set()->console:theme:set()->action=show(theme)
+      view:theme:set()->frm:theme:set()->column:theme:set()->row:theme:set()->left:theme:set()->right:theme:set()->tab_view:theme:set()->nav:theme:set()->inp:theme:set()->console:theme:set()->action=show(theme)
 
 &-> abstract:id="reload_theme"->param=cfg->action="load(cfg:mapping) + run(set_theme) + run(bind_theme)"->load(cfg:mapping)->run(set_theme)->run(bind_theme)->return("theme perezchitan, vizual obnovlen")->return("cfg otsutstvuet, staryj theme ostal")
 
@@ -77,8 +77,8 @@ function type="root" name="vibide" id="vibide" scop="root"->action == create [sp
 
 // ---- abstract func: verh
 
-&-> abstract:"build_top"->action="create(col) + create(left) + create(row) + create(tab_view) + create(inp) + create(right) + action=show(left) + action=show(tab_view) + action=show(right)":
-      create(col top)->create(left)->left:min:set(50)->left:max:set(factor 25)->create(row)->create(tab_view)->add(tab_view:inp type="text")->create(right)->right:min:set(50)->right:max:set(factor 25)->action=show(left)->action=show(tab_view)->action=show(right)
+&-> abstract:"build_top"->action="create(column) + create(left) + create(row) + create(tab_view) + create(inp) + create(right) + action=show(left) + action=show(tab_view) + action=show(right)":
+      create(column)->create(left)->left:min:set(50)->left:max:set(factor 25)->create(row)->create(tab_view)->add(tab_view:inp type="text")->create(right)->right:min:set(50)->right:max:set(factor 25)->action=show(left)->action=show(tab_view)->action=show(right)
 
 &-> abstract:id="set_left"->param=size->action="left:size:set(par), granitsy: min 50, max factor 25"->left:size:set(par)->return("size zamenen mezhdu min 50 i max factor 25")->return("vne granits, left sohranil size")
 
@@ -107,8 +107,8 @@ function type="root" name="vibide" id="vibide" scop="root"->action == create [sp
 
 // ---- abstract func: niz
 
-&-> abstract:"build_bottom"->action="create(col) + create(row) + create(console) + console:factor:set(50) x2":
-      create(col bottom)->create(row)->create(console)->console:factor:set(50)->create(console)->console:factor:set(50)->action=show(console)
+&-> abstract:"build_bottom"->action="create(column) + create(row) + create(console) + console:factor:set(50) x2":
+      create(column)->create(row)->create(console)->console:factor:set(50)->create(console)->console:factor:set(50)->action=show(console)
 
 &-> abstract:id="set_console"->param=factor->action="console:size:set(par), factor 25"->console:size:set(par)->return("size zamenen na factor 25")->return("vne granits, console sohranil size")
 
@@ -252,7 +252,7 @@ part 6: "goal"
          ->check(console:factor) == 50
          ->check(view:theme) != none
          ->check(frm:theme) != none
-         ->check(col:theme) != none
+         ->check(column:theme) != none
          ->check(row:theme) != none
          ->check(left:theme) != none
          ->check(right:theme) != none

@@ -254,8 +254,8 @@ type:mapping
 *-> code         - code.
     -> exm:code:java
 
-*-> col          - composition: linear vertical axis of children
-    -> exm:col: inp:name="login" | btn:name="save"
+*-> column        - composition: linear vertical axis of children
+    -> exm:column: inp:name="login" | btn:name="save"
 
 *-> complex        - complex
     -> exm:complex:obj

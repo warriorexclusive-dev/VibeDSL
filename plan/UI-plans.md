@@ -26,7 +26,7 @@ the visual/frontend zone. Backend/util/games are separate future plans.
 ## T0. COMPOSITION (priority, abstract)
 Layout/containment primitives — needed FIRST, everything else sits inside them.
 - row   - linear horizontal axis of children
-- col   - linear vertical axis of children
+- column   - linear vertical axis of children
 - grd   - grid: two-axis placement (columns/areas)
 - frm   - frame: bordered/inset container, viewport crop
 - grp   - group: logical cluster of elements (one unit of state)
@@ -89,7 +89,7 @@ Layout/containment primitives — needed FIRST, everything else sits inside them
 ```
 prj:name="settings":theme="m3":
   -> pag:name="main":
-     -> col: -> sec:name="profile" | -> frm:name="list_card":
+     -> column: -> sec:name="profile" | -> frm:name="list_card":
         -> inp:name="login" styp:text
         -> sel:name="theme" styp:switch
         -> btn:name="save" action:approve
@@ -97,7 +97,7 @@ prj:name="settings":theme="m3":
   -> ovl: -> dlg:name="confirm" | -> msg:name="saved" styp:snackbar
   -> hscroll: row: card:name="c1"
 ```
-Composition is explicit (`col`/`frm`/`ovl`), concrete effects follow the
+Composition is explicit (`column`/`frm`/`ovl`), concrete effects follow the
 `-> -> action` chain as usual. Recycler is a first-class component (`rcl`),
 not composed from abstracts.
 

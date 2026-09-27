@@ -169,7 +169,7 @@ The visual/frontend zone follows Material Design 3 vocabulary (truly in trend,
 and a clear textbook). Tokens are short (3-4 chars) for small-model memory,
 abstract over precise (precision closes via `styp`/`{}`).
 
-Composition: `row col grd frm grp ovl pag sec hscroll vscroll spr`
+Composition: `row column grd frm grp ovl pag sec hscroll vscroll spr`
 Recycler (first-class, not composed): `rcl`
 Navigation: `nav bct table link`
 Input controls: `inp btn sel tgl slr pic srch`
@@ -180,7 +180,7 @@ Entities: `view` (concrete frame/screen, distinct from `graphics` - visual eleme
 ```vibedsl
 prj:name="settings":theme="m3":
    -> pag:name="main":
-      -> col: -> sec:name="profile" | -> frm:name="list_card":
+      -> column: -> sec:name="profile" | -> frm:name="list_card":
          -> inp:name="login" styp:text
          -> sel:name="theme" styp:switch
          -> btn:name="save" action:approve
