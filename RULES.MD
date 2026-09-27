@@ -85,7 +85,7 @@ in:   picture->
 * PROPER NAMES / bare values after `=` go into quotes: `name="out.xml"`, `lng="VibeDSL"`. Bare word after `=` = warning.
 * FLOW MODEL: `fun` = executable function; `abstract` = pure concept (idea) - defines properties/behavior for a group or single of future entity, cannot create an instance of itself. Flow = input function -> executable function (Java-abstract analogy).
 * ALIAS KWS: `alias [...] as NAME` (grammar word `as`).
-* USERDEFS register: `abstract name="X"` and `alias [...] as NAME`; abstract body = `[abstract body]`, not re-validated. `{}` = AI custom block; `/* */` and `//` = human comments (skipped).
+* USERDEFS register: `abstract id="X"` and `alias [...] as NAME`; abstract body = `[abstract body]`, not re-validated. `{}` = AI custom block; `/* */` and `//` = human comments (skipped).
 * `act="..."` declares a function - two canonical forms, written in VibeDSL:
   - `abstract "open_file" -> act="open file by name"` - declares function `open_file`; call: `open_file("main.txt")`
   - `file:act="grant access to user":name="access"` - declares entity function `file:access` (`:name="..."` binds the name to the same declaration); call: `file:access(context:user)`

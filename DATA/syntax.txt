@@ -107,7 +107,7 @@ start base syntax
 *-> name property - name/value properties continue after a space on the same line or on the next line; proper names are quoted
     -> exm:name="out.xml"
 *-> flow model (fun/abstract) - function flow like a Java abstract: INPUT function first (takes the parameter/slot), then EXECUTABLE function (produces the result/flow/object); first = entry point, the rest = execution chain
-    -> exm:abstract name="openfile" -> open(file:prop) -> open(file name=prop)
+    -> exm:abstract id="openfile" param=p -> open(file:name:p)
     -> exm:fun crt(file name="out.xml"):->save()
 *-> alias kws - user alias: alias [list] as NAME declares a name for a set of values; NAME then usable as a type/token
     -> exm:alias [".mod",".modding",".md"] as file_mods
