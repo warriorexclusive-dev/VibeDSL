@@ -38,7 +38,7 @@ type:action
     -> exm:change:->file:name
 
 *-> close        - generic canonical act function on any entity: close(<entity>) - finalizes the entity and saves its bound node state, declared once via act, works for every entity
-    -> exm: close(file name="out.xml")
+    -> exm: close(file:name="out.xml")
 
 *-> codrev           - code anallize, review without editing, testing
     -> exm:codrev:->source
@@ -72,7 +72,7 @@ type:action
     -> exm:run:->exec
 
 *-> extract      - extract action
-    -> exm:function create (file name="out.xml" alias xml ): -> open(file name="project.exe"):alias source:->extract(source *? data:type=dom to xml)
+    -> exm:function create (file:name="out.xml" alias xml ): -> open(file:name="project.exe"):alias source:->extract(source *? data:type=dom to xml)
 
 *-> function - function: an action when it is a rule or an agent; an API entry point when it is a spec or architecture; often used with the param key and the return key, the logic is preferably written through the language logical operators
     -> exm:function:type="root":name="vibide":id="vibide":scope="root"->action == create [spec]:lng="VibeDSL"
@@ -88,8 +88,8 @@ type:action
     -> exm:if(dir:empty):insert(file)
 
 *-> load         - load action: load a view, file or base by name
-    -> exm:load(view name="main")
-    -> exm:event:onCreate -> load(view name="main")
+    -> exm:load(view:name="main")
+    -> exm:event:onCreate -> load(view:name="main")
 
 *-> make - make
     -> exm:mk:->file
@@ -104,8 +104,8 @@ type:action
     -> exm:only:check
 
 *-> open         - generic canonical act function on any entity: open(<entity>) - opens the entity bound node for changes, declared once via act, works for every entity
-    -> exm: open(file name="out.xml")
-    -> exm: open(user name="alice")
+    -> exm: open(file:name="out.xml")
+    -> exm: open(user:name="alice")
 
 *-> plan         - make plan mode or cpecs
     -> exm:plan:->specs
@@ -139,7 +139,7 @@ type:action
     -> exm:rvw:->;code
 
 *-> save         - generic canonical act function on any entity: save(<entity>) - persists the entity to its bound node, declared once via act, works for every entity
-    -> exm: save(file name="out.xml")
+    -> exm: save(file:name="out.xml")
             prj "site" Etalon("www.other-site.com")
             prj "service"  Etalon("BranchCache"):OS="Windows"
 
@@ -175,7 +175,7 @@ type:action
     -> exm:name=trim("  hello  ")
 
 *-> use          - logical import command: apply/engage an object, prototype or import; the logical side of import (import is the physical lib/item, use is the logical command that engages it)
-    -> exm:use(agent name="dsl-coder")
+    -> exm:use(agent:name="dsl-coder")
     -> exm:use(VibeDSL:proto[abstract])
 
 *-> variant - action reduce variants

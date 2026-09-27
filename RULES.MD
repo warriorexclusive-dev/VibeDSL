@@ -169,10 +169,10 @@ fun:type="rule":scop="root" -> event:crt([logic,arc:ref,spec,plan]) -> lng="Vibe
 fun:type="rule":scop="root" -> event:answ(user) -> lng=usr:lang
 
 fun:type="rule":scop="root" -> event:crt([code, data, file])
-  -> crt(spec lng="VibeDSL" proto):
+  -> crt(spec:lng="VibeDSL" proto):
   -> exam(spec:syn==VibeDSL:dict:syn)<>:
      -> exam(!(spec:logic==?))<>:
-        -> show(spec lang="VibeDSL" src="orig" with(VibeDSL:prnt:strk:->add(ref lang=usr:lang))):
+        -> show(spec:lang="VibeDSL":src="orig" with(VibeDSL:prnt:strk:->add(ref lang=usr:lang))):
            -> usr apr:
               -> crt([code, data, file] lng=spec:lng:name):
                  -> exam(file:syn==spec:lng:syn): 

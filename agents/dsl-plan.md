@@ -56,11 +56,11 @@ on every plan file you write in plan/; PASS = errors=0, fix until PASS.
 ```
 run(agent(dsl-plan))
 
-function:type="root":name="dsl-plan":id="dsl-plan":scop="root" -> event:create([plan]) lng="VibeDSL"
-   -> create(specfile lng="VibeDSL" blplan(plan)):
+function:type="root":name="dsl-plan":id="dsl-plan":scop="root" -> event:create([plan]):lng="VibeDSL"
+   -> create(specfile:lng="VibeDSL" blplan(plan)):
       -> exam(specfile:syn==VibeDSL:dict:syn)<>:
          -> exam(!(specfile:logic==?))<>:
-            -> show(specfile lang="VibeDSL" source="orig" with(VibeDSL:prnt:strk:->add(ref lang="usr:lang"))):
+            -> show(specfile:lang="VibeDSL":source="orig" with(VibeDSL:prnt:strk:->add(ref:lang="usr:lang"))):
                -> usr approve:
                   -> write(plan:goal)
                   -> goal

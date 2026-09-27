@@ -322,7 +322,7 @@ type:mapping
 
 *-> mix          - mix action: combine/merge any two objects
     -> exm:mix:->struct
-    -> exm:function open (file name="out.xml" alias xml ): -> open(file name="project.exe"):alias source:->mix(source *? data:type=dom to xml)->save(file:out_1.xml)
+    -> exm:function open (file:name="out.xml" alias xml ): -> open(file:name="project.exe"):alias source:->mix(source *? data:type=dom to xml)->save(file:out_1.xml)
 
 *-> model         - model,  model of any entity or behavior
     -> exm:model:name="user":type="account"
@@ -567,7 +567,7 @@ type:mapping
     -> exm:alw:true
 
 *-> type          - mapping type of any entity
-    -> exm: Convert("HelloWorld" lang="ru" type="colloquial")->show()
+    -> exm: Convert("HelloWorld":lang="ru":type="colloquial")->show()
 
 *-> uid          - unique id like UUID or unique key autoincrement if SQL uuid in program or physical entity 
     -> exm:uid:auto

@@ -170,7 +170,7 @@ create(model:-[3]> type="human")   // -[3]> = critical branching node: 3 state a
 quotes; `/` is plain mathematical division:
 
 ```
-create\show(file name="out.xml")  // create, but do not show (logic filter)
+create\show(file:name="out.xml")  // create, but do not show (logic filter)
 list\users                     // filter: everything except "users"
 val:rate = 10 / 2              // / = division
 ```
@@ -181,10 +181,10 @@ val:rate = 10 / 2              // / = division
 
 ```
 function:type="agent":scop="root" -> event:create([code, data, file])
-   -> create(specfile lng="VibeDSL" proto):
+   -> create(specfile:lng="VibeDSL" proto):
    -> exam(specfile:syn==VibeDSL:dict:syn)<>:
       -> exam(!(specfile:logic==?))<>:
-         -> show(specfile lang="VibeDSL" source="orig" with(VibeDSL:prnt:strk:->add(ref lang="usr:lang"))):
+         -> show(specfile:lang="VibeDSL":source="orig" with(VibeDSL:prnt:strk:->add(ref:lang="usr:lang"))):
             -> usr approve:
                -> create([code, data, file] lng=specfile:lng:name):
                   -> exam(file:syn==specfile:lng:syn):
@@ -204,7 +204,7 @@ function:type="agent":scop="root" -> event:create([code, data, file])
 
 ```
 blplan(plan) id="p_goal":desc="formal plan blueprint":incld="goal,retry":action=[create,exam]:scop="root":
-   -> create(plan lng="VibeDSL")
+   -> create(plan:lng="VibeDSL")
       -> exam(plan:syn==VibeDSL:dict:syn)<>:
          -> goal
          -> retry(5)!:rollb

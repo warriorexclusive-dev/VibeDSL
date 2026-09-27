@@ -552,6 +552,88 @@ def check_shape(node, text):
 
 
 
+# An id may not take a name the base already explains, and may not repeat.
+# 27 declarations in PY_IDE/window.vibe did the first thing - view, theme, text,
+# frm, left and 23 more - and it is the same collision as goal and col: the spec
+# claims a word that has a mark and a definition, and from then on `theme` means
+# two things. It also cost the compiler: a locally claimed name has to be spared
+# from compiling, so show(theme) stopped being a mark until the claim went.
+RX_ID = re.compile(r'\bid="([^"]+)"')
+RX_PARAM = re.compile(r'->param=([A-Za-z_]\w*)')
+_BASE_WORDS = None
+
+
+def _base_words():
+    """word -> glyph for everything the base explains, loaded once"""
+    global _BASE_WORDS
+    if _BASE_WORDS is None:
+        _BASE_WORDS = {}
+        try:
+            import subprocess
+            here = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+            code = ("import importlib.util,os,sys;"
+                    "sp=importlib.util.spec_from_file_location('c',os.path.join(sys.argv[1],'compiler','compile.py'));"
+                    "cc=importlib.util.module_from_spec(sp);sp.loader.exec_module(cc);"
+                    "a,b,c,d=cc.load_alias_to_glyph();"
+                    "s,_,_=cc.build_substitution(a,b,c,d);"
+                    "print(repr(s))")
+            r = subprocess.run([sys.executable, '-X', 'utf8', '-c', code, here],
+                               capture_output=True, text=True, encoding='utf-8')
+            import ast as _ast
+            _BASE_WORDS = _ast.literal_eval(r.stdout.strip())
+        except Exception:
+            _BASE_WORDS = {}
+    return _BASE_WORDS
+
+def check_ids(node, base_words):
+    """id must be unique in the spec, and must not be a word the base explains"""
+    if node.parent is not None and node.parent.no == -1:
+        return
+    text = node.text or ""
+    for m in re.finditer(r'id="([^"]+)"', text):
+        name = m.group(1)
+        if name.lower() in base_words:
+            OUT.append((node.no, "E", "line %d: id \"%s\" is a word the base already explains "
+                        "(%s) - a spec may not claim it; use the base word as it is"
+                        % (node.no, name, base_words[name.lower()])))
+    return
+
+
+def check_id_unique(root, base_words):
+    """every id once per spec; id and param share one namespace"""
+    seen = {}
+    ids = {}
+    for ch in _walk_all(root):
+        t = ch.text or ""
+        for m in RX_ID.finditer(t):
+            nm = m.group(1).lower()
+            if nm in ids:
+                OUT.append((ch.no, "E", "line %d: id=\"%s\" is already bound on line %d - "
+                            "a word bound twice is a vector on the word" % (ch.no, m.group(1), ids[nm])))
+            else:
+                ids[nm] = ch.no
+        # a param may not repeat either, and the reason is not tidiness: a word
+        # bound twice is a VECTOR on that word - file bound in two functions has
+        # two meanings, and the base allows one word one concept. id and param
+        # are one namespace, so a param also may not take a name an id holds.
+        for m in RX_PARAM.finditer(t):
+            nm = m.group(1).lower()
+            prev = ids.get(nm)
+            if prev:
+                OUT.append((ch.no, "E", "line %d: param=%s is already bound on line %d - "
+                            "a word bound twice is a vector on the word, and id and param "
+                            "share one namespace" % (ch.no, m.group(1), prev)))
+            else:
+                ids[nm] = ch.no
+
+
+def _walk_all(node):
+    yield node
+    for ch in node.children:
+        for x in _walk_all(ch):
+            yield x
+
+
 def check_pins(node, scan_text):
     """Object spell-checker: a compound obj:pin is allowed if the pin was
     declared for the object (abstract{...} init or obj:act name="...") or is a
@@ -674,7 +756,12 @@ def main():
         dup_check(root)
         for ch in root.children:
             compute_blocks(ch)
+        base_words = _base_words()
         walk(root)
+        check_id_unique(root, base_words)
+        for nd in _walk_all(root):
+            if nd.parent is not None and nd.parent.parent is not None:
+                check_ids(nd, base_words)
         print("== %s" % src)
         seen = set()
         errs = 0

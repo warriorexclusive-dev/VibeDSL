@@ -2,45 +2,18 @@
 // logika - slova spravochnika, imena sobstvennye v "", opisaniya russkij
 // creative = 0
 
-function type="root" name="vibide" id="vibide" scop="root"->action == create [spec] lng="VibeDSL"
+function type="root" name="vibide" id="vibide" scope="root"->action == create [spec] lng="VibeDSL"
 
 // ---- abstract prop
 
-&-> abstract:prop:id="view"->frm:"view"
-&-> abstract:prop:id="name"->frm:"name"
-&-> abstract:prop:id="fullscreen"->frm:"fullscreen"
-&-> abstract:prop:id="theme"{"hex" "group"}->frm:prop
 &-> abstract:prop:id="corner"->frm:prop
 &-> abstract:prop:id="radius"->frm:corner:prop
 &-> abstract:prop:id="font"->frm:prop
 &-> abstract:prop:id="font_size"->font:prop
-&-> abstract:prop:id="cfg"->frm:"cfg"
-&-> abstract:prop:id="file"->frm:"file"
-&-> abstract:prop:id="text"->frm:"text"
-&-> abstract:prop:id="nav"->frm:"nav"
 &-> abstract:prop:id="par"{"nest"}->frm:"par"
-&-> abstract:prop:id="frm"->frm:"frm"
-&-> abstract:prop:id="module"->frm:"module"
-&-> abstract:prop:id="split"->frm:"split"
-&-> abstract:prop:id="factor"->frm:"factor"
-&-> abstract:prop:id="column"->frm:"column"
-&-> abstract:prop:id="row"->frm:"row"
-&-> abstract:item:id="left"->frm:"left"
-&-> abstract:item:id="right"->frm:"right"
-&-> abstract:prop:id="min"->frm:"min"
-&-> abstract:prop:id="max"->frm:"max"
-&-> abstract:prop:id="size"->frm:"size"
-&-> abstract:prop:id="num"->frm:"num"
 &-> abstract:item:id="tab_view"->frm:type="tab_view"
-&-> abstract:prop:id="inp"->frm:"inp"
-&-> abstract:prop:id="console"->frm:"console"
-&-> abstract:prop:id="sht"->frm:"sht"
-&-> abstract:prop:id="content"->frm:"content"
-&-> abstract:prop:id="io"->frm:"io"
 &-> abstract:prop:id="func"->frm:"func"
-&-> abstract:prop:id="none"->frm:"none"
 &-> abstract:prop:id="mapping"{"group"}->frm:"mapping"
-&-> abstract:prop:id="goal"->frm:"goal"
 
 // ---- abstract func: okno
 
@@ -63,9 +36,9 @@ function type="root" name="vibide" id="vibide" scop="root"->action == create [sp
 &-> abstract:"build_nav"->action="create(nav) + nav:par:set(...) + add(nav:par ...) x4 + action=show(nav)":
       create(nav)->nav:par:set("file")->add(nav:par "view")->add(nav:par "option")->add(nav:par "help")->nav:content:set(none)->action=show(nav)
 
-&-> abstract:id="add_par"->param=param->action="add(nav:par par) + add(par:nest par)"->add(nav:par par)->add(par:nest par)->return("par dobavlen")->return("par pust, nichego ne dobavlen")
+&-> abstract:id="add_par"->param=par_nav->action="add(nav:par par) + add(par:nest par)"->add(nav:par par)->add(par:nest par)->return("par dobavlen")->return("par pust, nichego ne dobavlen")
 
-&-> abstract:id="set_text"->param=param->action="item:name:set(par)"->item:name:set(par)->return("name zamenen")
+&-> abstract:id="set_text"->param=par_text->action="item:name:set(par)"->item:name:set(par)->return("name zamenen")
 
 &-> abstract:"del_item"->action="remove(item)":
       remove(item)->return("item i nest udaleny")
@@ -80,9 +53,9 @@ function type="root" name="vibide" id="vibide" scop="root"->action == create [sp
 &-> abstract:"build_top"->action="create(column) + create(left) + create(row) + create(tab_view) + create(inp) + create(right) + action=show(left) + action=show(tab_view) + action=show(right)":
       create(column)->create(left)->left:min:set(50)->left:max:set(factor 25)->create(row)->create(tab_view)->add(tab_view:inp type="text")->create(right)->right:min:set(50)->right:max:set(factor 25)->action=show(left)->action=show(tab_view)->action=show(right)
 
-&-> abstract:id="set_left"->param=size->action="left:size:set(par), granitsy: min 50, max factor 25"->left:size:set(par)->return("size zamenen mezhdu min 50 i max factor 25")->return("vne granits, left sohranil size")
+&-> abstract:id="set_left"->param=size_left->action="left:size_left:set(par), granitsy: min 50, max factor 25"->left:size:set(par)->return("size zamenen mezhdu min 50 i max factor 25")->return("vne granits, left sohranil size")
 
-&-> abstract:id="set_right"->param=size->action="right:size:set(par), granitsy: min 50, max factor 25"->right:size:set(par)->return("size zamenen mezhdu min 50 i max factor 25")->return("vne granits, right sohranil size")
+&-> abstract:id="set_right"->param=size_right->action="right:size_right:set(par), granitsy: min 50, max factor 25"->right:size:set(par)->return("size zamenen mezhdu min 50 i max factor 25")->return("vne granits, right sohranil size")
 
 &-> abstract:"open_left"->action="action=show(left)":
       action=show(left)
@@ -96,11 +69,11 @@ function type="root" name="vibide" id="vibide" scop="root"->action == create [sp
 &-> abstract:"close_right"->action="close(right)":
       close(right)
 
-&-> abstract:id="add_tab"->param=param->action="add(tab_view) + run(set_tab_name) + tab_view:text:set(par) + action=show(tab_view)"->add(tab_view)->run(set_tab_name)->tab_view:text:set(par)->action=show(tab_view)
+&-> abstract:id="add_tab"->param=par_tab->action="add(tab_view) + run(set_tab_name) + tab_view:text:set(par) + action=show(tab_view)"->add(tab_view)->run(set_tab_name)->tab_view:text:set(par)->action=show(tab_view)
 
 &-> abstract:id="set_tabs"->param=num->action="tab_view:num:set(par)"->tab_view:num:set(par)->return("num tab zamenen funkciej")->return("num vne granits, num bezmenen")
 
-&-> abstract:id="set_tab_name"->param=name->action="tab_view:name:set(par)"->tab_view:name:set(par)->return("name tab zamenen")->return("tab net, name ne zamenen")
+&-> abstract:id="set_tab_name"->param=name_tab->action="tab_view:name:set(name_tab)"->tab_view:name:set(par)->return("name tab zamenen")->return("tab net, name ne zamenen")
 
 &-> abstract:"close_tab"->action="close(tab_view)":
       close(tab_view)
@@ -125,14 +98,14 @@ function type="root" name="vibide" id="vibide" scop="root"->action == create [sp
 &-> abstract:"fill_panel"->action="create(frm v sht)":
       create(frm in sht)->return("sht napolnena podoknom")
 
-&-> abstract:id="fill_editor"->param=file->action="load(inp:text par)"->load(inp:text par)->return("content editor - text otkrytogo fayla")->return("fayla net, editor pust")
+&-> abstract:id="fill_editor"->param=text->action="load(inp:text par)"->load(inp:text par)->return("content editor - text otkrytogo fayla")->return("fayla net, editor pust")
 
 &-> abstract:"fill_bound"->action="vhodnaya func napolnyaet tolko svoye okno":
       return("vhodnaya func napolnyaet tolko svoye okno")
 
 // ---- abstract func: vneshnyaya komanda
 
-&-> abstract:id="cmd"->param=name->action="run(io:func par)"->run(io:func par)->return("func zapushchena")->return("par net, nichego ne izmeneno")
+&-> abstract:id="cmd"->param=name_cmd->action="run(io:func par)"->run(io:func par)->return("func zapushchena")->return("par net, nichego ne izmeneno")
 
 // ---- abstract func: sborka
 
@@ -250,16 +223,16 @@ part 6: "goal"
          ->check(right:max) == factor 25
          ->check(console:num) == 2
          ->check(console:factor) == 50
-         ->check(view:theme) != none
-         ->check(frm:theme) != none
-         ->check(column:theme) != none
-         ->check(row:theme) != none
-         ->check(left:theme) != none
-         ->check(right:theme) != none
-         ->check(tab_view:theme) != none
-         ->check(nav:theme) != none
-         ->check(inp:theme) != none
-         ->check(console:theme) != none
+         ->!check(view:theme == none)
+         ->!check(frm:theme == none)
+         ->!check(column:theme == none)
+         ->!check(row:theme == none)
+         ->!check(left:theme == none)
+         ->!check(right:theme == none)
+         ->!check(tab_view:theme == none)
+         ->!check(nav:theme == none)
+         ->!check(inp:theme == none)
+         ->!check(console:theme == none)
          ->check(func:num) == 32
       ->exam(goal is none)<>:
          ->retry(5)!:rollb

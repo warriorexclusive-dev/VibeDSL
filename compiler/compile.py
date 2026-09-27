@@ -204,6 +204,15 @@ def build_substitution(concept_of, concepts, word_to_glyph, glyphs):
 
 # ---------------------------------------------------------------- protection
 OPEN = {"(": ")", "[": "]", "{": "}"}
+# Only {} opens a protected scope. () and [] are transparent: a word inside
+# them is a word, and a command written as check(x) used to sit inside the paren
+# and never compile at all. {} stays protected because a brace block is a
+# free-form custom block, deliberately unwritten (see the header).
+OPEN_KEEP = {"{": "}"}
+# () and [] are compiled, but a name the spec declared for itself stays text
+# inside them: show(theme) is a reference to the prop called theme, not to the
+# word theme. Outside the parens both are the word, and both compile.
+PARENS = {"(": ")", "[": "]"}
 
 
 def segments(line):
@@ -220,6 +229,7 @@ def segments(line):
     """
     out, buf = [], []
     stack = []
+    parens = []
     quote = False
 
     def flush(kind):
@@ -259,8 +269,8 @@ def segments(line):
             i += 3
             continue
         if stack:
-            if ch in OPEN:
-                stack.append(OPEN[ch])
+            if ch in OPEN_KEEP:
+                stack.append(OPEN_KEEP[ch])
                 buf.append(ch)
             elif ch == stack[-1]:
                 buf.append(ch)
@@ -284,18 +294,26 @@ def segments(line):
             flush("keep")
             i = end
             continue
-        if ch == '"' or ch in OPEN:
+        if ch == '"' or ch in OPEN_KEEP or ch in PARENS:
             flush("code")
             buf.append(ch)
             if ch == '"':
                 quote = True
+            elif ch in PARENS:
+                parens.append(PARENS[ch])
             else:
-                stack.append(OPEN[ch])
+                stack.append(OPEN_KEEP[ch])
+            i += 1
+            continue
+        if parens and ch == parens[-1]:
+            parens.pop()
+            buf.append(ch)
+            flush("paren")
             i += 1
             continue
         buf.append(ch)
         i += 1
-    flush("keep" if (stack or quote) else "code")
+    flush("keep" if (stack or quote) else ("paren" if parens else "code"))
     return [(k, t) for k, t in out if t]
 
 
@@ -353,12 +371,39 @@ def make_token_rx(sub):
     return re.compile("|".join(alts)) if alts else None
 
 
-def compile_line(line, sub, token_rx, stats, known=None):
+# A name the spec declared for itself. Inside a paren it stays text: show(theme)
+# refers to the prop this spec called theme, not to the base word theme, and the
+# two are different things that happen to share a spelling. Outside the parens
+# the word is the word and compiles, which is why this is scoped to 'paren' runs
+# and not to the whole line.
+# The ASSIGN mark is what `=` compiles to, so an already-compiled line carries
+# no `=` at all. Matching only the source spelling made local_names() see a
+# DIFFERENT set on a second pass - every name it was protecting had vanished -
+# so the words it had shielded compiled anyway and the legend grew 62 -> 123.
+# Accepting both spellings is what makes a compile idempotent.
+ASSIGN = '[=\u2a72]'
+RX_LOCAL_ID = re.compile('\bid[=⩲]"([^"]+)"')
+RX_LOCAL_ABS = re.compile(r'abstract(?::\w+)?"([^"]+)"')
+RX_LOCAL_NAME = re.compile('\bname[=⩲]"([^"]+)"')
+
+def local_names(lines):
+    """every identifier this spec claims, lowercased"""
+    out = set()
+    for ln in lines:
+        for rx in (RX_LOCAL_ID, RX_LOCAL_ABS, RX_LOCAL_NAME):
+            for m in rx.finditer(ln):
+                out.add(m.group(1).lower())
+    return frozenset(out)
+
+
+def compile_line(line, sub, token_rx, stats, known=None, local=None):
     out = []
+    local = local or frozenset()
     for kind, text in segments(line):
         if kind == "keep":
             out.append(text)
             continue
+        in_paren = kind == "paren"
         # DATA/abstracts.txt declares &-> to be the textual spelling of the
         # anchor glyph U+2022 and says the compiler emits U+2022 in its place.
         if "&->" in text:
@@ -372,6 +417,8 @@ def compile_line(line, sub, token_rx, stats, known=None):
 
         def repl(m):
             w = m.group(0)
+            if in_paren and w.lower() in local:
+                return w
             g = sub.get(w.lower())
             if g:
                 stats["replaced"] += 1
@@ -385,7 +432,7 @@ def compile_line(line, sub, token_rx, stats, known=None):
         # every remaining word: if the base knows it but it owns no glyph, say so
         for w in RX_WORD.findall(text):
             lw = w.lower()
-            if lw in sub:
+            if lw in sub or (in_paren and lw in local):
                 continue
             if known is None or lw in known:
                 stats["unmapped"].add(lw)
@@ -709,7 +756,9 @@ def main(argv):
 
     # 2. compile the spec
     known = set(concept_of)
-    code_lines = [compile_line(ln, sub, token_rx, stats, known) for ln in lines]
+    local = local_names(lines)
+    code_lines = [compile_line(ln, sub, token_rx, stats, known, local)
+                  for ln in lines]
 
     # 3. compile the pulled-in material
     data_blocks = []
@@ -718,7 +767,7 @@ def main(argv):
         for n, ln in enumerate(entry["body"]):
             if n == 0:
                 ln = RX_OBJMARK.sub("", ln)
-            block.append(compile_line(ln, sub, token_rx, stats, known))
+            block.append(compile_line(ln, sub, token_rx, stats, known, local))
         data_blocks.append((ident, entry["src"], block))
 
     # 4. assemble

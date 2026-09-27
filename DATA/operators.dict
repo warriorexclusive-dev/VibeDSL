@@ -12,7 +12,7 @@ type:logical operators
     -> exm:[cof]=80*2
 
 *-> *?           - comparator with condition: any + ?, i.e. the any-form with a condition applied      
-    -> exm:function create (file name="out.xml" alias xml ): -> open(file name="project.exe"):alias source:->extract(source *? data:type=dom to xml)   // extract all DOM elements in project.exe to out.xml
+    -> exm:function create (file:name="out.xml" alias xml ): -> open(file:name="project.exe"):alias source:->extract(source *? data:type=dom to xml)   // extract all DOM elements in project.exe to out.xml
 
 *-> +            - addition operator (math)
     -> exm:total=a+b
@@ -82,8 +82,8 @@ type:logical operators
     -> exm:[val1,val2]
 
 *-> \            - abstract change logic operator: applies an abstract change to a subject set: \(<subjects> act="add|delete|..."); \* is the filter form of this operator
-    -> exm: \(file:name="dictionary.txt" act="delete")
-    -> exm: \(stage 1:[file_abstracts,file_action,file_mapping,file_operators] action="add")
+    -> exm: \(file:name="dictionary.txt":act="delete")
+    -> exm: \(stage 1:[file_abstracts,file_action,file_mapping,file_operators]:action="add")
 
 *-> \*            - logic filter operator: exclusion\*filtering by condition when applied inside brackets or quotes, example crt\*show - create without showing
     -> exm:create\show
