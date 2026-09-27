@@ -20,7 +20,7 @@ start base syntax
     -> exm:targ:prj:name="http server"
     -> exm:prj name="picture_lib":
     -> exm:fun event:err:-> ret:excpt:response
-*-> -[]>          - multi vector: raises an object into N parallel logical dimensions (states); -[N]> where N = number of dimensions; marks a CRITICAL branching node of logic - not a plain yes/no, the choice splits into N state paths and needs attention when reading; usually written after the colon :-[N]>, prefix form -[N]> [a,b,c]:[d,e,f]: is also allowed; the dimensions are logical (states), NOT spatial 3D / 3D modeling / coordinates
+*-> -[]>          - multi vector: raises an object into N parallel logical dimensions, -[N]> where N is the dimension count. In compilation it expands into BRANCHING: one branch per dimension, each wrapped in {}, so -[3]> compiles to a three-way branch and is not a separate runtime construct
     -> exm: crt(model type=cube)<>:-[3]> [x,y,z]:size=20 as num:format(0.0)
 *-> /            - ordinary mathematical division operator (divide)
     -> exm:total / count

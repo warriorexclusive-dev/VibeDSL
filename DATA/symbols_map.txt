@@ -321,3 +321,4 @@ U+21F4   ⇴  *-> try        - try block marker, operator type action
 U+2303   ⌃  *-> var        - variable of temporary logical entity
 U+22DF   ⋟  *-> when       - when: single conditional trigger, fires once when the condition becomes true
 U+27C1   ⟁  *-> while      - while: loop, repeat a block while the condition holds, condition is checked before each iteratio
+U+2243   ≃  *-> ~            - logical mapping representation of any comparison expression

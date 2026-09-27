@@ -11,13 +11,13 @@ type:logical operators
 *-> ()->         - nesting forvard operator
     -> exm:node()->inner
 
-*-> *?           - comaprator with condition      
+*-> *?           - comparator with condition      
     -> exm:fun crt (file name="out.xml" alias xml ): -> open(file name="project.exe"):alias source:->extract(source *? data:type=dom to xml)   // extract all DOM elements in project.exe to out.xml
 
 *-> -> or        - right strict link to node,dependence or relationship or other, example [model1]->[model2] or [node]->[fun]{act}
     -> exm:[a]->[b]
 
-*-> -[]>          - multi vector: 
+*-> -[]>          - multi vector: raises an object into N parallel logical dimensions, -[N]> where N is the dimension count. In compilation it expands into BRANCHING: one branch per dimension, each wrapped in {}, so -[3]> compiles to a three-way branch and is not a separate runtime construct 
     -> exm: crt(model type=cube)-[3]> [x,y,z]:size=20 as num:format(0.0)
 
 *-> /            - ordinary mathematical division operator (divide)
