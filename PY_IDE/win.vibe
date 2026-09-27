@@ -1,0 +1,11 @@
+&-> abstract : function : id="win"->action="create(view) + set(view : fullscreen : set(true)) + add(view : btn : name="minim") + add(view : btn : name="maxim") + add(view : btn : name="file") + show(view)":
+      create(view)->set(view : fullscreen : set(true))->add(view : btn : name="minim")->add(view : btn : name="maxim")->add(view : btn : name="file")->show(view)
+
+&-> abstract : function : id="win_min"->action="set(view : fullscreen : set(false)) + return(\"okno svernuto\")":
+      set(view : fullscreen : set(false))->return("okno svernuto")
+
+&-> abstract : function : id="win_max"->action="set(view : fullscreen : set(true)) + return(\"okno razvorotano\")":
+      set(view : fullscreen : set(true))->return("okno razvorotano")
+
+&-> abstract : item : id="view"->action="true":
+      true

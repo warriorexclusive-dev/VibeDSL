@@ -1,5 +1,34 @@
 start language dictionary
 
+# =============================================================================
+# RULE - WRITE ONLY IN GLYPHS
+#
+# A spec is written in glyphs. Never in words. A word is a label for a glyph,
+# and a label can be invented, so a word can stand for a concept that does not
+# exist. That is not a typo, it is a hole, and it is how minimayz, maksimayz,
+# menu, bar and chrome entered a spec that then passed every check.
+#
+# The glyph is the identity: 322 glyphs, one concept each, no exceptions.
+# The word is only for a human reading a report. Renderer: glyph -> word.
+#
+# ANCHOR - the anchor glyph is U+2022. Its textual spelling is &-> and the
+# compiler emits U+2022 in its place. It is forced: it opens every abstract.
+# It is the one glyph that is overloaded - U+2022 is also the concept anchor -
+# so the position decides. At the head of a line it is the constructor &->,
+# anywhere else it is the word anchor. Do not split them; there are not enough
+# free glyphs to give the constructor its own, and hunting for spares across
+# every abstract is how the work gets abandoned.
+#
+# This file is ENGLISH. It describes the language, it is not written in it.
+# Every example below is a word form, because examples are for a human to
+# read. The form a spec is WRITTEN in is the glyph form. Those are two
+# different things and the difference is the whole point.
+#
+# The canonical glyph form is what the compiler emits. It is not invented per
+# file. If a hand-written glyph file and the compiled form disagree, the
+# hand-written one is wrong - and the disagreeing character is the finding.
+# =============================================================================
+
 type:action
 
 *-> action      - action: action="desc" declares any function - standalone abstract or entity function (two canonical forms)
