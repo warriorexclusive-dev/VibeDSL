@@ -1,5 +1,5 @@
 stage 1:
-   abstract function id="get_commands" -> source:dict
+   abstract:function:id="get_commands" -> source:dict
       create file="action.dict" as file_action
       create file="mapping.dict" as file_mapping
       create file="operators.dict" as file_operators

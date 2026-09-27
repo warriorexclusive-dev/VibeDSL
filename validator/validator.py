@@ -446,6 +446,17 @@ RX_DECL_CHAIN = re.compile(
 # that only knows `->` will read `- >` as two legal tokens and continue
 # nothing, and the chain quietly stops being a chain.
 RE_BAD_ARROW = re.compile(r"-(?:\s+)>")
+# `abstract function id="x"` - a type word joined by a SPACE where the grammar
+# joins by a colon. `prop`, `function` and `item` are type markers, not
+# objects: `abstract:prop:id="x"` is a declaration, `abstract function id="x"`
+# is two bare words that happen to sit next to each other. A model writes both
+# and the second one looks finished, so nothing complains and nothing is
+# declared.
+RE_TYPE_SPACE = re.compile(
+    r"\b(abstract|use|root)\s+(prop|function|item)\b(?!\s*:)")
+# `->` with nothing usable after it. After the arrow there must be an object or
+# a condition; a dangling arrow is a chain that stops for no stated reason.
+RE_DANGLING = re.compile(r"->\s*(?=$|[ \t]*(?:#|//|$))")
 # a declared object immediately followed by a bare word, with no `:`. The
 # author almost always meant obj:field; what they wrote may be two objects.
 RE_NO_COLON = re.compile(r"\b([A-Za-z_]\w*)\s+([A-Za-z_]\w*)\b")
@@ -484,15 +495,33 @@ def check_shape(node, text):
     was never nested under an abstract - it parses fine as a top-level line
     and simply does nothing. All three are soft: each has a legitimate reading.
     """
+    # Shape must be read on the RAW line. node.text arrives already masked:
+    # mask_lines blanks whatever follows `->` inside a {...} payload, padding
+    # it with spaces, so a shape check reading node.text sees every arrow
+    # standing at the end of the line and calls all of them dangling. The rule
+    # was firing on a truncation, not on a spec. build_tree kept the original
+    # in node.raw; that is the line the author wrote.
+    raw = getattr(node, "raw", None) or node.text or ""
+
     # Only where code is: the structural part of the line and the action
     # payload. `note="a - > b"` is a person writing a comparison in prose, and
     # a check that fires on it is worse than no check - the same mistake the
     # colon check made over `do:` blocks, 29 false positives at a time.
-    for m in RE_BAD_ARROW.finditer(_code_text(text)):
+    code = _code_text(raw)
+    for m in RE_BAD_ARROW.finditer(code):
         OUT.append((node.no, "W", "line %d: '%s' is not the arrow - the console folds `->` into one "
                     "symbol, so this line did not come from your keyboard: it was pasted or "
                     "generated, and here `->` reads as `-` then `>` and continues nothing"
                     % (node.no, m.group(0))))
+
+    for m in RE_TYPE_SPACE.finditer(code):
+        OUT.append((node.no, "E", "line %d: '%s %s' - a type word goes only after a colon: "
+                    "write %s:%s: - a space here reads as two bare words and declares nothing"
+                    % (node.no, m.group(1), m.group(2), m.group(1), m.group(2))))
+
+    for m in RE_DANGLING.finditer(code):
+        OUT.append((node.no, "E", "line %d: `->` with nothing after it - after the arrow there "
+                    "must be an object or a condition" % node.no))
 
     body = RX_DECL_CHAIN.sub(" ", _code_text(text))
     # root is Node(None, 0, -1): its .no is 0 and the -1 is its indent, so
