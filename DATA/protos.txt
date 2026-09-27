@@ -30,21 +30,10 @@
          -> retry()
          -> fail
 
-*-> proto(order) id="order_test":desc="TEST proto: order pipeline with act-declared functions":action=[crt,exam,use]:type="rule":scop="root":
-   -> abstract "calc_total" -> action="sum line sub-totals by quantity"
-   -> order:action="save order to store":name="store"
-   -> order:store(context:user)
-   -> exam(!(order:items==?))<>:
-      -> calc_total(rate)<>:
-         -> show(total num format("usd"))
-         -> goal
-      -> fail
-   use(varn5)
 
 *-> proto(modify) id="modify_code":desc="alters VibeDSL code: gate on the exam, write the changed spec":action=[crt,exam,wrt]:type=rule:
-   -> abstract "alter_code" -> action="change the vibe code of a specfile and write it back"
-   -> exam(!(code:syn==VibeDSL:syn))<>:
-      -> alter_code(code)<>:
-         -> write(code):name="spec_out"
-         -> goal
+   -> code: any reqr
+   exam(code:syn):
+      -> write(code):name="spec_out"
+      -> goal
       -> fail

@@ -245,7 +245,7 @@ are checked by `validator/validator.py` (v2, search-command; run as
 - **`use(...)`**: keeps protos/blueprints loaded by id
   (`PROTO/DATA/protos.txt`, `DATA/blueprints.txt`) in memory as higher-level
   code chunks - their ids and declared symbols resolve in the importing scope
-  (`use(order_bp)`, `use(VibeDSL:proto[if,goal,fail])`, `use(agent name=...)`).
+   (`use(varn5)`, `use(VibeDSL:proto[if,goal,fail])`, `use(agent name=...)`).
 - **`{}` = AI custom block, `/* */` and `//` = human comments** (skipped).
 
 Current base additions: `error, error` is a **logic action** (logic-stop trigger;
