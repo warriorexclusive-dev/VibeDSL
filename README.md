@@ -11,6 +11,47 @@ The language is a **two-dimensional diagram in text**: nodes, arrows and indenta
 form two axes (a whiteboard like Miro). The third axis (Z) holds **states** - see
 [Z vector](#z-vector--z-) below.
 
+## Why
+
+The goal of the language is **maximum portability of logic**: the ability to hand the
+same logic to a different model without rewriting it.
+
+| From | To | What must survive |
+|---|---|---|
+| cloud model | local model, 22-64B quantization | the exact logic, not a paraphrase of it |
+| large model | small sub-agent | logic crammed into small chunks |
+| cloud model | a different cloud model | the same spec, read verbatim |
+
+The target user is **medium and near-large business** - teams that already run
+local models alongside cloud ones and cannot afford to maintain two copies of the
+same logic.
+
+### The problem it solves
+
+One model does not understand another model's logic when that logic exists only in
+code. Three root causes:
+
+1. **Codebase volume.** Even with Jira and Confluence connected, the amount of
+   information is too large even for a large cloud model. The context fills with
+   everything except the part that actually decides the behaviour.
+2. **Prompts aimed at quantized models.** A 22-64B quantized model does not reason
+   reliably from human-language prose. An instruction written for a frontier model
+   loses its precision on the way down, because it arrives as a paragraph of
+   natural language rather than as a structure.
+3. **Token and KV-cache cost at 4-8B.** A local sub-agent at 4-8B quantization pays
+   twice: for the tokens it consumes, and for reusing a large KV cache. Every
+   advantage of running locally is cancelled by that overhead.
+
+### What the language does about it
+
+It gives logic a **compact, canonical, unambiguous form** that any model can be
+handed directly - a few hundred tokens instead of a repository, and a spec that a
+22-64B model and a frontier model read the same way.
+
+Unambiguous means unambiguous **for a human reader too**, not only for a model. One
+word has one meaning, one meaning has one word, and every line of the base resolves
+without guessing. A rule a person can apply is a rule a small model can follow.
+
 ## Base syntax
 
 ```
