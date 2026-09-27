@@ -21,7 +21,7 @@
    }
 
 *-> blueprint id="varn5" desc="ready variants blueprint: offers up to 5 options and requires user selection" type=rule scop=root
-   show(varn:max(5)||req) ret=usr:sel:->
+   show(varn:max(5)&&req) ret=usr:sel:->
 
 *-> blueprint id="retry" desc="ready retry blueprint: retries up to 5 times, asking the user when possible" type=rule scop=root
    for(var i=0;i<5;i=incr(1))<>:

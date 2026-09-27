@@ -40,8 +40,7 @@ start base syntax
     -> exm:if(a==b)->ret()
 *-> |            - logical or
     -> exm:a==b | c==d
-*-> ||           - logical and
-    -> exm:a==b || c==d
+    -> exm:a==b && c==d
 *-> !            - reverse logic, not condition
     -> exm:if (!a==a)->ret()
 *-> part         - part N: isolates a partition of logic (separator to a context window) - tasks not connected to one another

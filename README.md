@@ -69,7 +69,7 @@ parent:                       parent is the object with a colon at the end of th
 <=  >=                        comparison: less-or-equal / greater-or-equal
 -(id)>                         link to an internal object of the spec (by id)
 <(src)-                        link to an external source beyond the spec: one-way departure, may not return
-|  ||  !                      logical or / and / reverse
+|  &&  !                      logical or / and / reverse
 {}  ""                        free-form custom logic / custom value mapping
 part N:  stage N:             isolated partition / staged partition with reference
 ```

@@ -974,8 +974,7 @@ type:logical operators
 *-> \*            - logic filter operator: exclusion\*filtering by condition when applied inside brackets or quotes, example crt\*show - create without showing
     -> exm:crt\show
 
-*-> and, &&, || - logical and
-    -> exm:a==b || c==d
+*-> and, && - logical and
     -> exm:a==b && c==d
 
 *-> break, brk - break
