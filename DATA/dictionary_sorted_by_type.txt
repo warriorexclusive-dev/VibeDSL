@@ -216,7 +216,7 @@ type:mapping
 *-> allow, allw          - allow, allowed,
     -> exm:alw:true
 
-*-> any, *, ... - any operator of anything: objects, logic, values - the object for everything; * is the short wildcard form, ... is the spread form used when a list exceeds 10 elements
+*-> any, ... - any operator of anything: objects, logic, values - the object for everything; ... is the spread form used when a list exceeds 10 elements
     -> exm:proto(any)
     -> exm:get:dict(any)->show
 
