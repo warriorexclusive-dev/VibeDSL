@@ -49,23 +49,23 @@ function type="root" name="vibide" id="vibide" scop="root"->action == create [sp
 
 // ---- abstract func: tema
 
-&-> abstract:id="read_colors"->param=file->action="load colors IDE.txt + split mapping by group + save style.json"->load(file)->split(mapping:group)->mapping:num:set(13)->save(cfg:mapping "PY_IDE/style.json")
+&-> abstract:id="read_colors"->param=file->action="load(file) + split(mapping:group) + mapping:num:set(13) + save(cfg:mapping ...)"->load(file)->split(mapping:group)->mapping:num:set(13)->save(cfg:mapping "PY_IDE/style.json")
 
-&-> abstract:id="set_theme"->action="load theme from mapping + set frm:corner:radius + font + font_size"->load(mapping:theme)->frm:corner:radius:set(15)->frm:font:set("Arial")->font:font_size:set([12,14])->action=show(theme)
+&-> abstract:id="set_theme"->action="load(mapping:theme) + frm:corner:radius:set(15) + frm:font:set(...) + font:font_size:set(...) + action=show(theme)"->load(mapping:theme)->frm:corner:radius:set(15)->frm:font:set("Arial")->font:font_size:set([12,14])->action=show(theme)
 
-&-> abstract:"bind_theme"->action="set theme of every element":
+&-> abstract:"bind_theme"->action="nasledovanie temy: view:theme:set()..console:theme:set() + action=show(theme)":
       view:theme:set()->frm:theme:set()->col:theme:set()->row:theme:set()->left:theme:set()->right:theme:set()->tab_view:theme:set()->nav:theme:set()->inp:theme:set()->console:theme:set()->action=show(theme)
 
-&-> abstract:id="reload_theme"->param=cfg->action="load mapping from cfg + run set_theme + run bind_theme"->load(cfg:mapping)->run(set_theme)->run(bind_theme)->return("theme perezchitan, vizual obnovlen")->return("cfg otsutstvuet, staryj theme ostal")
+&-> abstract:id="reload_theme"->param=cfg->action="load(cfg:mapping) + run(set_theme) + run(bind_theme)"->load(cfg:mapping)->run(set_theme)->run(bind_theme)->return("theme perezchitan, vizual obnovlen")->return("cfg otsutstvuet, staryj theme ostal")
 
 // ---- abstract func: bar
 
 &-> abstract:"build_nav"->action="crt nav + set 4 par + show":
       create(nav)->nav:par:set("file")->add(nav:par "view")->add(nav:par "option")->add(nav:par "help")->nav:content:set(none)->action=show(nav)
 
-&-> abstract:id="add_par"->param=param->action="add par to nav + add nest to par"->add(nav:par par)->add(par:nest par)->return("par dobavlen")->return("par pust, nichego ne dobavlen")
+&-> abstract:id="add_par"->param=param->action="add(nav:par par) + add(par:nest par)"->add(nav:par par)->add(par:nest par)->return("par dobavlen")->return("par pust, nichego ne dobavlen")
 
-&-> abstract:id="set_text"->param=param->action="set name of item by par"->item:name:set(par)->return("name zamenen")
+&-> abstract:id="set_text"->param=param->action="item:name:set(par)"->item:name:set(par)->return("name zamenen")
 
 &-> abstract:"del_item"->action="remove item + nest":
       remove(item)->return("item i nest udaleny")
@@ -80,9 +80,9 @@ function type="root" name="vibide" id="vibide" scop="root"->action == create [sp
 &-> abstract:"build_top"->action="crt col + left + row tab inp + right":
       create(col top)->create(left)->left:min:set(50)->left:max:set(factor 25)->create(row)->create(tab_view)->add(tab_view:inp type="text")->create(right)->right:min:set(50)->right:max:set(factor 25)->action=show(left)->action=show(tab_view)->action=show(right)
 
-&-> abstract:id="set_left"->param=size->action="set size of left clamped min 50 max factor 25"->left:size:set(par)->return("size zamenen mezhdu min 50 i max factor 25")->return("vne granits, left sohranil size")
+&-> abstract:id="set_left"->param=size->action="left:size:set(par), granitsy: min 50, max factor 25"->left:size:set(par)->return("size zamenen mezhdu min 50 i max factor 25")->return("vne granits, left sohranil size")
 
-&-> abstract:id="set_right"->param=size->action="set size of right clamped min 50 max factor 25"->right:size:set(par)->return("size zamenen mezhdu min 50 i max factor 25")->return("vne granits, right sohranil size")
+&-> abstract:id="set_right"->param=size->action="right:size:set(par), granitsy: min 50, max factor 25"->right:size:set(par)->return("size zamenen mezhdu min 50 i max factor 25")->return("vne granits, right sohranil size")
 
 &-> abstract:"open_left"->action="show left":
       action=show(left)
@@ -98,9 +98,9 @@ function type="root" name="vibide" id="vibide" scop="root"->action == create [sp
 
 &-> abstract:id="add_tab"->param=param->action="add tab + set name + set text + show"->add(tab_view)->tab_view:name:set(par)->tab_view:text:set(par)->action=show(tab_view)
 
-&-> abstract:id="set_tabs"->param=num->action="set num of tab by par"->tab_view:num:set(par)->return("num tab zamenen funkciej")->return("num vne granits, num bezmenen")
+&-> abstract:id="set_tabs"->param=num->action="tab_view:num:set(par)"->tab_view:num:set(par)->return("num tab zamenen funkciej")->return("num vne granits, num bezmenen")
 
-&-> abstract:id="set_tab_name"->param=name->action="set name of tab by par"->tab_view:name:set(par)->return("name tab zamenen")->return("tab net, name ne zamenen")
+&-> abstract:id="set_tab_name"->param=name->action="tab_view:name:set(par)"->tab_view:name:set(par)->return("name tab zamenen")->return("tab net, name ne zamenen")
 
 &-> abstract:"close_tab"->action="close tab":
       close(tab_view)
@@ -110,7 +110,7 @@ function type="root" name="vibide" id="vibide" scop="root"->action == create [sp
 &-> abstract:"build_bottom"->action="crt col + row + 2 console factor 50":
       create(col bottom)->create(row)->create(console)->console:factor:set(50)->create(console)->console:factor:set(50)->action=show(console)
 
-&-> abstract:id="set_console"->param=factor->action="set size of console by par factor 25"->console:size:set(par)->return("size zamenen na factor 25")->return("vne granits, console sohranil size")
+&-> abstract:id="set_console"->param=factor->action="console:size:set(par), factor 25"->console:size:set(par)->return("size zamenen na factor 25")->return("vne granits, console sohranil size")
 
 &-> abstract:"del_console"->action="remove console + factor 100":
       remove(console)->console:factor:set(100)->return("odin console udalen, vtoroy zanyal vsyu shirinu")
@@ -120,19 +120,19 @@ function type="root" name="vibide" id="vibide" scop="root"->action == create [sp
 
 // ---- abstract func: vhodnaya
 
-&-> abstract:id="fill_bar"->param=content->action="set content of nav by par + show"->nav:content:set(par)->action=show(nav)->return("slot nav napolnen vhodnoy funkciej")
+&-> abstract:id="fill_bar"->param=content->action="nav:content:set(par) + action=show(nav)"->nav:content:set(par)->action=show(nav)->return("slot nav napolnen vhodnoy funkciej")
 
-&-> abstract:"fill_panel"->action="crt frm in sht":
+&-> abstract:"fill_panel"->action="create(frm v sht)":
       create(frm in sht)->return("sht napolnena podoknom")
 
-&-> abstract:id="fill_editor"->param=file->action="load text of file in inp"->load(inp:text par)->return("content editor - text otkrytogo fayla")->return("fayla net, editor pust")
+&-> abstract:id="fill_editor"->param=file->action="load(inp:text par)"->load(inp:text par)->return("content editor - text otkrytogo fayla")->return("fayla net, editor pust")
 
 &-> abstract:"fill_bound"->action="vhodnaya func napolnyaet tolko svoye okno":
       return("vhodnaya func napolnyaet tolko svoye okno")
 
 // ---- abstract func: vneshnyaya komanda
 
-&-> abstract:id="cmd"->param=name->action="run func by par name of io"->run(io:func par)->return("func zapushchena")->return("par net, nichego ne izmeneno")
+&-> abstract:id="cmd"->param=name->action="run(io:func par)"->run(io:func par)->return("func zapushchena")->return("par net, nichego ne izmeneno")
 
 // ---- abstract func: sborka
 

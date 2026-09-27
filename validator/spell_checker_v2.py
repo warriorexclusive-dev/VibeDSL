@@ -465,6 +465,27 @@ def chk_english(specs, fix=False, scopes=None):
         r.note = ", ".join("%s=%d" % (w, c) for w, c in sorted(counts.items()))
     elif r.ok:
         r.note = "0 in %d spec(s)" % len(specs)
+
+    # The prose. This is a FAILURE, not a note, and it is a second pass on
+    # purpose: the pass above reads code runs, and an action="..." string is
+    # payload, so the one part of a spec a model reads FIRST was the one part
+    # nothing checked. Fifteen of them still said "split mapping by group"
+    # after the code had become split(mapping:group) - the spec was teaching a
+    # form that no longer existed, and ENGLISH reported 0 the whole time.
+    #
+    # `to` and `in` join the drift set here: they are the two prepositions the
+    # language replaces with `:` and the two that carried the most weight.
+    PROSE_DRIFT = DRIFT + ("to", "in")
+    RXP = {w: re.compile(r"(?<![A-Za-z0-9_])" + w + r"(?![A-Za-z0-9_])")
+           for w in PROSE_DRIFT}
+    for path in specs:
+        for i, ln in enumerate(io.open(path, encoding="utf-8-sig"), 1):
+            for pm in re.finditer(r'action="([^"]*)"', ln):
+                for w in PROSE_DRIFT:
+                    if RXP[w].search(pm.group(1)):
+                        r.fail("%s: line %d  `%s` in the action prose - the prose is "
+                               "what a model reads first, and it must describe the "
+                               "form the code actually has" % (stamp(rel(path)), i, w))
     return r
 
 
