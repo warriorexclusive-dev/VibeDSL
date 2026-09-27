@@ -462,7 +462,9 @@ def build_frm():
 
 def build_top():
     """create(column) + create(left) + create(row) + create(tab_view) + create(inp) + create(right) + action=show(left) + action=show(tab_view) + action=show(right)"""
-    col = dpg.add_group(tag="col", parent="frm", horizontal=True)
+    # column is the vertical axis: left above row. horizontal=True put them
+    # side by side, which is what row is for.
+    col = dpg.add_group(tag="col", parent="frm")
     left = dpg.add_group(tag="left", parent=col, width=-1)
     dpg.add_text("left", parent=left)
     row = dpg.add_group(tag="row", parent=col, horizontal=True)
@@ -622,23 +624,34 @@ def close_tab():
 # =====================================================================
 
 def build_bottom():
-    """create(column) + create(row) + create(console) + console:factor:set(50) x2"""
-    col = dpg.add_group(tag="col_bottom", parent=ELEM["view"], horizontal=True)
+    """add(column row) + add(row:console ...) x2 + console:factor:set(50) x2"""
+    # the same column build_top made, so build_frm's split factor [65,35]
+    # has something to divide. A second column parented to the view put the
+    # consoles on top of the frame instead of under it.
+    # the same column build_top made, so build_frm's [65,35] has something to
+    # divide - but stand up if it is not there, or the function depends on
+    # another having run and the headless exam saw zero consoles
+    col = ELEM.get("col")
+    if not col:
+        host = ELEM.get("frm") or ELEM.get("view")
+        if not host:
+            return ret("net frm - snachala build_frm")
+        col = dpg.add_group(tag="col", parent=host)
+        ELEM["col"] = col
+    if ELEM.get("row_bottom"):
+        return ret("niz uzhe sobran")
     row = dpg.add_group(tag="row_bottom", parent=col, horizontal=True)
-    cons = []
-    for i in range(2):
-        c = dpg.add_input_text(multiline=True, tag="console%d" % i,
-                               parent=row, width=-1, height=200)
-        cons.append(c)
-    ELEM["console"] = cons
-    STYLE["num_console"] = len(cons)
-    STYLE["console_factor"] = CONSOLE_FACTOR
-
-    reg_c = dpg.add_item_handler_registry()
-    dpg.add_item_resize_handler(parent=reg_c, callback=lambda s, a, u: set_console(a[0]))
-    dpg.bind_item_handler_registry(row, reg_c)
-    return ret("niz: %d console po %d" % (len(cons), CONSOLE_FACTOR))
-
+    # horizontal and weight belong at creation: dearpygui will not reconfigure
+    # horizontal on an existing group, and it raises rather than ignoring it
+    con1 = dpg.add_group(tag="console", parent=row, horizontal=True, width=-1)
+    con2 = dpg.add_group(tag="console2", parent=row, horizontal=True, width=-1)
+    dpg.add_text("", parent=con1, tag="console_out")
+    dpg.add_text("", parent=con2, tag="console_err")
+    ELEM["row_bottom"] = row
+    ELEM["console"] = [con1, con2]
+    STYLE["num_console"] = 2
+    STYLE["factor"] = 50
+    return ret("niz: 2 konsoli popolam, split %s" % SPLIT_FACTOR)
 
 def set_console(factor):
     """console:size:set(par), factor 25"""

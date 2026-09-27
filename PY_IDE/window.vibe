@@ -1,4 +1,10 @@
 // VIBE_IDE - karas okna, lib dearpygui 2.3.1
+// okno na ves ekran so starta: knopki minimayz/maksimayz, pod nimi menyu,
+// pod menyu - obshchiy karcas rm, vnutri modulen razdel 65 verh / 35 niz.
+// verh: paneli po krayam (left, right) + tab_view s redaktorom poseredine.
+// niz: dve konsoli, niz podelen popolam po gorizontali.
+// kazhdyy element zapolnyaetsya funkciey - u kazhdogo svoih kontroller,
+// vzaimozamenyaemyh.
 // logika - slova spravochnika, imena sobstvennye v "", opisaniya russkij
 // creative = 0
 
@@ -80,10 +86,10 @@ function type="root" name="vibide" id="vibide" scope="root"->action == create [s
 
 // ---- abstract func: niz
 
-&-> abstract:"build_bottom"->action="create(column) + create(row) + create(console) + console:factor:set(50) x2":
-      create(column)->create(row)->create(console)->console:factor:set(50)->create(console)->console:factor:set(50)->action=show(console)
+&-> abstract:"build_bottom"->action="add(column row) + add(row:console ...) x2 + console:factor:set(50) x2":
+   add(column row)->add(row:console) x2->console:factor:set(50)->action=show(console)
 
-&-> abstract:id="set_console"->param=factor->action="console:size:set(par), factor 25"->console:size:set(par)->return("size zamenen na factor 25")->return("vne granits, console sohranil size")
+&-> abstract:id="set_console"->param=factor->action="console:size:set(factor), factor 25"->console:size:set(factor)
 
 &-> abstract:"del_console"->action="remove(console) + console:factor:set(100)":
       remove(console)->console:factor:set(100)->return("odin console udalen, vtoroy zanyal vsyu shirinu")
