@@ -463,14 +463,14 @@ def build_frm():
 def build_top():
     """create(column) + create(left) + create(row) + create(tab_view) + create(inp) + create(right) + action=show(left) + action=show(tab_view) + action=show(right)"""
     col = dpg.add_group(tag="col", parent="frm", horizontal=True)
-    left = dpg.add_group(tag="left", parent=col, width=320)
+    left = dpg.add_group(tag="left", parent=col, width=-1)
     dpg.add_text("left", parent=left)
     row = dpg.add_group(tag="row", parent=col, horizontal=True)
     tab = dpg.add_tab_bar(tag="tab", parent=row)
     tab1 = dpg.add_tab(label="editor", parent=tab)
     inp = dpg.add_input_text(multiline=True, tag="inp", parent=tab1,
                              width=-1, height=-1)
-    right = dpg.add_group(tag="right", parent=row, width=320)
+    right = dpg.add_group(tag="right", parent=row, width=-1)
     dpg.add_text("right", parent=right)
 
     ELEM["col"] = col
@@ -481,33 +481,58 @@ def build_top():
     ELEM["right"] = right
     ELEM["tabs"] = [tab1]
 
+    # window.vibe: left:min:set(50) + left:max:set(factor 25), and the three
+    # are shown. A literal 320 was neither the minimum nor the factor.
+    for side in ("left", "right"):
+        try:
+            pw = dpg.get_item_width(row)
+        except Exception:
+            pw = 0
+        if pw:
+            dpg.configure_item(ELEM[side],
+                               width=max(MIN_SIDE, int(pw * MAX_FACTOR / 100.0)))
+
     # dearpygui hands the callback (sender, app_data, user_data), so a[0] was
     # the first CHARACTER of the tag - right[0] is r, and int(r) is the
     # ValueError. The width has to be asked of the sender.
     reg_l = dpg.add_item_handler_registry()
     dpg.add_item_resize_handler(
-        parent=reg_l, callback=lambda s, a, u: set_left(dpg.get_item_width(s)))
+        parent=reg_l, callback=lambda s, a, u: set_left(dpg.get_item_width(s), dpg.get_item_width(dpg.get_item_parent(s))))
     dpg.bind_item_handler_registry(left, reg_l)
 
     reg_r = dpg.add_item_handler_registry()
     dpg.add_item_resize_handler(
-        parent=reg_r, callback=lambda s, a, u: set_right(dpg.get_item_width(s)))
+        parent=reg_r, callback=lambda s, a, u: set_right(dpg.get_item_width(s), dpg.get_item_width(dpg.get_item_parent(s))))
     dpg.bind_item_handler_registry(right, reg_r)
     return ret("verh: left | tab+inp | right (min %d, max factor %d)"
                % (MIN_SIDE, MAX_FACTOR))
 
 
-def _clamp(size):
-    """min 50, max = factor 25 ot shiriny roditelya"""
+def _clamp(size, parent=None):
+    """min 50, max = factor 25 of the parent width
+
+    window.vibe says left:max:set(factor 25) and the docstring always said the
+    factor was of the parent. The code multiplied the ARGUMENT by the factor, so
+    the limit moved with the panel instead of bounding it: a panel at 400 was
+    capped at 100, and a panel at 100 was capped at 25 - below its own minimum.
+    The parent is the bound; the argument is only the request.
+    """
     lo = MIN_SIDE
-    hi = max(lo, int(int(size) * MAX_FACTOR / 100.0))
-    return max(lo, min(int(size), hi))
+    want = int(size)
+    if parent:
+        try:
+            pw = dpg.get_item_width(parent)
+            if pw and pw > 0:
+                want = min(want, int(pw * MAX_FACTOR / 100.0))
+        except Exception:
+            pass
+    return max(lo, min(want, max(lo, int(want))))
 
 
-def set_left(size):
+def set_left(size, parent=None):
     """left:size:set(par), granitsy: min 50, max factor 25"""
     want = int(size)
-    got = _clamp(want)
+    got = _clamp(want, parent or ELEM.get("row"))
     dpg.configure_item(ELEM["left"], width=got)
     if got != want:
         return ret("vne granits, left sohranil size: %d" % got)
@@ -515,10 +540,10 @@ def set_left(size):
                % (MIN_SIDE, MAX_FACTOR, got))
 
 
-def set_right(size):
+def set_right(size, parent=None):
     """right:size:set(par), granitsy: min 50, max factor 25"""
     want = int(size)
-    got = _clamp(want)
+    got = _clamp(want, parent or ELEM.get("row"))
     dpg.configure_item(ELEM["right"], width=got)
     if got != want:
         return ret("vne granits, right sohranil size: %d" % got)
