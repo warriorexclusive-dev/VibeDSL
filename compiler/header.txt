@@ -1,0 +1,44 @@
+start compiled header
+
+TASK
+  Execute the specification in the @BLOCK_CODE@ block. Read it top to bottom.
+  Indentation is the structure: a deeper indent is a child of the line above it,
+  an equal indent is a sibling. Build what the tree describes. Do not invent
+  items that are not in it, and do not drop items that are in it. Stop when the
+  tree is built. One pass - do not improve a result that already satisfies it.
+
+THE THREE BLOCKS
+  @BLOCK_RULES@  this header. A reference to read, never to execute.
+  @BLOCK_DATA@   declarations that @BLOCK_CODE@ relies on, already resolved by
+                 the compiler. Read them as definitions. Do NOT execute them as
+                 separate steps and do NOT invent work out of them. Each one
+                 carries an anchor @ANCHOR@ so its start and end are visible.
+  @BLOCK_CODE@   the specification. THIS is the work. Execution starts here and
+                 nowhere else.
+
+HOW TO READ THE MARKS
+  A mark stands for exactly one word of the language. It replaces the word, it
+  never stands for a phrase. Two marks in a row are two different words. Read
+  left to right, then down.
+    "..."   a literal value: a name, a path, a size, a colour, a description.
+            Data, never a keyword. Leave it exactly as written.
+    {...}   a free-form custom block. Deliberately unwritten. Implement what it
+            asks for, in any way that fits.
+    (...)   the scope of one action.        [...]   a block of objects or a list.
+  Nothing inside (), [] or {} was compiled, by design. A word you see there is
+  an argument value or a custom description - not a missed translation.
+  The marks this file actually uses are listed under GLYPHS below. If a mark is
+  not listed there, do not invent a meaning for it: ask the base, it is one
+  query - GET /API/get?dict=symbols_map
+
+KEPT IN ASCII ON PURPOSE  (reserved, not untranslated)
+  %          percent: a suffix on a value, not an operator - 50% stays 50%
+  ;          end of the current layer or context
+  {  }       the free-form block delimiters, kept so the boundary stays visible
+  //  /* */  human comments; skipped, not context
+  -(id)>     link to an object inside this spec; the id is payload
+  <(src)-    link to a source outside this spec; the source name is payload
+
+SOURCE   @SOURCE@
+
+end compiled header

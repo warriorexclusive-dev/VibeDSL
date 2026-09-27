@@ -7,12 +7,12 @@ mb_internal_encoding('UTF-8');
  * GET ?glyph=<codepoints|glyph>   e.g. ?glyph=2192   or   ?glyph=→
  * GET ?word=<name>                e.g. ?word=anchor  (case-insensitive, alias match)
  *
- * arc=RAG, logc=srch, scope=DATA/symbols_map.txt only
+ * arc=RAG, logc=srch, scope=compiler/symbols_map.txt only
  * par name="glyph" as in   par name="word" as in
  * ret html: the matching table lines, one block per hit
  *
  * Why a separate endpoint: the generic /API/search splits objects on a line-start
- * "*->" marker. symbols_map.txt carries "*->" MID-LINE (after the glyph), so the
+ * "*->" marker. compiler/symbols_map.txt carries "*->" MID-LINE (after the glyph), so the
  * generic splitter would return the whole 20 KB file for any hit. This endpoint
  * parses the real line format  U+XXXX  glyph  *-> word  - description
  * and answers in both directions, which is what a compiler needs.

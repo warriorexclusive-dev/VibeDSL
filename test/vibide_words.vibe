@@ -38,7 +38,7 @@ create:project:"VIBE_IDE":lang:"python":
             child right:panel:weight="stretch":size=[min=5%,max=25%,default=15%]:pinned:window
                 child help:content=this:child rules:50%
                 child symbols:content=
-            child tab:bar:location=top:files:
+            child table:bar:location=top:files:
                 child code:editor:weight="fill":
             child bottom:panel:size:window:y=40%:child:weight="stretch":
                 child spellchecker:size:link bottom:x=50%:

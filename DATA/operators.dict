@@ -2,26 +2,32 @@ start language dictionary
 
 type:logical operators
 
-*-> !           - expression of revers logic like not 
-    -> exm:x!:->out
-
 *-> ()           - logical action of object 
     -> exm:(do)
 
 *-> ()->         - nesting forvard operator
     -> exm:node()->inner
 
-*-> *?           - comparator with condition: any + ?, i.e. the any-form with a condition applied      
-    -> exm:fun crt (file name="out.xml" alias xml ): -> open(file name="project.exe"):alias source:->extract(source *? data:type=dom to xml)   // extract all DOM elements in project.exe to out.xml
+*-> *            - multiplication operator (math)
+    -> exm:[cof]=80*2
 
-*-> -> or        - right strict link to node,dependence or relationship or other, example [model1]->[model2] or [node]->[fun]{act}
+*-> *?           - comparator with condition: any + ?, i.e. the any-form with a condition applied      
+    -> exm:fun create (file name="out.xml" alias xml ): -> open(file name="project.exe"):alias source:->extract(source *? data:type=dom to xml)   // extract all DOM elements in project.exe to out.xml
+
+*-> +            - addition operator (math)
+    -> exm:total=a+b
+
+*-> -            - subtraction operator (math), the sign is written U+2212 MINUS SIGN
+    -> exm:diff=a-b
+
+*-> ->           - right strict link to node,dependence or relationship or other, example [model1]->[model2] or [node]->[fun]{act}
     -> exm:[a]->[b]
 
 *-> -[]>          - multi vector: raises an object into N parallel logical dimensions, -[N]> where N is the dimension count. In compilation it expands into BRANCHING: one branch per dimension, each wrapped in {}, so -[3]> compiles to a three-way branch and is not a separate runtime construct 
-    -> exm: crt(model type=cube)-[3]> [x,y,z]:size=20 as num:format(0.0)
+    -> exm: create(model type=cube)-[3]> [x,y,z]:size=20 as num:format(0.0)
 
 *-> /            - ordinary mathematical division operator (divide)
-    -> exm:val b=y / e
+    -> exm:val:b=y / e
 
 *-> //           - comment action // human to human comment, not use this info as context
 
@@ -33,8 +39,8 @@ type:logical operators
 
 *-> ;            - end of current function/layer/context do not use in prototypes or rules it is a marker of end context and clean token memory
     exm: 
-        use dict src="VibeDSL" as data 
-        -> crt file name="example.txt"
+        use dict:src="VibeDSL" as data 
+        -> crt file:name="example.txt"
            -> type="xml":
               cnv data to xml
               append data
@@ -43,19 +49,31 @@ type:logical operators
 *-> <            - left strict link to node, inverse node,dependence or relationship or other, example [file:text]<-[lng:eng]
     -> exm:val1 < val2
 
+*-> <-           - left strict link: the inverse of ->, it names the node the current one came from
+    -> exm:[file:text]<-[lng:eng]
+
 *-> <-()         - nesting backward operator
     -> exm:out<-()in
 
 *-> <->          - two-way strict node,dependence or relationship, public function or interface and other, example [uroot con:lng]<->[usr:seq]
     -> exm:[a]<->[b]
 
+*-> <=           - comparison: less than or equal, numeric/logical value check
+    -> exm:val1<=val2->return()
+
 *-> <>           - logical branching operator to a set: forks the logic into N parallel ways with their own results. : (the colon) is the true/false limiter and check - together <>: is variant logic where every way is checked Y/N, WARNING: <> is NOT "not equal" (unlike some languages) - for inequality use !(a==b); any doubt about <> MUST be checked against the dictionary
     -> exm:a?<>:
        -> b
        -> c
 
+*-> =            - assignment: binds a value to a name, the name keeps that value
+    -> exm:name="out.xml"
+
 *-> ==           - logical and mat equals of any object operator
     -> exm:a==b->run
+
+*-> >=           - comparison: greater than or equal, numeric/logical value check
+    -> exm:val1>=val2->return()
 
 *-> ?            - mapping marker of potentialy more way logic
     -> exm:exam?->show(variant(5))
@@ -68,12 +86,12 @@ type:logical operators
     -> exm: \(stage 1:[file_abstracts,file_action,file_mapping,file_operators] action="add")
 
 *-> \*            - logic filter operator: exclusion\*filtering by condition when applied inside brackets or quotes, example crt\*show - create without showing
-    -> exm:crt\show
+    -> exm:create\show
 
 *-> and, && - logical and
     -> exm:a==b && c==d
 
-*-> break, brk - break
+*-> break - break
     -> exm:switch(a) 
              case 1: 
              break
@@ -81,7 +99,7 @@ type:logical operators
 *-> case         - case
     -> exm:case val1: break
 
-*-> catch, cch - catch block marker, operator type action
+*-> catch - catch block marker, operator type action
     -> exm:cch:err
     -> exm:catch err
 
@@ -89,10 +107,10 @@ type:logical operators
     -> exm:continue
 
 *-> elif         - else if
-    -> exm:elif(c==d)->ret
+    -> exm:elif(c==d)->return
 
-*-> else, els         - else
-    -> exm:els:->ret
+*-> else - else
+    -> exm:els:->return
 
 *-> end          - end
     -> exm:end:block
@@ -100,7 +118,7 @@ type:logical operators
 *-> exist          - exist
     -> exm:exst:file
 
-*-> finally, fin - finally block marker, operator type action
+*-> finally - finally block marker, operator type action
     -> exm: fin(close)
 
 *-> for          - for example for(val1<0,incr(1))->data1=val1 -> for action
@@ -109,8 +127,8 @@ type:logical operators
     -> exm:goto::point:
 
 *-> if           - if then else | if elif els - base logic operator to condition
-    -> exm:if obj==obj | if !(a==b)
-    -> exm:if(a==b)->ret
+    -> exm:if:obj==obj | if !(a==b)
+    -> exm:if(a==b)->return
 
 *-> incr         - increment built-in: incr(val) = value + 1 (counter step in for loops, e.g. i=incr(1))
     -> exm:for(i<10,incr(1))
@@ -122,7 +140,7 @@ type:logical operators
     -> exm:obj is type
 
 *-> none          - explicit absence of a value, logical operator: "here is nothing" Covers logical operators like :, req, -> with a way to state that a parameter is either not required or absent depending on reading context; unlike the ! marker it does NOT halt the logic, execution continues past an absent/not-required value
-    -> exm:proto req(name) id="name" name-> blueprint id=name name=none
+    -> exm:proto request(name) id="name" name-> blueprint:id=name:name=none
 
 end language dictionary
 
@@ -132,14 +150,14 @@ end language dictionary
 *-> part         - logical partition operator, applies to any entity
 
 *-> revers, not, ! - reverse logic, example if (!a==a)->ret is NO, not condition
-    -> exm:if (!a==a)->ret
+    -> exm:if (!a==a)->return
 
 *-> stage        - separation with progress, applies to any entity
     -> exm:stage 2: <- part 1
 
-*-> switch, swt - switch: branch selection by value, paired with case
+*-> switch - switch: branch selection by value, paired with case
     -> exm:switch:case val1: break
-    -> exm: :swt:type:case "action":
+    -> exm: :switch:type:case "action":
 
 *-> ternary      - ternary operator, if-then-else expression
     -> exm:":":: val ? a : b
@@ -147,16 +165,12 @@ end language dictionary
 *-> try          - try block marker, operator type action
     -> exm:try:->logic
 
-*-> unknown, none, unk - unknown, unknown state of required param. use this if param need entropy logic, or abstract  
-    -> exm: data to file:name:none:map to mem
-
-*-> var          - variable, loop/local variable declaration
-    -> exm:for(var i=0;i<5;i=incr(1))
-
+*-> unknown - unknown, unknown state of required param. use this if param need entropy logic, or abstract. NOT none - none states absence, unk states not-yet-known
+    -> exm: data to file:name:unknown:map to mem
 
 end language dictionary
 
-*-> variable, var - variable of temporary logical entity
+*-> variable - variable of temporary logical entity
 
 *-> when         - when: single conditional trigger, fires once when the condition becomes true
     -> exm: when(file:state:"opened"):close(file)

@@ -6,12 +6,12 @@
 # Format: U+XXXX  glyph  *-> word - <short command description>
 
 # --- base: RULES block ---
-U+2192   →  *-> -> or      - right strict link to node,dependence or relationship or other
+U+2192   →  *-> ->           - right strict link to node,dependence or relationship or other
 U+2227   ∧  *-> and,&&      - logical and
-U+273B   ✻  *-> any, ...        - any operator of anything: objects, logic, values - the object for everything; ... is the spread form used when a list exceeds 10 elements
+U+273B   ✻  *-> any          - any operator of anything: objects, logic, values - the object for everything. `...` is NOT a name of this concept: it is spread notation, it stays text and never compiles
 U+2228   ∨  *-> or,|        - logical or
 U+00AC   ¬  *-> revers, not, ! - reverse logic, example if (!a==a)->ret is NO, not condition
-U+2042   ⁂  *-> unk        - unknown, unknown state of required param
+U+2042 ⁂ *-> unknown        - unknown, unknown state of required param
 U+003A   :  *-> :          - true/false limiter and check
 U+0028+0029  ()  *-> ()         - logical action of object
 U+007B+007D  {}  *-> {          - start custom logic description
@@ -22,10 +22,9 @@ U+00A7   §  *-> id         - identity of maping in language
 U+0040   @  *-> link       - target affiliation logic instruction
 U+005B+005D  []  *-> []         - block of entity or node
 U+21BB   ↻  *-> remember   - implicit anchor: id definition, plain remember command
-U+2AAA   ⪪  *-> syntree, -[]> - syntax tree: N parallel branches, a critical node that splits logic into several state paths - explicit expectation of the following code
-U+2103   ℃  *-> temp       - weight, temperature, degrees, floating point
+U+2AAA   ⪪  *-> -[]> - multi vector: raises an object into N parallel logical dimensions, -[N]>
 U+2117   ℗  *-> param      - property, parameter
-U+222E   ∮  *-> dir        - directory or subdomain example: dot.comm/project
+U+222E ∮ *-> directory        - directory or subdomain example: dot.comm/project
 U+25B1   ▱  *-> frm        - composition: frame, bordered/inset container or viewport crop
 U+2ABC   ⪼  *-> switch     - switch: branch selection by value, paired with case
 U+2194   ↔  *-> hstretch   - horizontal stretch behavior
@@ -33,8 +32,8 @@ U+2195   ↕  *-> vstretch   - vertical stretch behavior
 U+21F1   ⇱  *-> maxim      - maximize
 U+21F2   ⇲  *-> minim      - minimize
 U+25A6   ▦  *-> grd        - composition: grid, two-axis placement
-U+25AC   ▬  *-> landscp, landscape - landscape orientation
-U+25AD   ▭  *-> screen     - composition: screen, page or route boundary
+U+25AC   ▬  *-> landscape  - landscape orientation
+U+25AD   ▭  *-> screen     - composition: page, screen or route boundary
 U+25AE   ▮  *-> portrait   - portrait orientation
 U+25A4   ▤  *-> line       - logical line
 U+25A2   ▢  *-> btn        - button action
@@ -48,8 +47,8 @@ U+2045   ⁅  *-> maptree    - mapping tree: e.g. a result as a tree after a que
 U+00BB   »  *-> out        - output mapping of any entity
 U+00AB   «  *-> in         - input entity or object mapping operator
 U+2031   ‱  *-> llm        - LLM model its you
-U+00E9   é  *-> use        - logical include command: apply/engage an object, prototype or include
-U+2050   ⁐  *-> act        - action: act="desc" declares any function - standalone abstract or entity function
+U+00E9   é  *-> use        - logical import command: apply/engage an object, prototype or import
+U+2050 ⁐ *-> action         - action: action="desc" declares any function - standalone abstract or entity function
 U+2057   ⁗  *-> async      - action async run of any entity
 U+2056   ⁖  *-> ternary    - ternary operator, if-then-else expression
 U+205D   ⁝  *-> add        - logical adding entity action
@@ -57,27 +56,27 @@ U+2E18   ⸘  *-> about      - about, information about the current context/enti
 U+20AE   ₮  *-> call       - entry / function call
 U+20A5   ₥  *-> compil     - compilation, compile
 U+26F6   ⛶  *-> fullscreen - occupy the whole screen
-U+00A9   ©  *-> apr        - approve
+U+00A9 © *-> approve        - approve
 U+2041   ⁁  *-> change     - change
 U+0152   Œ  *-> close      - generic canonical act function on any entity: close(<entity>) - finalizes the entity and saves i
-U+02A9   ʩ  *-> fun        - function: an action when it is a rule or an agent
+U+02A9 ʩ *-> function        - function: an action when it is a rule or an agent
 U+21FA   ⇺  *-> compress   - compress action of any entity
 U+21BA   ↺  *-> delay      - delay or period
 U+25B6   ▶  *-> run        - execute, run, sequence, request action in program, not you
-U+25A3   ▣  *-> chk        - mapping action check/validation
-U+25C8   ◈  *-> crt        - action create: create a file, api, class, function etc
+U+25A3 ▣ *-> check        - mapping action check/validation
+U+25C8 ◈ *-> create        - action create: create a file, api, class, function etc
 
 # --- extended: rest of the dictionary ---
 
 # --- type:action ---
-U+2706   ✆  *-> answ       - answer to user
+U+2706 ✆ *-> answer       - answer to user
 U+29C9   ⧉  *-> codrev     - code anallize, review without editing, testing
 U+2699   ⚙  *-> build      - build/assembly of any entity
 U+2913   ⤓  *-> deploy     - code compilation or deployment
-U+2715   ✕  *-> err        - logic action of error / stop: a logic-stop trigger, immediate termination of the current flow
+U+2715 ✕ *-> error        - ERROR AS EVENT: an error occurred; the event is denoted, not raised, and it does not stop the flow by itself
 U+2799   ➙  *-> extract    - extract action
 U+2935   ⤵  *-> get        - action to obtain any entity
-U+2282   ⊂  *-> incld      - additional, include
+U+2282   ⊂  *-> incld      - attribute incld="<id>": what is included here. NOT an import - a belonging mark, not an action
 U+21AA   ↪  *-> insert     - logical action insert of any entity
 U+23CE   ⏎  *-> load       - load action: load a view, file or base by name
 U+2692   ⚒  *-> make       - make
@@ -90,11 +89,11 @@ U+2691   ⚑  *-> plan       - make plan mode or cpecs
 U+27F3   ⟳  *-> rebuild    - action rebuild any entity
 U+27F2   ⟲  *-> remake     - logical remake
 U+21CB   ⇋  *-> replaced   - logical replaced of any entity
-U+2370   ⍰  *-> req        - action request from llm to user
-U+2934   ⤴  *-> ret        - return any object action
+U+2370 ⍰ *-> request        - action request from llm to user
+U+2934 ⤴ *-> return        - return any object action
 U+21C4   ⇄  *-> retry      - action retry
 U+2722   ✢  *-> review     - review
-U+2421   ␡  *-> rm         - remove
+U+2421 ␡ *-> remove         - remove
 U+21B6   ↶  *-> rollb      - revert, return previos state, rollback
 U+2B07   ⬇  *-> save       - generic canonical act function on any entity: save(<entity>) - persists the entity to its bound 
 U+25C9   ◉  *-> scan       - scaning, examination
@@ -108,7 +107,7 @@ U+2750   ❐  *-> store      - logic store of any entity
 U+29D7   ⧗  *-> tick       - time elapse
 U+2422   ␢  *-> trim       - action: trim/strip characters from a string or collection
 U+2739   ✹  *-> variant    - action reduce variants
-U+270D   ✍  *-> wrt        - write action
+U+270D ✍ *-> write        - write action
 
 # --- type:mapping ---
 U+21A6   ↦  *-> access     - abstract access
@@ -119,16 +118,15 @@ U+2714   ✔  *-> allow      - allow, allowed
 U+25CE   ◎  *-> api        - api/interface logical contract point of any entity
 U+29FA   ⧺  *-> autoinc    - autoincrement
 U+2299   ⊙  *-> avt        - avatar, identity surface
-U+2254   ≔  *-> basename   - context name declaration
 U+219D   ↝  *-> bct        - breadcrumb, trail of parent contexts
 U+25D4   ◔  *-> bdg        - badge, counters/status dot
 U+22BB   ⊻  *-> bool       - Y or N - yes, no basic logical boolean
-U+2756   ❖  *-> bsns       - entity of bussines logic
+U+2756 ❖ *-> business       - entity of bussines logic
 U+2630   ☰  *-> cfg        - config/settings file
 U+25CC   ◌  *-> char       - char
 U+21E3   ⇣  *-> child      - child dcope of object entity or any unit
 U+2B24   ⬤  *-> cluster    - mapping cluster of any entity
-U+21CC   ⇌  *-> cnv        - convert, rerole, translate
+U+21CC ⇌ *-> convert        - convert, rerole, translate
 U+27E6   ⟦  *-> code       - code
 U+2193   ↓  *-> col        - composition: linear vertical axis of children
 U+2297   ⊗  *-> complex    - complex
@@ -137,60 +135,59 @@ U+258C   ▌  *-> console    - console, or text visual output
 U+22A1   ⊡  *-> content    - content
 U+229A   ⊚  *-> context    - context logical or physical base entity of instance
 U+2316   ⌖  *-> controller - entity control manager
-U+2312   ⌒  *-> cos        - cosine
+U+2312 ⌒ *-> cosine        - cosine
 U+274F   ❏  *-> crd        - card/surface container
 U+2733   ✳  *-> creative   - executor freedom scale for the task
 U+25FD   ◽  *-> data       - logical any data
 U+25EB   ◫  *-> date       - mapping date
 U+2B26   ⬦  *-> db         - database
 U+2261   ≡  *-> def        - default
-U+22C8   ⋈  *-> depend     - logical dependency of any entity
-U+26AC   ⚬  *-> descr      - description
+U+22C8 ⋈ *-> dependency     - logical dependency of any entity
+U+26AC ⚬ *-> description      - description
 U+229E   ⊞  *-> dict       - dictionary
 U+21D5   ⇕  *-> direction  - logical mapping direciton behavior of any entity
 U+22A0   ⊠  *-> dlg        - dialog, modal/alert
 U+25B0   ▰  *-> domain     - domain logical language domain
 U+2736   ✶  *-> dsl        - VibeDSL
 U+2500   ─  *-> dvr        - divider, separator line
-U+2218   ∘  *-> endp       - endpoint logical
-U+2592   ▒  *-> env        - environment or other variables
-U+26A0   ⚠  *-> excpt      - logic context of error: logical carrier of error information
-U+261E   ☞  *-> exm        - example
+U+2218 ∘ *-> endpoint       - endpoint logical
+U+26A0 ⚠ *-> exception      - ERROR AS CONTEXT: logical carrier of error information, the error is carried as state, not raised
+U+261E ☞ *-> example        - example
 U+2197   ↗  *-> extend     - extend any entity
-U+27DD   ⟝  *-> extn       - extension object
+U+27DD ⟝ *-> extension       - extension object
 U+2717   ✗  *-> fail       - mapping negative or failed action marker
 U+25AF   ▯  *-> file       - file
 U+279C   ➜  *-> flow       - behavior flow of any entity: processing strategy/sequence of an entity
-U+2B12   ⬒  *-> fmt        - format/formatter mapping of any entyty
-U+2B21   ⬡  *-> frmwrk     - framework
+U+2B12 ⬒ *-> format        - format/formatter mapping of any entyty
+U+2B21 ⬡ *-> framework     - framework
 U+226C   ≬  *-> generic    - generic instrustion of current object
 U+25A7   ▧  *-> graphics   - UI user interface mapping comands
 U+2A1D   ⨝  *-> grp        - composition: logical cluster of elements, one unit of state
 U+27F7   ⟷  *-> hscroll    - horizontal scroll container, base scroll
 U+269C   ⚜  *-> icn        - icon, pictographic marker
-U+2283   ⊃  *-> include    - additional, include
+U+2283   ⊃  *-> import     - import library, an actual linked artifact. NOT the in operator, NOT in+out: this is ONE word. use() is the internal import, this is the external one
 U+2726   ✦  *-> infra      - infrastructure, like a router or PC or worker humans or users or datacenter
 U+2596   ▖  *-> inp        - input field
 U+22EE   ⋮  *-> instr      - instruction
-U+2051   ⁑  *-> inx        - indexes or id of physical object or code another lang instruction
+U+2051 ⁑ *-> index        - indexes or id of physical object or code another lang instruction
 U+2B04   ⬄  *-> io         - End-to-end any entity state modification without change context, mapping command
 U+2B1D   ⬝  *-> item       - logical operator binding a real physical or code object
 U+25EC   ◬  *-> lang       - mapping any entity language
-U+2033   ″  *-> len        - length or size of any entity
+U+2033 ″ *-> length        - length or size of any entity
 U+2210   ∐  *-> lib        - mapping library, codebase, or open source project / git repository, codesnippet
 U+2293   ⊓  *-> limit      - limit of ane entity
 U+2023   ‣  *-> list       - list/array/collection
-U+25E7   ◧  *-> locat      - logical mapping of location any entity
+U+25E7 ◧ *-> location      - logical mapping of location any entity
 U+27F9   ⟹  *-> logic      - entity of logic
 U+226B   ≫  *-> logs       - logging
-U+21E9   ⇩  *-> lower      - lowercase any text conversacion or mapping
+U+21E9 ⇩ *-> lowercase      - lowercase any text conversacion or mapping
 U+224B   ≋  *-> map        - logical map/dictionary: key->value pairs of any entity; the default mapping carrier in a task, no separate mapping operator needed
-U+25B4   ▴  *-> max        - maximum
+U+230B   ⌋  *-> max        - maximum
 U+229B   ⊛  *-> memory     - memory
-U+25BE   ▾  *-> min        - minimum
+U+230A   ⌊  *-> min        - minimum
 U+22D3   ⋓  *-> mix        - mix action: combine/merge any two objects
 U+2B20   ⬠  *-> model      - model,  model of any entity or behavior
-U+25A0   ■  *-> module     - module, class unit, include type
+U+25A0   ■  *-> module     - module, class unit, import type
 U+203B   ※  *-> msg        - message, output/status message object
 U+2255   ≕  *-> name       - name of an object, attribute name="<value>"
 U+25C4   ◄  *-> nav        - navigation rail/bar/drawer/tab-row, concrete via styp
@@ -198,87 +195,87 @@ U+272A   ✪  *-> new        - mapping of creation object
 U+2205   ∅  *-> null       - exact empty value
 U+25EF   ◯  *-> obj        - abstract definition of object or entity
 U+2731   ✱  *-> origin     - original
-U+221F   ∟  *-> os         - OS environment
+U+221F   ∟  *-> os        - OS environment
 U+25A9   ▩  *-> ovl        - composition: overlay, layer stacked above the base surface
 U+25E8   ◨  *-> ralign     - right aligned layout
 U+2582   ▂  *-> prg        - progress, busy/loading indicator
 U+2399   ⎙  *-> print      - mapping operator of visual output logic
 U+2751   ❑  *-> prj        - project
-U+2503   ┃  *-> proc       - procedure vertical aligment logical, Unlike a function, there are no input or output parameters
+U+2503 ┃ *-> procedure       - procedure vertical aligment logical, Unlike a function, there are no input or output parameters
 U+276F   ❯  *-> prompt     - mapping operator of user/human prompt
-U+225C   ≜  *-> prototype - constructor of any entity: builds a structured template with its declared actions and conditions; in a declaration proto(...) reads as prototype; use RAG to search the base prototype or use &-> to include a prototype in specs
+U+225C   ≜  *-> prototype - constructor of any entity: builds a structured template with its declared actions and conditions; in a declaration proto(...) reads as prototype; use RAG to search the base prototype or use &-> to pull a prototype in specs
 U+275D   ❝  *-> quote      - mapping of llm text / quote
 U+261B   ☛  *-> rag        - Retrieval Augmented Generation
 U+21F5   ⇵  *-> rcl        - recycler: first-class virtualized list component, not composed from abstracts
 U+27A4   ➤  *-> ref        - reference mapping of
-U+22A8   ⊨  *-> reqred     - required, mapping triger to trigger for mandatory parameter entr, none if absent
-U+21A9   ↩  *-> respn      - response logical response of event or action
+U+22A8 ⊨ *-> required     - required, mapping triger to trigger for mandatory parameter entr, none if absent
+U+21A9 ↩ *-> response      - response logical response of event or action
 U+2612   ☒  *-> restriction - logical mapping of restriction any entity
 U+22C4   ⋄  *-> rgx        - regex
 U+2654   ♔  *-> role       - unit role, indicates the role of the entity or object
 U+221A   √  *-> root       - base scope marker
 U+27A1   ➡  *-> row        - composition: linear horizontal axis of children
-U+2235   ∵  *-> rsn        - reason, syntax
+U+2235 ∵ *-> reason        - reason, syntax
 U+2020   †  *-> rule       - rule
 U+2201   ∁  *-> scope      - scope of entity
 U+2524   ┤  *-> sec        - composition: section, block within a page
 U+224A   ≊  *-> sem        - semantic object
 U+2584   ▄  *-> sht        - sheet, bottom/side panel
-U+223F   ∿  *-> sin        - sin
+U+223F ∿ *-> sinus        - sin
 U+25AA   ▪  *-> single     - single, standalone
 U+25CF   ●  *-> singleton  - singleton
 U+2593   ▓  *-> skn        - skeleton/shimmer placeholder
 U+23E4   ⏤  *-> slr        - slider, continuous value input
 U+227A   ≺  *-> sort       - sorted mapping of any entity
-U+25C6   ◆  *-> spec       - mapping of specifics and logic
+U+25C6 ◆ *-> specfile       - mapping of specifics and logic
 U+25C7   ◇  *-> spr        - composition: spacer, flexible empty space
-U+27F5   ⟵  *-> src        - source
+U+27F5 ⟵ *-> source        - source
 U+2606   ☆  *-> standalone - stand alone
-U+2296   ⊖  *-> stat       - static, logical static operator of any entity or object implement in code or rule
+U+2296 ⊖ *-> static       - static, logical static operator of any entity or object implement in code or rule
 U+25D5   ◕  *-> state      - mapping state of any entity
 U+2026   …  *-> string     - string (var or literal str:"..."
 U+2237   ∷  *-> struct     - any predefined structure or class in the case of OOP
-U+2662   ♢  *-> svc        - mapping service role of entity
-U+2B22   ⬢  *-> synt       - syntax
-U+220D   ∍  *-> sys        - systematization role
-U+2550   ═  *-> tab        - table, table mapping of any entity instruction
-U+279E   ➞  *-> targ       - target, result
+U+2662 ♢ *-> service        - mapping service role of entity
+U+2B22 ⬢ *-> syntax       - syntax
+U+220D ∍ *-> system        - systematization role
+U+2550   ═  *-> table        - table, table mapping of any entity instruction
+U+233E   ⌾  *-> target      - direct logical indication of a goal: names the entity the task aims at, and nothing else. NOT a result - nothing is produced or returned by it. NOT goal: goal is the marker that the end is here, target is what is being aimed at
 U+00B6   ¶  *-> text       - visual text
 U+25F4   ◴  *-> tgl        - binary toggle control
 U+2234   ∴  *-> think      - mapping operator of model reflections
-U+259A   ▚  *-> thm        - theme visal or logic
+U+259A ▚ *-> theme        - theme visal or logic
 U+03C4   τ  *-> time       - mapping time
 U+2727   ✧  *-> tip        - tooltip, hover help
 U+27F6   ⟶  *-> to         - logical pointer from entity to entity read from left to right: maps to the target entity
 U+274D   ❍  *-> token      - llm token object mapping
-U+22A4   ⊤  *-> true, Y, yes  - boolean true literals
-U+22A5   ⊥  *-> false, N, no - boolean false literals
+U+22A4   ⊤  *-> true, yes, Y - boolean literal true: synonyms of the bool value Y
+U+22A5   ⊥  *-> false, no, N - boolean literal false: synonyms of the bool value N
 U+25D2   ◒  *-> type       - mapping type of any entity
 U+2744   ❄  *-> uid        - unique id like UUID or unique key autoincrement if SQL uuid in program or physical entity
-U+2742   ❂  *-> uniq       - unique, singlton of any entity
+U+2742 ❂ *-> unique       - unique, singlton of any entity
 U+25AB   ▫  *-> unit       - any abstract unit
-U+2191   ↑  *-> up         - logical mapping direction,restriction,location signs of any entity
-U+21E7   ⇑  *-> uper       - upercase any text conversation or mapping
+U+2191   ↑  *-> up         - direction sign: up
+U+21E7 ⇑ *-> upercase       - upercase any text conversation or mapping
 U+2328   ⌨  *-> usr        - language model user, operator
 U+2752   ❒  *-> view       - concrete view frame: a definite rendered frame/screen instance
-U+2611   ☑  *-> vld        - valid
+U+2611 ☑ *-> valid        - valid
 U+2216   ∖  *-> vrt        - virtual, logical virtual sequence or entity
 U+21C5   ⇅  *-> vscroll    - vertical scroll container, base scroll
 U+222A   ∪  *-> with       - mapping of logic extension
 U+2732   ✲  *-> hint       - placeholder text shown in an empty input field, not a value
 
 # --- type:behavior ---
-U+2571   ╱  *-> arc        - architecture, example: func name="upload_photo" arc:coroutine
+U+2571 ╱ *-> arc               - architecture, example: func name="upload_photo" arc:coroutine
 U+22C9   ⋉  *-> bhvoper    - behavior pattern operator
 U+2262   ≢  *-> blplan     - blueprint plan: formal plan artifact
-U+273A   ✺  *-> crit       - logical critical instruction, behavior pay special attention and more-check
+U+273A ✺ *-> critical       - logical critical instruction, behavior pay special attention and more-check
 U+204A   ⁊  *-> dry        - do not repeat yourself
 U+21B5   ↵  *-> enter      - user input: enter key, confirm/select
-U+27E1   ⟡  *-> evt        - event base logic operator
+U+27E1 ⟡ *-> event        - event base logic operator
 U+00D7   ×  *-> factor     - coefficient, factor, percentage need for logical syntax [min,max]
-U+2298   ⊘  *-> fbd        - Forbidden
+U+2298 ⊘ *-> forbidden        - Forbidden
 U+266E   ♮  *-> invar      - invariant
-U+2016   ‖  *-> isol       - An entity isolated from external logic blocks does not accept higher-level logic as the primary 
+U+2016 ‖ *-> isolate       - An entity isolated from external logic blocks does not accept higher-level logic as the primary 
 U+2301   ⌁  *-> kbd        - keyboard key: physical/logical key identifier used by input events
 U+290B   ⤋  *-> kdown      - user input: key pressed down event
 U+2939   ⤹  *-> kpress     - user input: key press
@@ -288,7 +285,7 @@ U+2916   ⤖  *-> mosup      - user input: mouse button up event
 U+2904   ⤄  *-> scrtap     - user input: screen tap event
 U+22F2   ⋲  *-> pattern    - programming or behavioral pattern
 U+292D   ⤭  *-> proctx     - process, context,isolate thread
-U+265F   ♟  *-> skl        - logical representation of a skill
+U+265F ♟ *-> skill        - logical representation of a skill
 U+21FF   ⇿  *-> smbls      - predict array of symbols
 U+21C6   ⇆  *-> swap       - UI logical behavior: swipe / page turn between views, default direction left to right unless oth
 
@@ -298,15 +295,35 @@ U+27FC   ⟼  *-> as         - creates a variable/alias binding: expression + as
 U+2230   ∰  *-> blueprint  - blueprint, base logical abstract pattern, Behavioral Model for Enforcement, Behavioral law to ap
 
 # --- type:logical ---
-U+21B7   ↷  *-> brk        - break
+# --- frame operators: added 2026-09-27. The grammar of the language was the one
+# --- part of the table with no glyphs, so a compiled file was half words and
+# --- half ASCII frame - the worst mix for a weak model. These rows close it.
+# --- % (percent) and ; and {} and // are deliberately NOT here: % is a percent
+# --- suffix in values (50%), {} is the free-form carrier whose ASCII boundary
+# --- must stay visible, // is a human comment, ; ends a layer. They stay ASCII
+# --- and are declared as reserved in the compiler RULES block.
+U+2716   ✖  *-> *            - multiplication operator (math)
+U+271A   ✚  *-> +            - addition operator (math)
+U+2212   −  *-> -            - subtraction operator (math)
+U+00F7   ÷  *-> /            - ordinary mathematical division operator (divide)
+U+2190   ←  *-> <-           - left strict link: the inverse of the right arrow
+U+2B0C   ⬌  *-> <->          - two-way strict node,dependence or relationship, public function or interface and other
+U+2264   ≤  *-> <=           - comparison: less than or equal
+U+228E   ⊎  *-> <>           - logical branching operator to a set
+U+2A72   ⩲  *-> =            - assignment: binds a value to a name
+U+2263   ≣  *-> ==           - logical and mat equals of any object operator
+U+2265   ≥  *-> >=           - comparison: greater than or equal
+U+22D4   ⋔  *-> ?            - mapping marker of potentialy more way logic
+U+29F5   ⧵  *-> \            - abstract change logic operator
+U+21B7 ↷ *-> break        - break
 U+21D2   ⇒  *-> case       - case
-U+22CB   ⋋  *-> cch        - catch block marker, operator type action
+U+22CB ⋋ *-> catch        - catch block marker, operator type action
 U+2900   ⤀  *-> continue   - continue: go on to the next iteration of the loop
 U+2221   ∡  *-> elif       - else if
 U+21AD   ↭  *-> else       - else
 U+25A1   □  *-> end        - end
 U+2208   ∈  *-> exist      - exist
-U+2300   ⌀  *-> fin        - finally block marker, operator type action
+U+2300 ⌀ *-> finally        - finally block marker, operator type action
 U+2933   ⤳  *-> for        - for example for(val1<0,incr(1))->data1=val1 -> for action
 U+27FF   ⟿  *-> goto       - go to point
 U+21DB   ⇛  *-> if         - if then else | if elif els - base logic operator to condition
@@ -318,7 +335,9 @@ U+27DA   ⟜  *-> point      - example of a goto label
 U+22A2   ⊢  *-> present    - present, belong, instanceof, logical membership check condition
 U+21F6   ⇶  *-> stage      - separation with progress, applies to any entity
 U+21F4   ⇴  *-> try        - try block marker, operator type action
-U+2303   ⌃  *-> var        - variable of temporary logical entity
+U+2303 ⌃ *-> variable        - variable of temporary logical entity
 U+22DF   ⋟  *-> when       - when: single conditional trigger, fires once when the condition becomes true
 U+27C1   ⟁  *-> while      - while: loop, repeat a block while the condition holds, condition is checked before each iteratio
 U+2243   ≃  *-> ~            - logical mapping representation of any comparison expression
+U+2592 ▒ *-> environment        - environment or other variables
+

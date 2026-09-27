@@ -13,7 +13,7 @@ the visual/frontend zone. Backend/util/games are separate future plans.
 
 ## Design principles (agreed)
 - Tokens are SHORT (3-4 chars) — the language targets small models, balance
-  clarity vs memory footprint: `vis`, `pan`, `thm`, `tab`, `tree` style.
+  clarity vs memory footprint: `graphics`, `pan`, `theme`, `table`, `tree` style.
 - Prefer ABSTRACT tokens over precise ones: more implementation freedom.
   Precision is closed via `styp` (type) or `{}`/`desc` description.
 - Do NOT drag N implementations of one thing into the base dictionary.
@@ -39,11 +39,11 @@ Layout/containment primitives — needed FIRST, everything else sits inside them
 
 ## T0b. RECYCLER (first-class, NOT composed from abstracts)
 - rcl   - virtualized list component; own adapter/view-holder pool, view
-          reuse, lazy data binding via src; recycler view pattern
+          reuse, lazy data binding via source; recycler view pattern
 
 ## T1. NAVIGATION (abstract)
-- nav   - navigation rail/bar/drawer/tab-row as one concept; concrete via styp
-- tab   - exists (tree tab) — reuse for tab row semantics
+- nav   - navigation rail/bar/drawer/table-row as one concept; concrete via styp
+- table   - exists (tree table) — reuse for table row semantics
 - link  - exists (target affiliation) — reuse for in-app links
 - bct   - breadcrumb: trail of parent contexts (candidate; may fold into nav)
 
@@ -67,7 +67,7 @@ Layout/containment primitives — needed FIRST, everything else sits inside them
 
 ## T3. DISPLAY & FEEDBACK (abstract)
 - crd   - card/surface container
-- lst   - exists (list) — reuse for list/table rows
+- list   - exists (list) — reuse for list/table rows
 - icn   - icon: pictographic marker
 - avt   - avatar: identity surface (person/entity)
 - bdg   - badge: counters/status dot
@@ -78,27 +78,27 @@ Layout/containment primitives — needed FIRST, everything else sits inside them
 - msg   - exists (message) — covers snackbar/banner/toast semantics
 - dlg   - dialog: modal/alert
 - sht   - sheet: bottom/side panel (candidate; may fold into ovl+nav)
-- thm   - exists (theme) — M3 color/shape/elevation system lives here
+- theme   - exists (theme) — M3 color/shape/elevation system lives here
 
 ## Soft vetoes (NOT new tokens; avoid duplicates)
-- chk exists as "check/verify" — do NOT reuse for checkbox; checkbox -> sel
+- check exists as "check/verify" — do NOT reuse for checkbox; checkbox -> sel
 - switch exists as SWITCH-CASE operator — do NOT reuse for UI toggle; toggle -> sel/tgl
-- skl exists as "skill" — skeleton stays `skn`
+- skill exists as "skill" — skeleton stays `skn`
 
 ## Syntax sketch
 ```
-prj name="settings" thm="m3":
-  -> pag name="main":
-     -> col: -> sec name="profile" | -> frm name="list_card":
-        -> inp name="login" styp:text
-        -> sel name="theme" styp:switch
-        -> btn name="save" act:apr
-  -> rcl src="msg:list" item="row"
-  -> ovl: -> dlg name="confirm" | -> msg name="saved" styp:snackbar
-  -> hscroll: row: card name="c1"
+prj:name="settings":theme="m3":
+  -> pag:name="main":
+     -> col: -> sec:name="profile" | -> frm:name="list_card":
+        -> inp:name="login" styp:text
+        -> sel:name="theme" styp:switch
+        -> btn:name="save" action:approve
+  -> rcl:source="msg:list":item="row"
+  -> ovl: -> dlg:name="confirm" | -> msg:name="saved" styp:snackbar
+  -> hscroll: row: card:name="c1"
 ```
 Composition is explicit (`col`/`frm`/`ovl`), concrete effects follow the
-`-> -> act` chain as usual. Recycler is a first-class component (`rcl`),
+`-> -> action` chain as usual. Recycler is a first-class component (`rcl`),
 not composed from abstracts.
 
 ## Open questions for user review

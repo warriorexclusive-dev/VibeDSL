@@ -1,38 +1,38 @@
-*-> proto(any) id="any" desc="generic node template: lang, type and name are required" act=[crt,exam] type=rule:
+*-> proto(any) id="any":desc="generic node template: lang, type and name are required":action=[crt,exam]:type=rule:
    -> lang: any reqr
       type: any reqr
       type==[dom,file]:
       -> name: any reqr
 
-*-> proto(if) id="if" desc="if gate: single-instruction condition on single, else object~object expression" act=[crt,exam]
+*-> proto(if) id="if":desc="if gate: single-instruction condition on single, else object~object expression":action=[crt,exam]
    if(instr is single): 
    -> syn="obj~obj"
    else
    -> syn="instr(obj~obj)"
 
-*-> proto(goal) id="goal" desc="goal handler: prints context and success message" act=[wrt,exam,crt]
+*-> proto(goal) id="goal":desc="goal handler: prints context and success message":action=[wrt,exam,crt]
    show(cxt)
    show(msg(goal))
 
-*-> proto(fail) id="fail" desc="fail handler: prints error, requests user approval with retry on wrt/crt" act=[wrt,exam,crt]
+*-> proto(fail) id="fail":desc="fail handler: prints error, requests user approval with retry on wrt/crt":action=[wrt,exam,crt]
    show(err)
    if(act==[wrt,crt]){
-      usr:apr:retry
+      usr:approve:retry
    }   
 
-*-> proto(varn) id="varn5" desc="variants gate: offers up to 5 options and requires user selection" type=rule scop=root
-   show(varn:max(5)&&req) ret=usr:sel:->
+*-> proto(varn) id="varn5":desc="variants gate: offers up to 5 options and requires user selection":type=rule:scop=root
+   show(varn:max(5)&&req) return=usr:sel:->
 
-*-> proto(retry) id="r5" desc="retry loop: retries up to 5 times, asking the user when possible" type=rule scop=root
-      for(var i=0;i<5;i=incr(1))<>:
+*-> proto(retry) id="r5":desc="retry loop: retries up to 5 times, asking the user when possible":type=rule:scop=root
+      for(var:i=0:i<5:i=incr(1))<>:
       -> retry()
       -> show(llm->user req?)<>:
          -> retry()
          -> fail
 
-*-> proto(order) id="order_test" desc="TEST proto: order pipeline with act-declared functions" act=[crt,exam,use] type="rule" scop="root":
-   -> abstract "calc_total" -> act="sum line sub-totals by quantity"
-   -> order:act="save order to store":name="store"
+*-> proto(order) id="order_test":desc="TEST proto: order pipeline with act-declared functions":action=[crt,exam,use]:type="rule":scop="root":
+   -> abstract "calc_total" -> action="sum line sub-totals by quantity"
+   -> order:action="save order to store":name="store"
    -> order:store(context:user)
    -> exam(!(order:items==?))<>:
       -> calc_total(rate)<>:

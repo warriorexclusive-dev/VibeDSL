@@ -31,10 +31,10 @@ it before it is accepted. `blueprint` are blueprints — base abstract patterns
 and behavior laws that always hold.
 
 ```vibedsl
-*-> proto(if) id="if" act=[crt,exam] type=rule:
+*-> proto(if) id="if":action=[create,exam]:type=rule:
    -> syn="obj~obj"
 
-*-> proto(goal) id="goal" act=[wrt,exam,crt]
+*-> proto(goal) id="goal":action=[write,exam,create]
    show(cxt)
    show(msg(goal))
 ```
@@ -42,23 +42,23 @@ and behavior laws that always hold.
 Instantiation / referencing a template by name and checking an artifact:
 
 ```vibedsl
-fun type=rule scop=root
-   -> crt spec lng=VibeDSL prototype:if
-   -> exam(spec:syn==VibeDSL:dict:syn)<>:goal
+function:type=rule:scop=root
+   -> create specfile:lng=VibeDSL prototype:if
+   -> exam(specfile:syn==VibeDSL:dict:syn)<>:goal
 ```
 
 ## Vectors — векторы
 
 Logic is built as chains of linked vectors: `[model1]->[model2]` delegates a
 logical unit to the next node. Ordered collections are vectors too: `[]` blocks,
-`lst` (list/array/collection), `tab` (in-memory table), `inx` (indexes), `fifo`
+`list` (list/array/collection), `table` (in-memory table), `index` (indexes), `fifo`
 queues.
 
 ```vibedsl
--> lst:[v1,v2,v3]
--> tab:rows -> inx:[0,1,2]
-sel[val1,val2]->fun data=sel:ret
-for(i<10,incr(1))->data:inx[i]
+-> list:[v1,v2,v3]
+-> table:rows -> index:[0,1,2]
+sel[val1,val2]->function:data=sel:return
+for(i<10,incr(1))->data:index[i]
 ```
 
 ## Inheritance — наследование
@@ -69,7 +69,7 @@ module), `abfun` (abstract / interface / inject), `generic` (generic), `gener`
 (subtype), `<->` two-way public interface. `mod` is the logic modify operator.
 
 ```vibedsl
--> module name="base_controller"
+-> module:name="base_controller"
    -> sub:cls
    -> abfun:interface
    -> generic:T
@@ -77,28 +77,28 @@ module), `abfun` (abstract / interface / inject), `generic` (generic), `gener`
 
 ## Behavioral — поведение
 
-The language is rule-oriented: `fun type=rule scop=root` with an `act` chain.
-Gates: `if` / `elif` / `els`, `switch` / `case` / `brk`, loops `loop`, examination
+The language is rule-oriented: `function type=rule scop=root` with an `action` chain.
+Gates: `if` / `elif` / `else`, `switch` / `case` / `break`, loops `loop`, examination
 `exam(obj~obj)`, `retry(N)`, rollback `rollb`, and explicit ends `goal` / `fail`,
-variants `varn`.
+variants `variant`.
 
 ```vibedsl
-if(a==b)->ret
+if(a==b)->return
 switch: case val1: data1=val1 bk
 exam(obj~obj):retry(5)!:rollb
 ```
 
-## Events — события через инструкцию `fun`
+## Events — события через инструкцию `function`
 
-`fun` is the function declaration instruction. Combined with the `evt`
+`function` is the function declaration instruction. Combined with the `event`
 (event/callback) marker it declares an **event** or callback handler; `call` is
 the entry/function-call point. Timers that raise events: `dtim` (delayed timer),
 `tik` (time elapse), `delay` (period).
 
 ```vibedsl
-fun name="on_update" par="data" evt:
-   -> run:check par=data:
-      -> data:pres(data)->ret
+function:name="on_update":param="data" event:
+   -> run:check:param=data:
+      -> data:pres(data)->return
    -> call:notify{async}
    -> with(strk)->add(ref lang=usr:lang)
 ```
@@ -108,19 +108,19 @@ Timers and error events:
 ```vibedsl
 [llm:con:out:txt="hi im here" tic(1m)]
 dtim:500 -> call:on_tick
-try:->logic ->cch:err ->fin:close
+try:->logic ->catch:error ->finally:close
 ```
 
 ## Domain-oriented — домен
 
-Targeted at domains: `domain` (domain), `dir` (directory / subdomain), `prj`
-(project), `infr` (infrastructure unit), `svc` (service), `ept` (endpoint),
+Targeted at domains: `domain` (domain), `directory` (directory / subdomain), `prj`
+(project), `infr` (infrastructure unit), `service` (service), `ept` (endpoint),
 `api` (API / interface contract).
 
 ```vibedsl
-prj name="picture_lib":
+prj:name="picture_lib":
    -> domain:name
-   -> svc:micro
+   -> service:micro
    -> ept:"/api/v1"
 ```
 
@@ -134,21 +134,21 @@ abstract over precise (precision closes via `styp`/`{}`).
 
 Composition: `row col grd frm grp ovl pag sec hscroll vscroll spr`
 Recycler (first-class, not composed): `rcl`
-Navigation: `nav bct tab link`
+Navigation: `nav bct table link`
 Input controls: `inp btn sel tgl slr pic srch`
-Display & feedback: `crd lst icn avt bdg dvr prg skn tip msg dlg sht thm`
+Display & feedback: `crd list icn avt bdg dvr prg skn tip msg dlg sht theme`
 User input events: `kdown kpress kup mosup mosdown scrtap enter`
-Entities: `view` (concrete frame/screen, distinct from `vis` - visual element/type), `evt,event` (lifecycle/callback marker alias)
+Entities: `view` (concrete frame/screen, distinct from `graphics` - visual element/type), `event,event` (lifecycle/callback marker alias)
 
 ```vibedsl
-prj name="settings" thm="m3":
-   -> pag name="main":
-      -> col: -> sec name="profile" | -> frm name="list_card":
-         -> inp name="login" styp:text
-         -> sel name="theme" styp:switch
-         -> btn name="save" act:apr
-   -> rcl src="msg:list" item="row"
-   -> ovl: -> dlg name="confirm" | -> msg name="saved" styp:snackbar
+prj:name="settings":theme="m3":
+   -> pag:name="main":
+      -> col: -> sec:name="profile" | -> frm:name="list_card":
+         -> inp:name="login" styp:text
+         -> sel:name="theme" styp:switch
+         -> btn:name="save" action:approve
+   -> rcl:source="msg:list":item="row"
+   -> ovl: -> dlg:name="confirm" | -> msg:name="saved" styp:snackbar
 ```
 
 ---

@@ -21,16 +21,19 @@ function vibedslToHtml(string $text, string $title): string
 
 function vibedslSources(string $base): array
 {
+    // compiler/ owns the two symbol dictionaries: the mark table and the
+    // compiled-output header. DATA/ owns the word base and the use() pool.
     return [
-        'dictionary' => $base . '/DATA/dictionary_sorted_by_type.txt',
-        'action'     => $base . '/DATA/action.dict',
-        'mapping'    => $base . '/DATA/mapping.dict',
-        'operators'  => $base . '/DATA/operators.dict',
-        'abstracts'  => $base . '/DATA/abstracts.txt',
-        'syntax'     => $base . '/DATA/syntax.txt',
-        'blueprints' => $base . '/DATA/blueprints.txt',
-        'protos'     => $base . '/DATA/protos.txt',
-        'agents'     => $base . '/DATA/agents.txt',
-        'symbols_map' => $base . '/DATA/symbols_map.txt',
+        'header'      => $base . '/compiler/header.txt',
+        'symbols_map' => $base . '/compiler/symbols_map.txt',
+        'dictionary'  => $base . '/DATA/dictionary_sorted_by_type.txt',
+        'action'      => $base . '/DATA/action.dict',
+        'mapping'     => $base . '/DATA/mapping.dict',
+        'operators'   => $base . '/DATA/operators.dict',
+        'abstracts'   => $base . '/DATA/abstracts.txt',
+        'syntax'      => $base . '/DATA/syntax.txt',
+        'blueprints'  => $base . '/DATA/blueprints.txt',
+        'protos'      => $base . '/DATA/protos.txt',
+        'agents'      => $base . '/DATA/agents.txt',
     ];
 }

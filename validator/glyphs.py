@@ -1,9 +1,13 @@
 # -*- coding: utf-8 -*-
-"""validator/glyphs.py - the standing guard for DATA/symbols_map.txt.
+"""validator/glyphs.py - the standing guard for compiler/symbols_map.txt.
 
 Written because "cross-check every symbol by hand" is endless. Every invariant I
 checked manually this session becomes an automatic rule here, so the file is policed
 permanently instead of per-correction.
+
+The mark table lives in compiler/, beside the compiler that reads it. The word
+dictionary it is checked against stays in DATA/, because that one has six other
+consumers.
 
 INVARIANTS
   G1  no duplicate codepoint                       - two words cannot share a mark
@@ -32,7 +36,7 @@ from collections import defaultdict
 
 D = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 DATA = os.path.join(D, "DATA")
-SM = os.path.join(DATA, "symbols_map.txt")
+SM = os.path.join(D, "compiler", "symbols_map.txt")
 MAS = os.path.join(DATA, "dictionary_sorted_by_type.txt")
 
 CJK = [

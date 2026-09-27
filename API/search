@@ -6,7 +6,8 @@ mb_internal_encoding('UTF-8');
  * VibeDSL API - search
  * GET ?in=<term>
  * arc=RAG, logc=srch
- * source=[DATA/dictionary_sorted_by_type.txt, DATA/syntax.txt, DATA/agents.txt, DATA/symbols_map.txt]
+ * source=[DATA/dictionary_sorted_by_type.txt, DATA/syntax.txt, DATA/agents.txt,
+ *          compiler/symbols_map.txt, compiler/header.txt]
  * ret text blob: objects split by marker "*->", line breaks \r\n -> <br>, tab indentation preserved
  * note: symbols_map.txt carries "*->" MID-LINE, so it is split on "^U+" instead;
  *       without that the whole 20 KB table would be returned as one object.

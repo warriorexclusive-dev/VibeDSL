@@ -234,7 +234,7 @@ def blueprint_symbols(entry_text, seen, out):
 RE_ABSTRACT = re.compile(r"\babstract\b[^\n]*?\bid=\"([^\"]+)\"|\babstract\b\s+\"([^\"]+)\"")
 RE_AS = re.compile(r"\b(?:[,\s:(]as|:as|\bas)\s+([A-Za-z_]\w*)")
 RE_FUN = re.compile(r"\bfun(?:ction)?\s+(?:id|name)=\"([^\"]+)\"")
-RE_ENTITY_ACT = re.compile(r"^\s*(?:->|&->|<-|<->)?\s*(\w+):act=\"[^\"]*\"\s*(?::\s*name=\"([^\"]+)\")?")
+RE_ENTITY_ACT = re.compile(r"^\s*(?:->|&->|<-|<->)?\s*(\w+):act(?:ion)?=\"[^\"]*\"\s*(?::\s*name=\"([^\"]+)\")?")
 RE_COLON_BRANCH = re.compile(r"<>:|<>:\s*$")
 RE_CMD_WORD = re.compile(r"(?:->|<->|<>:|&->|:|\\)\s*([A-Za-z_]\w*)|^\s*([A-Za-z_]\w*)\s*(?:\(|:|\\|$)")
 
@@ -432,7 +432,12 @@ def object_sets():
     return declared, owned
 
 
+DECL_WORDS = ("prop", "function", "item")
 RE_PIN = re.compile(r"(?<![:\w])([A-Za-z_]\w*):([A-Za-z_]\w*)")
+# the placement chain of a declaration: -> obj : prop [: obj : prop ...]
+RX_DECL_CHAIN = re.compile(
+    r"->\s*[A-Za-z_]\w*(?::[A-Za-z_]\w*)*:(?:%s)(?::[A-Za-z_]\w*)*"
+    % "|".join(DECL_WORDS))
 
 
 def check_pins(node, scan_text):
@@ -440,11 +445,25 @@ def check_pins(node, scan_text):
     declared for the object (abstract{...} init or obj:act name="...") or is a
     standard/dictionary field of the object (frm:name="x", frm name="x").
     Object-field association: standard fields never fire; a genuinely
-    undeclared field on a declared object is a SOFT WARNING, not an error."""
+    undeclared field on a declared object is a SOFT WARNING, not an error.
+
+    The right-hand side of `->` in a declaration is the PLACEMENT chain, not a
+    pin assignment:
+
+        &-> abstract:prop:id="radius"->frm:prop:corner:prop
+
+    `frm:prop` there means "a prop, placed on frm, inside corner" - it is not a
+    field named `prop` on `frm`, so it must not be spell-checked as one. The
+    chain is stripped before the pin scan, the same way quoted payload is, and
+    only chains that end in a declaration word are stripped - a real pin after a
+    declaration is still checked.
+    """
     declared, owned = object_sets()
     if not declared:
         return
-    sparse = re.sub(r'"[^"]*"', '""', scan_text or "")
+    text = scan_text or ""
+    text = RX_DECL_CHAIN.sub(" ", text)
+    sparse = re.sub(r'"[^"]*"', '""', text)
     for m in RE_PIN.finditer(sparse):
         obj, pin = m.group(1), m.group(2)
         if pin in ("act", "action"):
@@ -487,7 +506,7 @@ def check(node):
     for _m in RE_ACT_CALL.finditer(re.sub(r'"[^"]*"', '""', text)):
         _v = _m.group(1).lower()
         if _v not in ACTIONS:
-            OUT.append((node.no, "E", "line %d: act= verb '%s' is not a declared type:action word"
+            OUT.append((node.no, "E", "line %d: action= verb '%s' is not a declared type:action word"
                         % (node.no, _v)))
 
     check_pins(node, scan_text)

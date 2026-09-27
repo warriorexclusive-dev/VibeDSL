@@ -36,18 +36,18 @@
 
 
 ## 7. SYNTAX AND BASE COMMANDS
-* it's is a logical programming language name VibeDSL syntax [node:node]->[node:par], -> delegate function or other node, node it's logical unit [uroot:rule]->[file:wrt]->{llm:lng = "VibeDSL"}, this example of rule 
+* it's is a logical programming language name VibeDSL syntax [node:node]->[node:par], -> delegate:function or other node, node it's logical unit [uroot:rule]->[file:wrt]->{llm:lng = "VibeDSL"}, this example of rule 
 * Logical abbreviations are permitted and even encouraged, provided the logic does not involve branching.
 * It is important to maintain logical consistency among the elements; check yourself for a coherent chain of logic.
 * example [node:child_node]
             ->a==b
               ->c=d 
-* syntax of functions -> fun name="example" par="val1" -> logic. 
+* syntax of functions -> fun:name="example" par="val1" -> logic. 
 * [] - block of multiple logical objects, exxample [val1,val2,val3,...], ... applies only if there is a valid array reference and the array length exceeds 10 elements. 
 * {} it,s marker of declaration a functionaly custom logic of element, it,s is custom specific functionaly logic of object 
 * :, !:, |, &&, ->,<->,<-,==,=, <=, >=, <(src)-, -(id)>, <-(), ()->, logical way and construct operators 
 * aliases: | = or, && = and, ! = not; / = division, \ = logic filter; <> = multi-way branching, NOT "not equal" (use !(a==b)) 
-* "" way to сustomisation mapping all units, example: infr:->node type="panasonic ats" name ="telephony"
+* "" way to сustomisation mapping all units, example: infr:->node:type="panasonic ats" name ="telephony"
 * part and stage commant as separator of logic, syntax and example: part 1: (isolate logic), part2 (isolate logic) | stage 1: (isolate logic), stage 2 (isolate logic) <- part 1 logic DSL schema as reference  
 * Try to keep your scripts as concise as possible.
 * dictionary byte - keyword - description
@@ -65,7 +65,7 @@
   - equal indentation = same level (sibling nodes); deeper indentation = child node
   - an ARROW always binds a whole node; a COLON always binds inside a node; never concatenate free text and arrows inside a single token.
 * example implementation specs
-  prj name="picture_lib":
+  prj:name="picture_lib":
      -> type=lib
         node=root
         lng:name="c++"
@@ -83,11 +83,11 @@ in:   picture->
 * `fun` / `func` / `function` is a DECLARATION keyword: followed by a SPACE, then the name. `fun(do)` is an error; `fun name(...)` is the form.
 * EVERY ACTION declares scope `()`: `crt(...)`, `show(...)`, `ret(...)`. A bare action word = mapping key, NOT a call.
 * PROPER NAMES / bare values after `=` go into quotes: `name="out.xml"`, `lng="VibeDSL"`. Bare word after `=` = warning.
-* FLOW MODEL: `fun` = executable function; `abstract` = pure concept (idea) - defines properties/behavior for a group or single of future entity, cannot create an instance of itself. Flow = input function -> executable function (Java-abstract analogy).
+* FLOW MODEL: `fun` = executable function; `abstract` = pure concept (idea) - defines properties/behavior for a group or single of future entity, cannot create an instance of itself. Flow = input:function -> executable:function (Java-abstract analogy).
 * ALIAS KWS: `alias [...] as NAME` (grammar word `as`).
 * USERDEFS register: `abstract id="X"` and `alias [...] as NAME`; abstract body = `[abstract body]`, not re-validated. `{}` = AI custom block; `/* */` and `//` = human comments (skipped).
 * `act="..."` declares a function - two canonical forms, written in VibeDSL:
-  - `abstract "open_file" -> act="open file by name"` - declares function `open_file`; call: `open_file("main.txt")`
+  - `abstract "open_file" -> act="open file by name"` - declares:function `open_file`; call: `open_file("main.txt")`
   - `file:act="grant access to user":name="access"` - declares entity function `file:access` (`:name="..."` binds the name to the same declaration); call: `file:access(context:user)`
 * SYNTAX REFERENCE: use the RAG base (`DATA/dictionary_sorted_by_type.txt` + `DATA/syntax.txt`) and `py validator\validator.py <file>`; add new rules in short English - save tokens.
 
@@ -148,11 +148,11 @@ in:   picture->
 
 ## 10. BASE AGENT RULES 
 
-fun type="rule" scop="root" -> event:crt([logic,arc:ref,spec,plan]) -> lng="VibeDSL"
+fun:type="rule":scop="root" -> event:crt([logic,arc:ref,spec,plan]) -> lng="VibeDSL"
 
-fun type="rule" scop="root" -> event:answ(user) -> lng=usr:lang
+fun:type="rule":scop="root" -> event:answ(user) -> lng=usr:lang
 
-fun type="rule" scop="root" -> event:crt([code, data, file])
+fun:type="rule":scop="root" -> event:crt([code, data, file])
   -> crt(spec lng="VibeDSL" proto):
   -> exam(spec:syn==VibeDSL:dict:syn)<>:
      -> exam(!(spec:logic==?))<>:
@@ -168,49 +168,49 @@ fun type="rule" scop="root" -> event:crt([code, data, file])
      -> show(varn(varn5)):retry   
 
 VibeDSL:
--> proto(any) is node act=[crt,exam] type=rule:
+-> proto(any) is node:act=[crt,exam]:type=rule:
    -> lang: any reqr
       type: any reqr
       type==[dom,file]:
       -> name: any reqr
 
--> proto(if) id="if" act=[crt,exam]
+-> proto(if) id="if":act=[crt,exam]
    if(instr is single): 
    -> syn="obj~obj"
    else
    -> syn="instr(obj~obj)"
 
--> proto(goal) id="goal" act=[wrt,exam,crt]
+-> proto(goal) id="goal":act=[wrt,exam,crt]
    show(cxt)
    show(msg(goal))
 
--> proto(fail) id="fail" act=[wrt,exam,crt]
+-> proto(fail) id="fail":act=[wrt,exam,crt]
    show(err)
    if(act==[wrt,crt]){
       usr:apr:retry
    }   
 
--> proto(varn) id="varn5" type=rule scop=root
+-> proto(varn) id="varn5":type=rule:scop=root
    show(varn:max(5)&&req) ret=usr:sel:->
 
--> proto(retry) id="r5" type="rule" scop="root"
-      for(var i=0;i<5;i=incr(1))<>:
+-> proto(retry) id="r5":type="rule":scop="root"
+      for(var:i=0:i<5:i=incr(1))<>:
       -> retry()
       -> show(llm->user req?)<>:
          -> retry()
          -> fail
 
 
--> proto(?) type="rule" scop="root" act=[wrt,exam,crt]
+-> proto(?) type="rule":scop="root":act=[wrt,exam,crt]
    show(varn:max(3)&&req) ret=usr:sel1:->
 
-fun type="rule" scop="root" -> use(VibeDSL:proto[if,goal,fail])
-fun type="rule" scop="root" ->
+fun:type="rule":scop="root" -> use(VibeDSL:proto[if,goal,fail])
+fun:type="rule":scop="root" ->
    prompt:lng == "VibeDSL":
       prompt:run()
 
-fun type="rule" scop="root" -> get(think:->show()){without conversion to user lang}
-fun type="rule" scop="root" -> usr:lang="RU:ru"   
+fun:type="rule":scop="root" -> get(think:->show()){without conversion to user lang}
+fun:type="rule":scop="root" -> usr:lang="RU:ru"   
 
 
 

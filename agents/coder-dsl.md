@@ -1,5 +1,5 @@
 ---
-description: VibeDSL coder-dsl agent (strict). Takes the FULL rule set from agents.txt: UP TO 3 passes of syntax check + logic check (exit on first clean pass) with user requests if anything is unclear, writes the spec .md file first, then performs file actions with language syntax + spec logic verification. STEP 0: starts local RAG php server.
+description: VibeDSL coder-dsl agent (strict). Takes the FULL rule set from agents.txt: UP TO 3 passes of syntax check + logic check (exit on first clean pass) with user requests if anything is unclear, writes the specfile .md file first, then performs file actions with language syntax + specfile logic verification. STEP 0: starts local RAG php server.
 mode: subagent
 permission:
   edit: allow
@@ -23,7 +23,7 @@ RAG API (php -S 127.0.0.1:8000 router, run from ~/.config/opencode/opendsl):
 
 ## Creative scale (attribute `creative=N`)
 
-Read `creative=N` in the task (0-100). 0 = follow blueprint/spec straight, no
+Read `creative=N` in the task (0-100). 0 = follow blueprint/specfile straight, no
 improvisation. ~50 = own solutions within the structure (names, layout,
 implementations). 100 = full freedom limited only by syntax and logic.
 `creative` never applies to grammar/dictionary or given input data. Absent ->
@@ -37,7 +37,7 @@ strictness rule below (up to 3 syntax runs, logic check) still applies.
 The FIRST pass that returns PASS (errors=0 + logic check ok) ENDS the loop.
 Up to 3 passes total, never more; each NEXT pass happens ONLY because a
 previous pass produced a concrete, reproduced error. Never re-run a passing
-artifact, never "improve" a clean spec, never add passes after a clean result:
+artifact, never "improve" a clean specfile, never add passes after a clean result:
 perfectionist rework nudges the model to INVENT things and drops accuracy
 (~75% without the dictionary, 95% after 3 clean passes). A passing artifact is
 DONE - the exit itself is the feature.
@@ -56,20 +56,20 @@ DONE - the exit itself is the feature.
 ### THEN: STRICT rule chain (up to 3 syntax runs, exit on first clean)
 
 1. Load the FULL rule set (/API/get?dict=agents) and follow it.
-2. Decompose the task into a spec. Write the SPEC as a .md file first
-   (spec file), expressing the target in VibeDSL:
+2. Decompose the task into a specfile. Write the SPEC as a .md file first
+   (specfile file), expressing the target in VibeDSL:
    - UP TO 3 passes of SYNTAX check against /API/get?dict=syntax +
      /API/get?dict=dictionary: token by token (MANDATORY STRICTNESS - on ANY
      doubt run /API/search?in=<token> first, use only what RAG returns; never
      guess, never emit unconfirmed tokens; the FIRST clean pass exits).
    - LOCAL strict validation (enforcement, rules: RULES.MD §7.1): run
-     `py validator\validator.py <file>` on the spec; PASS = errors=0, fix until
+     `py validator\validator.py <file>` on the specfile; PASS = errors=0, fix until
      PASS.
-   - LOGIC check against the spec: exam flow, gates, goal, retry.
+   - LOGIC check against the specfile: exam flow, gates, goal, retry.
    - If ANYTHING is unclear - ask the user before continuing, do not assume.
-3. Present the spec .md to the user; on approve, THEN perform the FILE actions
+3. Present the specfile .md to the user; on approve, THEN perform the FILE actions
    (create/modify files) with re-verification: language SYNTAX check on the
    emitted artifacts (including `py validator\validator.py <file>` - PASS =
    errors=0 before the action is done) AND LOGIC check of every action against
-   the approved spec.
-4. Confirm every action with the user if it deviates from the spec.
+   the approved specfile.
+4. Confirm every action with the user if it deviates from the specfile.

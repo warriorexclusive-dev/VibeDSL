@@ -2,23 +2,23 @@ start language dictionary
 
 type:action
 
-*-> action, act - action: act="desc" declares any function - standalone abstract or entity function (two canonical forms)
-    -> exm: abstract "open_file" -> act="open file by name"   // declares function: open_file
+*-> action      - action: action="desc" declares any function - standalone abstract or entity function (two canonical forms)
+    -> exm: abstract "open_file" -> action="open file by name"   // declares function: open_file
     -> exm: open_file("main.txt")                             // usage
-    -> exm: file:act="grant access to user":name="access"    // declares entity function: file:access
+    -> exm: file:action="grant access to user":name="access"    // declares entity function: file:access
     -> exm: file:access(context:user)                         // usage
-    -> exm: act==run
+    -> exm: action==run
 
 *-> add          - logical adding entity action 
     -> exm: xml files add to prj
 
 *-> anchor       - forced anchor: an explicit action-level anchor, the node is pinned by hand; this is the compiled glyph form of the textual operator &->
 
-*-> answer, answ - answer to user.
+*-> answer - answer to user.
     -> exm:answ:->;usr
     -> exm:answ:lng=usr:lang
 
-*-> approve, apr - approve
+*-> approve - approve
     -> exm:apr:true
 
 *-> ask          - request; RESOLUTION ORDER: first ask the base (dictionary/syntax/protos/blueprints via RAG search/get) - if the answer is already recorded, do NOT ask again; only if the base has no answer, ask the human; never guess or invent - this frees the human from repeated questions; the constructor is a contract between human and AI, and a human can programme in this language too
@@ -34,14 +34,14 @@ type:action
 *-> call         - entry / function call
     -> exm: call:fn()
 
-*-> change,ch           - change
-    -> exm:ch:->file:name
+*-> change - change
+    -> exm:change:->file:name
 
 *-> close        - generic canonical act function on any entity: close(<entity>) - finalizes the entity and saves its bound node state, declared once via act, works for every entity
     -> exm: close(file name="out.xml")
 
 *-> codrev           - code anallize, review without editing, testing
-    -> exm:codrev:->src
+    -> exm:codrev:->source
 
 *-> compil        - compilation, compile
     -> exm:compil:->code
@@ -49,21 +49,21 @@ type:action
 *-> compress      - compress action of any entity
     -> exm: compress(llm:token)
 
-*-> create, crt - action create: create a file, api, class, function etc. (create action; pairs with its target: crt fun, crt file, crt api)
-    -> exm:crt fun name="load"
-    -> exm:crt [code, data, file]
-    -> exm:create fun name="load"
+*-> create - action create: create a file, api, class, function etc. (create action; pairs with its target: crt fun, crt file, crt api)
+    -> exm:create:fun:name="load"
+    -> exm:create [code, data, file]
+    -> exm:create:fun:name="load"
 
 *-> delay   - delay or period
     -> exm:delay(500) - delay 500 times
     -> exm:delay:2s   - delay 2 seconds
     -> exm:delay()    - infinite delay
 
-*-> delete, remove, del, rm - remove
-    -> exm:rm:->file name="main"
+*-> delete, remove - remove
+    -> exm:rm:->file:name="main"
 
 *-> deploy           - code compilation or deployment
-    -> exm:deploy:->act="deploy to server"
+    -> exm:deploy:->action="deploy to server"
 
 *-> exam, scan - scaning, examination
     -> exm:scan:->file
@@ -72,24 +72,20 @@ type:action
     -> exm:run:->exec
 
 *-> extract      - extract action
-    -> exm:fun crt (file name="out.xml" alias xml ): -> open(file name="project.exe"):alias source:->extract(source *? data:type=dom to xml)
+    -> exm:fun create (file name="out.xml" alias xml ): -> open(file name="project.exe"):alias source:->extract(source *? data:type=dom to xml)
 
-*-> function, func, fun - function: an action when it is a rule or an agent; an API entry point when it is a spec or architecture; often used with the par key (parameter) and ret (return), the logic is preferably written through the language logical operators
-    -> exm:fun type=rule scop=root
-    -> exm:fun name="load" par="val1"
-    -> exm:func name="load"
-    -> exm:function name="load"
-    -> exm:crt fun name="load" par="val1"
-    -> exm:crt fun type="web api": par "in" type="text" desc="vibedsl request" :-> srch(in) type="RAG":-> ret
+*-> function - function: an action when it is a rule or an agent; an API entry point when it is a spec or architecture; often used with the par key (parameter) and ret (return), the logic is preferably written through the language logical operators
+    -> exm:fun:type=rule:scop=root
+    -> exm:fun:name="load":par="val1"
+    -> exm:func:name="load"
+    -> exm:function:name="load"
+    -> exm:create:fun:name="load":par="val1"
+    -> exm:create:fun:type="web api": par "in":type="text":desc="vibedsl request" :-> srch(in) type="RAG":-> return
 
 *-> get          - action to obtain any entity 
-    -> exm: get:data:src
+    -> exm: get:data:source
 
-*-> include, import, incld - additional, include (logical/physical inclusion)
-    -> exm:incld:->;header
-    -> exm:import:module name="kernel"
-
-*-> insert,       - logical action insert of any entity
+*-> insert      - logical action insert of any entity
     -> exm:insrt:row
     -> exm:if(dir:empty):insert(file)
 
@@ -97,11 +93,11 @@ type:action
     -> exm:load(view name="main")
     -> exm:event:onCreate -> load(view name="main")
 
-*-> make, mk           - make
+*-> make - make
     -> exm:mk:->file
 
 *-> modify       - logic modify: modify/alter the logic (not a class/module - those are module/class)
-    -> exm:mod spec:logic=spec:logic+rule
+    -> exm:mod specfile:logic=specfile:logic+rule
 
 *-> move         - logical move action
     -> exm:db1:move(table)->db2
@@ -128,20 +124,20 @@ type:action
 *-> replaced        - logical replaced of any entity
     -> exm:dpd:old
 
-*-> request, req - action request from llm to user
-    -> exm:req:post
+*-> request - action request from llm to user
+    -> exm:request:post
 
 *-> retry        - action retry
     -> exm:retry(5)
 
-*-> return, ret - return any object action
-    -> exm:ret:val
-    -> exm:return val
+*-> return - return any object action
+    -> exm:return:val
+    -> exm:return:val
 
 *-> revert, rollb - revert, return previos state, rollback
     -> exm:rollb:state
 
-*-> review, rvw,    - review
+*-> review      - review
     -> exm:rvw:->;code
 
 *-> save         - generic canonical act function on any entity: save(<entity>) - persists the entity to its bound node, declared once via act, works for every entity
@@ -153,8 +149,8 @@ type:action
     -> exm:scrsht:path
 
 *-> select       - select action, syntax example sel[val1,val2] after ->swt if more way or ->abstract{} if abstract, example sel[val1,val2]->fun data=sel:ret , sel[val1,val2]->swt case val1: data1=val1 bk
-    -> exm:sel[v1,v2]->swt
-    -> exm:fun par name="a" type="list" -> list:sel[n]:fun ->(item:date > item:date)->ret
+    -> exm:sel[v1,v2]->switch
+    -> exm:fun par:name="a":type="list" -> list:sel[n]:fun ->(item:date > item:date)->return
 
 *-> set          - setter action of any entity
     -> exm: table:xml event:onOpen->set(data)
@@ -180,13 +176,13 @@ type:action
 *-> trim         - action: trim/strip characters from a string or collection (default whitespace)
     -> exm:name=trim("  hello  ")
 
-*-> use          - logical include command: apply/engage an object, prototype or include; the logical side of include (include is the physical lib/item, use is the logical command that engages it)
+*-> use          - logical import command: apply/engage an object, prototype or import; the logical side of import (import is the physical lib/item, use is the logical command that engages it)
     -> exm:use(agent name="dsl-coder")
     -> exm:use(VibeDSL:proto[if,goal,fail])
 
-*-> variant, varn - action reduce variants
-    -> exm: fun type=rule -> if(event(?))-> show(?:variant(5))
-    -> exm: fun type=rule -> if(event(?))-> show(?:variant(5 with ask))
+*-> variant - action reduce variants
+    -> exm: fun:type=rule -> if(event(?))-> show(?:variant(5))
+    -> exm: fun:type=rule -> if(event(?))-> show(?:variant(5 with ask))
 
-*-> write, wrt - write action
-    -> exm:wrt:goal
+*-> write - write action
+    -> exm:write:goal

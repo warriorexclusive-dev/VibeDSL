@@ -33,9 +33,9 @@
                     →{views on|off}
                         →{left panel}
                         →{right panel}
-            →{left panel}:⁛="stretch":″=[▾=5%,▴=25%,≡=15%]:{pinned window}
+            →{left panel}:⁛="stretch":″=[⌊=5%,⌋=25%,≡=15%]:{pinned window}
                 →{project files}
-            →{right panel}:⁛="stretch":″=[▾=5%,▴=25%,≡=15%]:{pinned window}
+            →{right panel}:⁛="stretch":″=[⌊=5%,⌋=25%,≡=15%]:{pinned window}
                 →✧:⊡=this:•:†:50%
                 →⇿:⊡=
             →{tab bar}:◧=top:✶:

@@ -1,0 +1,114 @@
+<?php
+declare(strict_types=1);
+mb_internal_encoding('UTF-8');
+
+/**
+ * VibeDSL API - compile
+ * GET ?file=<path>            path of the spec, relative to the repo root
+ * GET ?file=<path>&raw=1      plain text/plain instead of html
+ * POST file=<path>            same, for a spec that is too long for a query string
+ *
+ * arc=cmp, logc=cmp, scope=compiler/compile.py over the whole repo
+ * ret: ONE compiled file with three blocks -
+ *        -----RULES-----  the base task in English + the glyph reference
+ *        -----DATA-----   every abstract / proto / blueprint that use() pulled in
+ *        -----CODE-----   the specification, words and operators as glyphs
+ *      as text/html (or text/plain with raw=1).
+ *
+ * Why an endpoint and not only a CLI: the compiler was an orphan script - no
+ * route, no IDE button, nothing in the docs - so no project file could reach
+ * the symbol layer. This is that path. The PHP side only locates the file and
+ * shells out; the compiler itself is compiler/compile.py, unchanged, so there
+ * is one implementation and not two.
+ *
+ * The compiler opens compiler/*.txt and DATA/*.txt read-only. Nothing under
+ * compiler/ or DATA/ is written by a compile, here or from the CLI.
+ */
+
+$base = dirname(__DIR__);
+require $base . '/API/lib';
+
+$file = trim((string)($_POST['file'] ?? $_GET['file'] ?? ''));
+$raw  = isset($_GET['raw']) && $_GET['raw'] !== '0';
+
+header('Content-Type: ' . ($raw ? 'text/plain' : 'text/html') . '; charset=utf-8');
+
+if ($file === '') {
+    echo $raw
+        ? "rsn: file required - GET ?file=<path relative to the repo root>\n"
+        : vibedslPage('rsn: file required - GET ?file=&lt;path relative to the repo root&gt;', 'VibeDSL compile');
+    exit;
+}
+
+$path = realpath($base . DIRECTORY_SEPARATOR . ltrim(str_replace('\\', '/', $file), '/'));
+if ($path === false || !is_file($path)) {
+    http_response_code(404);
+    echo $raw
+        ? "[404] no such file: $file\n"
+        : vibedslPage(sprintf('[404] no such file: %s', htmlspecialchars($file, ENT_QUOTES)), 'VibeDSL compile');
+    exit;
+}
+if (strncmp($path, realpath($base) . DIRECTORY_SEPARATOR, strlen(realpath($base)) + 1) !== 0) {
+    http_response_code(403);
+    echo $raw
+        ? "[403] outside the repo: $file\n"
+        : vibedslPage(sprintf('[403] outside the repo: %s', htmlspecialchars($file, ENT_QUOTES)), 'VibeDSL compile');
+    exit;
+}
+if (!str_ends_with(strtolower($path), '.vibe')
+    && !str_ends_with(strtolower($path), '.vibedsl')
+    && !str_ends_with(strtolower($path), '.spec')) {
+    http_response_code(415);
+    echo $raw
+        ? "[415] not a spec: expected .vibe, .vibedsl or .spec\n"
+        : vibedslPage('[415] not a spec: expected .vibe, .vibedsl or .spec', 'VibeDSL compile');
+    exit;
+}
+
+$python = getenv('VIBEDSL_PYTHON') ?: (PHP_OS_FAMILY === 'Windows' ? 'py' : 'python3');
+$cmd = escapeshellarg($python) . ' -X utf8 ' . escapeshellarg($base . '/compiler/compile.py')
+    . ' ' . escapeshellarg($path);
+
+$descriptors = [1 => ['pipe', 'w'], 2 => ['pipe', 'w']];
+$proc = proc_open($cmd, $descriptors, $pipes, $base, null);
+if (!is_resource($proc)) {
+    http_response_code(500);
+    echo $raw ? "[500] cannot start the compiler\n" : vibedslPage('[500] cannot start the compiler', 'VibeDSL compile');
+    exit;
+}
+
+$out = stream_get_contents($pipes[1]);
+$err = stream_get_contents($pipes[2]);
+fclose($pipes[1]);
+fclose($pipes[2]);
+$code = proc_close($proc);
+
+$out = (string)$out;
+$reportAt = strpos($out, 'COMPILE REPORT');
+$compiled = $reportAt === false ? $out : substr($out, 0, $reportAt);
+$report   = $reportAt === false ? '' : substr($out, $reportAt);
+
+if ($raw) {
+    echo $compiled;
+    if ($report !== '') {
+        echo "\n" . $report;
+    }
+    if (trim((string)$err) !== '') {
+        echo "\n" . $err;
+    }
+    exit;
+}
+
+$body = vibedslToHtml(rtrim($compiled), 'VibeDSL compile: ' . $file);
+if ($report !== '') {
+    $body .= '<hr style="border-color:#555"><pre style="color:#9ad">'
+          . htmlspecialchars($report, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8') . '</pre>';
+}
+if (trim((string)$err) !== '') {
+    $body .= '<hr style="border-color:#555"><pre style="color:#d99">'
+          . htmlspecialchars((string)$err, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8') . '</pre>';
+}
+if ($code !== 0) {
+    http_response_code(500);
+}
+echo $body;

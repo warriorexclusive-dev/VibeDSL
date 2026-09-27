@@ -5,6 +5,7 @@ import os
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(HERE)
 DATA = os.path.join(ROOT, "DATA")
+COMPILER = os.path.join(ROOT, "compiler")
 
 
 def read(path):
@@ -19,6 +20,8 @@ if not demo:
     demo = 'crt(file name="out.xml")\n-> show(file name="out.xml")\n'
 
 payload = {
+    "header": read(os.path.join(COMPILER, "header.txt")),
+    "symbols": read(os.path.join(COMPILER, "symbols_map.txt")),
     "dict": read(os.path.join(DATA, "dictionary_sorted_by_type.txt")),
     "dictName": "dictionary_sorted_by_type.txt",
     "dictAction": read(os.path.join(DATA, "action.dict")),

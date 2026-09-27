@@ -6,25 +6,25 @@ type:abstracts
     -> exm: &-> abstract(act id="Etalon ->  get(obj) as ref")
 
 *-> as           - creates a variable/alias binding: expression + as + name makes the object available under that name
-    -> exm: crt file="action.dict" as file_action
+    -> exm: create:file="action.dict" as file_action
 
 *-> blueprint         - blueprint, base logical abstract pattern, Behavioral Model for Enforcement, Behavioral law to apply, Always true and serves as the instruction for use, unless explicitly stated or red
     -> exm:blueprint:behavior
 
-*-> prototype - constructor of any entity: builds a structured template with its declared actions and conditions; in a declaration proto(...) reads as prototype; use RAG to search the base prototype or use &-> to include a prototype in specs
+*-> prototype - constructor of any entity: builds a structured template with its declared actions and conditions; in a declaration proto(...) reads as prototype; use RAG to search the base prototype or use &-> to pull a prototype in specs
 type:behavior
 
 *-> &->          - forced anchor: textual spelling of the anchor glyph U+2022; the compiler emits U+2022 in its place; a line that starts with &-> is pinned to document-global scope
 
-*-> architecture, architect, arch, arc - architecture, example: func name="upload_photo" arc:coroutine; describes a function with the coroutine pattern
+*-> arc          - architecture, example: func name="upload_photo" arc:coroutine; describes a function with the coroutine pattern
     -> exm:arc:coroutine
 
-*-> behavior, bhvr     - logical mapping of behavior of any entity
-    -> exm: panel:location=up restriction=frame:size * 0.25 bhvr:stretch
+*-> behavior - logical mapping of behavior of any entity
+    -> exm: panel:location=up:restriction=frame:size * 0.25 bhvr:stretch
 
 *-> bhvoper    - behavior pattern operator
     -> exm: bhvoper:"stretch" alias stretch 
-            panel:location=up restriction=frame:size * 0.25 bhvr:stretch 
+            panel:location=up:restriction=frame:size * 0.25 bhvr:stretch 
     -> exm: bhvoper:"solid" alias solid 
             code:style:rule=code:style:rule+(solid);
 
@@ -32,32 +32,32 @@ type:behavior
     -> exm: prototype file:type = [xml,doc,txt]
             prototype file:type:name = [n]  it is add property to file, example usage: file:xml:"main.xml"
 
-*-> critical, crit - logical critical instruction, behavior pay special attention and more-check.
+*-> critical - logical critical instruction, behavior pay special attention and more-check.
     -> exm:crit:err
 
 *-> dry          - do not repeat yourself
     -> exm:dry:true
 
 *-> enter        - user input: enter key, confirm/select
-    -> exm:on enter->btn name="ok"
+    -> exm:on enter->btn:name="ok"
 
-*-> event, evt - event base logic operator
+*-> event - event base logic operator
     -> exm: evt:notify -> show()
     -> exm: event:onCreate -> load(view name="main")
 
-*-> factor,          - coefficient, factor, percentage need for logical syntax [min,max]
+*-> factor      - coefficient, factor, percentage need for logical sy
     -> exm: llm:skill:cretive = factor[0,100]:pan(20)
 
-*-> forbidden, fbd - Forbidden
+*-> forbidden - Forbidden
     -> exm:fbd:null
 
 *-> hstretch     - horizontal stretch behavior
     -> exm:panel bhvr:hstretch
 
-*-> isolate, isol - An entity isolated from external logic blocks does not accept higher-level logic as the primary source.
-    -> exm:crt prj name "example" type="exe" lang:c++
+*-> isolate - An entity isolated from external logic blocks does not accept higher-level logic as the primary source.
+    -> exm:create prj name "example":type="exe" lang:c++
              -> {any custom or DSL blocks}
-             -> crt lib type="dll" isol          Isolating the marker means that the context and logic of the parent program must not affect the module.
+             -> crt lib:type="dll" isol          Isolating the marker means that the context and logic of the parent program must not affect the module.
 
 *-> kbd, key     - keyboard key: physical/logical key identifier used by input events
     -> exm:on kpress:key="Enter"->run
@@ -96,15 +96,15 @@ type:behavior
 *-> scrtap       - user input: screen tap event
     -> exm:on scrtap:x=10,y=20
 
-*-> skill, skl - logical representation of a skill 
+*-> skill - logical representation of a skill
     -> exm:skl:code="middle"
 
 *-> smbls         - predict array of symbols
     -> exm:smbls:["a","b"]       instruction of use only symbols a and b, need to direct syntax rule in all lang
 
 *-> swap         - UI logical behavior: swipe / page turn between views, default direction left to right unless otherwise specified
-    -> exm:on swap:dir="ltr" -> pag name="next"
-    -> exm:swap:dir="rtl" -> pag name="prev"
+    -> exm:on swap:directory="ltr" -> pag:name="next"
+    -> exm:swap:directory="rtl" -> pag:name="prev"
 
 *-> vstretch     - vertical stretch behavior
     -> exm:panel bhvr:vstretch

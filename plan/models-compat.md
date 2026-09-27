@@ -17,7 +17,7 @@ transfer between models.
   pass, degrading a passing artifact.
 
 ## Protocol that follows (exit-on-clean, v0.1.9)
-- First clean pass (errors=0 + all exam gates) ENDS the loop -> `wrt:goal` -> stop.
+- First clean pass (errors=0 + all exam gates) ENDS the loop -> `write:goal` -> stop.
 - Max 3 passes. Next pass only on a concrete reproduced error.
 - Never re-run/re-polish a passing artifact.
 - Rules live in `RULES.MD` §6 + agents (`coder-dsl.md`, `dsl-plan.md`).
