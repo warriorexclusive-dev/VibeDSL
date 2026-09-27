@@ -2,11 +2,8 @@ start language dictionary
 
 type:logical operators
 
-*-> !, not, revers    - reverse logic, example if (!a==a)->ret is NO, not condition
-    -> exm:if (!a==a)->ret
-
 *-> !           - expression of revers logic like not 
-    -> exm:x!:->halt
+    -> exm:x!:->out
 
 *-> ()           - logical action of object 
     -> exm:(do)
@@ -30,6 +27,9 @@ type:logical operators
 
 *-> :            - true/false limiter and check; logical exist with Y/N, return Y/true if property exist or expression is valid, return N/false example lang:c++: wrt; null safe WITH ask - on N the logic halts and ASKS the human (see ask: when the check does not converge, the AI must ask, never guess)
     -> exm:lang:c++:
+
+*-> :point:, point - example of a goto label; usage goto: :point:
+    -> exm:goto::point:
 
 *-> ;            - end of current function/layer/context do not use in prototypes or rules it is a marker of end context and clean token memory
     exm: 
@@ -70,7 +70,11 @@ type:logical operators
 *-> \*            - logic filter operator: exclusion\*filtering by condition when applied inside brackets or quotes, example crt\*show - create without showing
     -> exm:crt\show
 
-*-> brk, break   - break
+*-> and, &&, || - logical and
+    -> exm:a==b || c==d
+    -> exm:a==b && c==d
+
+*-> break, brk - break
     -> exm:switch(a) 
              case 1: 
              break
@@ -78,7 +82,7 @@ type:logical operators
 *-> case         - case
     -> exm:case val1: break
 
-*-> cch, catch   - catch block marker, operator type action
+*-> catch, cch - catch block marker, operator type action
     -> exm:cch:err
     -> exm:catch err
 
@@ -97,7 +101,7 @@ type:logical operators
 *-> exist          - exist
     -> exm:exst:file
 
-*-> fin, finally   - finally block marker, operator type action
+*-> finally, fin - finally block marker, operator type action
     -> exm: fin(close)
 
 *-> for          - for example for(val1<0,incr(1))->data1=val1 -> for action
@@ -112,6 +116,9 @@ type:logical operators
 *-> incr         - increment built-in: incr(val) = value + 1 (counter step in for loops, e.g. i=incr(1))
     -> exm:for(i<10,incr(1))
 
+*-> instanceof, present, belong - present, belong, instanceof, logical membership check condition 
+    -> exm: file instanceof xml:->save()
+
 *-> is           - instanceof
     -> exm:obj is type
 
@@ -120,36 +127,37 @@ type:logical operators
 
 end language dictionary
 
+*-> or, | - logical or
+    -> exm:a==b | a==c
+
 *-> part         - logical partition operator, applies to any entity
 
-*-> point, :point: - example of a goto label; usage goto: :point:
-    -> exm:goto::point:
-
-*-> present , instanceof, belong - present, belong, instanceof, logical membership check condition 
-    -> exm: file instanceof xml:->save()
+*-> revers, not, ! - reverse logic, example if (!a==a)->ret is NO, not condition
+    -> exm:if (!a==a)->ret
 
 *-> stage        - separation with progress, applies to any entity
     -> exm:stage 2: <- part 1
 
-*-> switch         - switch case action
+*-> switch, swt - switch: branch selection by value, paired with case
     -> exm:switch:case val1: break
-
-*-> switch, swt  - switch: branch selection by value, paired with case
     -> exm: :swt:type:case "action":
+
+*-> ternary      - ternary operator, if-then-else expression
+    -> exm:":":: val ? a : b
 
 *-> try          - try block marker, operator type action
     -> exm:try:->logic
 
-*-> unk, none, unknown - unknown, unknown state of required param. use this if param need entropy logic, or abstract  
+*-> unknown, none, unk - unknown, unknown state of required param. use this if param need entropy logic, or abstract  
     -> exm: data to file:name:none:map to mem
-
-*-> var, variable - variable of temporary logical entity
 
 *-> var          - variable, loop/local variable declaration
     -> exm:for(var i=0;i<5;i=incr(1))
 
 
 end language dictionary
+
+*-> variable, var - variable of temporary logical entity
 
 *-> when         - when: single conditional trigger, fires once when the condition becomes true
     -> exm: when(file:state:"opened"):close(file)
@@ -159,13 +167,6 @@ end language dictionary
 
 *-> {            - start custom logic description
     -> exm:{do x}
-
-*-> |, or         - logical or
-    -> exm:a==b | a==c
-
-*-> ||, and, &&  - logical and
-    -> exm:a==b || c==d
-    -> exm:a==b && c==d
 
 *-> }            - end custom logic description
     -> exm:{...}

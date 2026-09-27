@@ -153,6 +153,21 @@ for fn in ("dictionary_sorted_by_type.txt", "syntax.txt"):
     KNOWN |= entry_aliases(os.path.join(DATA, fn))
 KNOWN |= {"stage", "scop", "srch", "mix"}
 
+# Words that are real functions (type:action). The `act=<verb>(...)` call slot
+# must name one of these - being merely "known" is not enough, because `act=`
+# declares a function, not a mapping, a field or an operator.
+ACTIONS = set()
+_cur = None
+for _ln in io.open(os.path.join(DATA, "dictionary_sorted_by_type.txt"), encoding="utf-8").read().splitlines():
+    if _ln.startswith("type:"):
+        _cur = _ln[5:].strip().lower()
+        continue
+    if _cur == "action" and _ln.startswith("*-> "):
+        for _n in _ln[4:].split(" - ", 1)[0].split(","):
+            _n = _n.strip().lower()
+            if _n:
+                ACTIONS.add(_n)
+
 ENTRIES = None
 USE_CALL = re.compile(r"\buse\(([^)]*)\)")
 
@@ -227,6 +242,7 @@ ABSTRACT_TYPES = ("function", "prop", "item")
 TYPE_SYMS = {}
 USE_REACH = set()
 DOC_SYMS = set()
+RE_ACT_CALL = re.compile(r"\bact(?:ion)?\s*=\s*([A-Za-z_]\w*)\s*\(")
 STD_FIELDS = {"name", "id", "desc", "value", "key", "src", "par", "text", "path", "data", "type"}
 
 
@@ -467,6 +483,12 @@ def check(node):
         if is_visible(node, w):
             continue
         OUT.append((node.no, "E", "line %d: unknown command word '%s' not declared in visible scope" % (node.no, w)))
+
+    for _m in RE_ACT_CALL.finditer(re.sub(r'"[^"]*"', '""', text)):
+        _v = _m.group(1).lower()
+        if _v not in ACTIONS:
+            OUT.append((node.no, "E", "line %d: act= verb '%s' is not a declared type:action word"
+                        % (node.no, _v)))
 
     check_pins(node, scan_text)
 

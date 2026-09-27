@@ -6,8 +6,10 @@ mb_internal_encoding('UTF-8');
  * VibeDSL API - search
  * GET ?in=<term>
  * arc=RAG, logc=srch
- * source=[DATA/dictionary_sorted_by_type.txt, DATA/syntax.txt, DATA/agents.txt]
+ * source=[DATA/dictionary_sorted_by_type.txt, DATA/syntax.txt, DATA/agents.txt, DATA/symbols_map.txt]
  * ret text blob: objects split by marker "*->", line breaks \r\n -> <br>, tab indentation preserved
+ * note: symbols_map.txt carries "*->" MID-LINE, so it is split on "^U+" instead;
+ *       without that the whole 20 KB table would be returned as one object.
  */
 
 $base = dirname(__DIR__);
@@ -33,7 +35,10 @@ foreach ($sources as $file) {
     }
 
     $text = (string)file_get_contents($file);
-    $objects = preg_split('/(?m)(?=^[ \t]*\*->)/', $text);
+    $isSymbolMap = str_ends_with($file, 'symbols_map.txt');
+    $objects = $isSymbolMap
+        ? preg_split('/(?m)(?=^U\+)/', $text)
+        : preg_split('/(?m)(?=^[ \t]*\*->)/', $text);
 
     foreach ($objects as $obj) {
         $obj = preg_replace('/^\s*\r?\n+/', '', $obj);

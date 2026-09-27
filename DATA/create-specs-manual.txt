@@ -12,12 +12,12 @@ VibeDSL create-specs-manual
 1. Проза в act="..." запрещена. Руну команды мапим структурой:
    item name="router" behavior="root index" event="http_request"->act=select(path)<>:
    -> act=open(file)
-   -> act=halt("http 404")
+   -> if(action==error):out:"HTTP 404"
    - item: объект-сущность, которую обрабатываем.
    - event/behavior: контекст события и поведения (объявленные токены словаря).
-   - act=cmd(...): реальный action со скобками (select, open, halt, show, ret, save...).
+   - act=cmd(...): реальный action со скобками (select, open, show, ret, save...).
    - <>:: ветка; ниже - варианты, каждый начинает с "->".
-   - Значения-контекст - в кавычках: halt("http 404"), а не halt(err 404).
+   - Значения-контекст - в кавычках: out:"HTTP 404", а не out:err 404.
 
 2. Абстрактные пропсы-ручки объявляются через abstract prop, крепятся к объекту
    через -> и двоеточие; конкретика - через exm: внутри того же frm:
@@ -62,12 +62,12 @@ VibeDSL create-specs-manual
 1. act="..." 中禁止散文。命令以结构映射：
    item name="router" behavior="root index" event="http_request"->act=select(path)<>:
    -> act=open(file)
-   -> act=halt("http 404")
+   -> if(action==error):out:"HTTP 404"
    - item：处理的实体对象。
    - event/behavior：事件与行为上下文（词典已声明的记号）。
-   - act=cmd(...)：带括号的真实动作（select, open, halt, show, ret, save…）。
+   - act=cmd(...)：带括号的真实动作（select, open, show, ret, save…）。
    - <>:：分支；下方为变体，每行以 "->" 开头。
-   - 上下文值加引号：halt("http 404")，而非 halt(err 404)。
+   - 上下文值加引号：out("http 404")，而非 out:err 404。
 
 2. 抽象属性用 abstract prop 声明，经 -> 与冒号挂到对象上；具体值用 exm:，
    且位于同一 frm 内：
@@ -108,12 +108,12 @@ LANGUE: FR
 1. Pas de prose dans act="...". La règle de commande se mappe par la structure :
    item name="router" behavior="root index" event="http_request"->act=select(path)<>:
    -> act=open(file)
-   -> act=halt("http 404")
+   -> if(action==error):out:"HTTP 404"
    - item : entité objet traitée.
    - event/behavior : contexte événement/comportement (tokens déclarés du dico).
-   - act=cmd(...) : vraie action avec parenthèses (select, open, halt, show, ret, save...).
+   - act=cmd(...) : vraie action avec parenthèses (select, open, show, ret, save...).
    - <>: : branche ; en dessous, variantes commençant chacune par "->".
-   - Valeurs de contexte entre guillemets : halt("http 404"), pas halt(err 404).
+   - Valeurs de contexte entre guillemets : out:"HTTP 404", pas out:err 404.
 
 2. Les props abstraits se déclarent via abstract prop, se rattachent à l'objet par
    -> et le deux-points ; le concret via exm:, dans le même frm :
@@ -142,12 +142,12 @@ SPRACHE: DE
 1. Keine Prosa in act="...". Die Befehl-Rune wird strukturell gemappt:
    item name="router" behavior="root index" event="http_request"->act=select(path)<>:
    -> act=open(file)
-   -> act=halt("http 404")
+   -> if(action==error):out:"HTTP 404"
    - item: verarbeitete Entität.
    - event/behavior: Ereignis-/Verhaltenskontext (deklarierte Wörterbuch-Tokens).
-   - act=cmd(...): echtes Action mit Klammern (select, open, halt, show, ret, save...).
+   - act=cmd(...): echtes Action mit Klammern (select, open, show, ret, save...).
    - <>:: Verzweigung; darunter Varianten, jede beginnt mit "->".
-   - Kontextwerte in Anführungszeichen: halt("http 404"), nicht halt(err 404).
+   - Kontextwerte in Anführungszeichen: out:"HTTP 404", nicht out:err 404.
 
 2. Abstrakte Props über abstract prop deklarieren, per -> und Doppelpunkt an das
    Objekt binden; Konkretes über exm:, im selben frm:
@@ -177,12 +177,12 @@ LANGUAGE: EN
 1. No prose in act="...". Map the command run structurally:
    item name="router" behavior="root index" event="http_request"->act=select(path)<>:
    -> act=open(file)
-   -> act=halt("http 404")
+   -> if(action==error):out:"HTTP 404"
    - item: the entity being handled.
    - event/behavior: event/behavior context (declared dictionary tokens).
-   - act=cmd(...): a real action with parens (select, open, halt, show, ret, save...).
+   - act=cmd(...): a real action with parens (select, open, show, ret, save...).
    - <>:: branch; variant lines below, each starting with "->".
-   - Context values are quoted: halt("http 404"), not halt(err 404).
+   - Context values are quoted: out:"HTTP 404", not out:err 404.
 
 2. Declare abstract props via abstract prop, bind them to the object with ->
    and a colon; concrete values via exm:, inside the same frm:
@@ -269,7 +269,7 @@ RU ПОСТРОЕНИЕ СПЕКИ (2026-09-25, выведено на ide-spec.v
   контекст условий уже описан в behavior= или act= атрибуте и в кавычках.
 - id абстракта должен совпадать с frm= именем части, где живёт (self-bind):
   abstract prop id="draft" -> frm:"draft" - тогда "draft" видно по ":".
-- Значения context - в кавычках: halt("http 404"). Команды-глаголы - в
+- Значения context - в кавычках: out:"HTTP 404". Команды-глаголы - в
   скобках после act=: act=open(file), act=show(verdict), act=ret(name...).
 - Каждая часть кончается -> show(имя_части), где имя - тот же self-абстракт.
 
@@ -324,7 +324,7 @@ EN SPEC STRUCTURE (2026-09-25, derived on ide-spec.vibe):
   condition context is already in behavior= / act= attribute and in quotes.
 - The abstract id must match the part's frm= name (self-bind):
   abstract prop id="draft" -> frm:"draft" - then "draft" resolves by ":".
-- Context values are quoted: halt("http 404"). Command verbs go in parens
+- Context values are quoted: out:"HTTP 404". Command verbs go in parens
   after act=: act=open(file), act=show(verdict), act=ret(name...).
 - Each part ends with -> show(part_name), using the same self-abstract name.
 
@@ -598,3 +598,67 @@ VALIDATOR REWORK 2026-09-25 (EN): the language rules are now enforced
 объявленном объекте - мягкое W, не ошибка; вердикт PASS при warnings>0).
 Оба движка (validator.py + ide/validator.js) синхронны; parity ALL CASES
 PASS; ide-spec.vibe PASS (errors=0); {} = 0.
+
+2026-09-25: ЗЕРКАЛО IDE_eng.spec + ЗАМЕР KV ПОСЛЕ ЗАГРУЗКИ (вторая запись,
+добавление в конец по правилу living manual). Создана зеркальная спека
+plan/IDE_eng.spec - чисто английские формулировки в payload-строках при
+идентичной структуре: 34 &-> abstract prop, 57 item:name, 14 frm:name,
+23 командных слова, use(agent:name="coder") + use(agent:name="dsl-plan") -
+всё и по составу, и по порядку совпадает с план/ide-spec.vibe; 171 строка
+в кавычках общая, 57/58 перефразированы (это и есть вся дивергенция -
+только формулировки, значения-данные темы/размеры/ключи совпадают). В ОБЕ
+спеки добавлена part 13 "deliver" с руной доставки: item:name="handoff"
+event="on_deliver"->act=crt:path"/example/IDE"<>: -> act=save("IDE.vibe",
+"IDE_eng.spec") / act=show("check KV cache size") / act=crt:file
+("README.md") / act=save(). Исходники лежат в example/IDE/{IDE.vibe,
+IDE_eng.spec, README.md}. Обе спеки: PASS (errors=0); {} = 0.
+- МЕТОДОЛОГИЯ KV (по замечанию пользователя): размер KV-кэша меряется
+  ПОСЛЕ ЗАГРУЗКИ - как объём контекста, реально попадающего в кэш
+  (токены текста), а НЕ подсчётом словарных токенов языка (якорей/
+  командных слов). Якоря - это мера точности/структуры, а не KV.
+- Загружаемый контекст (вариант): словарь + syntax + abstracts +
+  action/mapping/operators.dict + agents.txt + protos.txt + blueprints.txt
+  (база из RAG-зеркала, идентична обоим вариантам) + сама спека.
+- Цифры после загрузки (токенизатор эвристический: слова ceil(len/4),
+  одиночные символы по 1): база 87759 байт ~ 28947 токенов; мастер
+  12261 байт (~4752 ток) -> после загрузки 100020 байт ~ 33699 ток;
+  зеркало 12688 байт (~4861 ток) -> 100447 байт ~ 33808 ток. Дельта
+  зеркала +427 байт / +109 токенов (+0.32% контекста) - это только
+  развёрнутые английские формулировки в кавычках.
+
+MIRROR IDE_eng.spec + KV MEASURED AFTER LOAD (2026-09-25, second append).
+A mirror spec plan/IDE_eng.spec was written: pure-English wording inside
+quoted payloads with an identical skeleton - 34 &-> abstract prop, 57
+item:name, 14 frm:name, 23 command words, use(agent:name="coder") +
+use(agent:name="dsl-plan") all match master spec by content and by order;
+171 quoted strings shared, 57/58 reworded - the whole divergence is wording
+only (data values: theme colors, sizes, key lists are equal). Part 13
+"deliver" (handoff rune) was added to BOTH specs:
+item:name="handoff" event="on_deliver"->act=crt:path"/example/IDE"<>:
+-> act=save("IDE.vibe", "IDE_eng.spec") / act=show("check KV cache size") /
+act=crt:file("README.md") / act=save().
+Deliverables live in example/IDE/{IDE.vibe, IDE_eng.spec, README.md}.
+Both specs: PASS (errors=0); {} = 0.
+- KV METHODOLOGY (per user correction): KV cache size is measured AFTER
+  LOAD - as the size of the context actually ingested (text tokens), NOT as
+  a count of language-vocabulary tokens (anchors/command words). Anchors are
+  an accuracy/structure measure, not a KV measure.
+- Load scope (per variant): dictionary + syntax + abstracts +
+  action/mapping/operators.dict + agents.txt + protos.txt + blueprints.txt
+  (the RAG-mirror base, identical for both variants) + the spec itself.
+- After-load numbers (heuristic tokenizer: word runs ceil(len/4), single
+  symbols 1 token): base 87759 bytes ~ 28947 tokens; master 12261 bytes
+  (~4752 tok) -> after load 100020 bytes ~ 33699 tok; mirror 12688 bytes
+  (~4861 tok) -> 100447 bytes ~ 33808 tok. Mirror delta +427 bytes /
+  +109 tokens (+0.32% of context) - entirely the expanded quoted wording.
+
+ХРОНИКА (CHANGELOG) - ДОБАВЛЕНО
+-------------------------------
+2026-09-25: создана зеркальная спека plan/IDE_eng.spec (чистый английский,
+структура идентична мастеру 1:1); в обе спеки добавлена part 13 "deliver"
+(руна handoff с crt:path"/example/IDE"); исходники и отчёт - в
+example/IDE/. Замер KV скорректирован по замечанию пользователя: KV-кэш
+меряется ПОСЛЕ ЗАГРУЗКИ контекста (объём текста в токенах), а не в чистых
+токенах языка. Цифры после загрузки: база ~28947 токенов; мастер ~33699,
+зеркало ~33808 (дельта +109 токенов = +0.32% контекста). Обе спеки PASS
+(errors=0); {} = 0.

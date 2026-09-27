@@ -1,0 +1,110 @@
+<?php
+declare(strict_types=1);
+mb_internal_encoding('UTF-8');
+
+/**
+ * VibeDSL API - symbol  (the lower layer)
+ * GET ?glyph=<codepoints|glyph>   e.g. ?glyph=2192   or   ?glyph=→
+ * GET ?word=<name>                e.g. ?word=anchor  (case-insensitive, alias match)
+ *
+ * arc=RAG, logc=srch, scope=DATA/symbols_map.txt only
+ * par name="glyph" as in   par name="word" as in
+ * ret html: the matching table lines, one block per hit
+ *
+ * Why a separate endpoint: the generic /API/search splits objects on a line-start
+ * "*->" marker. symbols_map.txt carries "*->" MID-LINE (after the glyph), so the
+ * generic splitter would return the whole 20 KB file for any hit. This endpoint
+ * parses the real line format  U+XXXX  glyph  *-> word  - description
+ * and answers in both directions, which is what a compiler needs.
+ */
+
+$base = dirname(__DIR__);
+require $base . '/API/lib';
+$map = vibedslSources($base);
+
+$file = $map['symbols_map'] ?? null;
+
+header('Content-Type: text/html; charset=utf-8');
+
+if ($file === null || !is_file($file)) {
+    http_response_code(404);
+    echo vibedslPage('[404] no source for "symbols_map"', 'VibeDSL symbol');
+    exit;
+}
+
+$glyphQ = trim((string)($_GET['glyph'] ?? ''));
+$wordQ  = trim((string)($_GET['word']  ?? ''));
+
+if ($glyphQ === '' && $wordQ === '') {
+    echo vibedslPage(
+        'rsn: term required - GET ?glyph=&lt;codepoints|glyph&gt; or ?word=&lt;name&gt;',
+        'VibeDSL symbol'
+    );
+    exit;
+}
+
+$RX = '/^U\+([0-9A-Fa-f]{4,6}(?:\+[0-9A-Fa-f]{4,6})*)\s+(\S+)\s+\*->\s*(.*)$/';
+
+$hits = [];
+
+foreach (file($file, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES) as $line) {
+    $line = trim($line);
+    if ($line === '' || str_starts_with($line, '#')) {
+        continue;
+    }
+    if (!preg_match($RX, $line, $m)) {
+        continue;
+    }
+    $cps  = $m[1];
+    $gl   = $m[2];
+    $rest = $m[3];
+    if (str_contains($rest, ' - ')) {
+        [$word, $desc] = explode(' - ', $rest, 2);
+    } else {
+        $word = $rest;
+        $desc = '';
+    }
+    $word = trim($word);
+    $desc = trim($desc);
+    $aliases = array_values(array_filter(array_map('trim', explode(',', $word)), fn($a) => $a !== ''));
+
+    if ($glyphQ !== '') {
+        // accept hex codepoints ("2192", "005B+005D") or the literal glyph
+        $hex = strtoupper(preg_replace('/[^0-9A-Fa-f+]/', '', $glyphQ) ?? '');
+        $hitGlyph = (strcasecmp($hex, strtoupper($cps)) === 0) || ($gl === $glyphQ);
+        if (!$hitGlyph) {
+            continue;
+        }
+    } else {
+        $hitWord = false;
+        foreach ($aliases as $a) {
+            if (strcasecmp($a, $wordQ) === 0) {
+                $hitWord = true;
+                break;
+            }
+        }
+        if (!$hitWord) {
+            continue;
+        }
+    }
+
+    $hits[] = sprintf(
+        "U+%s  %s  *-> %s  - %s",
+        $cps,
+        $gl,
+        $word,
+        $desc
+    );
+}
+
+if ($hits === []) {
+    $q = $glyphQ !== '' ? $glyphQ : $wordQ;
+    echo vibedslPage(sprintf('[no match for "%s"]', htmlspecialchars($q, ENT_QUOTES)), 'VibeDSL symbol');
+    exit;
+}
+
+$hdr = $glyphQ !== ''
+    ? sprintf('glyph %s : %d hit(s)', htmlspecialchars($glyphQ, ENT_QUOTES), count($hits))
+    : sprintf('word %s : %d hit(s)', htmlspecialchars($wordQ, ENT_QUOTES), count($hits));
+
+echo vibedslToHtml($hdr . "\n\n" . implode("\n", $hits), 'VibeDSL symbol');

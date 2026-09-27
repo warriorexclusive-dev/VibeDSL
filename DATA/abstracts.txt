@@ -11,12 +11,12 @@ type:abstracts
 *-> blueprint         - blueprint, base logical abstract pattern, Behavioral Model for Enforcement, Behavioral law to apply, Always true and serves as the instruction for use, unless explicitly stated or red
     -> exm:blueprint:behavior
 
-*-> proto, prototype        - prototype property of any entity use RAG to search base prototype or use &-> to include prototype in specs
+*-> prototype, proto - prototype property of any entity use RAG to search base prototype or use &-> to include prototype in specs
 type:behavior
 
-*-> &->          - remember this
+*-> &->          - forced anchor: textual spelling of the anchor glyph U+2022; the compiler emits U+2022 in its place; a line that starts with &-> is pinned to document-global scope
 
-*-> arc,arch,architect,architecture - architecture, example: func name="upload_photo" arc:coroutine; describes a function with the coroutine pattern
+*-> architecture, architect, arch, arc - architecture, example: func name="upload_photo" arc:coroutine; describes a function with the coroutine pattern
     -> exm:arc:coroutine
 
 *-> behavior, bhvr     - logical mapping of behavior of any entity
@@ -32,7 +32,7 @@ type:behavior
     -> exm: proto file:type = [xml,doc,txt]
             proto file:type:name = [n]  it is add property to file, example usage: file:xml:"main.xml"
 
-*-> crit, critical  - logical critical instruction, behavior pay special attention and more-check.
+*-> critical, crit - logical critical instruction, behavior pay special attention and more-check.
     -> exm:crit:err
 
 *-> dry          - do not repeat yourself
@@ -41,20 +41,20 @@ type:behavior
 *-> enter        - user input: enter key, confirm/select
     -> exm:on enter->btn name="ok"
 
-*-> evt,event    - event base logic operator
+*-> event, evt - event base logic operator
     -> exm: evt:notify -> show()
     -> exm: event:onCreate -> load(view name="main")
 
 *-> factor,          - coefficient, factor, percentage need for logical syntax [min,max]
     -> exm: llm:skill:cretive = factor[0,100]:pan(20)
 
-*-> fbd, forbinden  - Forbidden
+*-> forbidden, fbd - Forbidden
     -> exm:fbd:null
 
-*-> invar, nvariant - invariant
-    -> exm:inv:true
+*-> hstretch     - horizontal stretch behavior
+    -> exm:panel bhvr:hstretch
 
-*-> isol,isolate  - An entity isolated from external logic blocks does not accept higher-level logic as the primary source.
+*-> isolate, isol - An entity isolated from external logic blocks does not accept higher-level logic as the primary source.
     -> exm:crt prj name "example" type="exe" lang:c++
              -> {any custom or DSL blocks}
              -> crt lib type="dll" isol          Isolating the marker means that the context and logic of the parent program must not affect the module.
@@ -72,11 +72,20 @@ type:behavior
 *-> kup          - user input: key released up event
     -> exm:on kup:key="Shift"
 
+*-> maxim         - maximize
+    -> exm:view maxim:true
+
+*-> minim         - minimize
+    -> exm:view minim:true
+
 *-> mosdown      - user input: mouse button down event
     -> exm:on mosdown:btn="right"->dlg
 
 *-> mosup        - user input: mouse button up event
     -> exm:on mosup:btn="left"->tgl
+
+*-> nvariant, invar - invariant
+    -> exm:inv:true
 
 *-> pattern      - programming or behavioral pattern
     -> exm:pattern:"observer"
@@ -87,7 +96,7 @@ type:behavior
 *-> scrtap       - user input: screen tap event
     -> exm:on scrtap:x=10,y=20
 
-*-> skl, skill  - logical representation of a skill 
+*-> skill, skl - logical representation of a skill 
     -> exm:skl:code="middle"
 
 *-> smbls         - predict array of symbols
@@ -96,3 +105,6 @@ type:behavior
 *-> swap         - UI logical behavior: swipe / page turn between views, default direction left to right unless otherwise specified
     -> exm:on swap:dir="ltr" -> pag name="next"
     -> exm:swap:dir="rtl" -> pag name="prev"
+
+*-> vstretch     - vertical stretch behavior
+    -> exm:panel bhvr:vstretch

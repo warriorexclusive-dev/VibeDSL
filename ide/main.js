@@ -36,7 +36,7 @@ require(["vs/editor/editor.main"], function () {
         defaultToken: "",
         tokenPostfix: ".vibedsl",
         keywords: ["fun", "func", "function", "abstract", "alias", "as", "use",
-                   "type", "act", "name", "par", "desc", "id", "ret", "halt"],
+                   "type", "act", "name", "par", "desc", "id", "ret"],
         tokenizer: {
             root: [
                 [/\/\/.*$/, "comment"],

@@ -23,7 +23,7 @@ start base syntax
 *-> \            - abstract change logic operator: applies an abstract change to a subject set \(<subjects> act="add|delete|...") - delete/add subjects or call a change function; \* is its filter form (exclusion/filtering by condition, example crt\show - create without showing)
     -> exm:crt\show(file name="out.xml")
 *-> !:           - operation or logic not complete / invalid (NO|false)
-    -> exm:x!:->halt
+    -> exm:x!:->out
 *-> []           - block of logical objects or list of parameters; use triple dot only when the array length exceeds 10 elements
     -> exm:[node:root]->[env:code]="invoke delegate"
 *-> {}           - custom functional logic of an element, intentionally free-form, never rewritten into a rigid schema

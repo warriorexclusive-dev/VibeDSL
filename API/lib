@@ -31,5 +31,6 @@ function vibedslSources(string $base): array
         'blueprints' => $base . '/DATA/blueprints.txt',
         'protos'     => $base . '/DATA/protos.txt',
         'agents'     => $base . '/DATA/agents.txt',
+        'symbols_map' => $base . '/DATA/symbols_map.txt',
     ];
 }
