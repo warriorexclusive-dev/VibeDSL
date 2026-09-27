@@ -1,10 +1,4 @@
 // VIBE_IDE - karas okna, lib dearpygui 2.3.1
-// okno na ves ekran so starta: knopki minimayz/maksimayz, pod nimi menyu,
-// pod menyu - obshchiy karcas rm, vnutri modulen razdel 65 verh / 35 niz.
-// verh: paneli po krayam (left, right) + tab_view s redaktorom poseredine.
-// niz: dve konsoli, niz podelen popolam po gorizontali.
-// kazhdyy element zapolnyaetsya funkciey - u kazhdogo svoih kontroller,
-// vzaimozamenyaemyh.
 // logika - slova spravochnika, imena sobstvennye v "", opisaniya russkij
 // creative = 0
 
@@ -48,6 +42,20 @@ function type="root" name="vibide" id="vibide" scope="root"->action == create [s
 
 &-> abstract:"del_item"->action="remove(item)":
       remove(item)->return("item i nest udaleny")
+
+// ---- abstract func: okno
+
+&-> abstract:"build_chrome"->action="create(bar) + add(bar:btn minimayz) + add(bar:btn maksimayz) + create(menu) + add(menu:item) x4 + action=show(bar) + action=show(menu)":
+      create(bar)->add(bar:btn name="minimayz")->add(bar:btn name="maksimayz")->create(menu)->add(menu:item name="file")->add(menu:item name="edit")->add(menu:item name="run")->add(menu:item name="help")->action=show(bar)->action=show(menu)
+
+&-> abstract:"click_minimayz"->action="view:fullscreen:set(false) + return("okno svernuto")":
+      view:fullscreen:set(false)
+
+&-> abstract:"click_maksimayz"->action="view:fullscreen:set(true) + return("okno razvorotano")":
+      view:fullscreen:set(true)
+
+&-> abstract:"build_menu"->action="create(menu) + add(menu:item) x4 + nav:par:set(...) + action=show(menu)":
+      create(menu)->add(menu:item name="file")->add(menu:item name="edit")->add(menu:item name="run")->add(menu:item name="help")->nav:par:set("menu")->action=show(menu)
 
 // ---- abstract func: karcas
 
@@ -115,7 +123,7 @@ function type="root" name="vibide" id="vibide" scope="root"->action == create [s
 
 // ---- abstract func: sborka
 
-&-> abstract:"build_all"->action="run(open_view) -> run(read_colors) -> run(set_theme) -> run(bind_theme) -> run(build_nav) -> run(build_frm) -> run(build_top) -> run(build_bottom)":
+&-> abstract:"build_all"->action="run(open_view) -> run(read_colors) -> run(set_theme) -> run(bind_theme) -> run(build_nav) -> run(build_chrome)->run(build_menu)->run(build_frm) -> run(build_top) -> run(build_bottom)":
       run(open_view)->run(read_colors)->run(set_theme)->run(bind_theme)->run(build_nav)->run(build_frm)->run(build_top)->run(build_bottom)
 
 &-> abstract:"no_literal"->action="v kode net theme, cvet, razmera":
