@@ -16,6 +16,10 @@ start base syntax
 *-> :?           - comparator with condition applied during extraction
     -> exm::? data:type=dom
 *-> :            - logical operator and null-safe presence check; verifies the property exists and is executable step by step, halts the logic if absent and ASKS the human (null safe WITH ask, see ask); resolves by position (pointer, validator, parent context, payload separator)
+    -> exm:file:access(context:user)
+    -> exm:targ:prj:name="http server"
+    -> exm:prj name="picture_lib":
+    -> exm:fun event:err:-> ret:excpt:response
 *-> -[]>          - multi vector: raises an object into N parallel logical dimensions (states); -[N]> where N = number of dimensions; marks a CRITICAL branching node of logic - not a plain yes/no, the choice splits into N state paths and needs attention when reading; usually written after the colon :-[N]>, prefix form -[N]> [a,b,c]:[d,e,f]: is also allowed; the dimensions are logical (states), NOT spatial 3D / 3D modeling / coordinates
     -> exm: crt(model type=cube)<>:-[3]> [x,y,z]:size=20 as num:format(0.0)
 *-> /            - ordinary mathematical division operator (divide)
@@ -97,7 +101,7 @@ start base syntax
     -> exm:fun crt(file name="out.xml"):->save()
     -> exm:fun crt(file
             name="main.xml"):-> save()
-*-> action scope () - every action is called with parentheses () as its scope; the object/operator/function of the action sits inside the parens; nested operator calls allowed; multi-line allowed
+*-> action scope () - an action that takes arguments is called with parentheses () as its scope; the object/operator/function of the action sits inside the parens; a parameterless action may stand bare at the end of a chain (see -> ret); nested operator calls allowed; multi-line allowed
     -> exm:crt(file name="out.xml"):->save()
     -> exm:mem:save(file name:"mem.dump")
 *-> name property - name/value properties continue after a space on the same line or on the next line; proper names are quoted
