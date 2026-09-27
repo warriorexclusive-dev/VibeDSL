@@ -172,14 +172,19 @@ CONTEXT_READY = False
 
 
 def open_view():
-    """crt view + set name + fullscreen + show"""
+    """create(view) + view:name:set(...) + view:fullscreen:set(true) + action=show(view)"""
     global CONTEXT_READY
     if not CONTEXT_READY:
         dpg.create_context()
         CONTEXT_READY = True
-    dpg.set_primary_window(NAME_VIEW, True)
+    # the window has to exist before it can be made primary. The order was the
+    # other way round and the IDE never started: set_primary_window on a tag
+    # that is not there yet is [1005] Item not found: 0.
     if not ELEM.get("view"):
         ELEM["view"] = dpg.add_window(label=NAME_VIEW, tag="view")
+    # the tag is "view"; NAME_VIEW is the label, not a tag, and passing it
+    # looked for an item named "VibeDSL IDE" that does not exist - [1005]
+    dpg.set_primary_window("view", True)
     STYLE["name"] = NAME_VIEW
     STYLE["fullscreen"] = True
     dpg.create_viewport(title=NAME_VIEW, width=1600, height=900)
@@ -226,7 +231,7 @@ def _find_font_file():
 
 
 def read_colors(file=COLORS_FILE):
-    """load colors IDE.txt + split mapping by group + save style.json"""
+    """load(file) + split(mapping:group) + mapping:num:set(13) + save(cfg:mapping ...)"""
     global MAPPING
     with io.open(file, encoding="utf-8") as fh:
         text = fh.read()
@@ -297,7 +302,7 @@ def read_colors(file=COLORS_FILE):
 
 
 def set_theme():
-    """load theme from mapping + set frm:corner:radius + font + font_size"""
+    """load(mapping:theme) + frm:corner:radius:set(15) + frm:font:set(...) + font:font_size:set(...) + action=show(theme)"""
     global THEME_TAG, UNMAPPED
 
     flat = {}
@@ -375,7 +380,7 @@ def bind_theme():
 
 
 def reload_theme(cfg=STYLE_JSON):
-    """load mapping from cfg + run set_theme + run bind_theme"""
+    """load(cfg:mapping) + run(set_theme) + run(bind_theme)"""
     if not os.path.isfile(cfg):
         return ret("cfg otsutstvuet, staryj theme ostal")
     global MAPPING
@@ -392,7 +397,7 @@ def reload_theme(cfg=STYLE_JSON):
 # =====================================================================
 
 def build_nav():
-    """crt nav + set 4 par + show"""
+    """create(nav) + nav:par:set(...) + add(nav:par ...) x4 + action=show(nav)"""
     pars = []
     for par in NAV_PARS:
         tag = "par_" + par
@@ -403,7 +408,7 @@ def build_nav():
 
 
 def add_par(par):
-    """add par to nav + add nest to par"""
+    """add(nav:par par) + add(par:nest par)"""
     if not par:
         return ret("par pust, nichego ne dobavlen")
     if not ELEM.get("nav"):
@@ -417,7 +422,7 @@ def add_par(par):
 
 
 def set_text(par):
-    """set name of item by par"""
+    """item:name:set(par)"""
     tag = "par_" + str(par)
     if not dpg.does_item_exist(tag):
         return ret("par net: %s" % par)
@@ -426,7 +431,7 @@ def set_text(par):
 
 
 def del_item():
-    """remove item + nest"""
+    """remove(item)"""
     pars = ELEM.get("nav") or []
     if len(pars) <= len(NAV_PARS):
         return ret("bazovye 4 par nedostupny dlya udaleniya")
@@ -442,7 +447,7 @@ def del_item():
 # =====================================================================
 
 def build_frm():
-    """crt frm + set module + set split factor + show"""
+    """create(frm) + frm:module:set(true) + frm:split:set(factor [65,35]) + action=show(frm)"""
     dpg.add_child_window(border=True, tag="frm", parent=ELEM["view"])
     dpg.configure_item("frm", width=-1, height=-1)
     ELEM["frm"] = "frm"
@@ -456,7 +461,7 @@ def build_frm():
 # =====================================================================
 
 def build_top():
-    """crt col top + left + row tab inp + right"""
+    """create(column) + create(left) + create(row) + create(tab_view) + create(inp) + create(right) + action=show(left) + action=show(tab_view) + action=show(right)"""
     col = dpg.add_group(tag="col", parent="frm", horizontal=True)
     left = dpg.add_group(tag="left", parent=col, width=320)
     dpg.add_text("left", parent=left)
@@ -476,12 +481,17 @@ def build_top():
     ELEM["right"] = right
     ELEM["tabs"] = [tab1]
 
+    # dearpygui hands the callback (sender, app_data, user_data), so a[0] was
+    # the first CHARACTER of the tag - right[0] is r, and int(r) is the
+    # ValueError. The width has to be asked of the sender.
     reg_l = dpg.add_item_handler_registry()
-    dpg.add_item_resize_handler(parent=reg_l, callback=lambda s, a, u: set_left(a[0]))
+    dpg.add_item_resize_handler(
+        parent=reg_l, callback=lambda s, a, u: set_left(dpg.get_item_width(s)))
     dpg.bind_item_handler_registry(left, reg_l)
 
     reg_r = dpg.add_item_handler_registry()
-    dpg.add_item_resize_handler(parent=reg_r, callback=lambda s, a, u: set_right(a[0]))
+    dpg.add_item_resize_handler(
+        parent=reg_r, callback=lambda s, a, u: set_right(dpg.get_item_width(s)))
     dpg.bind_item_handler_registry(right, reg_r)
     return ret("verh: left | tab+inp | right (min %d, max factor %d)"
                % (MIN_SIDE, MAX_FACTOR))
@@ -495,7 +505,7 @@ def _clamp(size):
 
 
 def set_left(size):
-    """set size of left clamped min 50 max factor 25"""
+    """left:size:set(par), granitsy: min 50, max factor 25"""
     want = int(size)
     got = _clamp(want)
     dpg.configure_item(ELEM["left"], width=got)
@@ -506,7 +516,7 @@ def set_left(size):
 
 
 def set_right(size):
-    """set size of right clamped min 50 max factor 25"""
+    """right:size:set(par), granitsy: min 50, max factor 25"""
     want = int(size)
     got = _clamp(want)
     dpg.configure_item(ELEM["right"], width=got)
@@ -541,7 +551,7 @@ def close_right():
 # =====================================================================
 
 def add_tab(par):
-    """add tab + set name + set text + show"""
+    """add(tab_view) + run(set_tab_name) + tab_view:text:set(par) + action=show(tab_view)"""
     name = str(par) if par else "tab"
     t = dpg.add_tab(label=name, parent=ELEM["tab"])
     ELEM.setdefault("tabs", []).append(t)
@@ -564,7 +574,7 @@ def set_tabs(num):
 
 
 def set_tab_name(name):
-    """set name of tab by par"""
+    """tab_view:name:set(par)"""
     tabs = ELEM.get("tabs") or []
     if not tabs:
         return ret("tab net, name ne zamenen")
@@ -573,7 +583,7 @@ def set_tab_name(name):
 
 
 def close_tab():
-    """close tab"""
+    """close(tab_view)"""
     tabs = ELEM.get("tabs") or []
     if len(tabs) <= 1:
         return ret("posledniy tab ne zakryvaetsya")
@@ -587,7 +597,7 @@ def close_tab():
 # =====================================================================
 
 def build_bottom():
-    """crt col + row + 2 console factor 50"""
+    """create(column) + create(row) + create(console) + console:factor:set(50) x2"""
     col = dpg.add_group(tag="col_bottom", parent=ELEM["view"], horizontal=True)
     row = dpg.add_group(tag="row_bottom", parent=col, horizontal=True)
     cons = []
@@ -606,7 +616,7 @@ def build_bottom():
 
 
 def set_console(factor):
-    """set size of console by par factor 25"""
+    """console:size:set(par), factor 25"""
     cons = ELEM.get("console") or []
     if not cons:
         return ret("console net")
@@ -628,7 +638,7 @@ def set_console(factor):
 
 
 def del_console():
-    """remove console + factor 100"""
+    """remove(console) + console:factor:set(100)"""
     cons = ELEM.get("console") or []
     if len(cons) <= 1:
         return ret("odin console udalen, vtoroy zanyal vsyu shirinu")
@@ -640,7 +650,7 @@ def del_console():
 
 
 def add_console():
-    """add console + factor 50"""
+    """add(console) + console:factor:set(50)"""
     cons = ELEM.get("console") or []
     if len(cons) >= 2:
         return ret("uzhe dva console")
@@ -657,21 +667,21 @@ def add_console():
 # =====================================================================
 
 def fill_bar(content):
-    """set content of nav by par + show"""
+    """nav:content:set(par) + action=show(nav)"""
     if ELEM.get("nav"):
         dpg.show_viewport()
     return ret("slot nav napolnen vhodnoy funkciej: %s" % (content if content else "-"))
 
 
 def fill_panel():
-    """crt frm in sht"""
+    """create(frm v sht)"""
     with dpg.group(parent="frm"):
         dpg.add_text("panel")
     return ret("sht napolnena podoknom")
 
 
 def fill_editor(file):
-    """load text of file in inp"""
+    """load(inp:text par)"""
     if not file or not os.path.isfile(str(file)):
         return ret("fayla net, editor pust")
     with io.open(str(file), encoding="utf-8") as fh:
@@ -693,7 +703,7 @@ FUNC = {}
 
 
 def cmd(name, io=None):
-    """run func by par name of io"""
+    """run(io:func par)"""
     fn = FUNC.get(str(name)) if name else None
     if fn is None:
         return ret("par net, nichego ne izmeneno: %s" % name)
@@ -706,11 +716,14 @@ def cmd(name, io=None):
 # =====================================================================
 
 def build_all():
-    """run vse build func po poryadku"""
-    for fn in (open_view, read_colors, set_theme, bind_theme, build_nav,
-               build_frm, build_top, build_bottom):
+    """run(open_view) -> run(read_colors) -> run(set_theme) -> run(bind_theme) -> run(build_nav) -> run(build_frm) -> run(build_top) -> run(build_bottom)"""
+    # build_frm has to come before build_nav: the nav parents onto the frame,
+    # so the order it was in asked for ELEM["frm"] before anything created it
+    # and the assembly died with KeyError: 'frm'.
+    for fn in (open_view, read_colors, set_theme, bind_theme,
+               build_frm, build_nav, build_top, build_bottom):
         fn()
-    return ret("vse func po poryadku: sborka gotova")
+    return ret("sborka gotova: frm, nav, top, bottom")
 
 
 def no_literal():
