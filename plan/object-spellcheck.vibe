@@ -1,7 +1,7 @@
 stage 2: object spell checker
    abstract:function:id="object_checker" -> source:scop in memory
       create mod="scan" as scan all objects
-   abstract:prop:id="abs" {"type","init"} -> {any full syntax: function, prop, item}
+   abstract{abstract full syntax}->function{function,prop,item}:id="abs"
    abstract:prop:id="object" {"name","track"} -> {any syntax allowed}
    object:action="wrap as one":name="wrap"      -> {extension by id: object:wrap becomes a pin}
    abstract:item:id="line" {"text"} -> {any syntax allowed}
