@@ -1,4 +1,15 @@
-*-> blueprint:id="abstract":desc="ready abstract template: an abstract that takes any of the three type words and declares a condition":type=rule:scope="root":
-   exam(cond:if):
-      -> goal
-      -> fail
+# No blueprints.
+#
+# Everything that stood here was written before the syntax rules existed and was
+# nonsense by any reading: proto(...) forms with no type word, crt/wrt/scop/varn
+# abbreviations, bodies that were not valid specs, and an entry that collided
+# with a prop of the same name in PY_IDE/window.vibe.
+#
+# The interface half survives in DATA/protos.txt, where the abstract record is
+# the reference form. The implementation half has nothing to stand on yet -
+# DATA/protos.txt:741fd49 left four declarations and no ready code, which is the
+# honest state: a proto is a conscious extension for turning a spec into real
+# OOP, and the generator that would implement one is not written.
+#
+# The file is kept, not deleted, because dict_edit.py, validator.py and
+# API/blueprint_get all address it by name.

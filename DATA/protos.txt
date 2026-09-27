@@ -1,15 +1,33 @@
 ﻿# A prototype is a conscious extension of the language, not a leftover.
 #
 # It is what a spec needs to become real OOP. Who writes that generator and when
-# is not decided, so this file holds one record and that is deliberate: the
-# abstract entry is the reference example of the syntax and it stays
-# permanently. Any prototype added later is measured against it.
+# is not decided, so this file is small on purpose - and what is here is taken
+# from PY_IDE/window.vibe, which is the syntax that actually compiles, not from
+# anything invented for the sake of an example.
 #
-# A proto declares, and the blueprint of the same id implements. That is the
-# whole mechanism for now - the interface half and the code half kept apart,
-# the way class IEntity and its implementation are kept apart in C++.
+# The *-> marker is not decoration. validator/validator.py:load_entries starts a
+# new entry only on a line that begins with it, so a prototype written without
+# one is not loadable and use() cannot resolve it. The marker is stripped at
+# compile time, because compiled it would be a multiplication sign glued to an
+# arrow.
+#
+# abstract is the reference form and it stays permanently. Any prototype added
+# later is measured against it.
+#
+# There are no blueprints: DATA/blueprints.txt is empty on purpose. A proto
+# declares, but nothing implements one yet, and an interface with a fabricated
+# implementation behind it is worse than an interface alone.
 #
 # The seven prototypes that stood here before were scaffolding from before the
 # syntax rules existed. A model reading them learned the wrong form, and `goal`
 # collided with a prop of the same name in PY_IDE/window.vibe.
-prototype:id="abstract":required:type[item,function,prop]:required:condition
+*-> prototype:id="abstract":required:type[item,function,prop]:required:condition
+
+# from window.vibe:5  - function type="root" name="vibide" id="vibide" scop="root"
+*-> prototype:id="function":required:type[item,function,prop]:required:id:required:param
+
+# from window.vibe:34 - &-> abstract:item:id="tab_view"->frm:type="tab_view"
+*-> prototype:id="item":required:type[item,function,prop]:required:id
+
+# from window.vibe:11 - &-> abstract:prop:id="theme"{"hex" "group"}->frm:prop
+*-> prototype:id="prop":required:type[item,function,prop]:required:id

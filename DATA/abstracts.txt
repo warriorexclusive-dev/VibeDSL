@@ -12,7 +12,7 @@ type:abstracts
     -> exm:blueprint:behavior
 
 *-> condition   - the arrow itself as a condition: a change of state or direction; in a prototype it is the virtual mapping of `->`, declared and not yet run
-    -> exm: prototype:id="if":required:type[item,function,prop]:required:condition
+    -> exm: prototype:id="abstract":required:type[item,function,prop]:required:condition
 
 *-> prop        - named slot on an object, carries a value; one word for the type, so a field declaration reads obj:prop and is assigned through obj:prop:set(value)
     -> exm: &-> abstract:prop:id="radius"->frm:prop:corner
