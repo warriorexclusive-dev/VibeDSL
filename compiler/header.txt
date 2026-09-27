@@ -27,9 +27,34 @@ HOW TO READ THE MARKS
     (...)   the scope of one action.        [...]   a block of objects or a list.
   Nothing inside (), [] or {} was compiled, by design. A word you see there is
   an argument value or a custom description - not a missed translation.
+  How to read one is the next section, and it is not optional knowledge.
   The marks this file actually uses are listed under GLYPHS below. If a mark is
   not listed there, do not invent a meaning for it: ask the base, it is one
   query - GET /API/get?dict=symbols_map
+
+HOW TO READ AN ACTION SCOPE  (the conventions that make (...) mean something)
+  Nothing in here was compiled, so nothing in here is translated for you. These
+  four shapes are the whole grammar of a scope, and they are stable across every
+  spec in the language:
+
+  owner:property        the owner LEADS. theme:radius is a radius OF theme, not
+                         a theme of radius. Same for a:b:c, read left to right.
+  path:set(value)       a setter is a VECTOR anchored at the end of the path, not
+                         a call with arguments. frm:font:set("Arial") sets the
+                         font OF frm. There is no set(pin, value) form: it flattens
+                         the path and loses which object the write belongs to.
+  path:set()            an empty argument means INHERITED, not empty. The value
+                         comes from the enclosing scope - that is how a theme
+                         reaches every child that never names one.
+  action=verb(...)      the verb is bound as a MAPPING, not issued as an order.
+                         Read action=show(x) as "x is shown", never as a request
+                         to somebody. A bare show(x) is the ambiguous one.
+
+  A bare name inside a call is the thing being acted on. If the name is also a
+  dictionary word, the mark is authoritative and the description under GLYPHS
+  wins over your prior. If it is not a word, it is a local of this spec - an
+  element, a property or a pin the spec declared for itself - and the spec's own
+  declarations are the only truth about it.
 
 KEPT IN ASCII ON PURPOSE  (reserved, not untranslated)
   %          percent: a suffix on a value, not an operator - 50% stays 50%

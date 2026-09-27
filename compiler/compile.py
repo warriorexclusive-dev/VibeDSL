@@ -564,8 +564,26 @@ def load_header(values):
 
 # ---------------------------------------------------------------- emit
 def rules_block(glyphs, stats, all_glyphs, concepts_total, concepts_marked,
-                src, data_count):
+                src, data_count, want_rules=True, want_legend=True):
     o = [BLOCK_RULES, ""]
+    # The RULES template and the GLYPHS legend are CONTEXT, not payload: they
+    # cost 130 lines and ~3500 characters, and on the IDE spec the legend alone
+    # is 20% of the whole output and 38% of the spec. A mark is ONE token and
+    # its explanation is about sixteen, so the explanation costs sixteen times
+    # the fact it explains.
+    #
+    # That trade is right for a strong reader with attention to spare and wrong
+    # for a small one. A 0.5B advisor is given the knowledge in its weights
+    # instead, and wants the output short. So both are switchable, and neither is
+    # the default for the other: dropping the legend is not a cheaper way to
+    # ship the same thing, it is a different reader.
+    if not want_rules:
+        o = [BLOCK_RULES, ""]
+        o.append("  (RULES omitted, and with them the GLYPHS legend: --no-rules")
+        o.append("  implies --no-legend. The reader is expected to know both")
+        o.append("  already.)")
+        o.append("")
+        return o
     o.extend(load_header({
         "BLOCK_RULES": BLOCK_RULES,
         "BLOCK_DATA": BLOCK_DATA,
@@ -580,6 +598,11 @@ def rules_block(glyphs, stats, all_glyphs, concepts_total, concepts_marked,
 
     o.append("")
     o.append("GLYPHS")
+    if not want_legend:
+        o.append("  (legend omitted: --no-legend. Every mark here is one token and")
+        o.append("  its meaning is expected to be known already.)")
+        o.append("")
+        return o
     if all_glyphs:
         o.append("  the whole base table (%d marks, --all-glyphs):" % len(glyphs))
         for g, (w, d) in sorted(glyphs.items(), key=lambda kv: kv[1][0]):
@@ -604,7 +627,7 @@ def rules_block(glyphs, stats, all_glyphs, concepts_total, concepts_marked,
 
 
 def parse_args(argv):
-    """-> (src, dst, all_glyphs)
+    """-> (src, dst, all_glyphs, want_rules, want_legend)
 
     A second POSITIONAL argument is taken as the output path. It used to be
     dropped in silence, and that is not a cosmetic bug: a caller who wrote
@@ -612,20 +635,33 @@ def parse_args(argv):
     reading the OLD out.txt, then drew conclusions from a stale file. Someone
     lost two findings that way before this was fixed, so an unknown flag or a
     third positional is now an error rather than a shrug.
+
+    --no-rules drops the RULES template, --no-legend drops the GLYPHS legend.
+    Both are CONTEXT rather than payload. --no-rules already implies
+    --no-legend: the legend is emitted inside the rules block, and a reader
+    with no template has no use for a glossary either. It says so rather than
+    making the reader discover it by counting lines. Both exist for a reader
+    that already holds the knowledge in its weights; a 0.5B advisor is the case
+    they were written for.
     """
     src = dst = None
     all_glyphs = False
+    want_rules = want_legend = True
     extra = []
     i = 1
     while i < len(argv):
         a = argv[i]
         if a in ("-h", "--help"):
-            return None, None, False
+            return None, None, False, True, True
         if a == "-o":
             i += 1
             dst = argv[i] if i < len(argv) else None
         elif a == "--all-glyphs":
             all_glyphs = True
+        elif a == "--no-rules":
+            want_rules = False
+        elif a == "--no-legend":
+            want_legend = False
         elif a.startswith("-"):
             extra.append(a)
         elif src is None:
@@ -638,14 +674,15 @@ def parse_args(argv):
     if extra:
         raise SystemExit("compile.py: unexpected argument(s): %s\n"
                          "usage: py -X utf8 compiler\\compile.py <spec> "
-                         "[-o <out>] [--all-glyphs]" % " ".join(extra))
+                         "[-o <out>] [--all-glyphs] [--no-rules] [--no-legend]"
+                         % " ".join(extra))
     if dst is not None and not os.path.isabs(dst):
         dst = os.path.abspath(dst)
-    return src, dst, all_glyphs
+    return src, dst, all_glyphs, want_rules, want_legend
 
 
 def main(argv):
-    src, dst, all_glyphs = parse_args(argv)
+    src, dst, all_glyphs, want_rules, want_legend = parse_args(argv)
     if not src:
         print(__doc__)
         return 2
@@ -687,7 +724,8 @@ def main(argv):
     # 4. assemble
     concepts_marked = len({concept_of[a] for a in sub if a in concept_of})
     o = rules_block(glyphs, stats, all_glyphs, len(concepts), concepts_marked,
-                    os.path.basename(src), len(data_blocks))
+                    os.path.basename(src), len(data_blocks),
+                    want_rules, want_legend)
 
     o.append(BLOCK_DATA)
     o.append("")

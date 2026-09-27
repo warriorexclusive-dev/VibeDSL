@@ -1,0 +1,266 @@
+// VIBE_IDE - karas okna, lib dearpygui 2.3.1
+// logika - slova spravochnika, imena sobstvennye v "", opisaniya russkij
+// creative = 0
+
+function type="root" name="vibide" id="vibide" scop="root"->action == create [spec] lng="VibeDSL"
+
+// ---- abstract prop
+
+&-> abstract:prop:id="view"->frm:"view"
+&-> abstract:prop:id="name"->frm:"name"
+&-> abstract:prop:id="fullscreen"->frm:"fullscreen"
+&-> abstract:prop:id="theme"->frm:prop
+&-> abstract:prop:id="corner"->frm:prop
+&-> abstract:prop:id="radius"->frm:corner:prop
+&-> abstract:prop:id="font"->frm:prop
+&-> abstract:prop:id="font_size"->font:prop
+&-> abstract:prop:id="cfg"->frm:"cfg"
+&-> abstract:prop:id="file"->frm:"file"
+&-> abstract:prop:id="text"->frm:"text"
+&-> abstract:prop:id="nav"->frm:"nav"
+&-> abstract:prop:id="par"->frm:"par"
+&-> abstract:prop:id="frm"->frm:"frm"
+&-> abstract:prop:id="module"->frm:"module"
+&-> abstract:prop:id="split"->frm:"split"
+&-> abstract:prop:id="factor"->frm:"factor"
+&-> abstract:prop:id="col"->frm:"col"
+&-> abstract:prop:id="row"->frm:"row"
+&-> abstract:prop:id="left"->frm:"left"
+&-> abstract:prop:id="right"->frm:"right"
+&-> abstract:prop:id="min"->frm:"min"
+&-> abstract:prop:id="max"->frm:"max"
+&-> abstract:prop:id="size"->frm:"size"
+&-> abstract:prop:id="num"->frm:"num"
+&-> abstract:item:id="tab_view"->frm:type="tab_view"
+&-> abstract:prop:id="inp"->frm:"inp"
+&-> abstract:prop:id="console"->frm:"console"
+&-> abstract:prop:id="sht"->frm:"sht"
+&-> abstract:prop:id="content"->frm:"content"
+&-> abstract:prop:id="io"->frm:"io"
+&-> abstract:prop:id="func"->frm:"func"
+&-> abstract:prop:id="none"->frm:"none"
+&-> abstract:prop:id="mapping"->frm:"mapping"
+&-> abstract:prop:id="goal"->frm:"goal"
+
+// ---- abstract func: okno
+
+&-> abstract:"open_view"->action="crt view + set name + fullscreen + show":
+      create(view)->view:name:set("VibeDSL IDE")->view:fullscreen:set(true)->action=show(view)
+
+// ---- abstract func: tema
+
+&-> abstract:id="read_colors"->param=file->action="load colors IDE.txt + split mapping by group + save style.json"->load(file)->split(mapping:group)->mapping:num:set(13)->save(cfg:mapping "PY_IDE/style.json")
+
+&-> abstract:id="set_theme"->action="load theme from mapping + set frm:corner:radius + font + font_size"->load(mapping:theme)->frm:corner:radius:set(15)->frm:font:set("Arial")->font:font_size:set([12,14])->action=show(theme)
+
+&-> abstract:"bind_theme"->action="set theme of every element":
+      view:theme:set()->frm:theme:set()->col:theme:set()->row:theme:set()->left:theme:set()->right:theme:set()->tab_view:theme:set()->nav:theme:set()->inp:theme:set()->console:theme:set()->action=show(theme)
+
+&-> abstract:id="reload_theme"->param=cfg->action="load mapping from cfg + run set_theme + run bind_theme"->load(cfg:mapping)->run(set_theme)->run(bind_theme)->return("theme perezchitan, vizual obnovlen")->return("cfg otsutstvuet, staryj theme ostal")
+
+// ---- abstract func: bar
+
+&-> abstract:"build_nav"->action="crt nav + set 4 par + show":
+      create(nav)->nav:par:set("file")->add(nav:par "view")->add(nav:par "option")->add(nav:par "help")->nav:content:set(none)->action=show(nav)
+
+&-> abstract:id="add_par"->param=param->action="add par to nav + add nest to par"->add(nav:par par)->add(par:nest par)->return("par dobavlen")->return("par pust, nichego ne dobavlen")
+
+&-> abstract:id="set_text"->param=param->action="set name of item by par"->item:name:set(par)->return("name zamenen")
+
+&-> abstract:"del_item"->action="remove item + nest":
+      remove(item)->return("item i nest udaleny")
+
+// ---- abstract func: karcas
+
+&-> abstract:"build_frm"->action="crt frm + set module + set split factor + show":
+      create(frm)->frm:module:set(true)->frm:split:set(factor [65,35])->action=show(frm)
+
+// ---- abstract func: verh
+
+&-> abstract:"build_top"->action="crt col + left + row tab inp + right":
+      create(col top)->create(left)->left:min:set(50)->left:max:set(factor 25)->create(row)->create(tab_view)->add(tab_view:inp type="text")->create(right)->right:min:set(50)->right:max:set(factor 25)->action=show(left)->action=show(tab_view)->action=show(right)
+
+&-> abstract:id="set_left"->param=size->action="set size of left clamped min 50 max factor 25"->left:size:set(par)->return("size zamenen mezhdu min 50 i max factor 25")->return("vne granits, left sohranil size")
+
+&-> abstract:id="set_right"->param=size->action="set size of right clamped min 50 max factor 25"->right:size:set(par)->return("size zamenen mezhdu min 50 i max factor 25")->return("vne granits, right sohranil size")
+
+&-> abstract:"open_left"->action="show left":
+      action=show(left)
+
+&-> abstract:"close_left"->action="close left":
+      close(left)
+
+&-> abstract:"open_right"->action="show right":
+      action=show(right)
+
+&-> abstract:"close_right"->action="close right":
+      close(right)
+
+&-> abstract:id="add_tab"->param=param->action="add tab + set name + set text + show"->add(tab_view)->tab_view:name:set(par)->tab_view:text:set(par)->action=show(tab_view)
+
+&-> abstract:id="set_tabs"->param=num->action="set num of tab by par"->tab_view:num:set(par)->return("num tab zamenen funkciej")->return("num vne granits, num bezmenen")
+
+&-> abstract:id="set_tab_name"->param=name->action="set name of tab by par"->tab_view:name:set(par)->return("name tab zamenen")->return("tab net, name ne zamenen")
+
+&-> abstract:"close_tab"->action="close tab":
+      close(tab_view)
+
+// ---- abstract func: niz
+
+&-> abstract:"build_bottom"->action="crt col + row + 2 console factor 50":
+      create(col bottom)->create(row)->create(console)->console:factor:set(50)->create(console)->console:factor:set(50)->action=show(console)
+
+&-> abstract:id="set_console"->param=factor->action="set size of console by par factor 25"->console:size:set(par)->return("size zamenen na factor 25")->return("vne granits, console sohranil size")
+
+&-> abstract:"del_console"->action="remove console + factor 100":
+      remove(console)->console:factor:set(100)->return("odin console udalen, vtoroy zanyal vsyu shirinu")
+
+&-> abstract:"add_console"->action="add console + factor 50":
+      add(console)->console:factor:set(50)->return("console vozvrashchena, dva po 50")
+
+// ---- abstract func: vhodnaya
+
+&-> abstract:id="fill_bar"->param=content->action="set content of nav by par + show"->nav:content:set(par)->action=show(nav)->return("slot nav napolnen vhodnoy funkciej")
+
+&-> abstract:"fill_panel"->action="crt frm in sht":
+      create(frm in sht)->return("sht napolnena podoknom")
+
+&-> abstract:id="fill_editor"->param=file->action="load text of file in inp"->load(inp:text par)->return("content editor - text otkrytogo fayla")->return("fayla net, editor pust")
+
+&-> abstract:"fill_bound"->action="vhodnaya func napolnyaet tolko svoye okno":
+      return("vhodnaya func napolnyaet tolko svoye okno")
+
+// ---- abstract func: vneshnyaya komanda
+
+&-> abstract:id="cmd"->param=name->action="run func by par name of io"->run(io:func par)->return("func zapushchena")->return("par net, nichego ne izmeneno")
+
+// ---- abstract func: sborka
+
+&-> abstract:"build_all"->action="run vse build func po poryadku":
+      run(open_view)->run(read_colors)->run(set_theme)->run(bind_theme)->run(build_nav)->run(build_frm)->run(build_top)->run(build_bottom)
+
+&-> abstract:"no_literal"->action="v kode net theme, cvet, razmera":
+      return("karcas pust, vse cherez func")->return("func mozhno vyzvat snova, sostoyanie iz dannyh")->return("lyubaya func dostizhima iz cmd po imeni")
+
+// ---- part: sobiranie
+
+part 0: "run"
+   ->frm:name="run":
+      ->item:name="on_open":event="on_open"->action=run(build_all)<>:
+         ->action=return("vse func po poryadku")
+      ->item:name="on_cmd":event="on_cmd"->action=run(cmd)<>:
+         ->action=return("vneshnyaya komanda")
+      ->item:name="on_theme":event="on_theme"->action=run(set_theme)<>:
+         ->action=return("theme zadan")
+      ->item:name="on_reload":event="on_reload"->action=run(reload_theme)<>:
+         ->action=return("theme perezchitan")
+      ->item:name="on_goal":event="on_goal"->action=run(no_literal)<>:
+         ->action=return("vse checks")
+      ->action=show(run)
+
+// ---- part: paneli
+
+part 1: "panels"
+   ->frm:name="panels":
+      ->item:name="on_open":event="on_open"->action=show(left)<>:
+         ->action=show(left)
+         ->action=show(right)
+      ->item:name="on_open_left":event="on_open_left"->action=run(open_left)<>:
+         ->action=return("left otkryta")
+      ->item:name="on_close_left":event="on_close_left"->action=run(close_left)<>:
+         ->action=return("left zakryta")
+      ->item:name="on_open_right":event="on_open_right"->action=run(open_right)<>:
+         ->action=return("right otkryta")
+      ->item:name="on_close_right":event="on_close_right"->action=run(close_right)<>:
+         ->action=return("right zakryta")
+      ->item:name="on_left_size":event="on_left_size"->action=run(set_left)<>:
+         ->action=return("size left")
+      ->item:name="on_right_size":event="on_right_size"->action=run(set_right)<>:
+         ->action=return("size right")
+      ->action=show(panels)
+
+// ---- part: tab
+
+part 2: "tab"
+   ->frm:name="tab_view":
+      ->item:name="on_add":event="on_add"->action=run(add_tab)<>:
+         ->action=return("tab dobavlen")
+      ->item:name="on_num":event="on_num"->action=run(set_tabs)<>:
+         ->action=return("num tab zamenen")
+      ->item:name="on_name":event="on_name"->action=run(set_tab_name)<>:
+         ->action=return("name tab zamenen")
+      ->item:name="on_close":event="on_close"->action=run(close_tab)<>:
+         ->action=return("tab zakryt")
+      ->action=show(tab_view)
+
+// ---- part: niz
+
+part 3: "bottom"
+   ->frm:name="bottom":
+      ->item:name="on_size":event="on_size"->action=run(set_console)<>:
+         ->action=return("size console")
+      ->item:name="on_del":event="on_del"->action=run(del_console)<>:
+         ->action=return("odin console udalen")
+      ->item:name="on_add":event="on_add"->action=run(add_console)<>:
+         ->action=return("console vozvrashchena")
+      ->action=show(bottom)
+
+// ---- part: bar
+
+part 4: "bar"
+   ->frm:name="bar":
+      ->item:name="on_par":event="on_par"->action=run(add_par)<>:
+         ->action=return("par dobavlen")
+      ->item:name="on_text":event="on_text"->action=run(set_text)<>:
+         ->action=return("text zamenen")
+      ->item:name="on_del":event="on_del"->action=run(del_item)<>:
+         ->action=return("item udalen")
+      ->action=show(bar)
+
+// ---- part: napolnenie
+
+part 5: "fill"
+   ->frm:name="fill":
+      ->item:name="on_bar":event="on_bar"->action=run(fill_bar)<>:
+         ->action=return("nav napolnen")
+      ->item:name="on_panel":event="on_panel"->action=run(fill_panel)<>:
+         ->action=return("panel napolnen podoknom")
+      ->item:name="on_editor":event="on_editor"->action=run(fill_editor)<>:
+         ->action=return("editor napolnen tekstom fayla")
+      ->item:name="on_bound":event="on_bound"->action=run(fill_bound)<>:
+         ->action=return("granicy vhodnoy func")
+      ->action=show(fill)
+
+// ---- part: goal
+
+part 6: "goal"
+   ->frm:name="goal":
+      ->exam(after the part)<>:
+         ->check(validator) == pass
+         ->check(theme:hex:num) == 13
+         ->check(theme:key:num) == 27
+         ->check(theme:group:num) == 8
+         ->check(view:name) == "VibeDSL IDE"
+         ->check(view:fullscreen) == true
+         ->check(frm:module) == true
+         ->check(frm:split) == [65,35]
+         ->check(left:min) == 50
+         ->check(left:max) == factor 25
+         ->check(right:min) == 50
+         ->check(right:max) == factor 25
+         ->check(console:num) == 2
+         ->check(console:factor) == 50
+         ->check(view:theme) != none
+         ->check(frm:theme) != none
+         ->check(col:theme) != none
+         ->check(row:theme) != none
+         ->check(left:theme) != none
+         ->check(right:theme) != none
+         ->check(tab_view:theme) != none
+         ->check(nav:theme) != none
+         ->check(inp:theme) != none
+         ->check(console:theme) != none
+         ->check(func:num) == 32
+      ->exam(goal is none)<>:
+         ->retry(5)!:rollb
+      ->action=show(goal)

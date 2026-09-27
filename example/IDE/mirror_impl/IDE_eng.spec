@@ -1,0 +1,267 @@
+function type="root" name="vibedsl-ide" id="vibedsl-ide" scop="root" target="IDE" -> action == create [spec] lng="VibeDSL"
+
+&-> abstract prop id="theme" -> frm:"theme"
+&-> abstract prop id="marks" -> frm:"marks"
+&-> abstract prop id="sizes" -> frm:"sizes"
+&-> abstract prop id="header" -> frm:"header"
+&-> abstract prop id="work" -> frm:"work"
+&-> abstract prop id="bottom" -> frm:"bottom"
+&-> abstract prop id="modal" -> frm:"modal"
+&-> abstract prop id="register" -> frm:"register"
+&-> abstract prop id="config" -> frm:"config"
+&-> abstract prop id="keys" -> frm:"keys"
+&-> abstract prop id="op" -> frm:"op"
+&-> abstract prop id="opt" -> frm:"opt"
+&-> abstract prop id="draft" -> frm:"draft"
+&-> abstract prop id="state" -> draft:"state"
+&-> abstract prop id="live" -> frm:"live"
+&-> abstract prop id="result" -> live:"result"
+&-> abstract prop id="ref" -> frm:"ref"
+&-> abstract prop id="src" -> ref:"src"
+&-> abstract prop id="add" -> frm:"add"
+&-> abstract prop id="entry" -> add:"entry"
+&-> abstract prop id="preview" -> add:"preview"
+&-> abstract prop id="finder" -> frm:"finder"
+&-> abstract prop id="known" -> finder:"known"
+&-> abstract prop id="decls" -> finder:"decls"
+&-> abstract prop id="use_map" -> finder:"use_map"
+&-> abstract prop id="scan" -> finder:"scan"
+&-> abstract prop id="out" -> finder:"out"
+&-> abstract prop id="parity" -> frm:"parity"
+&-> abstract prop id="goal" -> parity:"goal"
+&-> abstract prop id="feed" -> parity:"feed"
+&-> abstract prop id="files" -> parity:"files"
+&-> abstract prop id="pipe" -> frm:"pipe"
+&-> abstract prop id="data" -> pipe:"data"
+&-> abstract prop id="api" -> frm:"api"
+&-> abstract prop id="page" -> api:"page"
+
+part 0: "frame"
+   -> frm:name="ide_page":
+      -> example: frm header="title, status, name, saved, open, save, demo, help, file"
+      -> example: frm work="editor, panel"
+      -> example: frm bottom="problems, log"
+      -> example: frm modal="add_entry"
+      -> example: frm theme="background #1e1e1e, text #d4d4d4, surface #252526, border #3c3c3c"
+      -> example: frm marks="pass #6a9955, fail #f48771, log #9cdcfe, title #4ec9b0, focus #3794ff"
+      -> example: frm sizes="sidebar 25 percent, bottom 32 percent, animation 150ms"
+      -> show(frame)
+
+part 1: "boot"
+   -> frm:name="monaco":
+      -> item:name="boot" event="on_load"->action=load(module name="monaco")<>:
+         -> action=show("<model>")
+         -> action=halt("boot failure")
+      -> example: frm register="language vibedsl, extension .vibe .txt"
+      -> example: frm config="comment, block, brackets, auto close brackets and quotes"
+      -> example: frm keys="fun, act, name, par, desc, id, ret, use, abstract, alias, show, save"
+      -> example: frm op="vectors, branch, link, colon, equals, or, and, negate, diagnostics"
+      -> example: frm opt="theme vs-dark, layout auto, minimap off, font 14, beyond no"
+      -> show(monaco)
+
+part 2: "slot"
+   -> frm:name="draft":
+      -> item:name="resolve" event="on_open"->action=select(name)<>:
+         -> action=return(name "edit.vibe")
+         -> action=return(name "missing extension" "append .vibe to the name")
+         -> action=return(name "empty name" "fall back to edit.vibe")
+      -> item:name="store" event="on_edit"->action=save(draft)<>:
+         -> action=return("saved at HH:MM:SS with the full path")
+         -> action=halt("private mode is active")
+      -> item:name="server" event="on_hide"->action=set(api "API/save")<>:
+         -> action=save(draft)
+         -> action=halt("router is down")
+      -> show(draft)
+
+part 3: "io"
+   -> frm:name="io":
+      -> item:name="open" event="on_io"->action=select(file)<>:
+         -> action=set(name)
+         -> action=show(model)
+      -> item:name="after" event="on_save"->action=save(slot)<>:
+         -> action=set(api "push to server")
+         -> action=set(ui "focus input and reset it")
+      -> item:name="download" event="on_save"->action=resolve(name)<>:
+         -> action=show(file blob)
+      -> item:name="demo" event="on_open"->action=set(model "data.js demo file")<>:
+         -> action=show(model)
+      -> item:name="tail" event="on_load"->action=restore(draft)<>:
+         -> action=load(live)
+         -> action=show(model)
+      -> show(io)
+
+part 4: "check"
+   -> frm:name="live":
+      -> item:name="validate" event="on_edit"->action=select(src "dictionary protos blueprints syntax")<>:
+         -> action=run(validator)
+         -> action=show(verdict)
+      -> item:name="markers" event="on_run"->action=apply(model "language vibedsl")<>:
+         -> action=show(result)
+      -> item:name="badge" event="on_run"->action=select(cls "pass or fail")<>:
+         -> action=show(verdict, errors, warnings)
+      -> item:name="list" event="on_run"->action=show(result)<>:
+         -> action=show("line, column, message")
+      -> item:name="jump" event="on_pick"->action=set(position)<>:
+         -> action=show(reveal the target line)
+      -> example: frm result="verdict, errors, warnings, rows, none"
+      -> show(result)
+
+part 5: "panel"
+   -> frm:name="ref":
+      -> item:name="cache" event="on_panel"->action=run(validate "per section")<>:
+         -> action=show(check mark)
+         -> action=show(failed count)
+      -> item:name="view" event="on_pick"->action=open(sec)<>:
+         -> action=show(header)
+         -> action=show(src)
+      -> item:name="toggle" event="on_click"->action=set(aside)<>:
+         -> action=show(active)
+         -> action=show(layout)
+      -> example: frm source="action, mapping, operators, abstracts, syntax"
+      -> show(panel)
+
+part 6: "add"
+   -> frm:name="add":
+      -> item:name="check" event="on_input"->action=select(value, desc)<>:
+         -> action=return(rsn "the value and its description are both required")
+         -> action=return(rsn "the alias already exists in the dictionary")
+         -> action=save(key "vibedsl.addref")
+         -> action=halt("error joined with the server message")
+         -> action=halt("the server is unreachable")
+      -> item:name="preview_run" event="on_input"->action=show(preview)<>:
+         -> action=show("*-> value - desc, exm indented")
+      -> example: frm entry="section, value, desc, exm, preview, result"
+      -> show(entry)
+
+part 7: "core"
+   -> frm:name="finder":
+      -> item:name="known_run" event="on_run"->action=set(known "dictionary aliases plus syntax aliases plus stage scop srch mix")<>:
+         -> action=show(known)
+      -> item:name="reset" event="on_run"->action=set(typed "clear all")<>:
+         -> action=set(reach "clear all")
+      -> item:name="mask" event="on_run"->action=set(scan "custom blocks and comments blanked, strings kept")<>:
+         -> action=show(scan)
+      -> item:name="tree" event="on_run"->action=set(scan "tabs to spaces, skip blank lines and hash, indent stack")<>:
+         -> action=show(scan)
+      -> item:name="decls_run" event="on_run"->action=set(decls "abstract ids, as binds, fun names, entity act pairs")<>:
+         -> action=show(decls)
+      -> item:name="typed" event="on_run"->action=set(typed "function, prop, item, pin pairs from init")<>:
+         -> action=show(typed)
+      -> item:name="use_run" event="on_run"->action=set(use_map "agent skip, source skip, proto list, id, bare words")<>:
+         -> action=show(use_map)
+      -> item:name="reach" event="on_run"->action=run(walk "recursive entry walk with a seen guard")<>:
+         -> action=show(reach)
+      -> item:name="block" event="on_run"->action=run(union "symbols upward in the tree")<>:
+         -> action=show(block)
+      -> item:name="dup_check" event="on_run"->action=run(dup "ids against the reachable base and earlier ids")<>:
+         -> action=halt("duplicate id found")
+      -> item:name="rules" event="on_run"->action=show(rows "1 2 3 4 5 6")<>:
+         -> action=show(r1 "a branch needs its indented arrow children")
+         -> action=show(r2 "a change operator needs an act inside")
+         -> action=show(r3 "scan line start and operators; known and visible words pass")
+         -> action=show(r4 "an object pin must be owned or visible")
+         -> action=show(r5 "parentheses balance with the scope")
+         -> action=show(r6 "a missing use target is reported")
+      -> item:name="marker" event="on_run"->action=show(locate "message quote in the raw line")<>:
+         -> action=show(marker)
+      -> item:name="out_run" event="on_run"->action=show(out "sorted by line, kind, message; deduped; verdict")<>:
+         -> action=show(shape "out, markers sev 8, nerr, nwarn, verdict")
+      -> show(core)
+
+part 8: "parity"
+   -> frm:name="parity":
+      -> item:name="goal_run" event="on_run"->action=set(goal "js byte identical to python, modulo CRLF")<>:
+         -> action=show(goal)
+      -> item:name="feed_run" event="on_run"->action=set(feed "same source on both sides, normalized")<>:
+         -> action=show(feed)
+      -> item:name="files_run" event="on_run"->action=set(files "syntax, protos, blueprints, dict, demo")<>:
+         -> action=show(files)
+      -> item:name="lines" event="on_run"->action=show("undeclared words, missing use targets, evt scopes, load, multivec, pins, inline, custom")<>:
+         -> switch:state:
+            -> case "diff":
+               -> return(rsn "exit code 1")
+            -> case "same":
+               -> return(rsn "exit code 0")
+      -> show(parity)
+
+part 9: "pipe"
+   -> frm:name="pipe":
+      -> item:name="gen" event="on_pipe"->action=select(src "dict, splits, protos, blueprints, syntax, demo")<>:
+         -> action=run(read)
+         -> action=show(data)
+      -> item:name="write" event="on_pipe"->action=write(data "header plus payload, dict, dictName, sections, protos, blueprints, syntax, demo")<>:
+         -> action=run(export "module and window")
+      -> item:name="sort" event="on_pipe"->action=run(sort "type headers, entries at arrows, primary alias, case insensitive")<>:
+         -> action=run(parts "action, mapping, logical operators, abstracts plus behavior, four files")
+      -> item:name="prefix" event="on_pipe"->action=run(count "start of the language dictionary, count its entries")<>:
+         -> action=halt("section is missing")
+      -> item:name="stage2" event="on_pipe"->action=run(search "four terms")<>:
+         -> action=run(mix)
+         -> action=run(rebuild)
+      -> item:name="push" event="on_pipe"->action=run(check "section, value, desc, no dash, no duplicates")<>:
+         -> action=run(insert "before the next section header")
+         -> action=run(rebuild "sort, write, parts, generate")
+      -> show(data)
+
+part 10: "api"
+   -> frm:name="api":
+      -> item:name="router" event="http_request"->action=select(path)<>:
+         -> root(path)->action=open(page)
+         -> action=open(file)
+         -> action=halt("http 404")
+      -> item:name="lib" event="on_api"->action=wrap(page "html normalizer")<>:
+         -> action=map(9 names)
+      -> item:name="index" event="on_api"->action=open(page)<>:
+         -> action=show("logo, syntax, vectors, ui, scope, endpoints")
+      -> item:name="get" event="http_request"->action=select(dict)<>:
+         -> action=show(dict)
+         -> action=halt("http 404 plus the valid list")
+      -> item:name="search" event="http_request"->action=select(term)<>:
+         -> action=split("arrows")
+         -> action=show("dict, syntax, agents only; case sensitive")
+      -> item:name="save" event="http_request"->action=set(name)<>:
+         -> action=write(".vibe temp store")
+         -> action=halt("http 400")
+      -> item:name="add" event="http_request"->action=select(section)<>:
+         -> action=write("one line")
+         -> action=halt("length cap reached")
+      -> item:name="add_pipe" event="on_api"->action=run(find "python")<>:
+         -> action=run(pipeline)
+         -> action=show("echo the last json")
+      -> item:name="proto" event="http_request"->action=select(id)<>:
+         -> action=show("exact id lookup, substring and desc search")
+      -> show(api)
+
+part 11: "gates"
+   -> frm:name="gates":
+      -> item:name="spec" event="on_gate"->action=run(validate "declared or visible words, scopes balanced")<>:
+         -> action=return("pass")
+         -> action=halt("fail")
+      -> item:name="parity_run" event="on_gate"->action=run(test "all cases pass")<>:
+         -> action=return("pass")
+         -> action=halt("fail")
+      -> item:name="dict" event="on_gate"->action=run(validate "action, mapping, operators, abstracts, syntax clean")<>:
+         -> action=return("pass")
+         -> action=halt("fail")
+      -> show(gates)
+
+part 12: "off"
+   -> frm:name="off":
+      -> item:name="hand" event="on_off"->action=set(pairs "two working pairs")<>:
+         -> action=show("divergence under five percent, free of comments")
+      -> item:name="verify" event="on_off"->action=run(both "run both pairs and pass the gates")<>:
+         -> action=return("done")
+         -> action=halt("fail")
+      -> show(off)
+
+part 13: "deliver"
+   -> frm:name="deliver":
+      -> item:name="handoff" event="on_deliver"->action=create:path"/example/IDE"<>:
+         -> action=save("IDE.vibe", "IDE_eng.spec")
+         -> action=show("check KV cache size")
+         -> action=create:file("README.md")
+         -> action=save()
+      -> show(deliver)
+
+use(agent:name="coder")
+use(agent:name="dsl-plan")

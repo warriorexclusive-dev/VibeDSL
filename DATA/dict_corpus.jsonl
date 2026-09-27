@@ -1,0 +1,334 @@
+{"concept": "\"\"", "names": ["\"\""], "mark": "\"\"", "meaning": "included custom string", "trigger": ["\"\""]}
+{"concept": "&->", "names": ["&->"], "mark": null, "meaning": "forced anchor: textual spelling of the anchor glyph U+2022; the compiler emits U+2022 in its place; a line that starts with &-> is pinned to document-global scope", "trigger": ["&->"], "no_mark": true}
+{"concept": "()", "names": ["()"], "mark": "()", "meaning": "logical action of object", "trigger": ["()"]}
+{"concept": "()->", "names": ["()->"], "mark": null, "meaning": "nesting forvard operator", "trigger": ["()->"], "no_mark": true}
+{"concept": "*", "names": ["*"], "mark": "✖", "meaning": "multiplication operator (math)", "trigger": ["*"]}
+{"concept": "*?", "names": ["*?"], "mark": null, "meaning": "comparator with condition: any + ?, i.e. the any-form with a condition applied", "trigger": ["*?"], "no_mark": true}
+{"concept": "+", "names": ["+"], "mark": "✚", "meaning": "addition operator (math)", "trigger": ["+"]}
+{"concept": "-", "names": ["-"], "mark": "−", "meaning": "subtraction operator (math), the sign is written U+2212 MINUS SIGN", "trigger": ["-"]}
+{"concept": "->", "names": ["->"], "mark": "→", "meaning": "right strict link to node,dependence or relationship or other, example [model1]->[model2] or [node]->[fun]{act}", "trigger": ["->"]}
+{"concept": "-[]>", "names": ["-[]>"], "mark": "⪪", "meaning": "multi vector: raises an object into N parallel logical dimensions, -[N]> where N is the dimension count. In compilation it expands into BRANCHING: one branch per dimension, each wrapped in {}, so -[3]> compiles to a three-way branch and is not a separate runtime construct", "trigger": ["-[]>"]}
+{"concept": "/", "names": ["/"], "mark": "÷", "meaning": "ordinary mathematical division operator (divide)", "trigger": ["/"]}
+{"concept": "//", "names": ["//"], "mark": null, "meaning": "comment action // human to human comment, not use this info as context", "trigger": ["//"], "no_mark": true}
+{"concept": ":", "names": [":"], "mark": ":", "meaning": "true/false limiter and check; logical exist with Y/N, return Y/true if property exist or expression is valid, return N/false example lang:c++: wrt; null safe WITH ask - on N the logic halts and ASKS the human (see ask: when the check does not converge, the AI must ask, never guess)", "trigger": [":"]}
+{"concept": ":point:", "names": [":point:", "point"], "mark": "⟚", "meaning": "example of a goto label; usage goto: :point:", "trigger": [":point:", "point"]}
+{"concept": ";", "names": [";"], "mark": null, "meaning": "end of current function/layer/context do not use in prototypes or rules it is a marker of end context and clean token memory", "trigger": [";"], "no_mark": true}
+{"concept": "<", "names": ["<"], "mark": null, "meaning": "left strict link to node, inverse node,dependence or relationship or other, example [file:text]<-[lng:eng]", "trigger": ["<"], "no_mark": true}
+{"concept": "<-", "names": ["<-"], "mark": "←", "meaning": "left strict link: the inverse of ->, it names the node the current one came from", "trigger": ["<-"]}
+{"concept": "<-()", "names": ["<-()"], "mark": null, "meaning": "nesting backward operator", "trigger": ["<-()"], "no_mark": true}
+{"concept": "<->", "names": ["<->"], "mark": "⬌", "meaning": "two-way strict node,dependence or relationship, public function or interface and other, example [uroot con:lng]<->[usr:seq]", "trigger": ["<->"]}
+{"concept": "<=", "names": ["<="], "mark": "≤", "meaning": "comparison: less than or equal, numeric/logical value check", "trigger": ["<="]}
+{"concept": "<>", "names": ["<>"], "mark": "⊎", "meaning": "logical branching operator to a set: forks the logic into N parallel ways with their own results. : (the colon) is the true/false limiter and check - together <>: is variant logic where every way is checked Y/N, WARNING: <> is NOT \"not equal\" (unlike some languages) - for inequality use !(a==b); any doubt about <> MUST be checked against the dictionary", "trigger": ["<>"], "refuse": ["\"not equal\" (unlike some languages) - for inequality use !(a==b)"]}
+{"concept": "=", "names": ["="], "mark": "⩲", "meaning": "assignment: binds a value to a name, the name keeps that value", "trigger": ["="]}
+{"concept": "==", "names": ["=="], "mark": "≣", "meaning": "logical and mat equals of any object operator", "trigger": ["=="]}
+{"concept": ">=", "names": [">="], "mark": "≥", "meaning": "comparison: greater than or equal, numeric/logical value check", "trigger": [">="]}
+{"concept": "?", "names": ["?"], "mark": "⋔", "meaning": "mapping marker of potentialy more way logic", "trigger": ["?"]}
+{"concept": "[]", "names": ["[]"], "mark": "[]", "meaning": "block of entity or node, example [node:root]->[invoke delegate]>->[env:code] = \"invoke delegate\" or list params example [val1,val2,val3]; ... is the any-spread form and is used only when the array length exceeds 10 elements", "trigger": ["[]"]}
+{"concept": "\\", "names": ["\\"], "mark": "⧵", "meaning": "abstract change logic operator: applies an abstract change to a subject set: \\(<subjects> act=\"add|delete|...\"); \\* is the filter form of this operator", "trigger": ["\\"]}
+{"concept": "\\*", "names": ["\\*"], "mark": null, "meaning": "logic filter operator: exclusion\\*filtering by condition when applied inside brackets or quotes, example crt\\*show - create without showing", "trigger": ["\\*"], "no_mark": true}
+{"concept": "about", "names": ["about"], "mark": "⸘", "meaning": "about, information about the current context/entity", "trigger": ["about"]}
+{"concept": "abstract", "names": ["abstract"], "mark": "⌰", "meaning": "the declaration of a pure concept (idea) that defines the general properties and behavior for a group or single of future entity but prohibits the creation of an instance of itself", "trigger": ["abstract"]}
+{"concept": "access", "names": ["access"], "mark": "↦", "meaning": "abstract access", "trigger": ["access"]}
+{"concept": "action", "names": ["action"], "mark": "⁐", "meaning": "action: action=\"desc\" declares any function - standalone abstract or entity function (two canonical forms)", "trigger": ["action"]}
+{"concept": "add", "names": ["add"], "mark": "⁝", "meaning": "logical adding entity action", "trigger": ["add"]}
+{"concept": "agent", "names": ["agent"], "mark": "⌬", "meaning": "mapping operator of AI agent", "trigger": ["agent"]}
+{"concept": "alias", "names": ["alias", "assoc"], "mark": "≍", "meaning": "alias or association of any entity", "trigger": ["alias", "assoc"]}
+{"concept": "all", "names": ["all"], "mark": "∀", "meaning": "all, more, everething", "trigger": ["all"]}
+{"concept": "allow", "names": ["allow"], "mark": "✔", "meaning": "allow, allowed,", "trigger": ["allow"]}
+{"concept": "anchor", "names": ["anchor"], "mark": "•", "meaning": "forced anchor: an explicit action-level anchor, the node is pinned by hand; this is the compiled glyph form of the textual operator &->", "trigger": ["anchor"]}
+{"concept": "and", "names": ["and", "&&"], "mark": "∧", "meaning": "logical and", "trigger": ["and", "&&"]}
+{"concept": "answer", "names": ["answer"], "mark": "✆", "meaning": "answer to user.", "trigger": ["answer"]}
+{"concept": "any", "names": ["any"], "mark": "✻", "meaning": "any operator of anything: objects, logic, values - the object for everything. `...` is NOT a name of this concept: it is spread notation, it stays text and never compiles", "trigger": ["any"], "refuse": ["a name of this concept"]}
+{"concept": "api", "names": ["api"], "mark": "◎", "meaning": "api/interface logical contract point of any entity", "trigger": ["api"]}
+{"concept": "approve", "names": ["approve"], "mark": "©", "meaning": "approve", "trigger": ["approve"]}
+{"concept": "arc", "names": ["arc"], "mark": "╱", "meaning": "architecture, example: func name=\"upload_photo\" arc:coroutine; describes a function with the coroutine pattern", "trigger": ["arc"]}
+{"concept": "as", "names": ["as"], "mark": "⟼", "meaning": "creates a variable/alias binding: expression + as + name makes the object available under that name", "trigger": ["as"]}
+{"concept": "ask", "names": ["ask"], "mark": "‽", "meaning": "request; RESOLUTION ORDER: first ask the base (dictionary/syntax/protos/blueprints via RAG search/get) - if the answer is already recorded, do NOT ask again; only if the base has no answer, ask the human; never guess or invent - this frees the human from repeated questions; the constructor is a contract between human and AI, and a human can programme in this language too", "trigger": ["ask"], "refuse": ["ask again"]}
+{"concept": "async", "names": ["async"], "mark": "⁗", "meaning": "action async run of any entity", "trigger": ["async"]}
+{"concept": "autoinc", "names": ["autoinc"], "mark": "⧺", "meaning": "autoincrement", "trigger": ["autoinc"]}
+{"concept": "avt", "names": ["avt"], "mark": "⊙", "meaning": "avatar, identity surface (person/entity)", "trigger": ["avt"]}
+{"concept": "balance", "names": ["balance", "pan"], "mark": "⚖", "meaning": "action of precise correction of imprecise entities", "trigger": ["balance", "pan"]}
+{"concept": "bct", "names": ["bct"], "mark": "↝", "meaning": "breadcrumb, trail of parent contexts", "trigger": ["bct"]}
+{"concept": "bdg", "names": ["bdg"], "mark": "◔", "meaning": "badge, counters/status dot", "trigger": ["bdg"]}
+{"concept": "behavior", "names": ["behavior"], "mark": null, "meaning": "logical mapping of behavior of any entity", "trigger": ["behavior"], "no_mark": true}
+{"concept": "bhvoper", "names": ["bhvoper"], "mark": "⋉", "meaning": "behavior pattern operator", "trigger": ["bhvoper"]}
+{"concept": "blplan", "names": ["blplan"], "mark": "≢", "meaning": "blueprint plan: formal plan artifact (stricter form of proto), pulled by incld=\"<id>\", written to plan/", "trigger": ["blplan"]}
+{"concept": "blueprint", "names": ["blueprint"], "mark": "∰", "meaning": "blueprint, base logical abstract pattern, Behavioral Model for Enforcement, Behavioral law to apply, Always true and serves as the instruction for use, unless explicitly stated or red", "trigger": ["blueprint"]}
+{"concept": "bool", "names": ["bool"], "mark": "⊻", "meaning": "Y or N - yes, no basic logical boolean", "trigger": ["bool"]}
+{"concept": "break", "names": ["break"], "mark": "↷", "meaning": "break", "trigger": ["break"]}
+{"concept": "btn", "names": ["btn"], "mark": "▢", "meaning": "button action (plain/fab/icon via styp)", "trigger": ["btn"]}
+{"concept": "build", "names": ["build"], "mark": "⚙", "meaning": "build/assembly of any entity", "trigger": ["build"]}
+{"concept": "business", "names": ["business"], "mark": "❖", "meaning": "entity of business logic", "trigger": ["business"]}
+{"concept": "call", "names": ["call"], "mark": "₮", "meaning": "entry / function call", "trigger": ["call"]}
+{"concept": "case", "names": ["case"], "mark": "⇒", "meaning": "case", "trigger": ["case"]}
+{"concept": "catch", "names": ["catch"], "mark": "⋋", "meaning": "catch block marker, operator type action", "trigger": ["catch"]}
+{"concept": "cfg", "names": ["cfg"], "mark": "☰", "meaning": "config/settings file", "trigger": ["cfg"]}
+{"concept": "change", "names": ["change"], "mark": "⁁", "meaning": "change", "trigger": ["change"]}
+{"concept": "char", "names": ["char"], "mark": "◌", "meaning": "char", "trigger": ["char"]}
+{"concept": "check", "names": ["check"], "mark": "▣", "meaning": "mapping action check/validation", "trigger": ["check"]}
+{"concept": "child", "names": ["child"], "mark": "⇣", "meaning": "child dcope of object entity or any unit", "trigger": ["child"]}
+{"concept": "close", "names": ["close"], "mark": "Œ", "meaning": "generic canonical act function on any entity: close(<entity>) - finalizes the entity and saves its bound node state, declared once via act, works for every entity", "trigger": ["close"]}
+{"concept": "cluster", "names": ["cluster"], "mark": "⬤", "meaning": "mapping cluster of any entity", "trigger": ["cluster"]}
+{"concept": "code", "names": ["code"], "mark": "⟦", "meaning": "code.", "trigger": ["code"]}
+{"concept": "codrev", "names": ["codrev"], "mark": "⧉", "meaning": "code anallize, review without editing, testing", "trigger": ["codrev"]}
+{"concept": "col", "names": ["col"], "mark": "↓", "meaning": "composition: linear vertical axis of children", "trigger": ["col"]}
+{"concept": "compil", "names": ["compil"], "mark": "₥", "meaning": "compilation, compile", "trigger": ["compil"]}
+{"concept": "complex", "names": ["complex"], "mark": "⊗", "meaning": "complex", "trigger": ["complex"]}
+{"concept": "component", "names": ["component"], "mark": "☐", "meaning": "component", "trigger": ["component"]}
+{"concept": "compress", "names": ["compress"], "mark": "⇺", "meaning": "compress action of any entity", "trigger": ["compress"]}
+{"concept": "config", "names": ["config"], "mark": null, "meaning": "configuration, settings", "trigger": ["config"], "no_mark": true}
+{"concept": "console", "names": ["console"], "mark": "▌", "meaning": "console, or text visual output", "trigger": ["console"]}
+{"concept": "content", "names": ["content"], "mark": "⊡", "meaning": "content", "trigger": ["content"]}
+{"concept": "context", "names": ["context"], "mark": "⊚", "meaning": "context logical or physical base entity of instance", "trigger": ["context"]}
+{"concept": "continue", "names": ["continue"], "mark": "⤀", "meaning": "continue: go on to the next iteration of the loop; the opposite of break", "trigger": ["continue"]}
+{"concept": "controller", "names": ["controller"], "mark": "⌖", "meaning": "entity control manager", "trigger": ["controller"]}
+{"concept": "convert", "names": ["convert"], "mark": "⇌", "meaning": "convert, rerole, translate", "trigger": ["convert"]}
+{"concept": "cosine", "names": ["cosine"], "mark": "⌒", "meaning": "cosine", "trigger": ["cosine"]}
+{"concept": "crd", "names": ["crd"], "mark": "❏", "meaning": "card/surface container", "trigger": ["crd"]}
+{"concept": "create", "names": ["create"], "mark": "◈", "meaning": "action create: create a file, api, class, function etc. (create action; pairs with its target: crt fun, crt file, crt api)", "trigger": ["create"]}
+{"concept": "creative", "names": ["creative", "temp"], "mark": "✳", "meaning": "executor freedom scale for the task (0-100): 0 = follow blueprint/spec straight, no improvisation; 50 = own solutions within the structure (names, layout, implementations); 100 = full freedom limited only by syntax and logic. Whole scale: creative=N with N from 0 to 100; 0 (default, if absent) = strict, straight from blueprint/spec; ~50 = own decisions inside the allowed structure; 100 = total freedom, only syntax + logic constrain. Applies ONLY to implementation freedom - never to grammar/dictionary or the given input data. `temp` is the same dial, read as temperature: temp=0.7 means the same freedom point. NOT weight - that is the layout concept; NOT degrees, that is physics", "trigger": ["creative", "temp"], "refuse": ["weight - that is the layout concept", "degrees, that is physics"], "distinct_from": ["weight"]}
+{"concept": "critical", "names": ["critical"], "mark": "✺", "meaning": "logical critical instruction, behavior pay special attention and more-check.", "trigger": ["critical"]}
+{"concept": "cxt", "names": ["cxt"], "mark": null, "meaning": "context, execution/working context object", "trigger": ["cxt"], "no_mark": true}
+{"concept": "data", "names": ["data"], "mark": "◽", "meaning": "logical any data", "trigger": ["data"]}
+{"concept": "date", "names": ["date"], "mark": "◫", "meaning": "mapping date", "trigger": ["date"]}
+{"concept": "db", "names": ["db"], "mark": "⬦", "meaning": "database", "trigger": ["db"]}
+{"concept": "def", "names": ["def"], "mark": "≡", "meaning": "default", "trigger": ["def"]}
+{"concept": "delay", "names": ["delay"], "mark": "↺", "meaning": "delay or period", "trigger": ["delay"]}
+{"concept": "delete", "names": ["delete", "remove"], "mark": "␡", "meaning": "remove", "trigger": ["delete", "remove"]}
+{"concept": "dependency", "names": ["dependency"], "mark": "⋈", "meaning": "logical dependency of any entity", "trigger": ["dependency"]}
+{"concept": "deploy", "names": ["deploy"], "mark": "⤓", "meaning": "code compilation or deployment", "trigger": ["deploy"]}
+{"concept": "description", "names": ["description"], "mark": "⚬", "meaning": "description", "trigger": ["description"]}
+{"concept": "dict", "names": ["dict"], "mark": "⊞", "meaning": "dictionary", "trigger": ["dict"]}
+{"concept": "direction", "names": ["direction"], "mark": "⇕", "meaning": "logical mapping direciton behavior of any entity", "trigger": ["direction"]}
+{"concept": "directory", "names": ["directory"], "mark": "∮", "meaning": "directory or subdomain example: dot.comm/project; project is dir", "trigger": ["directory"]}
+{"concept": "dlg", "names": ["dlg"], "mark": "⊠", "meaning": "dialog, modal/alert", "trigger": ["dlg"]}
+{"concept": "domain", "names": ["domain"], "mark": "▰", "meaning": "domain logical language domain", "trigger": ["domain"]}
+{"concept": "down", "names": ["down"], "mark": null, "meaning": "direction sign: down", "trigger": ["down"], "no_mark": true}
+{"concept": "dry", "names": ["dry"], "mark": "⁊", "meaning": "do not repeat yourself", "trigger": ["dry"]}
+{"concept": "dsl", "names": ["dsl"], "mark": "✶", "meaning": "VibeDSL", "trigger": ["dsl"]}
+{"concept": "dvr", "names": ["dvr"], "mark": "─", "meaning": "divider, separator line", "trigger": ["dvr"]}
+{"concept": "elif", "names": ["elif"], "mark": "∡", "meaning": "else if", "trigger": ["elif"]}
+{"concept": "else", "names": ["else"], "mark": "↭", "meaning": "else", "trigger": ["else"]}
+{"concept": "end", "names": ["end"], "mark": "□", "meaning": "end", "trigger": ["end"]}
+{"concept": "endpoint", "names": ["endpoint"], "mark": "∘", "meaning": "endpoint logical", "trigger": ["endpoint"]}
+{"concept": "enter", "names": ["enter"], "mark": "↵", "meaning": "user input: enter key, confirm/select", "trigger": ["enter"]}
+{"concept": "environment", "names": ["environment"], "mark": "▒", "meaning": "environment or other variables", "trigger": ["environment"]}
+{"concept": "error", "names": ["error"], "mark": "✕", "meaning": "ERROR AS EVENT: an error occurred; the event is denoted, not raised, and it does not stop the flow by itself", "trigger": ["error"]}
+{"concept": "event", "names": ["event"], "mark": "⟡", "meaning": "event base logic operator", "trigger": ["event"]}
+{"concept": "exam", "names": ["exam", "scan"], "mark": "◉", "meaning": "scaning, examination", "trigger": ["exam", "scan"]}
+{"concept": "example", "names": ["example"], "mark": "☞", "meaning": "example", "trigger": ["example"]}
+{"concept": "exception", "names": ["exception"], "mark": "⚠", "meaning": "ERROR AS CONTEXT: logical carrier of error information, the error is carried as state, not raised", "trigger": ["exception"]}
+{"concept": "exec", "names": ["exec", "run"], "mark": "▶", "meaning": "execute, run, sequence, request action in program, not you", "trigger": ["exec", "run"]}
+{"concept": "exist", "names": ["exist"], "mark": "∈", "meaning": "exist", "trigger": ["exist"]}
+{"concept": "extend", "names": ["extend"], "mark": "↗", "meaning": "extend any entity", "trigger": ["extend"]}
+{"concept": "extension", "names": ["extension"], "mark": "⟝", "meaning": "extension object", "trigger": ["extension"]}
+{"concept": "extract", "names": ["extract"], "mark": "➙", "meaning": "extract action", "trigger": ["extract"]}
+{"concept": "factor", "names": ["factor"], "mark": "×", "meaning": "coefficient, factor, percentage need for logical sy", "trigger": ["factor"]}
+{"concept": "fail", "names": ["fail"], "mark": "✗", "meaning": "mapping negative or failed action marker", "trigger": ["fail"]}
+{"concept": "false", "names": ["false", "no", "N"], "mark": "⊥", "meaning": "boolean literal false: synonyms of the bool value N", "trigger": ["false", "no", "N"]}
+{"concept": "file", "names": ["file"], "mark": "▯", "meaning": "file", "trigger": ["file"]}
+{"concept": "finally", "names": ["finally"], "mark": "⌀", "meaning": "finally block marker, operator type action", "trigger": ["finally"]}
+{"concept": "flow", "names": ["flow"], "mark": "➜", "meaning": "behavior flow of any entity: processing strategy/sequence of an entity (queue, pipeline, etc.)", "trigger": ["flow"]}
+{"concept": "for", "names": ["for"], "mark": "⤳", "meaning": "for example for(val1<0,incr(1))->data1=val1 -> for action", "trigger": ["for"]}
+{"concept": "forbidden", "names": ["forbidden"], "mark": "⊘", "meaning": "Forbidden", "trigger": ["forbidden"]}
+{"concept": "format", "names": ["format"], "mark": "⬒", "meaning": "format/formatter mapping of any entity", "trigger": ["format"]}
+{"concept": "framework", "names": ["framework"], "mark": "⬡", "meaning": "framework", "trigger": ["framework"]}
+{"concept": "frm", "names": ["frm"], "mark": "▱", "meaning": "composition: frame, bordered/inset container or viewport crop", "trigger": ["frm"]}
+{"concept": "fullscreen", "names": ["fullscreen"], "mark": "⛶", "meaning": "occupy the whole screen", "trigger": ["fullscreen"]}
+{"concept": "function", "names": ["function"], "mark": "ʩ", "meaning": "function: an action when it is a rule or an agent; an API entry point when it is a spec or architecture; often used with the par key (parameter) and ret (return), the logic is preferably written through the language logical operators", "trigger": ["function"]}
+{"concept": "generic", "names": ["generic"], "mark": "≬", "meaning": "generic instrustion of current object", "trigger": ["generic"]}
+{"concept": "get", "names": ["get"], "mark": "⤵", "meaning": "action to obtain any entity", "trigger": ["get"]}
+{"concept": "goal", "names": ["goal"], "mark": "✓", "meaning": "mapping positive end action marker", "trigger": ["goal"]}
+{"concept": "goto", "names": ["goto"], "mark": "⟿", "meaning": "go to point", "trigger": ["goto"]}
+{"concept": "graphics", "names": ["graphics", "render", "visual", "UI"], "mark": "▧", "meaning": "UI user interface mapping commands", "trigger": ["graphics", "render", "visual", "UI"]}
+{"concept": "grd", "names": ["grd"], "mark": "▦", "meaning": "composition: grid, two-axis placement (columns/areas)", "trigger": ["grd"]}
+{"concept": "grp", "names": ["grp"], "mark": "⨝", "meaning": "composition: logical cluster of elements, one unit of state", "trigger": ["grp"]}
+{"concept": "hint", "names": ["hint"], "mark": "✲", "meaning": "placeholder text shown in an empty input field, not a value", "trigger": ["hint"]}
+{"concept": "hscroll", "names": ["hscroll"], "mark": "⟷", "meaning": "horizontal scroll container, base scroll", "trigger": ["hscroll"]}
+{"concept": "hstretch", "names": ["hstretch"], "mark": "↔", "meaning": "horizontal stretch behavior", "trigger": ["hstretch"]}
+{"concept": "icn", "names": ["icn"], "mark": "⚜", "meaning": "icon, pictographic marker", "trigger": ["icn"]}
+{"concept": "id", "names": ["id"], "mark": "§", "meaning": "identity of maping in language", "trigger": ["id"]}
+{"concept": "if", "names": ["if"], "mark": "⇛", "meaning": "if then else | if elif els - base logic operator to condition", "trigger": ["if"]}
+{"concept": "import", "names": ["import"], "mark": "⊃", "meaning": "import library, an actual linked artifact. NOT the in operator, NOT in+out: this is ONE word. use() is the internal import, this is the external one", "trigger": ["import"], "refuse": ["the in operator, NOT in+out"], "distinct_from": ["in"]}
+{"concept": "in", "names": ["in"], "mark": "«", "meaning": "input entity or object mapping operator", "trigger": ["in"]}
+{"concept": "incld", "names": ["incld"], "mark": "⊂", "meaning": "attribute incld=\"<id>\": what is included here. NOT an import - a belonging mark, not an action", "trigger": ["incld"], "refuse": ["an import - a belonging mark, not an action"]}
+{"concept": "incr", "names": ["incr"], "mark": "⤢", "meaning": "increment built-in: incr(val) = value + 1 (counter step in for loops, e.g. i=incr(1))", "trigger": ["incr"]}
+{"concept": "index", "names": ["index"], "mark": "⁑", "meaning": "indexes or id of physical object or code another lang instruction", "trigger": ["index"]}
+{"concept": "infra", "names": ["infra"], "mark": "✦", "meaning": "infrastructure, like a router or PC or worker humans or users or datacenter", "trigger": ["infra"]}
+{"concept": "inp", "names": ["inp"], "mark": "▖", "meaning": "input field (text/number/multiline via styp)", "trigger": ["inp"]}
+{"concept": "insert", "names": ["insert"], "mark": "↪", "meaning": "logical action insert of any entity", "trigger": ["insert"]}
+{"concept": "instanceof", "names": ["instanceof", "present", "belong"], "mark": "⊢", "meaning": "present, belong, instanceof, logical membership check condition", "trigger": ["instanceof", "present", "belong"]}
+{"concept": "instr", "names": ["instr"], "mark": "⋮", "meaning": "instruction", "trigger": ["instr"]}
+{"concept": "io", "names": ["io"], "mark": "⬄", "meaning": "End-to-end any entity state modification without change context, mapping command", "trigger": ["io"]}
+{"concept": "is", "names": ["is"], "mark": "∋", "meaning": "instanceof", "trigger": ["is"]}
+{"concept": "isolate", "names": ["isolate"], "mark": "‖", "meaning": "An entity isolated from external logic blocks does not accept higher-level logic as the primary source.", "trigger": ["isolate"]}
+{"concept": "item", "names": ["item", "node"], "mark": "⬝", "meaning": "logical operator binding a real physical or code object (the concrete item behind a logical node); node - the storage point for that object", "trigger": ["item", "node"]}
+{"concept": "kbd", "names": ["kbd", "key"], "mark": "⌁", "meaning": "keyboard key: physical/logical key identifier used by input events", "trigger": ["kbd", "key"]}
+{"concept": "kdown", "names": ["kdown"], "mark": "⤋", "meaning": "user input: key pressed down event", "trigger": ["kdown"]}
+{"concept": "kpress", "names": ["kpress"], "mark": "⤹", "meaning": "user input: key press (down+up) event", "trigger": ["kpress"]}
+{"concept": "kup", "names": ["kup"], "mark": "⤒", "meaning": "user input: key released up event", "trigger": ["kup"]}
+{"concept": "landscape", "names": ["landscape"], "mark": "▬", "meaning": "landscape orientation", "trigger": ["landscape"]}
+{"concept": "lang", "names": ["lang"], "mark": "◬", "meaning": "mapping any entity language", "trigger": ["lang"]}
+{"concept": "left", "names": ["left"], "mark": null, "meaning": "direction sign: left", "trigger": ["left"], "no_mark": true}
+{"concept": "length", "names": ["length", "size"], "mark": "″", "meaning": "length or size of any entity", "trigger": ["length", "size"]}
+{"concept": "lib", "names": ["lib"], "mark": "∐", "meaning": "mapping library, codebase, or open source project / git repository, codesnippet", "trigger": ["lib"]}
+{"concept": "limit", "names": ["limit"], "mark": "⊓", "meaning": "limit of ane entity", "trigger": ["limit"]}
+{"concept": "line", "names": ["line"], "mark": "▤", "meaning": "logical line", "trigger": ["line"]}
+{"concept": "link", "names": ["link"], "mark": "@", "meaning": "target affiliation logic instruction. (example link: prj:skl) - command to use skill in project specs", "trigger": ["link"]}
+{"concept": "list", "names": ["list"], "mark": "‣", "meaning": "list/array/collection", "trigger": ["list"]}
+{"concept": "llm", "names": ["llm", "you"], "mark": "‱", "meaning": "LLM model its you", "trigger": ["llm", "you"]}
+{"concept": "load", "names": ["load"], "mark": "⏎", "meaning": "load action: load a view, file or base by name", "trigger": ["load"]}
+{"concept": "location", "names": ["location"], "mark": "◧", "meaning": "logical mapping of location any entity", "trigger": ["location"]}
+{"concept": "logging", "names": ["logging", "logs"], "mark": "≫", "meaning": "logging", "trigger": ["logging", "logs"]}
+{"concept": "logic", "names": ["logic"], "mark": "⟹", "meaning": "entity of logic", "trigger": ["logic"]}
+{"concept": "loop", "names": ["loop"], "mark": null, "meaning": "repeat cycle of any entity", "trigger": ["loop"], "no_mark": true}
+{"concept": "lowercase", "names": ["lowercase"], "mark": "⇩", "meaning": "lowercase any text conversacion or mapping", "trigger": ["lowercase"]}
+{"concept": "make", "names": ["make"], "mark": "⚒", "meaning": "make", "trigger": ["make"]}
+{"concept": "map", "names": ["map"], "mark": "≋", "meaning": "logical map/dictionary: key->value pairs of any entity; the default mapping carrier in a task, no separate mapping operator needed", "trigger": ["map"]}
+{"concept": "maptree", "names": ["maptree"], "mark": "⁅", "meaning": "mapping tree: e.g. a result as a tree after a query", "trigger": ["maptree"]}
+{"concept": "max", "names": ["max"], "mark": "⌋", "meaning": "maximum", "trigger": ["max"]}
+{"concept": "maxim", "names": ["maxim"], "mark": "⇱", "meaning": "maximize", "trigger": ["maxim"]}
+{"concept": "memory", "names": ["memory"], "mark": "⊛", "meaning": "memory", "trigger": ["memory"]}
+{"concept": "min", "names": ["min"], "mark": "⌊", "meaning": "minimum", "trigger": ["min"]}
+{"concept": "minim", "names": ["minim"], "mark": "⇲", "meaning": "minimize", "trigger": ["minim"]}
+{"concept": "mix", "names": ["mix"], "mark": "⋓", "meaning": "mix action: combine/merge any two objects", "trigger": ["mix"]}
+{"concept": "model", "names": ["model"], "mark": "⬠", "meaning": "model,  model of any entity or behavior", "trigger": ["model"]}
+{"concept": "modify", "names": ["modify"], "mark": "✎", "meaning": "logic modify: modify/alter the logic (not a class/module - those are module/class)", "trigger": ["modify"]}
+{"concept": "module", "names": ["module", "class"], "mark": "■", "meaning": "module, class unit, import type", "trigger": ["module", "class"]}
+{"concept": "mosdown", "names": ["mosdown"], "mark": "⤎", "meaning": "user input: mouse button down event", "trigger": ["mosdown"]}
+{"concept": "mosup", "names": ["mosup"], "mark": "⤖", "meaning": "user input: mouse button up event", "trigger": ["mosup"]}
+{"concept": "move", "names": ["move"], "mark": "⇢", "meaning": "logical move action", "trigger": ["move"]}
+{"concept": "msg", "names": ["msg"], "mark": "※", "meaning": "message, output/status message object", "trigger": ["msg"]}
+{"concept": "name", "names": ["name"], "mark": "≕", "meaning": "name of an object, attribute name=\"<value>\"", "trigger": ["name"]}
+{"concept": "nav", "names": ["nav"], "mark": "◄", "meaning": "navigation rail/bar/drawer/tab-row, concrete via styp", "trigger": ["nav"]}
+{"concept": "new", "names": ["new"], "mark": "✪", "meaning": "mapping of creation object", "trigger": ["new"]}
+{"concept": "none", "names": ["none"], "mark": "∄", "meaning": "explicit absence of a value, logical operator: \"here is nothing\" Covers logical operators like :, req, -> with a way to state that a parameter is either not required or absent depending on reading context; unlike the ! marker it does NOT halt the logic, execution continues past an absent/not-required value", "trigger": ["none"], "refuse": ["halt the logic, execution continues past an absent/not-required value"]}
+{"concept": "null", "names": ["null", "void", "nil"], "mark": "∅", "meaning": "exact empty value (not a logical operator): explicit void, \"nothing here\" Unlike none (pure logical absence that continues) null is a concrete empty value: where a value is REQUIRED (req/expected), null HALTS the logic - try/catch, fail; none says \"not required/absent, keep going\"; null says \"empty value present, stop here\"", "trigger": ["null", "void", "nil"]}
+{"concept": "num", "names": ["num"], "mark": "℉", "meaning": "unified numeric value for all lang (single representation instead of int, long, float, double): any integer or fractional 32/64 bit number, bit depth and type resolved by value", "trigger": ["num"]}
+{"concept": "nvariant", "names": ["nvariant", "invar"], "mark": "♮", "meaning": "invariant", "trigger": ["nvariant", "invar"]}
+{"concept": "obj", "names": ["obj"], "mark": "◯", "meaning": "abstract definition of object or entity", "trigger": ["obj"]}
+{"concept": "only", "names": ["only"], "mark": "☌", "meaning": "only, verifiication action", "trigger": ["only"]}
+{"concept": "open", "names": ["open"], "mark": "➔", "meaning": "generic canonical act function on any entity: open(<entity>) - opens the entity bound node for changes, declared once via act, works for every entity", "trigger": ["open"]}
+{"concept": "or", "names": ["or", "|"], "mark": "∨", "meaning": "logical or", "trigger": ["or", "|"]}
+{"concept": "origin", "names": ["origin"], "mark": "✱", "meaning": "original", "trigger": ["origin"]}
+{"concept": "os", "names": ["os", "platform"], "mark": "∟", "meaning": "OS environment", "trigger": ["os", "platform"]}
+{"concept": "out", "names": ["out"], "mark": "»", "meaning": "output mapping of any entity", "trigger": ["out"]}
+{"concept": "ovl", "names": ["ovl"], "mark": "▩", "meaning": "composition: overlay, layer stacked above the base surface", "trigger": ["ovl"]}
+{"concept": "param", "names": ["param"], "mark": "℗", "meaning": "property, parameter", "trigger": ["param"]}
+{"concept": "parent", "names": ["parent"], "mark": "^", "meaning": "logical property of parent: explicit indication that the value of the property is taken from the parent node", "trigger": ["parent"]}
+{"concept": "part", "names": ["part"], "mark": "╂", "meaning": "logical partition operator, applies to any entity", "trigger": ["part"]}
+{"concept": "pattern", "names": ["pattern"], "mark": "⋲", "meaning": "programming or behavioral pattern", "trigger": ["pattern"]}
+{"concept": "plan", "names": ["plan"], "mark": "⚑", "meaning": "make plan mode or cpecs", "trigger": ["plan"]}
+{"concept": "portrait", "names": ["portrait"], "mark": "▮", "meaning": "portrait orientation", "trigger": ["portrait"]}
+{"concept": "prg", "names": ["prg"], "mark": "▂", "meaning": "progress, busy/loading indicator (linear/circular via styp)", "trigger": ["prg"]}
+{"concept": "print", "names": ["print"], "mark": "⎙", "meaning": "mapping operator of visual output logic", "trigger": ["print"]}
+{"concept": "prj", "names": ["prj"], "mark": "❑", "meaning": "project", "trigger": ["prj"]}
+{"concept": "procedure", "names": ["procedure"], "mark": "┃", "meaning": "procedure vertical aligment logical, Unlike a function, there are no input or output parameters; all parameters are drawn from the context.", "trigger": ["procedure"]}
+{"concept": "proctx", "names": ["proctx", "thread"], "mark": "⤭", "meaning": "process, context,isolate thread", "trigger": ["proctx", "thread"]}
+{"concept": "prompt", "names": ["prompt"], "mark": "❯", "meaning": "mapping operator of user/human prompt", "trigger": ["prompt"]}
+{"concept": "protocol", "names": ["protocol"], "mark": null, "meaning": "protocol of any entity", "trigger": ["protocol"], "no_mark": true}
+{"concept": "prototype", "names": ["prototype"], "mark": "≜", "meaning": "constructor of any entity: builds a structured template with its declared actions and conditions; in a declaration proto(...) reads as prototype; use RAG to search the base prototype or use &-> to pull a prototype in specs", "trigger": ["prototype"]}
+{"concept": "quote", "names": ["quote"], "mark": "❝", "meaning": "mapping of llm text / quote", "trigger": ["quote"]}
+{"concept": "rag", "names": ["rag"], "mark": "☛", "meaning": "Retrieval Augmented Generation", "trigger": ["rag"]}
+{"concept": "ralign", "names": ["ralign"], "mark": "◨", "meaning": "right aligned layout", "trigger": ["ralign"]}
+{"concept": "rcl", "names": ["rcl"], "mark": "⇵", "meaning": "recycler: first-class virtualized list component, not composed from abstracts; manages its own adapter/view-holder pool, view reuse and lazy data binding via src", "trigger": ["rcl"]}
+{"concept": "reason", "names": ["reason"], "mark": "∵", "meaning": "reason, syntax example err:rsn=\"example\"", "trigger": ["reason"]}
+{"concept": "rebuild", "names": ["rebuild"], "mark": "⟳", "meaning": "action rebuild any entity", "trigger": ["rebuild"]}
+{"concept": "ref", "names": ["ref"], "mark": "➤", "meaning": "reference mapping of example any entity", "trigger": ["ref"]}
+{"concept": "remake", "names": ["remake"], "mark": "⟲", "meaning": "logical remake", "trigger": ["remake"]}
+{"concept": "remember", "names": ["remember"], "mark": "↻", "meaning": "implicit anchor: id definition, plain remember command", "trigger": ["remember"]}
+{"concept": "replaced", "names": ["replaced"], "mark": "⇋", "meaning": "logical replaced of any entity", "trigger": ["replaced"]}
+{"concept": "request", "names": ["request"], "mark": "⍰", "meaning": "action request from llm to user", "trigger": ["request"]}
+{"concept": "required", "names": ["required"], "mark": "⊨", "meaning": "required, mapping triger to trigger for mandatory parameter entr, none if absent", "trigger": ["required"]}
+{"concept": "response", "names": ["response"], "mark": "↩", "meaning": "response logical response of event or action", "trigger": ["response"]}
+{"concept": "restriction", "names": ["restriction"], "mark": "☒", "meaning": "logical mapping of restriction any entity", "trigger": ["restriction"]}
+{"concept": "retry", "names": ["retry"], "mark": "⇄", "meaning": "action retry", "trigger": ["retry"]}
+{"concept": "return", "names": ["return"], "mark": "⤴", "meaning": "return any object action", "trigger": ["return"]}
+{"concept": "revers", "names": ["revers", "not", "!"], "mark": "¬", "meaning": "reverse logic, example if (!a==a)->ret is NO, not condition", "trigger": ["revers", "not", "!"]}
+{"concept": "revert", "names": ["revert", "rollb"], "mark": "↶", "meaning": "revert, return previos state, rollback", "trigger": ["revert", "rollb"]}
+{"concept": "review", "names": ["review"], "mark": "✢", "meaning": "review", "trigger": ["review"]}
+{"concept": "rgx", "names": ["rgx"], "mark": "⋄", "meaning": "regex", "trigger": ["rgx"]}
+{"concept": "right", "names": ["right"], "mark": null, "meaning": "direction sign: right", "trigger": ["right"], "no_mark": true}
+{"concept": "role", "names": ["role"], "mark": "♔", "meaning": "unit role, indicates the role of the entity or object", "trigger": ["role"]}
+{"concept": "root", "names": ["root"], "mark": "√", "meaning": "base scope marker", "trigger": ["root"]}
+{"concept": "row", "names": ["row"], "mark": "➡", "meaning": "composition: linear horizontal axis of children", "trigger": ["row"]}
+{"concept": "rule", "names": ["rule"], "mark": "†", "meaning": "rule", "trigger": ["rule"]}
+{"concept": "save", "names": ["save"], "mark": "⬇", "meaning": "generic canonical act function on any entity: save(<entity>) - persists the entity to its bound node, declared once via act, works for every entity", "trigger": ["save"]}
+{"concept": "scope", "names": ["scope"], "mark": "∁", "meaning": "scope of entity", "trigger": ["scope"]}
+{"concept": "screen", "names": ["screen", "pag"], "mark": "▭", "meaning": "composition: page, screen or route boundary", "trigger": ["screen", "pag"]}
+{"concept": "scrsht", "names": ["scrsht"], "mark": "⏺", "meaning": "screenshot", "trigger": ["scrsht"]}
+{"concept": "scrtap", "names": ["scrtap"], "mark": "⤄", "meaning": "user input: screen tap event", "trigger": ["scrtap"]}
+{"concept": "sec", "names": ["sec"], "mark": "┤", "meaning": "composition: section, block within a page", "trigger": ["sec"]}
+{"concept": "select", "names": ["select"], "mark": "▨", "meaning": "select action, syntax example sel[val1,val2] after ->swt if more way or ->abstract{} if abstract, example sel[val1,val2]->fun data=sel:ret , sel[val1,val2]->swt case val1: data1=val1 bk", "trigger": ["select"]}
+{"concept": "sem", "names": ["sem"], "mark": "≊", "meaning": "semantic object", "trigger": ["sem"]}
+{"concept": "service", "names": ["service"], "mark": "♢", "meaning": "mapping service role of entity", "trigger": ["service"]}
+{"concept": "set", "names": ["set"], "mark": "⇐", "meaning": "setter action of any entity", "trigger": ["set"]}
+{"concept": "show", "names": ["show"], "mark": "▸", "meaning": "action show any entity in user out default text console", "trigger": ["show"]}
+{"concept": "sht", "names": ["sht"], "mark": "▄", "meaning": "sheet, bottom/side panel", "trigger": ["sht"]}
+{"concept": "single", "names": ["single"], "mark": "▪", "meaning": "single, standalone", "trigger": ["single"]}
+{"concept": "singleton", "names": ["singleton"], "mark": "●", "meaning": "singleton", "trigger": ["singleton"]}
+{"concept": "sinus", "names": ["sinus"], "mark": "∿", "meaning": "sin", "trigger": ["sinus"]}
+{"concept": "skill", "names": ["skill"], "mark": "♟", "meaning": "logical representation of a skill", "trigger": ["skill"]}
+{"concept": "skn", "names": ["skn"], "mark": "▓", "meaning": "skeleton/shimmer placeholder", "trigger": ["skn"]}
+{"concept": "slr", "names": ["slr"], "mark": "⏤", "meaning": "slider, continuous value input", "trigger": ["slr"]}
+{"concept": "smbls", "names": ["smbls"], "mark": "⇿", "meaning": "predict array of symbols", "trigger": ["smbls"]}
+{"concept": "sort", "names": ["sort"], "mark": "≺", "meaning": "sorted mapping of any entity", "trigger": ["sort"]}
+{"concept": "source", "names": ["source"], "mark": "⟵", "meaning": "source", "trigger": ["source"]}
+{"concept": "specfile", "names": ["specfile"], "mark": "◆", "meaning": "mapping of specifics and logic", "trigger": ["specfile"]}
+{"concept": "specs", "names": ["specs"], "mark": null, "meaning": "specifications of any", "trigger": ["specs"], "no_mark": true}
+{"concept": "split", "names": ["split"], "mark": "✂", "meaning": "split anything into n parts by vectors, e.g. split a dictionary into its category parts and save", "trigger": ["split"]}
+{"concept": "spr", "names": ["spr"], "mark": "◇", "meaning": "composition: spacer, flexible empty space", "trigger": ["spr"]}
+{"concept": "srch", "names": ["srch"], "mark": "⌕", "meaning": "search action: search over a node/base by query", "trigger": ["srch"]}
+{"concept": "stage", "names": ["stage"], "mark": "⇶", "meaning": "separation with progress, applies to any entity", "trigger": ["stage"]}
+{"concept": "standalone", "names": ["standalone"], "mark": "☆", "meaning": "stand alone", "trigger": ["standalone"]}
+{"concept": "state", "names": ["state"], "mark": "◕", "meaning": "mapping state of any entity", "trigger": ["state"]}
+{"concept": "static", "names": ["static"], "mark": "⊖", "meaning": "static, logical static operator of any entity or object implement in code or rule", "trigger": ["static"]}
+{"concept": "store", "names": ["store"], "mark": "❐", "meaning": "logic store of any entity", "trigger": ["store"]}
+{"concept": "string", "names": ["string"], "mark": "…", "meaning": "string (var or literal str:\"...\"; structure is struct, never str)", "trigger": ["string"]}
+{"concept": "struct", "names": ["struct"], "mark": "∷", "meaning": "any predefined structure or class in the case of OOP", "trigger": ["struct"]}
+{"concept": "swap", "names": ["swap"], "mark": "⇆", "meaning": "UI logical behavior: swipe / page turn between views, default direction left to right unless otherwise specified", "trigger": ["swap"]}
+{"concept": "switch", "names": ["switch"], "mark": "⪼", "meaning": "switch: branch selection by value, paired with case", "trigger": ["switch"]}
+{"concept": "syntax", "names": ["syntax"], "mark": "⬢", "meaning": "syntax", "trigger": ["syntax"]}
+{"concept": "system", "names": ["system"], "mark": "∍", "meaning": "systematization role", "trigger": ["system"]}
+{"concept": "table", "names": ["table"], "mark": "═", "meaning": "table, table mapping of any entity instruction", "trigger": ["table"]}
+{"concept": "target", "names": ["target"], "mark": "⌾", "meaning": "direct logical indication of a goal: names the entity the task aims at, and nothing else. NOT a result - nothing is produced or returned by it. NOT goal: goal is the marker that the end is here, target is what is being aimed at", "trigger": ["target"], "refuse": ["a result - nothing is produced or returned by it", "goal"], "distinct_from": ["goal"]}
+{"concept": "ternary", "names": ["ternary"], "mark": "⁖", "meaning": "ternary operator, if-then-else expression", "trigger": ["ternary"]}
+{"concept": "text", "names": ["text"], "mark": "¶", "meaning": "visual text", "trigger": ["text"]}
+{"concept": "tgl", "names": ["tgl"], "mark": "◴", "meaning": "binary toggle control", "trigger": ["tgl"]}
+{"concept": "theme", "names": ["theme"], "mark": "▚", "meaning": "theme visal or logic", "trigger": ["theme"]}
+{"concept": "think", "names": ["think"], "mark": "∴", "meaning": "mapping operator of model reflections.", "trigger": ["think"]}
+{"concept": "tick", "names": ["tick"], "mark": "⧗", "meaning": "time elapse, example [llm:con:out:txt=\"hi im here\" tic(1m)], print message to user \"im here\" after 1m", "trigger": ["tick"]}
+{"concept": "time", "names": ["time"], "mark": "τ", "meaning": "mapping time", "trigger": ["time"]}
+{"concept": "tip", "names": ["tip"], "mark": "✧", "meaning": "tooltip, hover help", "trigger": ["tip"]}
+{"concept": "to", "names": ["to"], "mark": "⟶", "meaning": "logical pointer from entity to entity read from left to right: maps to the target entity", "trigger": ["to"]}
+{"concept": "token", "names": ["token"], "mark": "❍", "meaning": "llm token object mapping", "trigger": ["token"]}
+{"concept": "tree", "names": ["tree"], "mark": null, "meaning": "tree structure of any entity", "trigger": ["tree"], "no_mark": true}
+{"concept": "treel", "names": ["treel"], "mark": "⌈", "meaning": "tree level down", "trigger": ["treel"]}
+{"concept": "treer", "names": ["treer"], "mark": "⌉", "meaning": "tree level right", "trigger": ["treer"]}
+{"concept": "trim", "names": ["trim"], "mark": "␢", "meaning": "action: trim/strip characters from a string or collection (default whitespace)", "trigger": ["trim"]}
+{"concept": "true", "names": ["true", "yes", "Y"], "mark": "⊤", "meaning": "boolean literal true: synonyms of the bool value Y", "trigger": ["true", "yes", "Y"]}
+{"concept": "try", "names": ["try"], "mark": "⇴", "meaning": "try block marker, operator type action", "trigger": ["try"]}
+{"concept": "type", "names": ["type"], "mark": "◒", "meaning": "mapping type of any entity", "trigger": ["type"]}
+{"concept": "uid", "names": ["uid"], "mark": "❄", "meaning": "unique id like UUID or unique key autoincrement if SQL uuid in program or physical entity", "trigger": ["uid"]}
+{"concept": "unique", "names": ["unique"], "mark": "❂", "meaning": "unique, singlton of any entity", "trigger": ["unique"]}
+{"concept": "unit", "names": ["unit"], "mark": "▫", "meaning": "any abstract unit", "trigger": ["unit"]}
+{"concept": "unknown", "names": ["unknown"], "mark": "⁂", "meaning": "unknown, unknown state of required param. use this if param need entropy logic, or abstract. NOT none - none states absence, unk states not-yet-known", "trigger": ["unknown"], "refuse": ["none - none states absence, unk states not-yet-known"], "distinct_from": ["none"]}
+{"concept": "up", "names": ["up"], "mark": "↑", "meaning": "direction sign: up", "trigger": ["up"]}
+{"concept": "upercase", "names": ["upercase"], "mark": "⇧", "meaning": "upercase any text conversation or mapping", "trigger": ["upercase"]}
+{"concept": "use", "names": ["use"], "mark": "é", "meaning": "logical import command: apply/engage an object, prototype or import; the logical side of import (import is the physical lib/item, use is the logical command that engages it)", "trigger": ["use"]}
+{"concept": "usr", "names": ["usr"], "mark": "⌨", "meaning": "language model user, operator.", "trigger": ["usr"]}
+{"concept": "valid", "names": ["valid"], "mark": "☑", "meaning": "valid", "trigger": ["valid"]}
+{"concept": "variable", "names": ["variable"], "mark": "⌃", "meaning": "variable of temporary logical entity", "trigger": ["variable"]}
+{"concept": "variant", "names": ["variant"], "mark": "✹", "meaning": "action reduce variants", "trigger": ["variant"]}
+{"concept": "view", "names": ["view"], "mark": "❒", "meaning": "concrete view frame: a definite rendered frame/screen instance (not graphics - graphics is the visual element/type abstraction)", "trigger": ["view"]}
+{"concept": "vrt", "names": ["vrt"], "mark": "∖", "meaning": "virtual, logical virtual sequence or entity", "trigger": ["vrt"]}
+{"concept": "vscroll", "names": ["vscroll"], "mark": "⇅", "meaning": "vertical scroll container, base scroll", "trigger": ["vscroll"]}
+{"concept": "vstretch", "names": ["vstretch"], "mark": "↕", "meaning": "vertical stretch behavior", "trigger": ["vstretch"]}
+{"concept": "weight", "names": ["weight"], "mark": "⁛", "meaning": "expand to the full available space, like layout weight 1 in Android", "trigger": ["weight"]}
+{"concept": "when", "names": ["when"], "mark": "⋟", "meaning": "when: single conditional trigger, fires once when the condition becomes true", "trigger": ["when"]}
+{"concept": "while", "names": ["while"], "mark": "⟁", "meaning": "while: loop, repeat a block while the condition holds, condition is checked before each iteration", "trigger": ["while"]}
+{"concept": "with", "names": ["with"], "mark": "∪", "meaning": "mapping of logic extension", "trigger": ["with"]}
+{"concept": "write", "names": ["write"], "mark": "✍", "meaning": "write action", "trigger": ["write"]}
+{"concept": "{", "names": ["{"], "mark": "{}", "meaning": "start custom logic description", "trigger": ["{"]}
+{"concept": "}", "names": ["}"], "mark": null, "meaning": "end custom logic description", "trigger": ["}"], "no_mark": true}
+{"concept": "~", "names": ["~"], "mark": "≃", "meaning": "logical mapping representation of any comparison expression", "trigger": ["~"]}

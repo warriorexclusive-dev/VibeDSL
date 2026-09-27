@@ -51,6 +51,12 @@ import compile as CC          # noqa: E402  the scanner, imported not copied
 DOCS_ABOUT_THE_RULE = (
     "DATA/create-specs-manual.txt",
     "DATA/create_speck_check.md",
+    # the compiler's own RULES template. It is inlined into every compiled
+    # spec, and its HOW TO READ AN ACTION SCOPE section documents the very
+    # shapes - `owner:property   the owner LEADS` - that the space rule would
+    # otherwise rewrite into nonsense. It documents the rule; it is not subject
+    # to it.
+    "compiler/header.txt",
 )
 
 # bare noun keys: no `=`, still a mapping attribute

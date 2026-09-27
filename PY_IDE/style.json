@@ -1,0 +1,88 @@
+{
+  "source": "colors IDE.txt",
+  "radius": 15,
+  "font": "Arial",
+  "font_size": [
+    12,
+    14
+  ],
+  "groups": {
+    "frm": {
+      "Panel.background": "#3c3f41",
+      "Label.foreground": "#bbbbbb",
+      "Label.disabledForeground": "#777777"
+    },
+    "btn": {
+      "Button.background": "#4c5052",
+      "Button.foreground": "#bbbbbb",
+      "Button.startBackground / endBackground": "#4c5052",
+      "Button.focusedBorderColor": "#466d94",
+      "Button.default.background": "#365880",
+      "Button.default.foreground": "#ffffff"
+    },
+    "inp": {
+      "Component.background": "#45494a",
+      "Component.foreground": "#bbbbbb",
+      "Component.borderColor": "#646464",
+      "Component.focusColor": "#3a5a7d"
+    },
+    "sel": {
+      "TextField.selectionBackground": "#2f5174",
+      "TextField.selectionForeground": "#ffffff"
+    },
+    "tbl": {
+      "Table.background": "#45494a",
+      "Table.gridColor": "#474747",
+      "TableHeader.background": "#3c3f41"
+    },
+    "nav": {
+      "Menu.background": "#3c3f41",
+      "PopupMenu.background": "#3c3f41",
+      "MenuItem.selectionBackground": "#2f5174"
+    },
+    "tab": {
+      "TabbedPane.background": "#3c3f41",
+      "TabbedPane.underlineColor": "#4a729e"
+    },
+    "scr": {
+      "ScrollBar.thumb": "#4c5052"
+    },
+    "@": {
+      "@background": "#3c3f41",
+      "@accentColor": "#365880",
+      "@accentSelectionBackground": "#2f5174"
+    }
+  },
+  "flat": {
+    "Panel.background": "#3c3f41",
+    "Label.foreground": "#bbbbbb",
+    "Label.disabledForeground": "#777777",
+    "Button.background": "#4c5052",
+    "Button.foreground": "#bbbbbb",
+    "Button.startBackground / endBackground": "#4c5052",
+    "Button.focusedBorderColor": "#466d94",
+    "Button.default.background": "#365880",
+    "Button.default.foreground": "#ffffff",
+    "Component.background": "#45494a",
+    "Component.foreground": "#bbbbbb",
+    "Component.borderColor": "#646464",
+    "Component.focusColor": "#3a5a7d",
+    "TextField.selectionBackground": "#2f5174",
+    "TextField.selectionForeground": "#ffffff",
+    "Table.background": "#45494a",
+    "Table.gridColor": "#474747",
+    "TableHeader.background": "#3c3f41",
+    "Menu.background": "#3c3f41",
+    "PopupMenu.background": "#3c3f41",
+    "MenuItem.selectionBackground": "#2f5174",
+    "TabbedPane.background": "#3c3f41",
+    "TabbedPane.underlineColor": "#4a729e",
+    "ScrollBar.thumb": "#4c5052",
+    "@background": "#3c3f41",
+    "@accentColor": "#365880",
+    "@accentSelectionBackground": "#2f5174"
+  },
+  "num_hex": 13,
+  "num_key": 27,
+  "num_group": 8
+}
