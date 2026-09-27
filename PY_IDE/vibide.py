@@ -854,7 +854,9 @@ def num_of_event():
 def _run_validator():
     """chk(validator) == pass - realny zapusk obshchego validatora na window.vibe"""
     import subprocess
-    val = r"C:\Users\SoftIce\.config\opencode\opendsl\validator\validator.py"
+    # the copy under ~/.config was six hours stale, so this was grading the
+    # spec against someone else parser. Inside the repo, always.
+    val = os.path.join(HERE, "..", "validator", "validator.py")
     spec = os.path.join(HERE, "window.vibe")
     if not os.path.isfile(val):
         return "net validatora"

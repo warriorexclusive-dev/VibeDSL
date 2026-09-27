@@ -284,6 +284,11 @@ def parse_abstract(raw, typed, out):
     out.add(aid)
     for s in subs:
         out.add(aid + ":" + s)
+    # param=X is a declaration just as much as id=X is, and swap_ctl writes
+    # element:incld:set(ctl) against its own parameter. Without this the
+    # command checker read the parameter as an unknown command word.
+    for pm in re.finditer(r"->param=([A-Za-z_]\w*)", seg):
+        out.add(pm.group(1))
     return aid
 
 
