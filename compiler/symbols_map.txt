@@ -95,7 +95,6 @@ U+21C4   ⇄  *-> retry      - action retry
 U+2722   ✢  *-> review     - review
 U+2421 ␡ *-> remove         - remove
 U+21B6   ↶  *-> rollb      - revert, return previos state, rollback
-U+2B07   ⬇  *-> save       - generic canonical act function on any entity: save(<entity>) - persists the entity to its bound 
 U+25C9   ◉  *-> scan       - scaning, examination
 U+23FA   ⏺  *-> scrsht     - screenshot
 U+25A8   ▨  *-> select     - select action, syntax
@@ -218,7 +217,6 @@ U+2612   ☒  *-> restriction - logical mapping of restriction any entity
 U+22C4   ⋄  *-> rgx        - regex
 U+2654   ♔  *-> role       - unit role, indicates the role of the entity or object
 U+221A   √  *-> root       - base scope marker
-U+27A1   ➡  *-> row        - composition: linear horizontal axis of children
 U+2235 ∵ *-> reason        - reason, syntax
 U+2020   †  *-> rule       - rule
 U+2201   ∁  *-> scope      - scope of entity
@@ -258,7 +256,6 @@ U+25D2   ◒  *-> type       - mapping type of any entity
 U+2744   ❄  *-> uid        - unique id like UUID or unique key autoincrement if SQL uuid in program or physical entity
 U+2742 ❂ *-> unique       - unique, singlton of any entity
 U+25AB   ▫  *-> unit       - any abstract unit
-U+2191   ↑  *-> up         - direction sign: up
 U+21E7 ⇑ *-> upercase       - upercase any text conversation or mapping
 U+2328   ⌨  *-> usr        - language model user, operator
 U+2752   ❒  *-> view       - concrete view frame: a definite rendered frame/screen instance
@@ -345,3 +342,10 @@ U+27C1   ⟁  *-> while      - while: loop, repeat a block while the condition h
 U+2243   ≃  *-> ~            - logical mapping representation of any comparison expression
 U+2592 ▒ *-> environment        - environment or other variables
 
+
+U+2B06  ⬆  *-> up     - direction sign: up
+U+2B07  ⬇  *-> down   - direction sign: down
+U+2B05  ⬅  *-> left   - direction sign: left
+U+27A1  ➡  *-> right  - direction sign: right
+U+2B0B  ⬋  *-> row    - composition: linear horizontal axis of children
+U+2B0A  ⬊  *-> save   - generic canonical act function on any entity: save(<entity>) - persists the entity to its bound
