@@ -135,6 +135,8 @@ U+258C   ▌  *-> console    - console, or text visual output
 U+22A1   ⊡  *-> content    - content
 U+229A   ⊚  *-> context    - context logical or physical base entity of instance
 U+2316   ⌖  *-> controller - entity control manager
+U+2317   ⌗  *-> prop        - named slot on an object, carries a value; one word for the type, so a field declaration reads obj:prop and is assigned through obj:prop:set(value)
+U+2BBD ⮽ *-> condition  - the arrow itself as a condition: a change of state or direction; in a prototype it is the virtual mapping of `->`, declared and not yet run
 U+2312 ⌒ *-> cosine        - cosine
 U+274F   ❏  *-> crd        - card/surface container
 U+2733   ✳  *-> creative   - executor freedom scale for the task
