@@ -9,17 +9,17 @@ function type="root" name="vibide" id="vibide" scop="root"->action == create [sp
 &-> abstract:prop:id="view"->frm:"view"
 &-> abstract:prop:id="name"->frm:"name"
 &-> abstract:prop:id="fullscreen"->frm:"fullscreen"
-&-> abstract:prop:id="theme"->frm:prop
+&-> abstract:prop:id="theme"{"hex" "group" "num"}->frm:prop
 &-> abstract:prop:id="corner"->frm:prop
 &-> abstract:prop:id="radius"->frm:corner:prop
-&-> abstract:prop:id="font"->frm:prop
+&-> abstract:prop:id="font"{"font_size"}->frm:prop
 &-> abstract:prop:id="font_size"->font:prop
-&-> abstract:prop:id="cfg"->frm:"cfg"
+&-> abstract:prop:id="cfg"{"mapping"}->frm:"cfg"
 &-> abstract:prop:id="file"->frm:"file"
 &-> abstract:prop:id="text"->frm:"text"
 &-> abstract:prop:id="nav"->frm:"nav"
-&-> abstract:prop:id="par"->frm:"par"
-&-> abstract:prop:id="frm"->frm:"frm"
+&-> abstract:prop:id="par"{"nest" "par"}->frm:"par"
+&-> abstract:prop:id="frm"{"corner" "font" "module" "split" "theme"}->frm:"frm"
 &-> abstract:prop:id="module"->frm:"module"
 &-> abstract:prop:id="split"->frm:"split"
 &-> abstract:prop:id="factor"->frm:"factor"
@@ -36,15 +36,15 @@ function type="root" name="vibide" id="vibide" scop="root"->action == create [sp
 &-> abstract:prop:id="console"->frm:"console"
 &-> abstract:prop:id="sht"->frm:"sht"
 &-> abstract:prop:id="content"->frm:"content"
-&-> abstract:prop:id="io"->frm:"io"
+&-> abstract:prop:id="io"{"func"}->frm:"io"
 &-> abstract:prop:id="func"->frm:"func"
 &-> abstract:prop:id="none"->frm:"none"
-&-> abstract:prop:id="mapping"->frm:"mapping"
+&-> abstract:prop:id="mapping"{"group" "num"}->frm:"mapping"
 &-> abstract:prop:id="goal"->frm:"goal"
 
 // ---- abstract func: okno
 
-&-> abstract:"open_view"->action="crt view + set name + fullscreen + show":
+&-> abstract:"open_view"->action="create(view) + view:name:set(...) + view:fullscreen:set(true) + action=show(view)":
       create(view)->view:name:set("VibeDSL IDE")->view:fullscreen:set(true)->action=show(view)
 
 // ---- abstract func: tema
@@ -60,62 +60,62 @@ function type="root" name="vibide" id="vibide" scop="root"->action == create [sp
 
 // ---- abstract func: bar
 
-&-> abstract:"build_nav"->action="crt nav + set 4 par + show":
+&-> abstract:"build_nav"->action="create(nav) + nav:par:set(...) + add(nav:par ...) x4 + action=show(nav)":
       create(nav)->nav:par:set("file")->add(nav:par "view")->add(nav:par "option")->add(nav:par "help")->nav:content:set(none)->action=show(nav)
 
 &-> abstract:id="add_par"->param=param->action="add(nav:par par) + add(par:nest par)"->add(nav:par par)->add(par:nest par)->return("par dobavlen")->return("par pust, nichego ne dobavlen")
 
 &-> abstract:id="set_text"->param=param->action="item:name:set(par)"->item:name:set(par)->return("name zamenen")
 
-&-> abstract:"del_item"->action="remove item + nest":
+&-> abstract:"del_item"->action="remove(item)":
       remove(item)->return("item i nest udaleny")
 
 // ---- abstract func: karcas
 
-&-> abstract:"build_frm"->action="crt frm + set module + set split factor + show":
+&-> abstract:"build_frm"->action="create(frm) + frm:module:set(true) + frm:split:set(factor [65,35]) + action=show(frm)":
       create(frm)->frm:module:set(true)->frm:split:set(factor [65,35])->action=show(frm)
 
 // ---- abstract func: verh
 
-&-> abstract:"build_top"->action="crt col + left + row tab inp + right":
+&-> abstract:"build_top"->action="create(col top) + create(left) + create(row) + create(tab_view) + create(inp) + create(right) + action=show(left) + action=show(tab_view) + action=show(right)":
       create(col top)->create(left)->left:min:set(50)->left:max:set(factor 25)->create(row)->create(tab_view)->add(tab_view:inp type="text")->create(right)->right:min:set(50)->right:max:set(factor 25)->action=show(left)->action=show(tab_view)->action=show(right)
 
 &-> abstract:id="set_left"->param=size->action="left:size:set(par), granitsy: min 50, max factor 25"->left:size:set(par)->return("size zamenen mezhdu min 50 i max factor 25")->return("vne granits, left sohranil size")
 
 &-> abstract:id="set_right"->param=size->action="right:size:set(par), granitsy: min 50, max factor 25"->right:size:set(par)->return("size zamenen mezhdu min 50 i max factor 25")->return("vne granits, right sohranil size")
 
-&-> abstract:"open_left"->action="show left":
+&-> abstract:"open_left"->action="action=show(left)":
       action=show(left)
 
-&-> abstract:"close_left"->action="close left":
+&-> abstract:"close_left"->action="close(left)":
       close(left)
 
-&-> abstract:"open_right"->action="show right":
+&-> abstract:"open_right"->action="action=show(right)":
       action=show(right)
 
-&-> abstract:"close_right"->action="close right":
+&-> abstract:"close_right"->action="close(right)":
       close(right)
 
-&-> abstract:id="add_tab"->param=param->action="add tab + set name + set text + show"->add(tab_view)->tab_view:name:set(par)->tab_view:text:set(par)->action=show(tab_view)
+&-> abstract:id="add_tab"->param=param->action="add(tab_view) + run(set_tab_name) + tab_view:text:set(par) + action=show(tab_view)"->add(tab_view)->run(set_tab_name)->tab_view:text:set(par)->action=show(tab_view)
 
 &-> abstract:id="set_tabs"->param=num->action="tab_view:num:set(par)"->tab_view:num:set(par)->return("num tab zamenen funkciej")->return("num vne granits, num bezmenen")
 
 &-> abstract:id="set_tab_name"->param=name->action="tab_view:name:set(par)"->tab_view:name:set(par)->return("name tab zamenen")->return("tab net, name ne zamenen")
 
-&-> abstract:"close_tab"->action="close tab":
+&-> abstract:"close_tab"->action="close(tab_view)":
       close(tab_view)
 
 // ---- abstract func: niz
 
-&-> abstract:"build_bottom"->action="crt col + row + 2 console factor 50":
+&-> abstract:"build_bottom"->action="create(col bottom) + create(row) + create(console) + console:factor:set(50) x2":
       create(col bottom)->create(row)->create(console)->console:factor:set(50)->create(console)->console:factor:set(50)->action=show(console)
 
 &-> abstract:id="set_console"->param=factor->action="console:size:set(par), factor 25"->console:size:set(par)->return("size zamenen na factor 25")->return("vne granits, console sohranil size")
 
-&-> abstract:"del_console"->action="remove console + factor 100":
+&-> abstract:"del_console"->action="remove(console) + console:factor:set(100)":
       remove(console)->console:factor:set(100)->return("odin console udalen, vtoroy zanyal vsyu shirinu")
 
-&-> abstract:"add_console"->action="add console + factor 50":
+&-> abstract:"add_console"->action="add(console) + console:factor:set(50)":
       add(console)->console:factor:set(50)->return("console vozvrashchena, dva po 50")
 
 // ---- abstract func: vhodnaya
@@ -136,7 +136,7 @@ function type="root" name="vibide" id="vibide" scop="root"->action == create [sp
 
 // ---- abstract func: sborka
 
-&-> abstract:"build_all"->action="run vse build func po poryadku":
+&-> abstract:"build_all"->action="run(open_view) -> run(read_colors) -> run(set_theme) -> run(bind_theme) -> run(build_nav) -> run(build_frm) -> run(build_top) -> run(build_bottom)":
       run(open_view)->run(read_colors)->run(set_theme)->run(bind_theme)->run(build_nav)->run(build_frm)->run(build_top)->run(build_bottom)
 
 &-> abstract:"no_literal"->action="v kode net theme, cvet, razmera":
