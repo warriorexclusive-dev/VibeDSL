@@ -40,3 +40,11 @@
          -> goal
       -> fail
    use(varn5)
+
+*-> proto(modify) id="modify_code":desc="alters VibeDSL code: gate on the exam, write the changed spec":action=[crt,exam,wrt]:type=rule:
+   -> abstract "alter_code" -> action="change the vibe code of a specfile and write it back"
+   -> exam(!(code:syn==VibeDSL:syn))<>:
+      -> alter_code(code)<>:
+         -> write(code):name="spec_out"
+         -> goal
+      -> fail
