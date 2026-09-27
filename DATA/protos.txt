@@ -1,28 +1,28 @@
-*-> proto(any) id="any":desc="virtual: generic node - declares what every node must provide":type=rule:
-   reqr:prop:type="any"
-   reqr:id:type="any"
-   reqr:condition:type="any"
+*-> proto(any) id="any":desc="virtual: generic node - the parts every node must provide":type=rule:scope="root":
+   required:part:type="any"
+   required:id:type="any"
+   required:instr:type="any"
 
-*-> proto(if) id="if":desc="virtual: condition gate - declares the instruction it tests":type=rule:
-   reqr:condition:type="any"
-   reqr:prop:type="obj~obj"
+*-> proto(if) id="if":desc="virtual: condition gate - the instruction it tests":type=rule:scope="root":
+   required:instr:type="any"
+   required:part:type="obj"
 
-*-> proto(goal) id="goal":desc="virtual: success handler - declares the success it reports":type=rule:
-   reqr:condition:type="any"
-   reqr:prop:type="msg"
+*-> proto(goal) id="goal":desc="virtual: success handler - the success it reports":type=rule:scope="root":
+   required:instr:type="any"
+   required:part:type="msg"
 
-*-> proto(fail) id="fail":desc="virtual: error handler - declares the error it reports":type=rule:
-   reqr:condition:type="any"
-   reqr:prop:type="err"
+*-> proto(fail) id="fail":desc="virtual: error handler - the error it reports":type=rule:scope="root":
+   required:instr:type="any"
+   required:part:type="error"
 
-*-> proto(varn) id="varn5":desc="virtual: variants gate - declares the options it offers":type=rule:
-   reqr:prop:type="any"
-   reqr:condition:type="usr"
+*-> proto(variant) id="variant5":desc="virtual: variants gate - the options it offers":type=rule:scope="root":
+   required:part:type="any"
+   required:instr:type="usr"
 
-*-> proto(retry) id="retry":desc="virtual: retry loop - declares the attempt bound":type=rule:
-   reqr:param:type="any"
-   reqr:condition:type="any"
+*-> proto(retry) id="retry":desc="virtual: retry loop - the attempt bound it retries to":type=rule:scope="root":
+   required:param:type="any"
+   required:instr:type="any"
 
-*-> proto(modify) id="modify":desc="virtual: alters VibeDSL code - declares the spec it rewrites":type=rule:
-   reqr:param:type="any"
-   reqr:condition:type="any"
+*-> proto(modify) id="modify":desc="virtual: alters VibeDSL code - the spec it rewrites":type=rule:scope="root":
+   required:param:type="any"
+   required:instr:type="any"
