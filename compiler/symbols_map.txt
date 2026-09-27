@@ -164,6 +164,7 @@ U+2B12 ⬒ *-> format        - format/formatter mapping of any entyty
 U+2B21 ⬡ *-> framework     - framework
 U+226C   ≬  *-> generic    - generic instrustion of current object
 U+25A7   ▧  *-> graphics   - UI user interface mapping comands
+U+2A1B ⨛ *-> collision - logical mapping collision operator: reachable from a process and from a 3D vector, and deliberately not defined more precisely - a precise definition would distort the vector, and the vector is the more general of the two
 U+2A1D   ⨝  *-> grp        - composition: logical cluster of elements, one unit of state
 U+27F7   ⟷  *-> hscroll    - horizontal scroll container, base scroll
 U+269C   ⚜  *-> icn        - icon, pictographic marker
@@ -188,6 +189,7 @@ U+230B   ⌋  *-> max        - maximum
 U+229B   ⊛  *-> memory     - memory
 U+230A   ⌊  *-> min        - minimum
 U+22D3   ⋓  *-> mix        - mix action: combine/merge any two objects
+U+2B1F   ⬟  *-> process - mapping of a process name: an isolated execution space with its own data, the C++ sense of Process; NOT a command, the name maps, so check(process:collision) reads the process named collision
 U+2B20   ⬠  *-> model      - model,  model of any entity or behavior
 U+25A0   ■  *-> module     - module, class unit, import type
 U+203B   ※  *-> msg        - message, output/status message object

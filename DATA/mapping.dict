@@ -69,8 +69,12 @@ type:mapping
 *-> code         - code.
     -> exm:code:java
 
-*-> col          - composition: linear vertical axis of children
-    -> exm:col: inp:name="login" | btn:name="save"
+*-> collision    - logical mapping collision operator: reachable from a process and from a 3D vector, and deliberately not defined more precisely - a precise definition would distort the vector, and the vector is the more general of the two
+    -> exm:process:collision
+    -> exm:create(model type=cube)-[3]> collision:[1,2,3]
+
+*-> column        - composition: linear vertical axis of children
+    -> exm:column: inp:name="login" | btn:name="save"
 
 *-> complex        - complex
     -> exm:complex:obj
@@ -394,6 +398,9 @@ type:mapping
               a \ {invalid flow if not work}
               var:b = convert a to pdf
            function "getWorkFlow" in:null out:pdf -> return workflow:b
+
+*-> process       - mapping of a process name: an isolated execution space with its own data, the C++ sense of Process; NOT a command, the name maps, so check(process:collision) reads the process named collision
+    -> exm:check(process:collision)
 
 *-> prompt        - mapping operator of user/human prompt
     -> exm: prompt:run()
