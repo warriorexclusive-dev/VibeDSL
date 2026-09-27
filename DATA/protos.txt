@@ -1,39 +1,28 @@
-*-> proto(any) id="any":desc="generic node template: lang, type and name are required":action=[crt,exam]:type=rule:
-   -> lang: any reqr
-      type: any reqr
-      type==[dom,file]:
-      -> name: any reqr
+*-> proto(any) id="any":desc="virtual: generic node - declares what every node must provide":type=rule:
+   reqr:prop:type="any"
+   reqr:id:type="any"
+   reqr:condition:type="any"
 
-*-> proto(if) id="if":desc="if gate: single-instruction condition on single, else object~object expression":action=[crt,exam]
-   if(instr is single): 
-   -> syn="obj~obj"
-   else
-   -> syn="instr(obj~obj)"
+*-> proto(if) id="if":desc="virtual: condition gate - declares the instruction it tests":type=rule:
+   reqr:condition:type="any"
+   reqr:prop:type="obj~obj"
 
-*-> proto(goal) id="goal":desc="goal handler: prints context and success message":action=[wrt,exam,crt]
-   show(cxt)
-   show(msg(goal))
+*-> proto(goal) id="goal":desc="virtual: success handler - declares the success it reports":type=rule:
+   reqr:condition:type="any"
+   reqr:prop:type="msg"
 
-*-> proto(fail) id="fail":desc="fail handler: prints error, requests user approval with retry on wrt/crt":action=[wrt,exam,crt]
-   show(err)
-   if(act==[wrt,crt]){
-      usr:approve:retry
-   }   
+*-> proto(fail) id="fail":desc="virtual: error handler - declares the error it reports":type=rule:
+   reqr:condition:type="any"
+   reqr:prop:type="err"
 
-*-> proto(varn) id="varn5":desc="variants gate: offers up to 5 options and requires user selection":type=rule:scop=root
-   show(varn:max(5)&&req) return=usr:sel:->
+*-> proto(varn) id="varn5":desc="virtual: variants gate - declares the options it offers":type=rule:
+   reqr:prop:type="any"
+   reqr:condition:type="usr"
 
-*-> proto(retry) id="r5":desc="retry loop: retries up to 5 times, asking the user when possible":type=rule:scop=root
-      for(var:i=0:i<5:i=incr(1))<>:
-      -> retry()
-      -> show(llm->user req?)<>:
-         -> retry()
-         -> fail
+*-> proto(retry) id="retry":desc="virtual: retry loop - declares the attempt bound":type=rule:
+   reqr:param:type="any"
+   reqr:condition:type="any"
 
-
-*-> proto(modify) id="modify_code":desc="alters VibeDSL code: gate on the exam, write the changed spec":action=[crt,exam,wrt]:type=rule:
-   -> code: any reqr
-   exam(code:syn):
-      -> write(code):name="spec_out"
-      -> goal
-      -> fail
+*-> proto(modify) id="modify":desc="virtual: alters VibeDSL code - declares the spec it rewrites":type=rule:
+   reqr:param:type="any"
+   reqr:condition:type="any"

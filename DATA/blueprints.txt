@@ -29,3 +29,9 @@
    -> show(llm->user req?)<>:
       -> retry()
       -> fail
+
+*-> blueprint:id="modify":desc="ready modify blueprint: exams the syntax, writes the changed spec":action=[crt,exam,wrt]:type=rule:
+   exam(code:syn):
+      -> write(code):name="spec_out"
+      -> goal
+      -> fail
