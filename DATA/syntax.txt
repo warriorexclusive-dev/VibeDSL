@@ -99,7 +99,7 @@ start base syntax
             name="main.xml"):-> save()
 *-> action scope () - every action is called with parentheses () as its scope; the object/operator/function of the action sits inside the parens; nested operator calls allowed; multi-line allowed
     -> exm:crt(file name="out.xml"):->save()
-    -> exm:mem-save(file name:"mem.dump")
+    -> exm:mem:save(file name:"mem.dump")
 *-> name property - name/value properties continue after a space on the same line or on the next line; proper names are quoted
     -> exm:name="out.xml"
 *-> flow model (fun/abstract) - function flow like a Java abstract: INPUT function first (takes the parameter/slot), then EXECUTABLE function (produces the result/flow/object); first = entry point, the rest = execution chain
