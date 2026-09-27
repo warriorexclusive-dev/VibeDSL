@@ -204,3 +204,41 @@ fun:type="rule":scop="root" -> usr:lang="RU:ru"
 
 ## 11. INSIDE OPEN AI RULE 
 * Rule config file location "~USER_DIR~\.config\opencode\AGENTS.md"
+
+## `->` - the constructor, and the operator that shortens it
+
+`->` builds the thing declared before it. Everything after `->` says what is
+being built and with what, and the part before it says what that is. This is
+the same relation `class IEntity` has to its virtual methods: a prototype
+names the entity, `->` constructs it, the slots are its constructor arguments.
+Two things follow, and they are the same fact seen from two sides.
+**In a specification, `->` shortens the operator.** A thing is declared once,
+with its `id`, and every use of it is then written `object:chain:id`. The
+declaration is the long form and the use is the short one.
+```vibedsl
+abstract:prop:id="color" -> frm:style:prop     // use frm:style:color
+```
+Read the chain as "a `prop`, placed on `frm`, inside `style`". The type word
+in the chain is what tells you the use-site spelling - drop the type word, keep
+the chain, append the id.
+**In a prototype, `->` constructs, and the declared names are the defaults.**
+A constructor supplies what the caller did not say, so a prototype can be
+written once and stay short at every use site.
+```vibedsl
+proto:id="param":function:prop:name="parametr" -> prop:name="id":required
+// use: func:parametr:"id"
+```
+`name="parametr"` is the name the entity is reached by when nothing else says,
+and `-> prop:name="id"` says the thing it constructs is an id rather than a
+plain prop - a different claim, and the one that says whether a value has to
+be given. The use site drops `prop:name=` and writes `func:parametr:"id"`, which
+is the default spelled out rather than omitted.
+The rule in one line: **what you declare is long, what you use is short, and
+`->` is the only thing connecting them - because it is the constructor, and a
+constructor is what makes the declared thing exist.**
+
+This section replaces the one that lived in `VibeDSL.md`. That file was
+stale as a whole and went with the rest; this rule is not, and it is
+here now because it is the only statement of what `->` means.
+The named examples come from `PY_IDE/window.vibe`, which is the syntax
+that actually compiles.

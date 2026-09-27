@@ -373,7 +373,6 @@ validator/explicit_inherit.py  rewrite space-separated mappings as explicit ':'
 agents/coder.md       the coder agent (specfile -> exam -> usr approve -> create -> exam -> goal|retry/rollback)
 RULES.MD              working rules / protocol
 AGENTS.md             repo guide for agents
-VibeDSL.md            language overview
 LICENSE               Apache License 2.0
 ```
 
