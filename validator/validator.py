@@ -439,10 +439,12 @@ RX_DECL_CHAIN = re.compile(
     r"->\s*[A-Za-z_]\w*(?::[A-Za-z_]\w*)*:(?:%s)(?::[A-Za-z_]\w*)*"
     % "|".join(DECL_WORDS))
 
-# `- >` is not the arrow. The console autocompleter folds `->` into one symbol,
-# so the broken form is not something anyone types on purpose - but a paste, a
-# generator or a model can produce it, and then `->` is silently read as `-`
-# followed by `>`: two tokens, no continuation, no complaint from the lexer.
+# `- >` is not the arrow. The console lexer folds `->` into a single symbol, so
+# this form is not something a person can type at all - which is exactly why it
+# is a WARNING and not an error. Nobody commits it by hand, so if it is in a
+# file, the text arrived from outside: a paste, a model, a generator. A lexer
+# that only knows `->` will read `- >` as two legal tokens and continue
+# nothing, and the chain quietly stops being a chain.
 RE_BAD_ARROW = re.compile(r"-(?:\s+)>")
 # a declared object immediately followed by a bare word, with no `:`. The
 # author almost always meant obj:field; what they wrote may be two objects.
@@ -471,8 +473,10 @@ def check_shape(node, text):
     and simply does nothing. All three are soft: each has a legitimate reading.
     """
     for m in RE_BAD_ARROW.finditer(text):
-        OUT.append((node.no, "E", "line %d: '%s' is not the arrow - `->` is one symbol, "
-                    "`- >` is read as `-` then `>` and continues nothing" % (node.no, m.group(0))))
+        OUT.append((node.no, "W", "line %d: '%s' is not the arrow - the console folds `->` into one "
+                    "symbol, so this line did not come from your keyboard: it was pasted or "
+                    "generated, and here `->` reads as `-` then `>` and continues nothing"
+                    % (node.no, m.group(0))))
 
     body = RX_DECL_CHAIN.sub(" ", _keep_actions(text))
     # root is Node(None, 0, -1): its .no is 0 and the -1 is its indent, so
