@@ -31,12 +31,7 @@ it before it is accepted. `blueprint` are blueprints — base abstract patterns
 and behavior laws that always hold.
 
 ```vibedsl
-*-> proto(if) id="if":action=[create,exam]:type=rule:
-   -> syn="obj~obj"
-
-*-> proto(goal) id="goal":action=[write,exam,create]
-   show(cxt)
-   show(msg(goal))
+prototype:id="abstract":required:type[item,function,prop]:required:condition
 ```
 
 Instantiation / referencing a template by name and checking an artifact:

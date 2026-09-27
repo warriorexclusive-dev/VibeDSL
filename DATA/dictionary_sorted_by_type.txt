@@ -178,7 +178,7 @@ type:action
 
 *-> use          - logical import command: apply/engage an object, prototype or import; the logical side of import (import is the physical lib/item, use is the logical command that engages it)
     -> exm:use(agent name="dsl-coder")
-    -> exm:use(VibeDSL:proto[if,goal,fail])
+    -> exm:use(VibeDSL:proto[abstract])
 
 *-> variant - action reduce variants
     -> exm: fun:type=rule -> if(event(?))-> show(?:variant(5))
@@ -213,7 +213,7 @@ type:mapping
     -> exm:alw:true
 
 *-> any          - any operator of anything: objects, logic, values - the object for everything. `...` is NOT a name of this concept: it is spread notation, it stays text and never compiles
-    -> exm:proto(any)
+    -> exm:prototype:id="abstract":required:type[item,function,prop]:required:condition
     -> exm:get:dict(any)->show
 
 *-> api             - api/interface logical contract point of any entity

@@ -1,7 +1,15 @@
-﻿prototype:id="any":required:type[item,function,prop]:required:id:required:param
-prototype:id="if":required:type[item,function,prop]:required:condition
-prototype:id="goal":required:type[item,function,prop]:required:condition
-prototype:id="fail":required:type[item,function,prop]:required:condition
-prototype:id="variant5":required:type[item,function,prop]:required:param
-prototype:id="retry":required:type[item,function,prop]:required:param:required:condition
-prototype:id="modify":required:type[item,function,prop]:required:param:required:condition
+﻿# A prototype is a conscious extension of the language, not a leftover.
+#
+# It is what a spec needs to become real OOP. Who writes that generator and when
+# is not decided, so this file holds one record and that is deliberate: the
+# abstract entry is the reference example of the syntax and it stays
+# permanently. Any prototype added later is measured against it.
+#
+# A proto declares, and the blueprint of the same id implements. That is the
+# whole mechanism for now - the interface half and the code half kept apart,
+# the way class IEntity and its implementation are kept apart in C++.
+#
+# The seven prototypes that stood here before were scaffolding from before the
+# syntax rules existed. A model reading them learned the wrong form, and `goal`
+# collided with a prop of the same name in PY_IDE/window.vibe.
+prototype:id="abstract":required:type[item,function,prop]:required:condition

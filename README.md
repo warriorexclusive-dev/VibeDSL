@@ -245,7 +245,7 @@ are checked by `validator/validator.py` (v2, search-command; run as
 - **`use(...)`**: keeps protos/blueprints loaded by id
   (`PROTO/DATA/protos.txt`, `DATA/blueprints.txt`) in memory as higher-level
   code chunks - their ids and declared symbols resolve in the importing scope
-   (`use(varn5)`, `use(VibeDSL:proto[if,goal,fail])`, `use(agent name=...)`).
+   (`use(abstract)`, `use(VibeDSL:proto[abstract])`, `use(agent name=...)`).
 - **`{}` = AI custom block, `/* */` and `//` = human comments** (skipped).
 
 Current base additions: `error, error` is a **logic action** (logic-stop trigger;
@@ -286,7 +286,7 @@ php -S 127.0.0.1:8000 router      # then GET /API/compile?file=plan/ide-specfile
 | indentation | preserved byte for byte; only tokens are swapped, the tree is never reflowed |
 | `""` `{}` `()` `[]` | **never** rewritten. A quoted run is a literal, `{}` is the free-form block, `()` is action scope - that boundary is what the model uses to tell logic from payload |
 | `//` `/* */` | human comments, kept verbatim |
-| `use(...)` | the import. Pulls the entry out of `DATA/` and compiles it into the DATA block. All four written forms resolve: `use(id)`, `use(a,b)`, `use(VibeDSL:proto[if,goal])`, `use(agent:name="coder")`; nested `use()` inside a pulled body is followed too |
+| `use(...)` | the import. Pulls the entry out of `DATA/` and compiles it into the DATA block. All four written forms resolve: `use(id)`, `use(a,b)`, `use(VibeDSL:proto[abstract])`, `use(agent:name="coder")`; nested `use()` inside a pulled body is followed too |
 | `incld="id"` | **not** an import - it is a mapping attribute (an include of code declared on the entity). Only `use()` pulls |
 | reserved ASCII | `%` `;` `{}` `//` `-(id)>` `<(source)-` keep their ASCII form on purpose and are declared as reserved in the RULES block, because compiling them would change meaning (`50%` is a value, not modulo) |
 | the base | `DATA/*.txt` is opened **read-only**. A compile never writes to the base |

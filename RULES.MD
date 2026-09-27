@@ -168,43 +168,15 @@ fun:type="rule":scop="root" -> event:crt([code, data, file])
      -> show(varn(varn5)):retry   
 
 VibeDSL:
--> proto(any) is node:act=[crt,exam]:type=rule:
-   -> lang: any reqr
-      type: any reqr
-      type==[dom,file]:
-      -> name: any reqr
 
--> proto(if) id="if":act=[crt,exam]
-   if(instr is single): 
-   -> syn="obj~obj"
-   else
-   -> syn="instr(obj~obj)"
+   The abstract record below is the reference example of prototype syntax and
+   is permanent. Every other prototype that stood here was scaffolding from
+   before the syntax rules existed, and a model reading them learned the wrong
+   form. Any prototype added later is measured against this line.
 
--> proto(goal) id="goal":act=[wrt,exam,crt]
-   show(cxt)
-   show(msg(goal))
+prototype:id="abstract":required:type[item,function,prop]:required:condition
 
--> proto(fail) id="fail":act=[wrt,exam,crt]
-   show(err)
-   if(act==[wrt,crt]){
-      usr:apr:retry
-   }   
-
--> proto(varn) id="varn5":type=rule:scop=root
-   show(varn:max(5)&&req) ret=usr:sel:->
-
--> proto(retry) id="r5":type="rule":scop="root"
-      for(var:i=0:i<5:i=incr(1))<>:
-      -> retry()
-      -> show(llm->user req?)<>:
-         -> retry()
-         -> fail
-
-
--> proto(?) type="rule":scop="root":act=[wrt,exam,crt]
-   show(varn:max(3)&&req) ret=usr:sel1:->
-
-fun:type="rule":scop="root" -> use(VibeDSL:proto[if,goal,fail])
+fun:type="rule":scop="root" -> use(prototype:id="abstract")
 fun:type="rule":scop="root" ->
    prompt:lng == "VibeDSL":
       prompt:run()

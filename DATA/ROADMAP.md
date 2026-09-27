@@ -89,3 +89,23 @@ is why the old low-quality ones were removed: four of them were byte-identical
 or near-identical copies of one 267-line IDE spec, and three of those carried
 20 validator errors each. A benchmark built on those measures the copy, not the
 language.
+
+## stage 7 - specs as OOP  (part 7, OPEN, deliberate)
+
+A prototype is what a spec needs to become real OOP. Who writes that generator
+and when is not decided, so the stage is empty on purpose - but the mechanism
+is a conscious extension of the language, not a leftover, and that distinction
+is the whole point of writing it down here.
+
+One prototype exists, bstract, and it is permanent:
+
+    prototype:id="abstract":required:type[item,function,prop]:required:condition
+
+It is the reference example of the syntax and the yardstick for any prototype
+added later. The other seven that stood beside it were scaffolding from before
+the syntax rules existed; a model reading them learned the wrong form, and one
+of them collided with a prop of the same name in the IDE spec.
+
+A proto declares; the blueprint with the same id implements. That is the whole
+of the current mechanism: the interface half and the code half, kept apart, the
+way class IEntity and its implementation are kept apart in C++.
