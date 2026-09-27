@@ -463,6 +463,18 @@ def _keep_actions(text):
     return RE_ACTION.sub(lambda m: " " + m.group(1) + " ", text)
 
 
+def _code_text(text):
+    """The code of a line: structure + action payload, prose blanked.
+
+    Everything that checks the CONTENT of a line must scan this and not
+    `text`. Two separate mistakes came from forgetting that: the pin checker
+    blanked the action and read a copy of it, and the arrow check fired on
+    `note="a - > b"`, a person writing a comparison in prose. One helper, so
+    the two steps cannot be taken apart again.
+    """
+    return re.sub(r'"[^"]*"', '""', _keep_actions(text or ""))
+
+
 def check_shape(node, text):
     """Three things a token-level grammar cannot see.
 
@@ -472,13 +484,17 @@ def check_shape(node, text):
     was never nested under an abstract - it parses fine as a top-level line
     and simply does nothing. All three are soft: each has a legitimate reading.
     """
-    for m in RE_BAD_ARROW.finditer(text):
+    # Only where code is: the structural part of the line and the action
+    # payload. `note="a - > b"` is a person writing a comparison in prose, and
+    # a check that fires on it is worse than no check - the same mistake the
+    # colon check made over `do:` blocks, 29 false positives at a time.
+    for m in RE_BAD_ARROW.finditer(_code_text(text)):
         OUT.append((node.no, "W", "line %d: '%s' is not the arrow - the console folds `->` into one "
                     "symbol, so this line did not come from your keyboard: it was pasted or "
                     "generated, and here `->` reads as `-` then `>` and continues nothing"
                     % (node.no, m.group(0))))
 
-    body = RX_DECL_CHAIN.sub(" ", _keep_actions(text))
+    body = RX_DECL_CHAIN.sub(" ", _code_text(text))
     # root is Node(None, 0, -1): its .no is 0 and the -1 is its indent, so
     # asking "is this a top-level line" is `parent.parent is None` and nothing
     # else. Reading the wrong field made the whole check unreachable.
@@ -530,7 +546,7 @@ def check_pins(node, scan_text):
         return
     text = scan_text or ""
     text = RX_DECL_CHAIN.sub(" ", text)
-    sparse = re.sub(r'"[^"]*"', '""', _keep_actions(text))
+    sparse = _code_text(text)
     for m in RE_PIN.finditer(sparse):
         obj, pin = m.group(1), m.group(2)
         if pin in ("act", "action"):
