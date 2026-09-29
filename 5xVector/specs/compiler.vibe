@@ -1,0 +1,32 @@
+(compiler):py script->create[compiler to vibe file]<for IDE or Model check and compile>
+  - (address):byte offset->resolves[by seek not by count]<in the table>
+  - (width):derived from the source->holds[not written down]<in the field>
+  - (layer one):conversion->converts[and writes nothing]<in compile_record>
+  - (layer two):writing->writes[what layer one could not resolve]<in commit>
+  - (layer three):language->asks[datamuse not this code]<in commit>
+  - (layer four):addressing->addresses[the word and hands the syllable on]<in field>
+  - (layer five):syllable->checks[coincidences and separator in front]<in commit>
+    - (tail):one or two letters->has[no address of its own]<in the alphabet>
+    - (digraph):two letters->has[an address in the alphabet]<in the alphabet>
+  - (table):file of entries->holds[words and byte offsets]<on disk>
+    - (entry):one word->stands[for a byte offset]<in the table>
+    - (separator):three bytes->marks[where one ends and the next begins]<in the table>
+    - (syllable):goes to layer five->carries[the separator in front]<in the table>
+  - (record):five fields->holds[object property function hint state]<in a vibe file>
+    - (object):one object->names[what it is]<in the record>
+    - (property):what it has->holds[what it is like]<in the record>
+    - (function):what it does->holds[what it does]<in the record>
+    - (hint):how it was asked->holds[to model]<in the record>
+    - (state):what came of it->holds[the form it is read in]<in the record>
+  - (parent):the record above->stands[at one level less]<in a vibe file>
+  - (root):level zero->carries[no name and no parent]<in a vibe file>
+  - (indent):count of spaces->shows[the depth and names the parent]<in a vibe file>
+  - (assembly):cut into three->counts[three times x plus tail]<in cut>
+    - (tail):what is left over->is[the same cut from the other side]<in cut>
+  - (reading):cut the same way->glues[every piece into a word]<in read_at>
+  - (boundary):one purpose each->separates[so a confusion goes to the reference]<in the reference>
+    - (record):ends at the closing tag->is[not written freely]<in a vibe file>
+    - (space):printed by a person->becomes[the visible space]<in norm>
+  - (language):letters first->checks[A to Z a to z]<in layer three>
+    - (source):asked about a word->answers[no means an error]<in layer three>
+    - (phrase):never asked->is[not a word and has no answer]<in layer three>

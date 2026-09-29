@@ -1,0 +1,7 @@
+(writer):ascii source->keep the file plain[ASCII only, no glyphs written to disk]<one record per line>
+(converter):-> becomes ->->insert the arrow at once[two signs in, one sign out, no dialog]<replace in place, the cursor stays after it>
+(converter):arrow->one glyph only[U+2192, and nothing else looks like it]<if the arrow is already there, do nothing>
+(spell):words->check inside the frame only[the frame is the round one, the square one and the pointed one, and the words between them are what gets checked]<a word outside the frame is not checked>
+(spell):dictionary->read the words from the table[the file, not a list typed by hand]<a word not in the table is a question, not an error>
+(spell):report->a squiggle and a word[the word in the message, and where it is]<never rewrite the file behind the back of the person>
+(gate):write->check, write, read back, compare[the size and the hash, and both must match]<on any doubt the write does not happen>

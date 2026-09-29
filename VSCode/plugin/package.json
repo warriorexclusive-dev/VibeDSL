@@ -1,0 +1,51 @@
+{
+  "name": "vibe-writer",
+  "displayName": "Vibe Writer",
+  "description": "Frame watcher for a vibe spec. It looks at the frames and nothing else.",
+  "version": "2.0.0",
+  "publisher": "5xvector",
+  "engines": { "vscode": "^1.85.0" },
+  "categories": ["Programming Languages", "Other"],
+  "activationEvents": ["onLanguage:vibe", "onStartupFinished"],
+  "main": "./extension.js",
+  "contributes": {
+    "languages": [
+      {
+        "id": "vibe",
+        "aliases": ["Vibe", "vibe"],
+        "extensions": [".vibe"],
+        "configuration": "./language-configuration.json"
+      }
+    ],
+    "grammars": [
+      {
+        "language": "vibe",
+        "scopeName": "source.vibe",
+        "patterns": [
+          { "match": "→", "name": "vibe.key" },
+          { "match": "->", "name": "vibe.key" }
+        ]
+      }
+    ],
+    "configuration": {
+      "type": "object",
+      "title": "vibe",
+      "properties": {
+        "vibe.key": {
+          "type": "string",
+          "default": "#c792ea",
+          "description": "the colour of the key marker"
+        },
+        "vibe.table": {
+          "type": "string",
+          "default": "",
+          "description": "englang.embedding, the words the project has accepted. Empty means the one next to the VSCode folder, in 5xVector. It is read, never copied: a copy would be a second table and would drift from the first."
+        }
+      }
+    },
+    "commands": [
+      { "command": "vibe.checkFrames", "title": "Vibe: check the frames" },
+      { "command": "vibe.showOutput", "title": "Vibe: show the output" }
+    ]
+  }
+}

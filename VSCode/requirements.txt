@@ -1,0 +1,3 @@
+# the plugin talks to VS Code through its own API and needs nothing
+# the tools talk to the outside through python only
+requests>=2.31.0

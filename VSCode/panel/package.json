@@ -1,0 +1,79 @@
+{
+  "name": "vibe-panel",
+  "displayName": "Vibe Panel",
+  "description": "Six buttons for the language: models, model, compile, run, settings, log. Everything goes through the proxy so the answer is in the log.",
+  "version": "2.0.0",
+  "publisher": "5xvector",
+  "engines": { "vscode": "^1.85.0" },
+  "categories": ["Other"],
+  "activationEvents": ["onStartupFinished"],
+  "main": "./extension.js",
+  "contributes": {
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "vibePanel",
+          "title": "Vibe",
+          "icon": "icon.svg"
+        }
+      ]
+    },
+    "views": {
+      "vibePanel": [
+        {
+          "id": "vibe.panel",
+          "name": "Panel",
+          "type": "webview"
+        }
+      ]
+    },
+    "commands": [
+      { "command": "vibe.models", "title": "Vibe: models" },
+      { "command": "vibe.model", "title": "Vibe: what is inside a model" },
+      { "command": "vibe.compile", "title": "Vibe: compile a .vibe" },
+      { "command": "vibe.run", "title": "Vibe: run against the model" },
+      { "command": "vibe.settings", "title": "Vibe: settings for a model" },
+      { "command": "vibe.log", "title": "Vibe: the log" }
+    ],
+    "keybindings": [
+      {
+        "command": "vibe.compile",
+        "key": "ctrl+alt+b",
+        "when": "editorLangId == vibe"
+      },
+      {
+        "command": "vibe.run",
+        "key": "ctrl+alt+r",
+        "when": "editorLangId == vibe"
+      },
+      {
+        "command": "vibe.models",
+        "key": "ctrl+alt+m"
+      },
+      {
+        "command": "vibe.model",
+        "key": "ctrl+alt+i"
+      },
+      {
+        "command": "vibe.log",
+        "key": "ctrl+alt+l"
+      }
+    ],
+    "configuration": {
+      "type": "object",
+      "title": "vibe panel",
+      "properties": {
+        "vibe.panel.python": {
+          "type": "string",
+          "default": "",
+          "description": "python to use for the compiler bridge. Empty means py -3 on Windows and python3 elsewhere."
+        },
+        "vibe.panel.compiled": {
+          "type": "string",
+          "default": "",
+          "description": "the compiled text that run sends. Empty means compile the active .vibe file first."
+        }
+      }
+    }
+  }
+}

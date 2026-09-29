@@ -1,0 +1,25 @@
+{
+  "_what": "one block per model, and a block that is not there is a model that runs on whatever the client asked for. A key that is missing from a block takes the value the client sent, so a block with only a system is a block that changes the rules and nothing else.",
+
+  "_how_it_applies": "the proxy adds these to the request before it reaches Ollama: system goes as a system message, and the rest go into options. The log shows what the client sent and what was added, so a wrong answer can be traced to a setting here rather than to the model.",
+
+  "_rules_live_in_files": "system names a file under VSCode/rules/, not the text itself. A rule that lives in this file cannot be read, diffed, or given a history, and the whole point of editing rules per model is that the file is the thing a person opens.",
+
+  "models": {
+    "vibedsl-rule:1.5b": {
+      "system": "rules/vibedsl-rule.md",
+      "temperature": 0.2,
+      "num_ctx": 8192
+    },
+    "vibedsl-coder:latest": {
+      "system": "rules/vibedsl-coder.md",
+      "temperature": 0.2,
+      "num_ctx": 16384
+    },
+    "qwen2.5-coder:1.5b": {
+      "temperature": 0.3
+    }
+  },
+
+  "_note_on_num_predict": "not set here on purpose. A cap that is too small truncates the answer in the middle of a sentence, and a truncated answer looks like a model that stopped thinking. Set it per request when a run must be short."
+}

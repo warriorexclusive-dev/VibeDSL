@@ -1,0 +1,9 @@
+{
+  "_what": "ports and addresses for the proxy. These are the only machine-specific values in this folder, and they are here so that a second machine is a copy of this file and not a patch of the code. A key that is missing takes the default from tools/ollama_proxy.py, so a half-written file is half-configured rather than broken.",
+  "host": "127.0.0.1",
+  "port": 11435,
+  "ollama": "http://127.0.0.1:11434",
+  "log_dir": "log",
+  "_ollama_note": "port 11435 is the proxy, 11434 is Ollama itself. They are different ports on purpose: a client that goes to 11434 is not logged and does not know it. If Ollama is on another port, change this line, not the code.",
+  "_log_note": "a relative path is relative to this folder's parent, which is VSCode/. An absolute path is used as given."
+}
