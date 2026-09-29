@@ -1,0 +1,186 @@
+start language dictionary
+
+type:action
+
+*-> action      - action: action="desc" declares any function - standalone abstract or entity function (two canonical forms)
+    -> exm: ⌰ "open_file" → ⁐⩲"open file by name"   // declares function: open_file
+    -> exm: open_file("main.txt")                             // usage
+    -> exm: ▯:⁐⩲"grant access to user":≕⩲"access"    // declares entity function: file:access
+    -> exm: ▯:↦(⊚:user)                         // usage
+    -> exm: ⁐≣▶
+
+*-> add          - logical adding entity action 
+    -> exm: xml files ⁝ ⟶ ❑
+
+*-> anchor       - forced anchor: an explicit action-level anchor, the node is pinned by hand; this is the compiled glyph form of the textual operator &->
+
+*-> answer - answer to user.
+    -> exm:answ:→;⌨
+    -> exm:answ:lng⩲⌨:◬
+
+*-> approve - approve
+    -> exm:apr:⊤
+
+*-> ask          - request; RESOLUTION ORDER: first ask the base (dictionary/syntax/protos/blueprints via RAG search/get) - if the answer is already recorded, do NOT ask again; only if the base has no answer, ask the human; never guess or invent - this frees the human from repeated questions; the constructor is a contract between human and AI, and a human can programme in this language too
+    -> exm:‽:→❯
+
+*-> async         - action async run of any entity
+
+*-> balance, pan - action of precise correction of imprecise entities  
+    -> exm: ‱:✳:×[0,100]:⚖(20)
+
+*-> build         - build/assembly of any entity
+
+*-> call         - entry / function call
+    -> exm: ₮:fn()
+
+*-> change - change
+    -> exm:⁁:→▯:≕
+
+*-> close        - generic canonical act function on any entity: close(<entity>) - finalizes the entity and saves its bound node state, declared once via act, works for every entity
+    -> exm: Œ(▯:≕⩲"out.xml")
+
+*-> codrev           - code anallize, review without editing, testing
+    -> exm:⧉:→⟵
+
+*-> compil        - compilation, compile
+    -> exm:₥:→⟦
+
+*-> compress      - compress action of any entity
+    -> exm: ⇺(‱:❍)
+
+*-> create - action create: create a file, api, class, function etc. (create action; pairs with its target: crt function, crt file, crt api)
+    -> exm:◈:ʩ:≕⩲"load"
+    -> exm:◈ [⟦, ◽, ▯]
+    -> exm:◈:ʩ:≕⩲"load"
+
+*-> delay   - delay or period
+    -> exm:↺(500) − ↺ 500 times
+    -> exm:↺:2s   − ↺ 2 seconds
+    -> exm:↺()    − infinite ↺
+
+*-> delete, remove - remove
+    -> exm:rm:→▯:≕⩲"main"
+
+*-> deploy           - code compilation or deployment
+    -> exm:⤓:→⁐⩲"deploy to server"
+
+*-> exam, scan - scaning, examination
+    -> exm:◉:→▯
+
+*-> exec, run - execute, run, sequence, request action in program, not you
+    -> exm:▶:→▶
+
+*-> extract      - extract action
+    -> exm:ʩ ◈ (▯:≕⩲"out.xml" ≍ xml ): → ➔(▯:≕⩲"project.exe"):≍ ⟵:→➙(⟵ ✖⋔ ◽:◒⩲dom ⟶ xml)
+
+*-> function - function: an action when it is a rule or an agent; an API entry point when it is a spec or architecture; often used with the param key and the return key, the logic is preferably written through the language logical operators
+    -> exm:ʩ:◒⩲"root":≕⩲"vibide":§⩲"vibide":∁⩲"root"→⁐ ≣ ◈ [spec]:lng⩲"VibeDSL"
+    -> exm:ʩ:≕⩲"load"
+    -> exm:◈:ʩ:≕⩲"load":℗⩲"val1"
+    -> exm:◈:ʩ:◒⩲"web api": ℗ "in":◒⩲"text":desc⩲"vibedsl request" :→ ⌕(«) ◒⩲"RAG":→ ⤴
+
+*-> get          - action to obtain any entity 
+    -> exm: ⤵:◽:⟵
+
+*-> insert      - logical action insert of any entity
+    -> exm:insrt:⬋
+    -> exm:⇛(dir:empty):↪(▯)
+
+*-> load         - load action: load a view, file or base by name
+    -> exm:⏎(❒:≕⩲"main")
+    -> exm:⟡:onCreate → ⏎(❒:≕⩲"main")
+
+*-> make - make
+    -> exm:mk:→▯
+
+*-> modify       - logic modify: modify/alter the logic (not a class/module - those are module/class)
+    -> exm:mod ◆:⟹⩲◆:⟹✚†
+
+*-> move         - logical move action
+    -> exm:db1:⇢(═)→db2
+
+*-> only         - only, verifiication action
+    -> exm:☌:▣
+
+*-> open         - generic canonical act function on any entity: open(<entity>) - opens the entity bound node for changes, declared once via act, works for every entity
+    -> exm: ➔(▯:≕⩲"out.xml")
+    -> exm: ➔(user:≕⩲"alice")
+
+*-> plan         - make plan mode or cpecs
+    -> exm:⚑:→specs
+
+*-> rebuild          - action rebuild any entity
+    -> exm:⟡(◉(◯):◒≣exm)⊎:
+            ->rebuild()
+            ->show()
+
+*-> remake          - logical remake
+
+*-> remember      - implicit anchor: id definition, plain remember command
+
+*-> replaced        - logical replaced of any entity
+    -> exm:dpd:old
+
+*-> request - action request from llm to user
+    -> exm:⍰:post
+
+*-> retry        - action retry
+    -> exm:⇄(5)
+
+*-> return - return any object action
+    -> exm:⤴:val
+    -> exm:⤴:val
+
+*-> revert, rollb - revert, return previos state, rollback
+    -> exm:↶:◕
+
+*-> review      - review
+    -> exm:rvw:→;⟦
+
+*-> save         - generic canonical act function on any entity: save(<entity>) - persists the entity to its bound node, declared once via act, works for every entity
+    -> exm: ⬊(▯:≕⩲"out.xml")
+            prj "site" Etalon("www.other-site.com")
+            prj "service"  Etalon("BranchCache"):OS="Windows"
+
+*-> scrsht         - screenshot
+    -> exm:⏺:path
+
+*-> select       - select action, syntax example sel[val1,val2] after ->swt if more way or ->abstract{} if abstract, example sel[val1,val2]->function data=sel:return , sel[val1,val2]->swt case val1: data1=val1 bk
+    -> exm:sel[v1,v2]→⪼
+    -> exm:ʩ ℗:≕⩲"a":◒⩲"list" → ‣:sel[⊥]:ʩ →(⬝:◫ > ⬝:◫)→⤴
+
+*-> set          - setter action of any entity
+    -> exm: ═:xml ⟡:onOpen→⇐(◽)
+
+*-> show         - action show any entity in user out default text console 
+    -> exm: ▸(⊞)
+
+*-> split     - split anything into n parts by vectors, e.g. split a dictionary into its category parts and save
+    -> exm: ✂(⊞,[actions,mapping,operators,abstracts])⊎:
+            -> save(dict:"action")
+            -> save(dict:"mapping")
+            -> save(dict:"operators")
+            -> save(dict:"abstracts")
+
+*-> srch         - search action: search over a node/base by query
+    -> exm:⌕(«) ◒⩲"RAG"
+
+*-> store           - logic store of any entity
+
+*-> tick         - time elapse, example [llm:con:out:txt="hi im here" tic(1m)], print message to user "im here" after 1m
+    -> exm:tic(1m)
+
+*-> trim         - action: trim/strip characters from a string or collection (default whitespace)
+    -> exm:≕⩲␢("  hello  ")
+
+*-> use          - logical import command: apply/engage an object, prototype or import; the logical side of import (import is the physical lib/item, use is the logical command that engages it)
+    -> exm:é(⌬:≕⩲"dsl-coder")
+    -> exm:é(VibeDSL:proto[⌰])
+
+*-> variant - action reduce variants
+    -> exm: ʩ:◒⩲† → ⇛(⟡(⋔))→ ▸(⋔:✹(5))
+    -> exm: ʩ:◒⩲† → ⇛(⟡(⋔))→ ▸(⋔:✹(5 ∪ ‽))
+
+*-> write - write action
+    -> exm:✍:✓

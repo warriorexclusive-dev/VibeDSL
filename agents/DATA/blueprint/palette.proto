@@ -1,0 +1,79 @@
+blplan(plan) id="palette.proto":desc="colour tokens by NAME, from a published theme, not sampled from a screen":incld="⎾⏆⏊⏍◂,⎿⏇⏋⎾◂,⏀⏈⏌⎿◂,⏁⏉⏍⏀◂,⏂⏊⎾⏁◂,⏃⏋⎿⏂◂,⏄⏍⏀⏃◂,⏅⏁⏂⏄◂":action=[set]:scop="root":
+    -> set(▚:▹bg_base◂:⇐(⊤))
+    -> set(▚:▹bg_panel◂:⇐(⊤))
+    -> set(▚:▹text◂:⇐(⊤))
+    -> set(▚:▹comment◂:⇐(⊤))
+    -> set(▚:▹keyword◂:⇐(⊤))
+    -> set(▚:▹string◂:⇐(⊤))
+    -> set(▚:▹number◂:⇐(⊤))
+    -> set(▚:▹type◂:⇐(⊤))
+    -> set(▚:▹function◂:⇐(⊤))
+    -> set(▚:▹accent◂:⇐(⊤))
+    -> set(▚:▹border◂:⇐(⊤))
+    -> set(▚:▹caret◂:⇐(⊤))
+    -> set(▚:▹selection◂:⇐(⊤))
+    -> set(▚:▹cursorline◂:⇐(⊤))
+    -> set(▚:▹minimap◂:⇐(⊤))
+    -> set(▚:▹linenum◂:⇐(⊤))
+    -> return(⊤)
+
+§="palette.proto"
+
+# Sixteen named tokens, not thirteen anonymous hex keys. A hex with no name
+# cannot be used twice on purpose, and the theme stops being readable - which is
+# what "8 tokens" was aiming at before it turned out that eight was too few and
+# the names were the point.
+#
+# VALUES ARE NOT FILLED IN. They are not sampled from a screenshot, because a
+# pixel lifted off one monitor is that monitor's size, not a standard, and it
+# breaks on the next screen. They are named here and filled from the published
+# theme, and until then every value is null and a check will say so.
+
+&-> virtual:item:§⩲▹bg_base◂→▚:◒⩲▹bg_base◂
+      ▚:◒⩲▹bg_base◂
+&-> virtual:item:§⩲▹bg_panel◂→▚:◒⩲▹bg_panel◂
+      ▚:◒⩲▹bg_panel◂
+&-> virtual:item:§⩲▹text◂→▚:◒⩲▹text◂
+      ▚:◒⩲▹text◂
+&-> virtual:item:§⩲▹comment◂→▚:◒⩲▹comment◂
+      ▚:◒⩲▹comment◂
+&-> virtual:item:§⩲▹keyword◂→▚:◒⩲▹keyword◂
+      ▚:◒⩲▹keyword◂
+&-> virtual:item:§⩲▹string◂→▚:◒⩲▹string◂
+      ▚:◒⩲▹string◂
+&-> virtual:item:§⩲▹number◂→▚:◒⩲▹number◂
+      ▚:◒⩲▹number◂
+&-> virtual:item:§⩲▹type◂→▚:◒⩲▹type◂
+      ▚:◒⩲▹type◂
+&-> virtual:item:§⩲▹function◂→▚:◒⩲▹function◂
+      ▚:◒⩲▹function◂
+&-> virtual:item:§⩲▹accent◂→▚:◒⩲▹accent◂
+      ▚:◒⩲▹accent◂
+&-> virtual:item:§⩲▹border◂→▚:◒⩲▹border◂
+      ▚:◒⩲▹border◂
+&-> virtual:item:§⩲▹caret◂→▚:◒⩲▹caret◂
+      ▚:◒⩲▹caret◂
+&-> virtual:item:§⩲▹selection◂→▚:◒⩲▹selection◂
+      ▚:◒⩲▹selection◂
+&-> virtual:item:§⩲▹cursorline◂→▚:◒⩲▹cursorline◂
+      ▚:◒⩲▹cursorline◂
+&-> virtual:item:§⩲▹minimap◂→▚:◒⩲▹minimap◂
+      ▚:◒⩲▹minimap◂
+&-> virtual:item:§⩲▹linenum◂→▚:◒⩲▹linenum◂
+      ▚:◒⩲▹linenum◂
+
+# Fonts from Material Design: Roboto at three sizes only. Three, because a font
+# scale is a scale - fourteen sizes is fourteen decisions, and the scale is what
+# carries the proportion.
+&-> virtual:item:§⩲▹font_sm◂→¶:◒⩲▹font_sm◂
+      ¶:◒⩲▹font_sm◂
+&-> virtual:item:§⩲▹font_md◂→¶:◒⩲▹font_md◂
+      ¶:◒⩲▹font_md◂
+&-> virtual:item:§⩲▹font_lg◂→¶:◒⩲▹font_lg◂
+      ¶:◒⩲▹font_lg◂
+&-> virtual:prop:§⩲▹font_13◂→¶:◒⩲▹font_13◂
+      ¶:◒⩲▹font_13◂
+&-> virtual:prop:§⩲▹font_15◂→¶:◒⩲▹font_15◂
+      ¶:◒⩲▹font_15◂
+&-> virtual:prop:§⩲▹font_17◂→¶:◒⩲▹font_17◂
+      ¶:◒⩲▹font_17◂

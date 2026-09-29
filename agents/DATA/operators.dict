@@ -1,0 +1,188 @@
+start language dictionary
+
+type:logical operators
+
+*-> ()           - logical action of object 
+    -> exm:(do)
+
+*-> ()->         - nesting forvard operator
+    -> exm:⬝()→inner
+
+*-> *            - multiplication operator (math)
+    -> exm:[cof]⩲80✖2
+
+*-> *?           - comparator with condition: any + ?, i.e. the any-form with a condition applied      
+    -> exm:ʩ ◈ (▯:≕⩲"out.xml" ≍ xml ): → ➔(▯:≕⩲"project.exe"):≍ ⟵:→➙(⟵ ✖⋔ ◽:◒⩲dom ⟶ xml)   // extract all DOM elements in project.exe to out.xml
+
+*-> +            - addition operator (math)
+    -> exm:total⩲a✚b
+
+*-> -            - subtraction operator (math), the sign is written U+2212 MINUS SIGN
+    -> exm:diff⩲a−b
+
+*-> ->           - right strict link to node,dependence or relationship or other, example [model1]->[model2] or [node]->[function]{act}
+    -> exm:[a]→[b]
+
+*-> -[]>          - multi vector: raises an object into N parallel logical dimensions, -[N]> where N is the dimension count. In compilation it expands into BRANCHING: one branch per dimension, each wrapped in {}, so -[3]> compiles to a three-way branch and is not a separate runtime construct 
+    -> exm: ◈(⬠ ◒⩲cube)⪪ [x,⊤,z]:″⩲20 ⟼ ℉:⬒(0.0)
+
+*-> /            - ordinary mathematical division operator (divide)
+    -> exm:val:b⩲⊤ ÷ e
+
+*-> //           - comment action // human to human comment, not use this info as context
+
+*-> :            - true/false limiter and check; logical exist with Y/N, return Y/true if property exist or expression is valid, return N/false example lang:c++: wrt; null safe WITH ask - on N the logic halts and ASKS the human (see ask: when the check does not converge, the AI must ask, never guess)
+    -> exm:◬:c✚✚:
+
+*-> :point:, point - example of a goto label; usage goto: :point:
+    -> exm:⟿:⟚
+
+*-> ;            - end of current function/layer/context do not use in prototypes or rules it is a marker of end context and clean token memory
+    exm: 
+        use dict:src="VibeDSL" as data 
+        -> crt file:name="example.txt"
+           -> type="xml":
+              cnv data to xml
+              append data
+              save();     - end of logical block, marker of erase token logical data
+
+*-> <            - left strict link to node, inverse node,dependence or relationship or other, example [file:text]<-[lng:eng]
+    -> exm:val1 < val2
+
+*-> <-           - left strict link: the inverse of ->, it names the node the current one came from
+    -> exm:[▯:¶]←[lng:eng]
+
+*-> <-()         - nesting backward operator
+    -> exm:»←()«
+
+*-> <->          - two-way strict node,dependence or relationship, public function or interface and other, example [uroot con:lng]<->[usr:seq]
+    -> exm:[a]⬌[b]
+
+*-> <=           - comparison: less than or equal, numeric/logical value check
+    -> exm:val1≤val2→⤴()
+
+*-> <>           - logical branching operator to a set: forks the logic into N parallel ways with their own results. : (the colon) is the true/false limiter and check - together <>: is variant logic where every way is checked Y/N, WARNING: <> is NOT "not equal" (unlike some languages) - for inequality use !(a==b); any doubt about <> MUST be checked against the dictionary
+    -> exm:a⋔⊎:
+       -> b
+       -> c
+
+*-> =            - assignment: binds a value to a name, the name keeps that value
+    -> exm:≕⩲"out.xml"
+
+*-> ==           - logical and mat equals of any object operator
+    -> exm:a≣b→▶
+
+*-> >=           - comparison: greater than or equal, numeric/logical value check
+    -> exm:val1≥val2→⤴()
+
+*-> ?            - mapping marker of potentialy more way logic
+    -> exm:◉⋔→▸(✹(5))
+
+*-> []           - block of entity or node, example [node:root]->[invoke delegate]>->[env:code] = "invoke delegate" or list params example [val1,val2,val3]; ... is the any-spread form and is used only when the array length exceeds 10 elements
+    -> exm:[val1,val2]
+
+*-> \            - abstract change logic operator: applies an abstract change to a subject set: \(<subjects> act="add|delete|..."); \* is the filter form of this operator
+    -> exm: ⧵(▯:≕⩲"dictionary.txt":act⩲"delete")
+    -> exm: ⧵(⇶ 1:[file_abstracts,file_action,file_mapping,file_operators]:⁐⩲"add")
+
+*-> \*            - logic filter operator: exclusion\*filtering by condition when applied inside brackets or quotes, example crt\*show - create without showing
+    -> exm:◈⧵▸
+
+*-> and, && - logical and
+    -> exm:a≣b ∧ c≣d
+
+*-> break - break
+    -> exm:⪼(a) 
+             case 1: 
+             break
+
+*-> case         - case
+    -> exm:⇒ val1: ↷
+
+*-> catch - catch block marker, operator type action
+    -> exm:cch:✕
+    -> exm:⋋ ✕
+
+*-> continue     - continue: go on to the next iteration of the loop; the opposite of break
+    -> exm:⤀
+
+*-> elif         - else if
+    -> exm:∡(c≣d)→⤴
+
+*-> else - else
+    -> exm:els:→⤴
+
+*-> end          - end
+    -> exm:□:block
+
+*-> exist          - exist
+    -> exm:exst:▯
+
+*-> finally - finally block marker, operator type action
+    -> exm: fin(Œ)
+
+*-> for          - for example for(val1<0,incr(1))->data1=val1 -> for action
+
+*-> goto         - go to point
+    -> exm:⟿:⟚
+
+*-> if           - if then else | if elif els - base logic operator to condition
+    -> exm:⇛:◯≣◯ ∨ ⇛ ¬(a≣b)
+    -> exm:⇛(a≣b)→⤴
+
+*-> incr         - increment built-in: incr(val) = value + 1 (counter step in for loops, e.g. i=incr(1))
+    -> exm:⤳(i<10,⤢(1))
+
+*-> instanceof, present, belong - present, belong, instanceof, logical membership check condition 
+    -> exm: ▯ ⊢ xml:→⬊()
+
+*-> is           - instanceof
+    -> exm:◯ ∋ ◒
+
+*-> none          - explicit absence of a value, logical operator: "here is nothing" Covers logical operators like :, req, -> with a way to state that a parameter is either not required or absent depending on reading context; unlike the ! marker it does NOT halt the logic, execution continues past an absent/not-required value
+    -> exm:proto ⍰(≕) §⩲"name" ≕→ ∰:§⩲≕:≕⩲∄
+
+end language dictionary
+
+*-> or, | - logical or
+    -> exm:a≣b ∨ a≣c
+
+*-> part         - logical partition operator, applies to any entity
+
+*-> revers, not, ! - reverse logic, example if (!a==a)->return is NO, not condition
+    -> exm:⇛ (¬a≣a)→⤴
+
+*-> stage        - separation with progress, applies to any entity
+    -> exm:⇶ 2: ← ╂ 1
+
+*-> switch - switch: branch selection by value, paired with case
+    -> exm:⪼:⇒ val1: ↷
+    -> exm: :⪼:◒:⇒ "action":
+
+*-> ternary      - ternary operator, if-then-else expression
+    -> exm:":":: val ⋔ a : b
+
+*-> try          - try block marker, operator type action
+    -> exm:⇴:→⟹
+
+*-> unknown - unknown, unknown state of required param. use this if param need entropy logic, or abstract. NOT none - none states absence, unk states not-yet-known
+    -> exm: ◽ ⟶ ▯:≕:⁂:≋ ⟶ mem
+
+end language dictionary
+
+*-> variable - variable of temporary logical entity
+
+*-> when         - when: single conditional trigger, fires once when the condition becomes true
+    -> exm: ⋟(▯:◕:"opened"):Œ(▯)
+
+*-> while        - while: loop, repeat a block while the condition holds, condition is checked before each iteration
+    -> exm: ⟁(len>0):″⩲″−1
+
+*-> {            - start custom logic description
+    -> exm:{do x}
+
+*-> }            - end custom logic description
+    -> exm:{...}
+
+*-> ~            - logical mapping representation of any comparison expression
+    -> exm: ⌰ ⇛(◯≃◯)

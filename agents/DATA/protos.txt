@@ -1,0 +1,45 @@
+# A prototype is a conscious extension of the language, not a leftover.
+#
+# It is what a spec needs to become real OOP. Who writes that generator and when
+# is not decided, so this file is small on purpose - and what is here is taken
+# from PY_IDE/window.vibe, which is the syntax that actually compiles, not from
+# anything invented for the sake of an example.
+#
+# Every word here is a word the base already defines: prototype, function, prop,
+# item, param, condition, required, type, name, id. A prototype does not get to
+# introduce a spelling of its own - `proto` and `parametr` were both tried and
+# both are gone, because the base is where a word is decided, not this file.
+#
+# The *-> marker is not decoration. validator/validator.py:load_entries starts a
+# new entry only on a line that begins with it, so a prototype written without
+# one is not loadable and use() cannot resolve it. The marker is stripped at
+# compile time, because compiled it would be a multiplication sign glued to an
+# arrow.
+#
+# `required` is a suffix, closing the slots a prototype must satisfy. It is not
+# a prefix on each slot: :condition:required is one slot and one requirement,
+# not two things each marked required.
+#
+# A prototype that declares an id says so with ->prop:name="id", which is not
+# the same claim as being a prop: :param:"val" names a value the id carries.
+#
+# There are no blueprints: DATA/blueprints.txt is empty on purpose. A proto
+# declares, but nothing implements one yet, and an interface with a fabricated
+# implementation behind it is worse than an interface alone.
+#
+# The seven prototypes that stood here before were scaffolding from before the
+# syntax rules existed. A model reading them learned the wrong form, and `goal`
+# collided with a prop of the same name in PY_IDE/window.vibe.
+*-> prototype:id="abstract":type[item,function,prop]:condition:required
+
+# from window.vibe:5
+#   function:type=rule:scope=root:name="load":param:"val"->
+*-> prototype:id="function":condition:required
+
+*-> prototype:id="param":function:prop:name="param"->prop:name="id":required
+
+# from window.vibe:34 - &-> virtual:item:id="tab_view"->frm:type="tab_view"
+*-> prototype:id="item":condition:required
+
+# from window.vibe:11 - &-> virtual:prop:id="theme"{"hex" "group"}->frm:prop
+*-> prototype:id="prop":name="prop"->prop:name="id":required

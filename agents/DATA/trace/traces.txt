@@ -1,0 +1,5 @@
+session  task        chosen       distances (all, sorted)     margin  temp   ms  tok_in  tok_out
+------   ----------  -----------  --------------------------  ------  ----  ---  ------  -------
+s-0001    ide-window  dsl-coder    0.31 0.58 0.62 0.88        0.27    0.7   140    18420     640
+s-0002    theme       coder        0.44 0.47 0.91 0.93        0.03    0.7    96    17980     410
+s-0003    glyph-check dsl-coder    0.29 0.55 0.71 0.90        0.26    0.7   133    18210     520

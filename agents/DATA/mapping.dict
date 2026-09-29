@@ -1,0 +1,607 @@
+start language dictionary
+
+type:mapping
+
+*-> ""           - included custom string
+    -> exm:◒⩲"panasonic ats"
+
+*-> about          - about, information about the current context/entity
+    -> exm:⸘:→info
+
+*-> access          - abstract access 
+    -> exm:acc:r÷w
+    -> rule: file:access = false
+
+*-> agent      - mapping operator of AI agent
+    -> exm:⌬("coder")
+
+*-> alias, assoc      - alias or association of any entity
+    exm: [xml,doc,dsl] alias file
+           open xml
+
+*-> all          - all, more, everething
+    -> exm:∀:entries
+
+*-> allow - allow, allowed,
+    -> exm:alw:⊤
+
+*-> any          - any operator of anything: objects, logic, values - the object for everything. `...` is NOT a name of this concept: it is spread notation, it stays text and never compiles
+    -> exm:≜:§⩲"abstract":⊨:◒[⬝,ʩ,⌗]:⊨:⮽
+    -> exm:⤵:⊞(✻)→▸
+
+*-> api             - api/interface logical contract point of any entity
+    -> exm:◎:→■
+
+*-> autoinc      - autoincrement
+    -> exm:⧺:auto
+
+*-> avt          - avatar, identity surface (person/entity)
+    -> exm:⊙:⟵⩲"photo.png"
+
+*-> bct          - breadcrumb, trail of parent contexts
+    -> exm:↝: √:┤:⬝
+
+*-> bdg          - badge, counters/status dot
+    -> exm:◔:count⩲5
+
+*-> bool          - Y or N - yes, no basic logical boolean
+    -> exm:⊻:Y
+
+*-> btn          - button action (plain/fab/icon via styp)
+    -> exm:▢:≕⩲"save" ⁐:apr
+
+*-> business - entity of business logic
+
+*-> cfg             - config/settings file
+    -> exm:☰:settings
+
+*-> char          - char
+    -> exm:◌[⊥] − ◌ array ⁂ ″
+
+*-> check - mapping action check/validation
+    -> exm: ʩ "valid file" → ▯:▣ → ⤴
+
+*-> child       - child dcope of object entity or any unit
+    -> exm:chd:→⬝
+
+*-> cluster      - mapping cluster of any entity
+
+*-> code         - code.
+    -> exm:⟦:java
+
+*-> collision    - logical mapping collision operator: reachable from a process and from a 3D vector, and deliberately not defined more precisely - a precise definition would distort the vector, and the vector is the more general of the two
+    -> exm:⬟:⨛
+    -> exm:◈(⬠ ◒⩲cube)⪪ ⨛:[1,2,3]
+
+*-> column        - composition: linear vertical axis of children
+    -> exm:↓: ▖:≕⩲"login" ∨ ▢:≕⩲"save"
+
+*-> complex        - complex
+    -> exm:⊗:◯
+
+*-> component         - component
+    -> exm:☐:→⟦
+
+*-> config - configuration, settings
+    -> exm: conf:settings
+
+*-> console      - console, or text visual output
+    -> exm:con:»:txt⩲"hi"
+
+*-> content      - content
+    -> exm:⊡:"dictionary"
+
+*-> context - context logical or physical base entity of instance
+    -> exm:ctx:proc
+
+*-> controller - entity control manager
+
+*-> convert - convert, rerole, translate
+    -> exm:cnv:xml→■
+
+*-> cosine - cosine
+    -> exm:cos:deg
+
+*-> crd          - card/surface container
+    -> exm:❏:≕⩲"user":▚⩲"elevated"
+
+*-> creative, temp - executor freedom scale for the task (0-100): 0 = follow blueprint/spec straight, no improvisation; 50 = own solutions within the structure (names, layout, implementations); 100 = full freedom limited only by syntax and logic. Whole scale: creative=N with N from 0 to 100; 0 (default, if absent) = strict, straight from blueprint/spec; ~50 = own decisions inside the allowed structure; 100 = total freedom, only syntax + logic constrain. Applies ONLY to implementation freedom - never to grammar/dictionary or the given input data. `temp` is the same dial, read as temperature: temp=0.7 means the same freedom point. NOT weight - that is the layout concept; NOT degrees, that is physics
+    -> exm:◈ site:◬⩲php ▧:◬⩲"javascript":logc⩲{Магазин электротоваров, склад 5 человек}:✳⩲80
+    -> exm:‱:✳⩲0.7
+
+*-> cxt          - context, execution/working context object
+    -> exm:▸(cxt)
+
+*-> data         - logical any data
+    -> exm: ▸ ❑:⟵:◽               command  ▸ me project files ⊡ « ▌
+    -> exm: ʩ:≕⩲"convert_to_string" ℗:≕⩲"in" ◽:◒⩲"native" ⤴ …        logical multiple ◽ « … ◽ » « implementation on jave ∨ c✚✚ ∋ executed across multiple functions ∪ multiple input parameters ℉, etc.
+
+*-> date          - mapping date
+
+*-> db           - database
+    -> exm:⬦:sql
+
+*-> def          - default
+    -> exm:≡:⊤
+
+*-> dependency - logical dependency of any entity
+    -> exm: ʩ "getData" « ◽ setcall setData
+            function "setData" depend:"getData"
+
+*-> description - description
+    -> exm: desc:"what it does"
+
+*-> dict         - dictionary
+    -> exm:⊞:⌁
+
+*-> direction     - logical mapping direciton behavior of any entity
+    -> exm: card:⇕⩲⬆ ⟶ ⬇
+
+*-> directory - directory or subdomain example: dot.comm/project; project is dir
+    -> exm:∮:"dot.comm/project"
+
+*-> dlg          - dialog, modal/alert
+    -> exm:⊠:≕⩲"confirm"
+
+*-> domain          - domain logical language domain
+    -> exm: ❑:base ≍ ⬝:▰:√
+            crt prj:base
+
+*-> down - direction sign: down
+
+*-> dsl          - VibeDSL
+    -> exm:✶:◆
+
+*-> dvr          - divider, separator line
+    -> exm:─:title⩲"section"
+
+*-> endpoint - endpoint logical
+    -> exm: ∘:"/api/v1"
+
+    -> exm:▒:⟦⩲"PATH"
+
+
+*-> environment - environment or other variables
+*-> error - ERROR AS EVENT: an error occurred; the event is denoted, not raised, and it does not stop the flow by itself
+    -> exm:ʩ ⟡:✕:→ ⤴:⚠:↩
+
+*-> example - example
+    -> exm:☞:this
+
+*-> exception    - ERROR AS CONTEXT: logical carrier of error information, the error is carried as state, not raised
+    -> exm:⇛(✕)→▸(excpt)
+
+*-> extend           - extend any entity
+    -> exm:extd:⌁
+
+*-> extension - extension object
+    -> exm:extn:extn
+
+*-> fail         - mapping negative or failed action marker
+    -> exm: ʩ:◒⩲† → ⇐ ⟡:✗→▸("im angry")
+
+*-> false, no, N - boolean literal false: synonyms of the bool value N
+    -> exm:≡:⊥
+
+*-> file         - file
+    -> exm:▯:≕⩲"out.xml"
+
+*-> flow          - behavior flow of any entity: processing strategy/sequence of an entity (queue, pipeline, etc.)
+    -> exm:⌖: → ⌃:a ⩲ ‣[℉]:➜["queue", "pipeline"]
+
+*-> format - format/formatter mapping of any entity
+    -> exm: fmt[≕,▯,◫]:═
+    -> exm:℉:⬒("0.0")     − float ⋲, 0 ⩲ digit, 0.0 ⩲ 1 decimal, 0.00 ⩲ 2 decimals, etc.
+    -> exm:℉:⬒("0")       − integer number
+    -> exm:℉:⬒("02H")     − hex uppercase, width 2 zero−padded (255 → "FF")
+    -> exm:℉:⬒("0.0%")    − percent, 1 decimal (0.5 → 50.0%)
+
+*-> framework - framework
+    -> exm:frmwrk:≕⩲"Hybernate ORM"
+
+*-> frm          - composition: frame, bordered/inset container or viewport crop
+    -> exm:▱:image:≕⩲"pic1"
+
+*-> fullscreen    - occupy the whole screen
+
+*-> generic      - generic instrustion of current object 
+    -> exm: ▸(▯:≬)  − display ∀:props « ▯
+            show(file:generic)  - display all props, and:props of props, etc.
+
+*-> goal         - mapping positive end action marker 
+    -> exm: ʩ:◒⩲† → ⇐ ⟡:✓→▸("im happy")
+
+*-> graphics, render, visual, UI - UI user interface mapping commands
+    -> exm:graph:scene
+    -> exm:UI:⚖
+
+*-> grd          - composition: grid, two-axis placement (columns/areas)
+    -> exm:▦:cols⩲3: card:≕⩲"c1"
+
+*-> grp          - composition: logical cluster of elements, one unit of state
+    -> exm:⨝:≕⩲"form": ▖ ∨ sel
+
+*-> hint          - placeholder text shown in an empty input field, not a value
+    -> exm:▖:≕⩲"q":✲⩲"type a command"
+
+*-> hscroll      - horizontal scroll container, base scroll
+    -> exm:⟷: ⬋: card:≕⩲"c1"
+
+*-> icn          - icon, pictographic marker
+    -> exm:⚜:≕⩲"gear"
+
+*-> id           - identity of maping in language 
+    -> exm:§⩲"goal"
+
+*-> import      - import library, an actual linked artifact. NOT the in operator, NOT in+out: this is ONE word. use() is the internal import, this is the external one
+    -> exm:⊃:frmwrk:≕⩲"Hybernate ORM"
+
+*-> in           - input entity or object mapping operator
+    -> exm:«:⍰
+
+*-> incld        - attribute incld="<id>": what is included here. NOT an import - a belonging mark, not an action
+    -> exm:⊂:→;header
+
+*-> index - indexes or id of physical object or code another lang instruction
+    -> exm:➔ ▯:"1.cpp" ✍ ⋮:"case:"⁑:[0,1,2]→  writed ⇒ 1:,⇒ 2: ⇒ 3: « cpp ▯;
+
+*-> infra        - infrastructure, like a router or PC or worker humans or users or datacenter
+    -> exm:infr:→⬝:◒⩲"panasonic ats"
+
+*-> inp          - input field (text/number/multiline via styp)
+    -> exm:▖:≕⩲"login" styp:¶
+
+*-> instr         - instruction
+    -> exm:⋮(◯≃◯)
+
+*-> io           - End-to-end any entity state modification without change context, mapping command
+    -> exm: ʩ:≕⩲"mapping" ℗ ◽, ℗ ◒ ⬄(◽→cnv(◒))
+
+*-> item,node    - logical operator binding a real physical or code object (the concrete item behind a logical node); node - the storage point for that object
+    -> exm:⇵:⟵⩲"items":⬝⩲"row"
+    -> exm:⬝:≕⩲"user_row"
+    -> exm:⇵:⟵⩲"data":⬝⩲"users"
+    -> exm:⬝:≕⩲"users"
+
+*-> landscape - landscape orientation
+    -> exm:❒ landscp:⊤
+
+*-> lang         - mapping any entity language
+    -> exm: ❑:◬⩲"c++"
+            file:lang="RU"
+
+*-> left - direction sign: left
+
+*-> length, size - length or size of any entity
+    -> exm:loop:″:1024 //
+
+*-> lib          - mapping library, codebase, or open source project / git repository, codesnippet
+    -> exm:∐:repo⩲"open-utils"
+
+*-> limit          - limit of ane entity
+    -> exm:lim:100
+
+*-> line          - logical line
+    -> exm:▤≣⬋
+
+*-> link         - target affiliation logic instruction. (example link: prj:skl) - command to use skill in project specs
+    -> exm:@: ❑:skl
+
+*-> list - list/array/collection
+    -> exm:‣:[v1,v2]
+
+*-> llm, you          - LLM model its you
+    -> exm:‱:lng⩲"VibeDSL"
+
+*-> location - logical mapping of location any entity
+    -> exm: panel:◧⩲⬆
+
+*-> logging, logs - logging
+    -> exm: ⇌ ≫ ⟶ ▯
+
+*-> logic        - entity of logic
+    -> exm:⟹ ⟶ tree
+
+*-> loop          - repeat cycle of any entity
+
+*-> lowercase - lowercase any text conversacion or mapping
+    -> exm: ≕⩲⇩("hello")
+
+*-> map          - logical map/dictionary: key->value pairs of any entity; the default mapping carrier in a task, no separate mapping operator needed
+
+*-> maptree       - mapping tree: e.g. a result as a tree after a query
+
+*-> max          - maximum
+    -> exm:⌋:255
+
+*-> memory - memory
+    -> exm:mem:16gb
+
+*-> min          - minimum
+    -> exm:⌊:0
+
+*-> mix          - mix action: combine/merge any two objects
+    -> exm:⋓:→∷
+    -> exm:ʩ ➔ (▯:≕⩲"out.xml" ≍ xml ): → ➔(▯:≕⩲"project.exe"):≍ ⟵:→⋓(⟵ ✖⋔ ◽:◒⩲dom ⟶ xml)→⬊(▯:out_1.xml)
+
+*-> model         - model,  model of any entity or behavior
+    -> exm:⬠:≕⩲"user":◒⩲"account"
+
+*-> module, class - module, class unit, import type
+    -> exm:■:≕⩲"kernel.dll"
+    -> exm:■:≕⩲"user_model"
+
+*-> msg          - message, output/status message object
+    -> exm:▸(※(✓))
+
+*-> name         - name of an object, attribute name="<value>"
+    -> exm:⬝:≕⩲"out.xml"
+
+*-> nav          - navigation rail/bar/drawer/tab-row, concrete via styp
+    -> exm:◄ styp:rail: @ ❑:skl
+
+*-> new          - mapping of creation object
+    -> exm:ʩ:≕⩲i ✪:txt:          ʩ inner ⟦ ◈ a ✪ txt ▯
+
+*-> null, void, nil - exact empty value (not a logical operator): explicit void, "nothing here" Unlike none (pure logical absence that continues) null is a concrete empty value: where a value is REQUIRED (req/expected), null HALTS the logic - try/catch, fail; none says "not required/absent, keep going"; null says "empty value present, stop here"
+    -> exm:ʩ:≕⩲"getarc" ⇛(lng:╱≣∅)⊎:
+         -> null
+         -> arc
+    -> exm:≕ ⍰ → ⇴:≕≣"null" cch → ⤴
+
+*-> num          - unified numeric value for all lang (single representation instead of int, long, float, double): any integer or fractional 32/64 bit number, bit depth and type resolved by value
+    -> exm:℉:255
+    -> exm:℉:3.14
+    -> exm:℉:−42
+    -> exm:℉:⬒("0.0") − float ⬒, 0 ∋ a digit placeholder, decimal ⟚ sets fraction digits
+    -> exm:℉:3.14159:⬒("0.0") − 3.1
+    -> exm:℉:255:⬒("02H")     − hex (H), zero−padded width 2: FF
+    -> exm:℉:255:⬒("0")       − integer
+
+*-> obj          - abstract definition of object or entity
+    -> exm:◯:entity
+
+*-> origin       - original
+    -> exm: ⇛ ⬢ ∋ orig →
+
+*-> os, platform - OS environment
+
+    -> exm:∟:win
+
+*-> out          - output mapping of any entity
+    -> exm: »:↩
+
+*-> ovl          - composition: overlay, layer stacked above the base surface
+    -> exm:▩: ⊠:≕⩲"confirm"
+
+*-> param - property, parameter
+    -> exm:℗:≕⩲"pic"
+
+*-> parent       - logical property of parent: explicit indication that the value of the property is taken from the parent node
+    -> exm:◈:ʩ:◒⩲"api":frmwrk⩲^
+
+*-> portrait     - portrait orientation
+    -> exm:❒ ▮:⊤
+
+*-> prg          - progress, busy/loading indicator (linear/circular via styp)
+    -> exm:▂ 45
+
+*-> print         - mapping operator of visual output logic
+    -> exm: ▧ ◒:═ ⟡:onCreate→═:⎙:◽
+
+*-> prj          - project
+    -> exm:❑:≕⩲"picture_lib"
+
+*-> procedure - procedure vertical aligment logical, Unlike a function, there are no input or output parameters; all parameters are drawn from the context.
+    -> exm:proc:workflow
+           -> var:a = open(file:work)
+              a \ {invalid flow if not work}
+              var:b = convert a to pdf
+           function "getWorkFlow" in:null out:pdf -> return workflow:b
+
+*-> process       - mapping of a process name: an isolated execution space with its own data, the C++ sense of Process; NOT a command, the name maps, so check(process:collision) reads the process named collision
+    -> exm:▣(⬟:⨛)
+
+*-> prompt        - mapping operator of user/human prompt
+    -> exm: ❯:▶()
+
+*-> protocol - protocol of any entity
+    -> exm: ❑:"simple http server" ◬:java protocol:http
+
+*-> quote        - mapping of llm text / quote
+
+*-> rag          - Retrieval Augmented Generation
+    -> exm:☛:retrieve
+
+*-> ralign        - right aligned layout
+
+*-> rcl          - recycler: first-class virtualized list component, not composed from abstracts; manages its own adapter/view-holder pool, view reuse and lazy data binding via src
+    -> exm:⇵:⟵⩲"items":⬝⩲"row"
+    -> exm:⇵:⟵⩲"file:list" bind:≕÷▤
+
+*-> reason - reason, syntax example error:rsn="example"
+    -> exm:✕:∵⩲"example"
+
+*-> ref          - reference mapping of example any entity
+    -> exm: ▯:⬊(✶:➤)
+
+*-> required - required, mapping triger to trigger for mandatory parameter entr, none if absent
+    -> exm:◒: ✻ reqr
+
+*-> response - response logical response of event or action
+    -> exm: ⇛(✕):↩
+
+*-> restriction        - logical mapping of restriction any entity
+    -> exm: panel:◧⩲⬆:☒⩲frame:″ ✖ 0.25 bhvr:stretch
+
+*-> rgx          - regex
+    -> exm:⋄:"^[A-Z][a-z]"
+
+*-> right - direction sign: right
+    -> exm: card:⇕⩲⬆ ⟶ ⬇
+
+*-> role         - unit role, indicates the role of the entity or object
+    -> exm controller:role="cache cleaner"
+
+*-> root         - base scope marker
+    -> exm:⬝⩲√
+
+*-> row          - composition: linear horizontal axis of children
+    -> exm:⚖→⬋: ▢:≕⩲"ok"
+
+*-> rule         - rule
+    -> exm:ʩ:◒⩲†:∁⩲√
+
+*-> scope          - scope of entity 
+    -> exm: this:∁ ⩲ VibeDSL:⊞
+
+*-> screen, pag - composition: page, screen or route boundary
+    -> exm:▭:≕⩲"main"
+    -> exm:▭:≕⩲"main"
+
+*-> sec          - composition: section, block within a page
+    -> exm:┤:≕⩲"profile"
+
+*-> sem          - semantic object
+    -> exm:≊:⬢
+
+*-> service - mapping service role of entity
+    -> exm: ⤭ svc:"micro_transaction"
+
+*-> sht          - sheet, bottom/side panel
+    -> exm:▄:≕⩲"filters"
+
+*-> single        - single, standalone
+    -> exm:▪:⊤
+
+*-> singleton         - singleton
+    -> exm:●:− ■:≕⩲"controller" ◒ ⌖
+
+*-> sinus - sin
+    -> exm:sin:rad
+
+*-> skn          - skeleton/shimmer placeholder
+    -> exm:▓:≕⩲"loading_card"
+
+*-> slr          - slider, continuous value input
+    -> exm:⏤:≕⩲"volume" ≡ 0..100
+
+*-> sort          - sorted mapping of any entity
+    -> exm:‣[℉]:≺:asc
+    -> exm:‣[℉]:≺:desc
+
+*-> source - source
+    -> exm:⟵:▯
+
+*-> specfile - mapping of specifics and logic
+    -> exm: ❑ "any" ⇶:1 ◈ ◆
+
+*-> specs       - specifications of any
+    -> exm:▯ ⬊:◽⩲◆(⊞) ◬⩲"VibeDSL"
+
+*-> spr          - composition: spacer, flexible empty space
+    -> exm:⬋: ◇ ∨ ▢
+
+*-> standalone         - stand alone
+    -> exm:☆:⊤
+
+*-> state        - mapping state of any entity
+    -> exm: ⇛(▯:◕:"opened"):Œ(▯)
+
+*-> static - static, logical static operator of any entity or object implement in code or rule
+    -> exm:⊖:→■
+
+*-> string       - string (var or literal str:"..."; structure is struct, never str)
+    -> exm:str:"value"
+
+*-> struct       - any predefined structure or class in the case of OOP
+    -> exm:∷:→▯
+
+*-> syntax - syntax
+    -> exm:⬢:"obj~obj"
+
+*-> system - systematization role
+    -> exm:∍:■
+
+*-> table - table, table mapping of any entity instruction
+    -> exm: ▸(▯:"dictionery.txt" ⟶ tab:rows["names"])
+
+*-> target      - direct logical indication of a goal: names the entity the task aims at, and nothing else. NOT a result - nothing is produced or returned by it. NOT goal: goal is the marker that the end is here, target is what is being aimed at
+    -> exm:⌾:❑:≕⩲"http server"
+
+*-> text         - visual text
+    -> exm:¶:label
+
+*-> tgl          - binary toggle control
+    -> exm:◴:≕⩲"dark_mode" ≡:dwn
+
+*-> theme - theme visal or logic
+    -> exm:▚:dark
+
+*-> think        - mapping operator of model reflections.
+    -> exm:∴:→▸
+
+*-> time          - mapping time
+
+*-> tip          - tooltip, hover help
+    -> exm:✧:txt⩲"click to save"
+
+*-> to           - logical pointer from entity to entity read from left to right: maps to the target entity
+    -> exm: … ⟶ array
+    -> exm: ▯ ⟶ …
+    -> exm: ◽:"json" ⇌ ⟶ ◽:"xml"
+
+*-> token          - llm token object mapping 
+    -> exm: ⬊(‱:❍)    ☞ ⬊ gurent session
+
+*-> tree         - tree structure of any entity
+    -> exm:tree:√
+
+*-> treel         - tree level down
+    -> exm:⌈:→subtree
+
+*-> treer         - tree level right
+    -> exm:⌉:→sibling
+
+*-> true, yes, Y - boolean literal true: synonyms of the bool value Y
+    -> exm:alw:⊤
+
+*-> type          - mapping type of any entity
+    -> exm: Convert("HelloWorld":◬⩲"ru":◒⩲"colloquial")→▸()
+
+*-> uid          - unique id like UUID or unique key autoincrement if SQL uuid in program or physical entity 
+    -> exm:❄:auto
+
+*-> unique - unique, singlton of any entity
+    -> exm:unq:⊤
+
+*-> unit        - any abstract unit
+    -> exm: ❑: 
+            ->unit:id="router":name="router":model=type {physical router d-link dir 300}
+            -> unit:id="o_service":name="service model=type {service of lan packet recursion}"
+            -> class:name="route service":type=service:target=router
+
+*-> up - direction sign: up
+
+*-> upercase - upercase any text conversation or mapping
+    -> exm: ≕⩲uper("HEllO") 
+    -> exm: ≕⩲"Hello world":uper
+
+*-> usr          - language model user, operator.
+    -> exm:⌨:◬⩲"RU:ru"
+
+*-> valid - valid
+    -> exm:☑:ok
+
+*-> view         - concrete view frame: a definite rendered frame/screen instance (not graphics - graphics is the visual element/type abstraction)
+    -> exm:❒:≕⩲"main":⟵⩲"layout.xml"
+
+*-> vrt          - virtual, logical virtual sequence or entity
+    -> exm:∖:property
+
+*-> vscroll      - vertical scroll container, base scroll
+    -> exm:⇅: ‣:≕⩲"items"
+
+*-> weight        - expand to the full available space, like layout weight 1 in Android
+
+*-> with         - mapping of logic extension

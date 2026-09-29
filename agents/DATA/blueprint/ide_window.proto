@@ -1,0 +1,41 @@
+blplan(plan) id="ide_window.proto":desc="specialisation of base_window for an IDE":incld="base_window.proto,⎾⏆⏊⏍◂,⏅⏆⏇⏈◂,⏆⏂⏃⏅◂,⏇⏃⏄⏆◂,⏍⎾⎿⏀◂,⏁⎾⏂⏄◂":action=[add,set,show]:scop="root":
+    -> add(⎿⏀⏅⏉◂:▹left◂:⬋)
+    -> set(⎿⏀⏅⏉◂:×:⇐(×[5,25]))
+    -> add(⎿⏀⏅⏉◂:▹tabview◂:⬋)
+    -> set(⎿⏀⏅⏉◂:↔:⇐(⊤))
+    -> add(⎿⏀⏅⏉◂:▹right◂:⬋)
+    -> set(⎿⏀⏅⏉◂:×:⇐(×[5,25]))
+    -> add(⎿⏀⏅⏉◂:▹console◂:⬋)
+    -> set(⎿⏀⏅⏉◂:×:⇐(×[50,50]))
+    -> show(⎿⏀⏅⏉◂)
+    -> return(⊤)
+
+§="ide_window.proto"
+
+# Five vertical slots, not three. Read off a running Android Studio: toolwindow
+# bar, project area, editor, tool area, toolwindow bar. The middle one stretches,
+# the two outer ones are shares, and nothing carries a pixel.
+&-> virtual:item:§⩲▹tw_left◂→▱:◒⩲▹tw_left◂
+      ▱:◒⩲▹tw_left◂
+
+&-> virtual:item:§⩲▹tw_right◂→▱:◒⩲▹tw_right◂
+      ▱:◒⩲▹tw_right◂
+
+&-> virtual:item:§⩲▹left◂→▱:◒⩲▹left◂
+      ▱:◒⩲▹left◂
+
+&-> virtual:item:§⩲▹right◂→▱:◒⩲▹right◂
+      ▱:◒⩲▹right◂
+
+&-> virtual:item:§⩲▹coder◂→▱:◒⩲▹coder◂
+      ▱:◒⩲▹coder◂
+
+&-> virtual:item:§⩲▹console◂→▱:◒⩲▹console◂
+      ▱:◒⩲▹console◂
+
+&-> virtual:item:§⩲▹tabview◂→▱:◒⩲▹tabview◂
+      ▱:◒⩲▹tabview◂
+
+# the run bar: project selector, run configuration, branch, launch buttons
+&-> virtual:item:§⩲▹runbar◂→▱:◒⩲▹runbar◂
+      ▱:◒⩲▹runbar◂

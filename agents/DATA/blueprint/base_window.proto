@@ -1,0 +1,39 @@
+blplan(plan) id="base_window.proto":desc="reusable window elements, no domain":incld="⎾⏆⏊⏍◂,⎿⏇⏋⎾◂,⏀⏈⏌⎿◂,⏁⏉⏍⏀◂,⏂⏊⎾⏁◂,⏃⏋⎿⏂◂":action=[create,add,set,show]:scop="root":
+    -> create(❒)
+    -> set(❒:⛶:⇐(⊤))
+    -> show(❒)
+    -> return(⊤)
+
+§="base_window.proto"
+&-> virtual:item:§⩲▹base◂→▱:◒⩲▹base◂
+      ▱:◒⩲▹base◂
+
+&-> virtual:item:§⩲▹window◂→▱:◒⩲▹window◂
+      ▱:◒⩲▹window◂
+
+&-> virtual:item:§⩲▹button◂→▱:◒⩲▹button◂
+      ▱:◒⩲▹button◂
+
+&-> virtual:item:§⩲▹scrollbar◂→▱:◒⩲▹scrollbar◂
+      ▱:◒⩲▹scrollbar◂
+
+&-> virtual:item:§⩲▹tabview◂→▱:◒⩲▹tabview◂
+      ▱:◒⩲▹tabview◂
+
+&-> virtual:item:§⩲▹panel◂→▱:◒⩲▹panel◂
+      ▱:◒⩲▹panel◂
+
+# no pixel appears anywhere in this blueprint. every size is a factor or a
+# stretch, because "fills the screen on any monitor" cannot be expressed as a
+# number of pixels - it is only expressible as a share.
+&-> virtual:prop:§⩲▹size◂→▱:◒⩲▹size◂
+      ▱:◒⩲▹size◂
+
+&-> virtual:prop:§⩲▹fill_horz◂→↔:◒⩲▹fill_horz◂
+      ↔:◒⩲▹fill_horz◂
+
+&-> virtual:prop:§⩲▹fill_vert◂→↕:◒⩲▹fill_vert◂
+      ↕:◒⩲▹fill_vert◂
+
+&-> virtual:prop:§⩲▹share◂→×:◒⩲▹share◂
+      ×:◒⩲▹share◂

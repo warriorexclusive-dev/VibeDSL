@@ -1,8 +1,20 @@
 GLOS/temp/
-/GLOS/
-/temp/
+GLOS/
+temp/
 __pycache__/
 *.pyc
 *.log
 .DS_Store
 node_modules/
+
+# write_log.jsonl is a log of what the write guard wrote, next to the file it
+# wrote. It is regenerated and it is two copies of the same list.
+write_log.jsonl
+
+# VSCode/, and only this folder. git reads .gitignore from the root of the
+# repository only, so a .gitignore inside VSCode/ is a file that says nothing.
+VSCode/*.vsix
+VSCode/**/*.before
+VSCode/**/*.before-*
+VSCode/.stage/
+VSCode/log/*.jsonl

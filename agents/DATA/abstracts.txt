@@ -1,0 +1,116 @@
+start language dictionary
+
+type:abstracts
+
+*-> abstract     - the declaration of a pure concept (idea) that defines the general properties and behavior for a group or single of future entity but prohibits the creation of an instance of itself
+    -> exm: • ⌰(act:§⩲"Etalon ->  get(obj) as ref")
+
+*-> as           - creates a variable/alias binding: expression + as + name makes the object available under that name
+    -> exm: ◈:▯⩲"action.dict" ⟼ file_action
+
+*-> blueprint         - blueprint, base logical abstract pattern, Behavioral Model for Enforcement, Behavioral law to apply, Always true and serves as the instruction for use, unless explicitly stated or red
+    -> exm:∰:behavior
+
+*-> condition   - the arrow itself as a condition: a change of state or direction; in a prototype it is the virtual mapping of `->`, declared and not yet run
+    -> exm: ≜:§⩲"abstract":⊨:◒[⬝,ʩ,⌗]:⊨:⮽
+
+*-> prop        - named slot on an object, carries a value; one word for the type, so a field declaration reads obj:prop and is assigned through obj:prop:set(value)
+    -> exm: • ⌰:⌗:§⩲"radius"→▱:⌗:corner
+
+*-> prototype - constructor of any entity: builds a structured template with its declared actions and conditions; in a declaration proto(...) reads as prototype; use RAG to search the base prototype or use &-> to pull a prototype in specs
+type:behavior
+
+*-> &->          - forced anchor: textual spelling of the anchor glyph U+2022; the compiler emits U+2022 in its place; a line that starts with &-> is pinned to document-global scope
+
+*-> arc          - architecture, example: function name="upload_photo" arc:coroutine; describes a function with the coroutine pattern
+    -> exm:╱:coroutine
+
+*-> behavior - logical mapping of behavior of any entity
+    -> exm: panel:◧⩲⬆:☒⩲frame:″ ✖ 0.25 bhvr:stretch
+
+*-> bhvoper    - behavior pattern operator
+    -> exm: ⋉:"stretch" ≍ stretch 
+            panel:location=up:restriction=frame:size * 0.25 bhvr:stretch 
+    -> exm: ⋉:"solid" ≍ solid 
+            code:style:rule=code:style:rule+(solid);
+
+*-> blplan         - blueprint plan: formal plan artifact (stricter form of proto), pulled by incld="<id>", written to plan/ 
+    -> exm: ≜ ▯:◒ ⩲ [xml,doc,txt]
+            prototype file:type:name = [n]  it is add property to file, example usage: file:xml:"main.xml"
+
+*-> critical - logical critical instruction, behavior pay special attention and more-check.
+    -> exm:crit:✕
+
+*-> dry          - do not repeat yourself
+    -> exm:⁊:⊤
+
+*-> enter        - user input: enter key, confirm/select
+    -> exm:on ↵→▢:≕⩲"ok"
+
+*-> event - event base logic operator
+    -> exm: evt:notify → ▸()
+    -> exm: ⟡:onCreate → ⏎(❒:≕⩲"main")
+
+*-> factor      - coefficient, factor, percentage need for logical sy
+    -> exm: ‱:♟:cretive ⩲ ×[0,100]:⚖(20)
+
+*-> forbidden - Forbidden
+    -> exm:fbd:∅
+
+*-> hstretch     - horizontal stretch behavior
+    -> exm:panel bhvr:↔
+
+*-> isolate - An entity isolated from external logic blocks does not accept higher-level logic as the primary source.
+    -> exm:◈ ❑ ≕ "example":◒⩲"exe" ◬:c✚✚
+             -> {any custom or DSL blocks}
+             -> crt lib:type="dll" isol          Isolating the marker means that the context and logic of the parent program must not affect the module.
+
+*-> kbd, key     - keyboard key: physical/logical key identifier used by input events
+    -> exm:on ⤹:⌁⩲"Enter"→▶
+    -> exm:on ⤋:⌁⩲"Space"→player:jump
+
+*-> kdown        - user input: key pressed down event
+    -> exm:on ⤋:⌁⩲"A"→⤹
+
+*-> kpress       - user input: key press (down+up) event
+    -> exm:on ⤹:⌁⩲"Enter"→▶
+
+*-> kup          - user input: key released up event
+    -> exm:on ⤒:⌁⩲"Shift"
+
+*-> maxim         - maximize
+    -> exm:❒ ⇱:⊤
+
+*-> minim         - minimize
+    -> exm:❒ ⇲:⊤
+
+*-> mosdown      - user input: mouse button down event
+    -> exm:on ⤎:▢⩲"right"→⊠
+
+*-> mosup        - user input: mouse button up event
+    -> exm:on ⤖:▢⩲"left"→◴
+
+*-> nvariant, invar - invariant
+    -> exm:inv:⊤
+
+*-> pattern      - programming or behavioral pattern
+    -> exm:⋲:"observer"
+
+*-> proctx, thread  - process, context,isolate thread
+    -> exm:⤭:⤭
+
+*-> scrtap       - user input: screen tap event
+    -> exm:on ⤄:x⩲10,⊤⩲20
+
+*-> skill - logical representation of a skill
+    -> exm:skl:⟦⩲"middle"
+
+*-> smbls         - predict array of symbols
+    -> exm:⇿:["a","b"]       instruction of é ☌ symbols a ∧ b, need ⟶ direct ⬢ † « ∀ ◬
+
+*-> swap         - UI logical behavior: swipe / page turn between views, default direction left to right unless otherwise specified
+    -> exm:on ⇆:∮⩲"ltr" → ▭:≕⩲"next"
+    -> exm:⇆:∮⩲"rtl" → ▭:≕⩲"prev"
+
+*-> vstretch     - vertical stretch behavior
+    -> exm:panel bhvr:↕
